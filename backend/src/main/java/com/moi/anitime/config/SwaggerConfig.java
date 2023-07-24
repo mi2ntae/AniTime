@@ -23,21 +23,20 @@ import static com.google.common.collect.Lists.newArrayList;
  * API 문서 관련 swagger2 설정 정의.
  */
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
-    public static final String SECURITY_SCHEMA_NAME = "JWT";
+    public static final String SECURITY_SCHEMA_NAME = "Authorization";
     public static final String AUTHORIZATION_SCOPE_GLOBAL = "global";
     public static final String AUTHORIZATION_SCOPE_GLOBAL_DESC = "accessEverything";
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
+                .securityContexts(newArrayList(this.securityContext()))
+                .securitySchemes(newArrayList(this.apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/api/**"))
-                .build()
-                .securityContexts(newArrayList(this.securityContext()))
-                .securitySchemes(newArrayList(this.apiKey()));
+                .build();
     }
 
     private ApiKey apiKey() {
