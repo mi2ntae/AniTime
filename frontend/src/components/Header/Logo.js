@@ -6,16 +6,16 @@ export default function Logo() {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
+    width: 160px;
   `;
   const Title = styled.p`
-    margin-left: 5px;
+    margin-left: 8px;
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   `;
   return (
     <Div>
-      <img src="/icons/logo.svg" />
+      <img src="/icons/logo.svg" alt="애니타임" />
       <Title>애니타임</Title>
     </Div>
   );
