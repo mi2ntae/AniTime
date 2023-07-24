@@ -34,8 +34,6 @@ public class MemberController {
     })
     public SingleResponse findById(@PathVariable("memberNo") int memberNo) {
         Member member = memberService.findMemberById(memberNo);
-        System.out.println("asdadsad");
-        System.out.println(member);
         return responseService.getSingleResponse(member);
     }
 }
