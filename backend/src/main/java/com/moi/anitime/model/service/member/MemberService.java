@@ -12,4 +12,5 @@ public interface MemberService {
 	void registGeneralMember(GeneralMemberRegistReq memberRegistReq);
 	Member login(MemberLoginReq memberLoginReq);
     GeneralMember findMemberById(int memberNo);
+	void editGeneralMember(int memberNo,GeneralMember requestMember);
 }

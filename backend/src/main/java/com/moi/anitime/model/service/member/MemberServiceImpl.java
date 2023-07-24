@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
 		Member member = memberRegistReq.toEntity();
 		System.out.println(member);
-		memberRepo.save(memberRegistReq.toEntity());
+		memberRepo.save(member);
 	}
 
 	@Override
@@ -42,6 +42,12 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println(member.get());
 		System.out.println(member.get().getClass().toString());
 		return member.get();
+	}
+
+	@Override
+	public void editGeneralMember(int memberNo,GeneralMember requestMember){
+
+	memberRepo.updateMemberByMemberNo(memberNo,requestMember.getPassword(), requestMember.getName());
 	}
 //	@Autowired
 //	UserRepository userRepository;
