@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member login(MemberLoginReq memberLoginReq) {
-
+		Optional<Member> member = memberRepo.findByEmail(memberLoginReq.getEmail());
 		return null;
 	}
 
