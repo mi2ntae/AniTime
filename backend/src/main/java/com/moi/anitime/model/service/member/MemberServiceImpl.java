@@ -1,11 +1,9 @@
 package com.moi.anitime.model.service.member;
 
-import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
-import com.moi.anitime.model.repo.GeneralMemberRepo;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +19,11 @@ import java.util.Optional;
 @Slf4j
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
-	private final GeneralMemberRepo generalMemberRepo;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
 		Member member = memberRegistReq.toEntity();
-		System.out.println(member);
-		memberRepo.save(memberRegistReq.toEntity());
+		memberRepo.save(member);
 	}
 
 	@Override
@@ -37,10 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public GeneralMember findMemberById(int memberNo) {
-		Optional<GeneralMember> member = generalMemberRepo.findById(memberNo);
-		System.out.println(member.get());
-		System.out.println(member.get().getClass().toString());
+	public Member findMemberById(int memberNo) {
+		Optional<Member> member = memberRepo.findById(memberNo);
 		return member.get();
 	}
 //	@Autowired
