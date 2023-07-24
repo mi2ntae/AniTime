@@ -1,7 +1,7 @@
 package com.moi.anitime.api.controller;
 
-import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.LoginResponse;
 import com.moi.anitime.api.response.SingleResponse;
@@ -9,7 +9,10 @@ import com.moi.anitime.api.service.ResponseService;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.service.member.MemberService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +54,7 @@ public class MemberController {
             @ApiResponse(code = -2002, message = "없는 회원"),
     })
     public SingleResponse findById(@PathVariable("memberNo") int memberNo) {
-        GeneralMember member = memberService.findMemberById(memberNo);
-        SingleResponse a = responseService.getSingleResponse(member);
+        Member member = memberService.findMemberById(memberNo);
         return responseService.getSingleResponse(member);
     }
 }

@@ -11,5 +11,5 @@ import com.moi.anitime.model.entity.member.Member;
 public interface MemberService {
 	void registGeneralMember(GeneralMemberRegistReq memberRegistReq);
 	Member login(MemberLoginReq memberLoginReq);
-    GeneralMember findMemberById(int memberNo);
+    Member findMemberById(int memberNo);
 }
