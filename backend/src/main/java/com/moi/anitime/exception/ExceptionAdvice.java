@@ -2,6 +2,7 @@ package com.moi.anitime.exception;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.service.ResponseServiceImpl;
+import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistEmailException;
@@ -31,6 +32,13 @@ public class ExceptionAdvice {
     protected CommonResponse passwordIncorrectException() {
         log.error("password incorrect exception");
         return responseService.getFailResponse(ExceptionList.PASSWORD_INCORRECT.getCode(), ExceptionList.PASSWORD_INCORRECT.getMessage());
+    }
+
+    @ExceptionHandler(CAuthenticationEntryPointException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse authenticationEntryPointException() {
+        log.error("jwt token expired");
+        return responseService.getFailResponse(ExceptionList.AUTHENTICATION_ENTRY_POINT.getCode(), ExceptionList.AUTHENTICATION_ENTRY_POINT.getMessage());
     }
 
     @ExceptionHandler(NonValidJwtTokenException.class)
