@@ -19,7 +19,7 @@ CREATE TABLE `Member` (
 	`email`	VARCHAR(50)	NOT null,
 	`password`	varchar(255) NOT null,
 	`memberKind`	int	DEFAULT 0  COMMENT '0 : 일반회원 1 : 보호소 회원 2 : 관리자 모드',
-	`number`	varchar(15)	not NULL,
+	`phone`	varchar(15)	not NULL,
 	`name`	VARCHAR(50)	not NULL,
     `DTYPE` varchar(31) 
 )
