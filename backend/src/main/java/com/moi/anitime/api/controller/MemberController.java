@@ -13,6 +13,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @Api(value = "멤버 API", tags = {"Member"})
 @RestController
 @RequiredArgsConstructor
@@ -52,7 +54,12 @@ public class MemberController {
     })
     public SingleResponse findById(@PathVariable("memberNo") int memberNo) {
         GeneralMember member = memberService.findMemberById(memberNo);
-        SingleResponse a = responseService.getSingleResponse(member);
         return responseService.getSingleResponse(member);
+    }
+
+    @PutMapping("/{memberNo}")
+    @ApiOperation(value="회원 정보 수정",notes="연습용")
+    public void editGeneralMember(@PathVariable("memberNo") int memberNo,@RequestBody GeneralMember requestMember){
+        memberService.editGeneralMember(memberNo,requestMember);
     }
 }

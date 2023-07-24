@@ -10,4 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface GeneralMemberRepo extends JpaRepository<GeneralMember, Integer> {
+
 }
