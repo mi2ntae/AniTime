@@ -1,3 +1,4 @@
+use test;
 
 DROP TABLE  if EXISTS bookmark cascade;
 DROP TABLE  if EXISTS `Profile` cascade;
@@ -19,7 +20,8 @@ CREATE TABLE `Member` (
 	`password`	varchar(255) NOT null,
 	`memberKind`	int	DEFAULT 0  COMMENT '0 : 일반회원 1 : 보호소 회원 2 : 관리자 모드',
 	`number`	varchar(15)	not NULL,
-	`name`	VARCHAR(50)	not NULL
+	`name`	VARCHAR(50)	not NULL,
+    `DTYPE` varchar(31) 
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
 COLLATE='utf8mb4_bin'
