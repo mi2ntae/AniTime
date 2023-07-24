@@ -16,4 +16,6 @@ public class MemberLoginReq {
 	String email;
 	@ApiModelProperty(name="패스워드")
 	String password;
+	@ApiModelProperty(name="회원 종류")
+	int memberKind;
 }
