@@ -10,24 +10,34 @@ export default function Header() {
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
+    height: 64px;
+    min-width: 480px;
+    max-width: 1240px;
+    margin: auto;
   `;
 
-  const Div = styled.div`
+  const Grow = styled.div`
+    flex-grow: 1;
+  `;
+
+  const Right = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    flex-grow: 1;
+    width: 160px;
   `;
 
   return (
     <Header>
       <Logo />
-      <NavBar />
-      <Div>
-        <p>?</p>
-        <p>알림창</p>
-        <p>마이페이지</p>
-      </Div>
+      <Grow>
+        <NavBar />
+      </Grow>
+      <Right>
+        <img src="/icons/ic_help.svg" alt="help" />
+        <img src="/icons/ic_notification.svg" alt="notification" />
+        <img src="/icons/ic_account.svg" alt="account" />
+      </Right>
     </Header>
   );
 }
