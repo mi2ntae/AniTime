@@ -4,8 +4,8 @@ DROP TABLE  if EXISTS `Profile` cascade;
 DROP TABLE  if EXISTS notice cascade;
 DROP TABLE  if EXISTS sheltermember cascade;
 DROP TABLE  if exists generalmember cascade;
-DROP TABLE  if EXISTS donationboard cascade;
 DROP TABLE  if EXISTS donation cascade;
+DROP TABLE  if EXISTS donationboard cascade;
 DROP TABLE  if EXISTS chatmessage cascade;
 DROP TABLE  if EXISTS chatroom cascade;
 DROP TABLE  if EXISTS adoptionform cascade;
@@ -94,7 +94,8 @@ CREATE TABLE `Notice` (
 	`generalNo`	Int	NOT NULL,
 	`noticeKind`	Int	NULL COMMENT '0 : 채팅 1 : 미팅 2: 실종',
 	`noticeTime`	DateTime	NULL,
-	`noticeContent`	varchar(255)	NULL
+	`noticeContent`	varchar(255)	NULL,
+	`noticeCheck` TINYINT NOT NULL DEFAULT 0
 )
 COMMENT='알람테이블'
 COLLATE='utf8mb4_bin'
@@ -109,7 +110,8 @@ COLLATE='utf8mb4_bin'
 ;
 CREATE TABLE `DonationBoard` (
 	`boardNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY key,
-	`desertionNo`	Int	NOT NULL,
+	`shelterNo`	Int	NOT NULL,
+	`image1` VARCHAR(255) NOT NULL COMMENT "썸네일용 이미지로 필수",
 	`title`	varchar(100)	NULL,
 	`goalAmount`	Int	NULL,
 	`attainAmount`	Int	NULL,
@@ -268,11 +270,11 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 ;
 
-ALTER TABLE `DonationBoard` ADD CONSTRAINT `FK_Animal_TO_DonationBoard_desertionNo` FOREIGN KEY (
-	`desertionNo`
+ALTER TABLE `DonationBoard` ADD CONSTRAINT `FK_Animal_TO_DonationBoard_ShelterNo` FOREIGN KEY (
+	`shelterNo`
 )
-REFERENCES `Animal` (
-	`desertionNo`
+REFERENCES `Member` (
+	`memberNo`
 )
 ON DELETE CASCADE
 ON UPDATE cascade;
