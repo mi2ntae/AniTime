@@ -1,6 +1,6 @@
 package com.moi.anitime.util;
 
-import com.moi.anitime.exception.auth.JwtTokenExpiredException;
+import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -65,14 +65,12 @@ public class JwtTokenProvider {
             if(claims == null) return false;
             return claims.getExpiration().after(new Date());
         }catch(Exception e) {
-            log.info("옳바르지 않은 JWT 토큰입니다.");
-            return false;
+            throw new NonValidJwtTokenException();
         }
     }
 
     private Jws<Claims> getTokenClaims(String token){
         try {
-            System.out.println("validate");
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
@@ -83,12 +81,10 @@ public class JwtTokenProvider {
             log.info("JWT 토큰이 옳바르지 않습니다.");
         } catch (ExpiredJwtException e) {
             log.info("JWT 토큰이 만료되었습니다.");
-            throw new JwtTokenExpiredException();
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰 압축이 옳바르지 않습니다.");
-            e.printStackTrace();
         }
         return null;
     }
