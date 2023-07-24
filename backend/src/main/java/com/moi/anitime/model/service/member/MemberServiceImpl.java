@@ -3,10 +3,13 @@ package com.moi.anitime.model.service.member;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.exception.member.ExistEmailException;
+import com.moi.anitime.exception.member.NonExistEmailException;
+import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,19 +20,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
+
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
+	private final PasswordEncoder passwordEncoder;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
-		Member member = memberRegistReq.toEntity();
+		Member member = memberRegistReq.toEntity(passwordEncoder);
 		memberRepo.save(member);
 	}
 
 	@Override
-	public Member login(MemberLoginReq memberLoginReq) {
-		Optional<Member> member = memberRepo.findByEmail(memberLoginReq.getEmail());
-		return null;
+	public Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException{
+		Member member = memberRepo.findByEmail(memberLoginReq.getEmail()).orElseThrow(NonExistEmailException::new);
+		if(!passwordEncoder.matches(memberLoginReq.getPassword(), member.getPassword())) throw new PasswordIncorrectException();
+		return member;
 	}
 
 	@Override
