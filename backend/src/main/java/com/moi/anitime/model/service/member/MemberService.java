@@ -14,4 +14,5 @@ public interface MemberService {
 	void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException;
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
     Member findMemberById(int memberNo);
+	void editGeneralMember(int memberNo,GeneralMember requestMember);
 }
