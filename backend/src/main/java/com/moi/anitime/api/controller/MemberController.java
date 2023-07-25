@@ -1,7 +1,9 @@
 package com.moi.anitime.api.controller;
 
+import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.service.ResponseService;
+import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.service.member.MemberService;
@@ -33,7 +35,8 @@ public class MemberController {
 
     @PutMapping("/{memberNo}")
     @ApiOperation(value="회원 정보 수정",notes="연습용")
-    public void editGeneralMember(@PathVariable("memberNo") int memberNo,@RequestBody GeneralMember requestMember){
+    public CommonResponse editGeneralMember(@PathVariable("memberNo") int memberNo, @RequestBody GeneralMember requestMember) throws EditInfoException{
         memberService.editGeneralMember(memberNo,requestMember);
+        return responseService.getSuccessResponse();
     }
 }
