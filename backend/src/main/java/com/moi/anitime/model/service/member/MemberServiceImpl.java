@@ -47,8 +47,7 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println(image.getName());
 		System.out.println(image.getOriginalFilename());
 		System.out.println(image.getBytes());
-		Blob blob = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
-		Member member = memberRegistReq.toEntity(passwordEncoder, blob);
+		Member member = memberRegistReq.toEntity(passwordEncoder, image.getBytes());
 		memberRepo.save(member);
 	}
 
@@ -69,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member findShelterMemberById(int memberNo) throws NoExistMemberNoException{
 		Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
+		System.out.println(member);
 		if(!member.isPresent()) throw new NoExistMemberNoException();
 		return member.get();
 	}
