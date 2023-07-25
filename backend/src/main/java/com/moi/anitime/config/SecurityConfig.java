@@ -1,5 +1,6 @@
 package com.moi.anitime.config;
 
+import com.moi.anitime.util.EntryPointHandler;
 import com.moi.anitime.util.JwtAuthenticationFilter;
 import com.moi.anitime.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -33,10 +33,11 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().configurationSource(this.corsConfig()).and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationHandler()).and()
+                .authenticationEntryPoint(new EntryPointHandler()).and()
                 .headers().frameOptions().disable().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                .antMatchers("/exception/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers( "/v3/api-docs","/swagger*/**").permitAll()
                 .anyRequest().authenticated().and()
