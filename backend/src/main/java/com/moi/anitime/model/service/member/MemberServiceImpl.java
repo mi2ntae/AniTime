@@ -10,6 +10,7 @@ import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
+import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,8 @@ public class MemberServiceImpl implements MemberService {
 	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
 		System.out.println("---image----");
+		System.out.println(image.getName());
+		System.out.println(image.getOriginalFilename());
 		System.out.println(image.getBytes());
 		Blob blob = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
 		Member member = memberRegistReq.toEntity(passwordEncoder, blob);
@@ -59,6 +62,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException{
 		Optional<GeneralMember> member = memberRepo.findGeneralMemberByMemberNo(memberNo);
+		if(!member.isPresent()) throw new NoExistMemberNoException();
+		return member.get();
+	}
+
+	@Override
+	public Member findShelterMemberById(int memberNo) throws NoExistMemberNoException{
+		Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
 		if(!member.isPresent()) throw new NoExistMemberNoException();
 		return member.get();
 	}

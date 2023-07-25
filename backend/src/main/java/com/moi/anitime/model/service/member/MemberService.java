@@ -22,5 +22,6 @@ public interface MemberService {
 	void registShelterMember(ShelterMemberRegistReq registMember, MultipartFile image) throws IOException, SQLException;
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
 	Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException;
+	Member findShelterMemberById(int memberNo) throws NoExistMemberNoException;
 	void editGeneralMember(int memberNo,GeneralMember requestMember) throws EditInfoException;
 }
