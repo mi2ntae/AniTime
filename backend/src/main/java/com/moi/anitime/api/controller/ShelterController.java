@@ -1,3 +1,4 @@
+package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.service.ResponseService;
