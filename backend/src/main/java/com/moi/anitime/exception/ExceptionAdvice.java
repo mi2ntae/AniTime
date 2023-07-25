@@ -5,6 +5,7 @@ import com.moi.anitime.api.service.ResponseServiceImpl;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.member.ExistEmailException;
+import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.security.sasl.AuthenticationException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +26,13 @@ public class ExceptionAdvice {
     protected CommonResponse existEmailException() {
         log.error("exist email exception");
         return responseService.getFailResponse(ExceptionList.EXIST_EMAIL.getCode(), ExceptionList.EXIST_EMAIL.getMessage());
+    }
+
+    @ExceptionHandler(NoExistMemberNoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse noExistMemberException() {
+        log.error("no exist member exception");
+        return responseService.getFailResponse(ExceptionList.NO_EXIST_MEMBER_NO.getCode(), ExceptionList.NO_EXIST_MEMBER_NO.getMessage());
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)
