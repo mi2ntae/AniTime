@@ -6,10 +6,8 @@ import com.moi.anitime.api.service.ResponseService;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "실종동물 프로필 Api", tags = {"Profile"})
 @RestController
@@ -26,6 +24,14 @@ public class ProfileController {
     })
     public CommonResponse registerProfile(@RequestBody ProfileRegistReq profileRegistReq) {
         profileService.registProfile(profileRegistReq);
+        return responseService.getSuccessResponse();
+    }
+
+    @DeleteMapping("/{profileNo}")
+    @ApiOperation(value = "실종동물 삭제")
+    @ApiResponse(code = 200, message = "성공")
+    public CommonResponse deleteProfile(@PathVariable("profileNo") int profileNo) {
+        profileService.deleteProfile(profileNo);
         return responseService.getSuccessResponse();
     }
 }

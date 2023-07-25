@@ -21,4 +21,9 @@ public class ProfileServiceImpl implements ProfileService{
         Profile profile = profileRegistReq.toEntity();
         profileRepo.save(profile);
     }
+
+    @Override
+    public void deleteProfile(int profileNo) {
+        profileRepo.deleteById(profileNo);
+    }
 }
