@@ -1,14 +1,12 @@
 package com.moi.anitime.model.entity.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
+import java.sql.Blob;
 
 @SuperBuilder
 @Entity(name = "sheltermember")
@@ -17,5 +15,5 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "shelterno")
 public class ShelterMember extends Member{
     private String addr;
-    private String evidence;
+    private Blob evidence;
 }
