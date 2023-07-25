@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.member;
 
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
+import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
@@ -46,9 +47,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void editGeneralMember(int memberNo, GeneralMember requestMember){
-
-		memberRepo.updateMemberByMemberNo(memberNo,requestMember.getPassword(), requestMember.getName());
+	public void editGeneralMember(int memberNo, GeneralMember requestMember) throws EditInfoException {
+		String encodedPassword=passwordEncoder.encode(requestMember.getPassword());
+		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, requestMember.getName());
 	}
 //	@Autowired
 //	UserRepository userRepository;
