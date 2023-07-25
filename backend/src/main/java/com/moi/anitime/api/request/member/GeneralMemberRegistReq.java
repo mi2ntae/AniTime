@@ -24,16 +24,6 @@ public class GeneralMemberRegistReq {
 	@ApiModelProperty(name="이름")
 	private String name;
 
-//	public Member toEntity() {
-//		Member member = Member.builder()
-//				.email(this.email)
-//				.password(this.password)
-//				.memberKind(0)
-//				.phone(this.phone)
-//				.name(this.name)
-//				.build();
-//		return member;
-//	}
 	public Member toEntity(PasswordEncoder passwordEncoder) {
 		Member member = GeneralMember.builder()
 				.email(this.email)

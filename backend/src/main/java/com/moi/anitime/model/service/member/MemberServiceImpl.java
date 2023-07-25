@@ -5,6 +5,7 @@ import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
+import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +46,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void editGeneralMember(int memberNo,GeneralMember requestMember){
+	public void editGeneralMember(int memberNo, GeneralMember requestMember){
 
-	memberRepo.updateMemberByMemberNo(memberNo,requestMember.getPassword(), requestMember.getName());
+		memberRepo.updateMemberByMemberNo(memberNo,requestMember.getPassword(), requestMember.getName());
 	}
 //	@Autowired
 //	UserRepository userRepository;
