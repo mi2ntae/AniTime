@@ -2,8 +2,10 @@ package com.moi.anitime.model.service.member;
 
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
+import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
+import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.GeneralMember;
@@ -13,7 +15,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -34,6 +40,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
+		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
+		System.out.println("---image----");
+		System.out.println(image.getBytes());
+		Blob blob = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
+		Member member = memberRegistReq.toEntity(passwordEncoder, blob);
+		memberRepo.save(member);
+	}
+
+	@Override
 	public Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException{
 		Member member = memberRepo.findByEmail(memberLoginReq.getEmail()).orElseThrow(NonExistEmailException::new);
 		if(!passwordEncoder.matches(memberLoginReq.getPassword(), member.getPassword())) throw new PasswordIncorrectException();
@@ -41,8 +57,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findMemberById(int memberNo) {
-		Optional<Member> member = memberRepo.findById(memberNo);
+	public Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException{
+		Optional<GeneralMember> member = memberRepo.findGeneralMemberByMemberNo(memberNo);
+		if(!member.isPresent()) throw new NoExistMemberNoException();
 		return member.get();
 	}
 
