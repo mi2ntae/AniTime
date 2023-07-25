@@ -6,24 +6,30 @@ import Logo from "./Logo";
 export default function Header() {
   return (
     <StyleHeader>
-      <Logo />
-      <div style={{ flexGrow: 1 }}>
-        <NavBar />
-      </div>
-      <Right>
-        <img src="/icons/ic_help.svg" alt="help" />
-        <img src="/icons/ic_notification.svg" alt="notification" />
-        <img src="/icons/ic_account.svg" alt="account" />
-      </Right>
+      <HeaderDiv>
+        <Logo />
+        <div style={{ flexGrow: 1 }}>
+          <NavBar />
+        </div>
+        <HeaderRight>
+          <img src="/icons/ic_help.svg" alt="help" />
+          <img src="/icons/ic_notification.svg" alt="notification" />
+          <img src="/icons/ic_account.svg" alt="account" />
+        </HeaderRight>
+      </HeaderDiv>
     </StyleHeader>
   );
 }
 
 const StyleHeader = styled.header`
+  background-color: white;
+`;
+
+const HeaderDiv = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 64px;
   min-width: 480px;
@@ -31,7 +37,7 @@ const StyleHeader = styled.header`
   margin: auto;
 `;
 
-const Right = styled.div`
+const HeaderRight = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
