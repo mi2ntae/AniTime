@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 유저 회원가입 API ([POST] /api/v1/users) 요청에 필요한 리퀘스트 바디 정의.
@@ -23,20 +24,10 @@ public class GeneralMemberRegistReq {
 	@ApiModelProperty(name="이름")
 	private String name;
 
-//	public Member toEntity() {
-//		Member member = Member.builder()
-//				.email(this.email)
-//				.password(this.password)
-//				.memberKind(0)
-//				.phone(this.phone)
-//				.name(this.name)
-//				.build();
-//		return member;
-//	}
-	public Member toEntity() {
+	public Member toEntity(PasswordEncoder passwordEncoder) {
 		Member member = GeneralMember.builder()
 				.email(this.email)
-				.password(this.password)
+				.password(passwordEncoder.encode(this.password))
 				.memberKind(0)
 				.phone(this.phone)
 				.name(this.name)

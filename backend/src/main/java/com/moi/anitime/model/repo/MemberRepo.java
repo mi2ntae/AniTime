@@ -1,5 +1,6 @@
 package com.moi.anitime.model.repo;
 
+import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
