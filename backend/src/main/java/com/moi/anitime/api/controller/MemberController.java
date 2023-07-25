@@ -2,6 +2,7 @@ package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.service.ResponseService;
+import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.service.member.MemberService;
@@ -24,9 +25,9 @@ public class MemberController {
     @ApiOperation(value = "일반 회원 찾기", notes = "연습용.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = -1019, message = "없는 회원"),
+            @ApiResponse(code = -1025, message = "없는 회원"),
     })
-    public SingleResponse findById(@PathVariable("memberNo") int memberNo) {
+    public SingleResponse findById(@PathVariable("memberNo") int memberNo) throws NoExistMemberNoException {
         Member member = memberService.findGeneralMemberById(memberNo);
         return responseService.getSingleResponse(member);
     }
