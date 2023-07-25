@@ -55,7 +55,7 @@ COLLATE='utf8mb4_bin'
 CREATE TABLE `ShelterMember` (
 	`shelterNo`	Int	NOT NULL PRIMARY KEY,
 	`addr`	VARCHAR(255)	NULL,
-	`evidence`	varchar(255)	NULL
+	`evidence`	LONGBLOB	NULL
 )
 COMMENT='보호소 회원 세부 정보'
 COLLATE='UTF8MB4_BIN'
