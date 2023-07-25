@@ -1,16 +1,25 @@
 package com.moi.anitime.model.service.member;
 
-import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.api.request.member.MemberLoginReq;
+import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
+import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
+import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistEmailException;
+import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
-import com.moi.anitime.model.repo.GeneralMemberRepo;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -19,29 +28,45 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
+
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
-	private final GeneralMemberRepo generalMemberRepo;
+	private final PasswordEncoder passwordEncoder;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
-		Member member = memberRegistReq.toEntity();
-		System.out.println(member);
-		memberRepo.save(memberRegistReq.toEntity());
+		Member member = memberRegistReq.toEntity(passwordEncoder);
+		memberRepo.save(member);
 	}
 
 	@Override
-	public Member login(MemberLoginReq memberLoginReq) {
-
-		return null;
+	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
+		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
+		System.out.println("---image----");
+		System.out.println(image.getBytes());
+		Blob blob = new javax.sql.rowset.serial.SerialBlob(image.getBytes());
+		Member member = memberRegistReq.toEntity(passwordEncoder, blob);
+		memberRepo.save(member);
 	}
 
 	@Override
-	public GeneralMember findMemberById(int memberNo) {
-		Optional<GeneralMember> member = generalMemberRepo.findById(memberNo);
-		System.out.println(member.get());
-		System.out.println(member.get().getClass().toString());
+	public Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException{
+		Member member = memberRepo.findByEmail(memberLoginReq.getEmail()).orElseThrow(NonExistEmailException::new);
+		if(!passwordEncoder.matches(memberLoginReq.getPassword(), member.getPassword())) throw new PasswordIncorrectException();
+		return member;
+	}
+
+	@Override
+	public Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException{
+		Optional<GeneralMember> member = memberRepo.findGeneralMemberByMemberNo(memberNo);
+		if(!member.isPresent()) throw new NoExistMemberNoException();
 		return member.get();
+	}
+
+	@Override
+	public void editGeneralMember(int memberNo, GeneralMember requestMember) throws EditInfoException {
+		String encodedPassword=passwordEncoder.encode(requestMember.getPassword());
+		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, requestMember.getName());
 	}
 //	@Autowired
 //	UserRepository userRepository;

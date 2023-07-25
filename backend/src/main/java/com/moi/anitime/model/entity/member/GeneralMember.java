@@ -10,6 +10,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "generalno")
 @DiscriminatorValue("G")
+@Setter
+@Getter
 public class GeneralMember extends Member{
 
     @Column(name="snscheck", columnDefinition = "TINYINT(1)")
@@ -21,8 +23,4 @@ public class GeneralMember extends Member{
         this.setMemberNo(generalno);
     }
 
-    @Override
-    public String toString() {
-        return super.toString()+"snsCheck="+snsCheck+" snsToken="+snsToken;
-    }
 }
