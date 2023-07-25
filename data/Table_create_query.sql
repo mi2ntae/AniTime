@@ -138,16 +138,16 @@ COLLATE='utf8mb4_bin'
 CREATE TABLE `Profile` (
 	`profileNo`	Int	NOT NULL auto_increment PRIMARY key,
 	`generalNo`	Int	NOT NULL,
-	`profileName`	varchar(255)	NULL,
-	`profileKind`	tinyInt	NULL ,
-	`detailKind`	varchar(255)	NULL,
-	`sexCode`	CHAR(1) DEFAULT 'Q' COMMENT 'F : 암컷 M : 수컷 Q : 미상',
-	`profileAge`	Int	DEFAULT 1,
+	`profileName`	varchar(255) NOT	NULL,
+	`profileKind`	TINYINT NOT	NULL ,
+	`detailKind`	varchar(255) NOT	NULL,
+	`sexCode`	CHAR(1) NOT null DEFAULT 'Q' COMMENT 'F : 암컷 M : 수컷 Q : 미상',
+	`profileAge`	INT DEFAULT 1,
 	`specialMark`	varchar(255)	NULL,
 	`dateAt`	date	NULL,
-	`profileLocation`	varchar(255)	NULL,
-	`lat`	decimal	NULL,
-	`lon`	decimal	NULL,
+	`profileLocation`	varchar(255) NULL,
+	`lat`	float not	NULL,
+	`lon`	float not	NULL,
 	`image`	varchar(255)	NULL
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
