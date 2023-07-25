@@ -1,5 +1,4 @@
-use test;
-
+USE test;
 DROP TABLE  if EXISTS bookmark cascade;
 DROP TABLE  if EXISTS `Profile` cascade;
 DROP TABLE  if EXISTS notice cascade;
@@ -15,7 +14,7 @@ DROP TABLE  if exists Animal cascade;
 DROP TABLE  if EXISTS `MEMBER` cascade;
 
 CREATE TABLE `Member` (
-	`memberNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY key,
+	`memberNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`email`	VARCHAR(50)	NOT null,
 	`password`	varchar(255) NOT null,
 	`memberKind`	int	DEFAULT 0  COMMENT '0 : 일반회원 1 : 보호소 회원 2 : 관리자 모드',
@@ -147,7 +146,7 @@ CREATE TABLE `Profile` (
 	`dateAt`	date	NULL,
 	`profileLocation`	varchar(255) NULL,
 	`lat`	float not	NULL,
-	`lon`	float not	NULL,s09p12a208
+	`lon`	float not	NULL,
 	`image`	varchar(255)	NULL
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
