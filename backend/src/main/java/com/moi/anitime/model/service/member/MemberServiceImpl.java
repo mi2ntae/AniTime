@@ -43,6 +43,12 @@ public class MemberServiceImpl implements MemberService {
 		Optional<Member> member = memberRepo.findById(memberNo);
 		return member.get();
 	}
+
+	@Override
+	public void editGeneralMember(int memberNo,GeneralMember requestMember){
+
+	memberRepo.updateMemberByMemberNo(memberNo,requestMember.getPassword(), requestMember.getName());
+	}
 //	@Autowired
 //	UserRepository userRepository;
 //
