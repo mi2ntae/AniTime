@@ -5,4 +5,6 @@ import com.moi.anitime.model.entity.profile.Profile;
 
 public interface ProfileService {
     void registProfile(ProfileRegistReq profileRegistReq);
+
+    void deleteProfile(int profileNo);
 }
