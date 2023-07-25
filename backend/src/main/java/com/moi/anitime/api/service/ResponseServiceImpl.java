@@ -8,6 +8,7 @@ import com.moi.anitime.model.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ResponseServiceImpl implements ResponseService{
     @AllArgsConstructor
     @Getter
     public enum CommonResult {
-        SUCCESS(200, "성공하였습니다.");
+        SUCCESS(HttpStatus.OK.value(), "성공하였습니다.");
         int code;
         String message;
     }
