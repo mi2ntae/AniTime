@@ -3,10 +3,7 @@ package com.moi.anitime.model.entity.member;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 @SuperBuilder
 @Entity(name = "generalmember")
@@ -19,6 +16,10 @@ public class GeneralMember extends Member{
     private boolean snsCheck;
     @Column(name="snstoken")
     private String snsToken;
+
+    public GeneralMember(int generalno) {
+        this.setMemberNo(generalno);
+    }
 
     @Override
     public String toString() {
