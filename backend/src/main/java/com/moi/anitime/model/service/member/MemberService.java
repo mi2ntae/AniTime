@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.member;
 
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.model.entity.member.GeneralMember;
@@ -14,5 +15,5 @@ public interface MemberService {
 	void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException;
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
     Member findMemberById(int memberNo);
-	void editGeneralMember(int memberNo,GeneralMember requestMember);
+	void editGeneralMember(int memberNo,GeneralMember requestMember) throws EditInfoException;
 }
