@@ -11,5 +11,9 @@ import java.util.List;
 
 public interface ChatRoomRepo extends JpaRepository<ChatRoom, Integer> {
     @Query(name = "findChatRoomsByGeneralNo", nativeQuery = true)
-    public List<ChatRoomResponse> findChatRoomsByGeneralNo(@Param("generalno") int memberNo);
+    List<ChatRoomResponse> findChatRoomsByGeneralNo(@Param("generalno") int generalNo);
+
+    @Query(name = "findChatRoomsByShelterNo", nativeQuery = true)
+    List<ChatRoomResponse> findChatRoomsByShelterNo(@Param("shelterno") int shelterNo);
+
 }

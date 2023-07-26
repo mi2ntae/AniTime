@@ -4,6 +4,7 @@ import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseServiceImpl;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
+import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
@@ -33,6 +34,13 @@ public class ExceptionAdvice {
     protected CommonResponse noExistMemberException() {
         log.error("no exist member exception");
         return responseService.getFailResponse(ExceptionList.NO_EXIST_MEMBER_NO.getCode(), ExceptionList.NO_EXIST_MEMBER_NO.getMessage());
+    }
+
+    @ExceptionHandler(UnknownMemberKindException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse unknownMemberKindException() {
+        log.error("unknown member kind");
+        return responseService.getFailResponse(ExceptionList.UNKNOWN_MEMBER_KIND.getCode(), ExceptionList.UNKNOWN_MEMBER_KIND.getMessage());
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)

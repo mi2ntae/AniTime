@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatRoomResponse {
     private int roomNo;
-    private String shelterName;
+    private String name;
     private String lastMsg;
     private int unreadCnt;
 }

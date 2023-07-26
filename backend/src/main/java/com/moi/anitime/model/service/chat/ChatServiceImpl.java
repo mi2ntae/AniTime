@@ -4,9 +4,11 @@ import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.api.response.ChatRoomResponse;
+import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.member.*;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
+import com.moi.anitime.model.entity.member.MemberKind;
 import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.ChatRoomRepo;
 import com.moi.anitime.model.repo.MemberRepo;
@@ -34,7 +36,9 @@ public class ChatServiceImpl implements ChatService {
 
 
 	@Override
-	public List<ChatRoomResponse> getRoomsByMemberNo(int memberNo) {
-		return memberRepo.findChatRoomsByGeneralNo(memberNo);
+	public List<ChatRoomResponse> getRoomsByMemberNo(int memberKind, int memberNo) throws UnknownMemberKindException {
+		if(memberKind == MemberKind.GENERAL.getCode()) return memberRepo.findChatRoomsByGeneralNo(memberNo);
+		else if(memberKind == MemberKind.SHELTER.getCode()) return memberRepo.findChatRoomsByShelterNo(memberNo);
+		else throw new UnknownMemberKindException();
 	}
 }

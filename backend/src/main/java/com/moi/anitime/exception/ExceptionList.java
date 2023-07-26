@@ -14,7 +14,8 @@ public enum ExceptionList {
     OPEN_BANK_TRANSFER_ERROR(-1022, "결제에 실패하였습니다."),
     AUTHENTICATION_ENTRY_POINT(-1023, "권한을 확인할 수 없습니다. 다시 로그인하세요"),
     NON_VALID_JWT_TOKEN(-1024, "올바르지 않은 토큰입니다. 다시 로그인하세요"),
-    NO_EXIST_MEMBER_NO(-1025, "존재하지 않는 회원입니다.");
+    NO_EXIST_MEMBER_NO(-1025, "존재하지 않는 회원입니다."),
+    UNKNOWN_MEMBER_KIND(-1026, "올바르지 않은 회원 종류입니다.");
 
     private final int code;
     private final String message;
