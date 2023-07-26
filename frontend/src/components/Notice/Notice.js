@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
+import NoticeContainer from "./NoticeContainer";
 
 export default function Notice() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Notice() {
       />
       {isOpen && (
         <Modal isNotice={true} close={closeNotice}>
-          <p>notice</p>
+          <NoticeContainer />
         </Modal>
       )}
     </>
