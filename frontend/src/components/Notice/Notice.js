@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NoticeBody from "./NoticeBody";
+import Modal from "../Modal/Modal";
 
 export default function Notice() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,11 @@ export default function Notice() {
         alt="notice"
         onClick={openNotice}
       />
-      {isOpen && <NoticeBody closeNotice={closeNotice} />}
+      {isOpen && (
+        <Modal isNotice={true} close={closeNotice}>
+          <p>notice</p>
+        </Modal>
+      )}
     </>
   );
 }
