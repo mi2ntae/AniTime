@@ -17,14 +17,15 @@ export default function Filter() {
         <FilterButton
          onClick={(event) => {
             event.stopPropagation();
-            toggleOpen();}}
+            toggleOpen();
+        }}
         >필터
-        </FilterButton>
         {isOpen && (
-            <Modal posX={"80px"} posY={"110px"} close={closeNotice}>
+            <Modal posX="-25px" posY="-85px" close={closeNotice}>
                 <FilterItem/>
             </Modal>
         )}
+         </FilterButton>
         </>
     );
 

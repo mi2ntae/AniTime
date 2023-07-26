@@ -22,21 +22,22 @@ export default function FilterItem() {
 const ItemDiv = styled.div`
   display: flex;
   flex-direction: column;
+  color: black;
+  width: 250px;
+  height:200px;
 `;
 
 const ContentDiv = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  text-align: left;
-  margin: 10px 150px 0px 0px;
-  text-right-padding="50px"
+  color: black;
+  text-right-padding: 50px;
 `;
 const Label = styled.div`
-  margin-right: 20px;
-  margin-left: 5px;
+  margin: 10px 10px 10px 20px;
+  padding-left:30px;
 `;
 const DivisionLine = styled.div`
   border-top: 1px solid #444444;
-  margin: 10px 0px;
 `;
