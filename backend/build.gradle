@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+
 	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 	// https://mvnrepository.com/artifact/com.google.guava/guava
@@ -45,6 +46,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.1.Final'
 
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 //	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
