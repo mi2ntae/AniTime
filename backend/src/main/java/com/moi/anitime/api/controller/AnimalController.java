@@ -1,7 +1,7 @@
 package com.moi.anitime.api.controller;
 
+import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.response.ListResponse;
-import com.moi.anitime.api.service.ResponseService;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.service.animal.AnimalService;
 import io.swagger.annotations.Api;
