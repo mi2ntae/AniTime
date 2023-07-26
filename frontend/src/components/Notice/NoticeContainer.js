@@ -47,8 +47,8 @@ export default function NoticeContainer() {
 }
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 320px;
 `;
 
 const Header = styled.div`

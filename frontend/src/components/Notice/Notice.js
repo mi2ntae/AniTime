@@ -20,7 +20,7 @@ export default function Notice() {
         onClick={openNotice}
       />
       {isOpen && (
-        <Modal isNotice={true} close={closeNotice}>
+        <Modal posX={"16px"} posY={"16px"} close={closeNotice}>
           <NoticeContainer />
         </Modal>
       )}
