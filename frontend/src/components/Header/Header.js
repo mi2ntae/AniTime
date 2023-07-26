@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "./NavBar";
 import { styled } from "styled-components";
 import Logo from "./Logo";
+import Notice from "../Notice/Notice";
 
 export default function Header() {
   return (
@@ -13,7 +14,8 @@ export default function Header() {
         </div>
         <HeaderRight>
           <img src="/icons/ic_help.svg" alt="help" />
-          <img src="/icons/ic_notification.svg" alt="notification" />
+          {/* <img src="/icons/ic_notification.svg" alt="notification" /> */}
+          <Notice />
           <img src="/icons/ic_account.svg" alt="account" />
         </HeaderRight>
       </HeaderDiv>
