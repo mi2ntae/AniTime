@@ -14,17 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "채팅 API", tags = {"Chat"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/room")
+@RequestMapping("/api/chat")
 public class ChatController {
     private final ResponseService responseService;
     private final ChatService chatService;
     private final SimpMessagingTemplate smso;
 
 
-    @GetMapping("/{memberNo}")
-    public ListResponse getChatRoomsByMemberNo(@PathVariable int memberNo) {
-        return responseService.getListResponse(chatService.getRoomsByMemberNo(memberNo));
+    @GetMapping("/room/{memberKind}/{memberNo}")
+    public ListResponse getChatRoomsByMemberNo(@PathVariable int memberKind, @PathVariable int memberNo) {
+        return responseService.getListResponse(chatService.getRoomsByMemberNo(memberKind, memberNo));
     }
+
 //    @GetMapping("/{roomId}")
 //    public List<ChatMessage> getChatsByRoomId(@PathVariable int roomId) {
 //        return service.getChatsByRoomId(roomId);
