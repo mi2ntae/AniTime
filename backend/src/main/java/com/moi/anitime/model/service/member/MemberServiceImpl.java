@@ -14,6 +14,7 @@ import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,10 +44,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
-		System.out.println("---image----");
-		System.out.println(image.getName());
-		System.out.println(image.getOriginalFilename());
-		System.out.println(image.getBytes());
 		Member member = memberRegistReq.toEntity(passwordEncoder, image.getBytes());
 		memberRepo.save(member);
 	}
@@ -68,7 +65,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member findShelterMemberById(int memberNo) throws NoExistMemberNoException{
 		Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
-		System.out.println(member);
 		if(!member.isPresent()) throw new NoExistMemberNoException();
 		return member.get();
 	}
@@ -78,6 +74,8 @@ public class MemberServiceImpl implements MemberService {
 		String encodedPassword=passwordEncoder.encode(requestMember.getPassword());
 		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, requestMember.getName());
 	}
+
+
 //	@Autowired
 //	UserRepository userRepository;
 //
