@@ -1,7 +1,30 @@
 import React from "react";
 import { styled } from "styled-components";
+import NoticeItem from "./NoticeItem";
 
 export default function NoticeContainer() {
+  const testData = [
+    {
+      noticeNo: 12,
+      noticeKind: "0", //채팅,미팅,실종 0,1,2
+      noticeTime: "0000.00.00 00:00:00",
+      noticeContent:
+        "민태님의 싸피 보호소 미팅 예약 (2023년 00월 00일 00시 00분) 신청이 승인되었습니다.",
+    },
+    {
+      noticeNo: 13,
+      noticeKind: "0", //채팅,미팅,실종 0,1,2
+      noticeTime: "0000.00.00 00:00:00",
+      noticeContent: "금일 알람이지롱1",
+    },
+    {
+      noticeNo: 14,
+      noticeKind: "0", //채팅,미팅,실종 0,1,2
+      noticeTime: "0000.00.00 00:00:00",
+      noticeContent: "금일 알람이지롱2",
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -12,13 +35,11 @@ export default function NoticeContainer() {
         <HeaderItem>채팅</HeaderItem>
       </Header>
       <Body>
-        <p>알림 1 -- -- -- --</p>
-        <p>알림 2 -- -- -- --</p>
-        <p>알림 3 -- -- -- --</p>
-        <p>알림 4 -- -- -- --</p>
-        <p>알림 4 -- -- -- --</p>
-        <p>알림 4 -- -- -- --</p>
-        <p>알림 4 -- -- -- --</p>
+        {testData.length === 0
+          ? "알림이 없습니다"
+          : testData.map((item) => (
+              <NoticeItem {...item} key={item.noticeNo} />
+            ))}
       </Body>
       <Footer>알림함 비우기</Footer>
     </Container>
