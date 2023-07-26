@@ -5,7 +5,7 @@ import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.LoginResponse;
-import com.moi.anitime.api.service.ResponseService;
+import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.service.member.MemberService;
@@ -62,5 +62,14 @@ public class AuthController {
     public LoginResponse login(@RequestBody @Valid MemberLoginReq memberLoginReq) {
         Member member = memberService.login(memberLoginReq);
         return responseService.getLoginResponse(jwtTokenProvider.createToken(member.getMemberNo(), member.getMemberKind()), member);
+    }
+
+    @GetMapping("/build")
+    @ApiOperation(value = "빌드 테스트", notes = "빌드!!")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public CommonResponse buildTest() {
+        return responseService.getBuildSuccessResponse();
     }
 }

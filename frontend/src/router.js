@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Main from "./components/Main/Main";
+import Desertion from "./components/Desertion/Desertion";
+import Missing from "./components/Missing/Missing";
+
 
 const router = createBrowserRouter([
   {
@@ -10,6 +13,14 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Main />,
+      },
+      {
+        path: "desertion",
+        element: <Desertion />,
+      },
+      {
+        path: "missing",
+        element: <Missing />,
       },
       {
         path: "path",
