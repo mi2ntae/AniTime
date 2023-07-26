@@ -1,5 +1,6 @@
 package com.moi.anitime.api.controller;
 
+import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.request.profile.ProfileRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.service.ResponseService;
@@ -28,10 +29,19 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{profileNo}")
-    @ApiOperation(value = "실종동물 삭제")
+    @ApiOperation(value = "실종동물 프로필 삭제")
     @ApiResponse(code = 200, message = "성공")
     public CommonResponse deleteProfile(@PathVariable("profileNo") int profileNo) {
         profileService.deleteProfile(profileNo);
         return responseService.getSuccessResponse();
     }
+
+    @PutMapping("/{profileNo}")
+    @ApiOperation(value = "실종동물 프로필 수정")
+    @ApiResponse(code = 200, message = "성공")
+    public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestBody ProfileModifyReq profileModifyReq) { // 변경되는 프로필 정보만 객체에 담긴다
+        profileService.updateProfile(profileNo, profileModifyReq);
+        return responseService.getSuccessResponse();
+    }
+
 }
