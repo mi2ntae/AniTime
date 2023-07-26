@@ -14,8 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class AnimalSchedule {
-    @Value("${openApi.secret}")
-    private String serviceKey;
+
 
 
     @Autowired
@@ -25,10 +24,9 @@ public class AnimalSchedule {
         this.dataApiClient = dataApiAnimal;
     }
     @Scheduled(cron = "59 23 * * * *")
-    public void inputAnimal(){
+    public void inputAnimal() throws InterruptedException {
         //Get요청을 통한 OPenAPI가져오기
         String jsonData = dataApiClient.getData(1);
 
-        System.out.println(jsonData);
     }
 }
