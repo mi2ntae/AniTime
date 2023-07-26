@@ -1,4 +1,4 @@
-package com.moi.anitime.api.service;
+package com.moi.anitime.api;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.ListResponse;
@@ -16,5 +16,6 @@ public interface ResponseService {
 	public <T> ListResponse<T> getListResponse(List<T> list);
 	public <T> LoginResponse<T> getLoginResponse(String token, Member member);
 	public CommonResponse getSuccessResponse();
+	public CommonResponse getBuildSuccessResponse();
 	public CommonResponse getFailResponse(int code, String message);
 }
