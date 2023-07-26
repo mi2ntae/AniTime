@@ -2,7 +2,7 @@ package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.request.profile.ProfileRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
-import com.moi.anitime.api.service.ResponseService;
+import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

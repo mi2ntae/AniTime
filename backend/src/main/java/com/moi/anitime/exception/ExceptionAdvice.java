@@ -1,7 +1,7 @@
 package com.moi.anitime.exception;
 
 import com.moi.anitime.api.response.CommonResponse;
-import com.moi.anitime.api.service.ResponseServiceImpl;
+import com.moi.anitime.api.ResponseServiceImpl;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.member.ExistEmailException;

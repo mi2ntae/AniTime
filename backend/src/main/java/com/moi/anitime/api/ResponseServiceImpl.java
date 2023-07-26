@@ -1,4 +1,4 @@
-package com.moi.anitime.api.service;
+package com.moi.anitime.api;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.ListResponse;
@@ -49,6 +49,13 @@ public class ResponseServiceImpl implements ResponseService{
 
     public CommonResponse getSuccessResponse() {
         CommonResponse result = new CommonResponse();
+        this.setSuccessResult(result);
+        return result;
+    }
+
+    public CommonResponse getBuildSuccessResponse() {
+        CommonResponse result = new CommonResponse();
+        result.setMessage("빌드 성공! - 권지훈 바보!");
         this.setSuccessResult(result);
         return result;
     }
