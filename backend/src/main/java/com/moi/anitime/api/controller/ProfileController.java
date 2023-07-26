@@ -31,9 +31,6 @@ public class ProfileController {
     private final ResponseService responseService;
     private final ProfileService profileService;
 
-    @Value("${com.example.upload.path}")
-    private String uploadPath;
-
     @PostMapping
     @ApiOperation(value="실종동물 프로필 등록", notes = "<strong>이름, 축종, 품종, 성별, 실종일, 실종위치, 위도, 경도</strong>는 필수 입력 항목")
     @ApiResponses({
@@ -83,5 +80,6 @@ public class ProfileController {
         profileService.updateProfile(profileNo, profileModifyReq);
         return responseService.getSuccessResponse();
     }
+
 
 }
