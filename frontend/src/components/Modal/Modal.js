@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { css, styled } from "styled-components";
 
-export default function Modal({ close, isNotice, children }) {
+export default function Modal({ close, posX, posY, children }) {
   const modalRef = useRef(null);
   useEffect(() => {
     const handler = (event) => {
@@ -17,32 +17,28 @@ export default function Modal({ close, isNotice, children }) {
   });
 
   return (
-    <ModalContainer $isNotice={isNotice} ref={modalRef}>
+    <ModalContainer $posX={posX} $posY={posY} ref={modalRef}>
       {children}
     </ModalContainer>
   );
 }
 
 const ModalContainer = styled.div`
+  // 모달 위치 확인용 테두리
   border: black 1px solid;
 
   background-color: #ffffff;
   z-index: 10;
   position: absolute;
   ${(props) =>
-    props.$isNotice
-      ? css`
-          transform: translate(-168px, 172px);
-          width: 400px;
-          height: 320px;
-        `
-      : css`
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 400px;
-          height: 560px;
-        `}
+    !(props.$posX || props.$posY) &&
+    css`
+      bottom: 50%;
+      left: 50%;
+    `}
+  transform: translate(-50%, 50%) ${(props) =>
+    props.$posX && "translateX(" + props.$posX + ")"} ${(props) =>
+    props.$posY && "translateY(" + props.$posY + ")"};
 
   border-radius: 15px;
 `;
