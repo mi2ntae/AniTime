@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { MainContainer} from "styled/styled";
+import Filter from "./Filter/Filter";
 
 export default function Desertion() {
   return (
@@ -8,7 +9,7 @@ export default function Desertion() {
         <MainContainer>
           <ListFilterContainer>
            <FiltersContainer>
-            <FilterButton>필터</FilterButton>
+            <Filter></Filter>
             <SortButton>정렬</SortButton>
            </FiltersContainer>
            <ListContainer>
@@ -55,16 +56,6 @@ const FiltersContainer = styled.div`
   align-items: flex-end;
   justify-content: right;
   padding: 20px;
-`;
-
-const FilterButton = styled.button`
-  margin-right:20px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 `;
 
 const SortButton = styled.button`
