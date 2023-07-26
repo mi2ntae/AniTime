@@ -2,7 +2,7 @@ package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.SingleResponse;
-import com.moi.anitime.api.service.ResponseService;
+import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.model.entity.member.GeneralMember;
