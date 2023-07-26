@@ -10,8 +10,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -20,22 +18,18 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Data
-@ApiModel("profileRegistReq")
-public class ProfileRegistReq {
+@ApiModel("profileModifyReq")
+public class ProfileModifyReq {
     @ApiModelProperty(name="이름")
-    @NotBlank
     String profileName;
 
-    @NotNull
-    int generalNo;
-
-    @ApiModelProperty(name="축종") @NotNull
+    @ApiModelProperty(name="축종")
     ProfileKind profileKind;
 
-    @ApiModelProperty(name="품종") @NotBlank
+    @ApiModelProperty(name="품종")
     String detailKind;
 
-    @ApiModelProperty(name="성별") @NotNull
+    @ApiModelProperty(name="성별")
     SexCode sexCode;
 
     @ApiModelProperty(name="나이")
@@ -44,16 +38,16 @@ public class ProfileRegistReq {
     @ApiModelProperty(name="특징")
     String specialMark;
 
-    @ApiModelProperty(name="실종일") @NotNull
+    @ApiModelProperty(name="실종일")
     LocalDate dateAt;
 
-    @ApiModelProperty(name="실종위치") @NotBlank
+    @ApiModelProperty(name="실종위치")
     String profileLocation;
 
-    @ApiModelProperty(name="위도") @NotNull
+    @ApiModelProperty(name="위도")
     float lat;
 
-    @ApiModelProperty(name="경도") @NotNull
+    @ApiModelProperty(name="경도")
     float lon;
 
     @ApiModelProperty(name = "이미지경로")
@@ -62,7 +56,6 @@ public class ProfileRegistReq {
     public Profile toEntity() {
         Profile profile = Profile.builder()
                 .profileName(this.profileName)
-                .generalMember(new GeneralMember(generalNo))
                 .profileKind(this.profileKind)
                 .detailKind(this.detailKind)
                 .sexCode(this.sexCode)
