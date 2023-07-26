@@ -17,7 +17,10 @@ export default function Notice() {
       <img
         src={`/icons/ic_notification.svg`}
         alt="notice"
-        onClick={openNotice}
+        onClick={(event) => {
+          event.stopPropagation();
+          openNotice();
+        }}
       />
       {isOpen && (
         <Modal posX={"16px"} posY={"16px"} close={closeNotice}>

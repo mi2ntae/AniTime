@@ -7,12 +7,15 @@ export default function Modal({ close, posX, posY, children }) {
     const handler = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         close();
-        document.removeEventListener("mousedown", handler);
       }
     };
-    document.addEventListener("mousedown", handler);
+    if (close) {
+      document.addEventListener("click", handler);
+    }
     return () => {
-      document.removeEventListener("mousedown", handler);
+      if (close) {
+        document.removeEventListener("click", handler);
+      }
     };
   });
 
