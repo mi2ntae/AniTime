@@ -12,8 +12,10 @@ import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +30,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
 	private final PasswordEncoder passwordEncoder;
+	private final S3Uploader s3Uploader;
+	@Value("{shelterMember.evidence.path")
+	private String imgPath;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
@@ -42,7 +46,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
-		Member member = memberRegistReq.toEntity(passwordEncoder, image.getBytes());
+		String storedFileName = s3Uploader.upload(image, imgPath);
+		Member member = memberRegistReq.toEntity(passwordEncoder, storedFileName);
 		memberRepo.save(member);
 	}
 

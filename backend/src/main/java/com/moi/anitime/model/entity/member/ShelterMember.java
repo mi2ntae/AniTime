@@ -20,6 +20,5 @@ import java.sql.Blob;
 @Getter
 public class ShelterMember extends Member{
     private String addr;
-    @Lob
-    private byte[] evidence;
+    private String evidence;
 }
