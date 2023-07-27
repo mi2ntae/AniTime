@@ -45,10 +45,13 @@ const MainImg = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 220px);
-  margin: 0 calc(-50vw + 50%);
-  padding: 0 calc(50vw - 50%);
+  padding-right: 20vw;
 `;
 
 const MainText = styled.h1`
@@ -64,6 +67,7 @@ const ReportDiv = styled.div`
   align-items: center;
   height: 136px;
   margin: 0;
+  margin-top: calc(100vh - 220px);
   padding: 0;
 `;
 
