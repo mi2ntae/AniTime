@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/exception/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/ws/chat/**").permitAll()
                 .antMatchers( "/v3/api-docs","/swagger*/**").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
@@ -50,7 +51,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
