@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
+import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
+import MyPageChatting from "pages/mypagetab/MyPageMeeting";
+import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +42,24 @@ const router = createBrowserRouter([
             Component: (await import("pages/MissingPage")).default,
           };
         },
+      },
+      {
+        path: "mypage",
+        element: <MyPage />,
+        children: [
+          {
+            path: "meeting",
+            element: <MyPageMeeting />,
+          },
+          {
+            path: "chatting",
+            element: <MyPageChatting />,
+          },
+          {
+            path: "watchlist",
+            element: <MyPageWatchlist />,
+          },
+        ],
       },
       {
         path: "path",
