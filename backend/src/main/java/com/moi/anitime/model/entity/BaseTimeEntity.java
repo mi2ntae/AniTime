@@ -1,4 +1,4 @@
-package com.moi.anitime.model.entity.chat;
+package com.moi.anitime.model.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
