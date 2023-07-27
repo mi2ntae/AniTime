@@ -5,7 +5,7 @@ import Desertion from "./pages/DesertionPage";
 import Missing from "./pages/MissingPage";
 import MyPage from "pages/MyPage";
 import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
-import MyPageChatting from "pages/mypagetab/MyPageMeeting";
+import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 
 const router = createBrowserRouter([
