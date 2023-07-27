@@ -58,7 +58,7 @@ export default function Slider() {
   useEffect(() => {
     // 자동 슬라이더
     const interval = setInterval(() => {
-      setIndex((p) => (p + 1) % animals.length);
+      moveIndex(1);
     }, 5000);
     return () => {
       clearInterval(interval);
@@ -71,12 +71,14 @@ export default function Slider() {
 
   return (
     <Div>
-      <Button style={{ left: "30px" }} onClick={() => moveIndex(-1)}>
-        왼
-      </Button>
-      <Button style={{ right: "30px" }} onClick={() => moveIndex(1)}>
-        오
-      </Button>
+      <ButtonDiv>
+        <Button onClick={() => moveIndex(-1)}>
+          <img src="icons/ic_arrow_left.svg" />
+        </Button>
+        <Button onClick={() => moveIndex(1)}>
+          <img src="icons/ic_arrow_right.svg" />
+        </Button>
+      </ButtonDiv>
       {animals.map((animal) => (
         <SliderItem
           key={animal.desertionNo}
@@ -89,16 +91,30 @@ export default function Slider() {
 }
 
 const Div = styled.div`
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  min-width: 1200px;
+  /* min-width: 1200px; */
+  overflow: hidden;
+`;
+
+const ButtonDiv = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 `;
 
 const Button = styled.button`
-  position: absolute;
   background: none;
-  z-index: 1;
+  border: none;
+  margin: 32px;
+  cursor: pointer;
 `;

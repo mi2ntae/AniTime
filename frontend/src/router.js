@@ -3,6 +3,7 @@ import App from "./App";
 import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
 import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
+import MyPage from "pages/MyPage";
 
 const router = createBrowserRouter([
   {
