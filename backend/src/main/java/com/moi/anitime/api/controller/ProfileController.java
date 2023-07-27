@@ -4,6 +4,8 @@ import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.request.profile.ProfileRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseService;
+import com.moi.anitime.api.response.ListResponse;
+import com.moi.anitime.model.entity.profile.ProfileListDTO;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,6 @@ public class ProfileController {
     @ApiOperation(value="실종동물 프로필 등록", notes = "<strong>이름, 축종, 품종, 성별, 실종일, 실종위치, 위도, 경도</strong>는 필수 입력 항목")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 200, message = "성공"),
     })
     public CommonResponse registerProfile(@RequestPart("profile") @Validated ProfileRegistReq profileRegistReq, @RequestPart("uploadFile") MultipartFile uploadFile) throws IOException {
 
@@ -79,6 +80,14 @@ public class ProfileController {
     public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestBody ProfileModifyReq profileModifyReq) { // 변경되는 프로필 정보만 객체에 담긴다
         profileService.updateProfile(profileNo, profileModifyReq);
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping("/{generalNo}")
+    @ApiOperation(value = "실종동물 프로필 목록 조회")
+    @ApiResponse(code = 200, message = "성공")
+    public ListResponse<ProfileListDTO> getProfileList(@PathVariable("generalNo") int generalNo) {
+        System.out.println(profileService.findNamesById(generalNo));
+        return responseService.getListResponse(profileService.findNamesById(generalNo));
     }
 
 
