@@ -1,9 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Main from "./components/Main/Main";
+import MainPage from "./pages/MainPage";
 import Desertion from "./pages/DesertionPage";
 import Missing from "./pages/MissingPage";
-
 
 const router = createBrowserRouter([
   {
@@ -12,7 +11,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Main />,
+        element: <MainPage />,
       },
       {
         path: "desertion",
