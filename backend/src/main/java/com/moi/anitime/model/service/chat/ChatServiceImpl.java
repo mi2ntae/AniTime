@@ -1,5 +1,6 @@
 package com.moi.anitime.model.service.chat;
 
+import com.moi.anitime.api.request.chat.ChatMessageReq;
 import com.moi.anitime.api.response.chat.ChatRes;
 import com.moi.anitime.api.response.chat.ChatRoomInitRes;
 import com.moi.anitime.api.response.chat.ChatRoomListRes;
@@ -88,6 +89,18 @@ public class ChatServiceImpl implements ChatService {
 	public List<ChatRes> enterChatRoom(int memberNo, int roomNo) throws NonExistDesertionNoException {
 		chatMessageRepo.updateChatMessagesRead(roomNo, memberNo);
 		return getChats(roomNo);
+	}
+
+	@Override
+	public ChatRes sendChat(ChatMessageReq message) {
+		ChatRoom room = chatRoomRepo.getReferenceById(message.getRoomNo());
+		Member sender = memberRepo.getReferenceById(message.getSendNo());
+		ChatMessage chat = message.toEntity(room, sender);
+		chat = chatMessageRepo.save(chat);
+		return ChatRes.builder()
+				.sendNo(chat.getSender().getMemberNo())
+				.content(chat.getContent())
+				.writtenTime(chat.getWrittenTime()).build();
 	}
 
 	private List<ChatRes> getChats(int roomNo) {
