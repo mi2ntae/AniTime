@@ -6,12 +6,14 @@ export default function Missing() {
   return (
     <PageContainer>
         <MainContainer>
+          <ListFilterContainer>
            <ListContainer>
            <h3>실종 동물 목록</h3>
            </ListContainer>
-        <DetailViewBox>
+           </ListFilterContainer>
+           <DetailViewBox>
           <h3>상세정보창</h3>
-        </DetailViewBox>
+           </DetailViewBox>
       </MainContainer>
     </PageContainer>
   );
@@ -24,6 +26,14 @@ const PageContainer = styled.div`
   justify-content: center;
 `;
 
+const ListFilterContainer = styled.div`
+  flex: 1;
+  width: 800px;
+  height: 700px;
+  margin-right: 20px;
+  padding: 20px;
+`;
+
 const ListContainer = styled.div`
   flex:1;
   width: 700px;
@@ -31,6 +41,7 @@ const ListContainer = styled.div`
   padding: 10px;
   overflow-y: scroll;
   text-align: center;
+  margin-top:73px;
   border: 1px solid #ccc;
   border-radius: 8px;
 `;
@@ -44,4 +55,3 @@ const DetailViewBox = styled.div`
   border-radius: 8px;
   margin-top: 93px;
 `;
-
