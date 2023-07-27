@@ -1,13 +1,12 @@
 package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
-import com.moi.anitime.api.request.profile.ProfileRegistReq;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.model.entity.profile.ProfileListDTO;
 import com.moi.anitime.model.repo.ProfileRepo;
-import com.moi.anitime.model.service.aws.S3Uploader;
+import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

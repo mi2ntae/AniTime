@@ -35,7 +35,7 @@ public class ShelterMemberRegistReq {
 	@NotBlank
 	@ApiModelProperty(name="주소")
 	private String addr;
-	public Member toEntity(PasswordEncoder passwordEncoder, byte[] evidence) {
+	public Member toEntity(PasswordEncoder passwordEncoder, String evidence) {
 		Member member = ShelterMember.builder()
 				.email(this.email)
 				.password(passwordEncoder.encode(this.password))
