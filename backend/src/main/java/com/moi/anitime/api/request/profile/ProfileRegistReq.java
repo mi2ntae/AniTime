@@ -56,8 +56,8 @@ public class ProfileRegistReq {
     @ApiModelProperty(name="경도") @NotNull
     float lon;
 
-    @ApiModelProperty(name = "이미지경로")
-    String image;
+//    @ApiModelProperty(name = "이미지경로")
+//    String image;
 
     public Profile toEntity() {
         Profile profile = Profile.builder()

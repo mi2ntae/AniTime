@@ -17,6 +17,7 @@ public enum ExceptionList {
     NON_EXIST_MEMBER_NO(-1025, "존재하지 않는 회원입니다."),
     NON_EXIST_DESERTION_NO(-1026, "존재하지 않는 동물입니다."),
     UNKNOWN_MEMBER_KIND(-1027, "올바르지 않은 회원 종류입니다.");
+    UNSUPPORTED_FILE_TYPE(-1028, "파일 형식이 잘못되었습니다.");
 
     private final int code;
     private final String message;

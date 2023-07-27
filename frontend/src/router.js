@@ -1,9 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Main from "./components/Main/Main";
-import Desertion from "./components/Desertion/Desertion";
-import Missing from "./components/Missing/Missing";
-
 
 const router = createBrowserRouter([
   {
@@ -12,21 +8,43 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Main />,
+        async lazy() {
+          return {
+            Component: (await import("pages/MainPage")).default,
+          };
+        },
       },
       {
         path: "desertion",
-        element: <Desertion />,
+        async lazy() {
+          return {
+            Component: (await import("pages/DesertionPage")).default,
+          };
+        },
+      },
+      {
+        path: "desertion/reservation",
+        async lazy() {
+          return {
+            Component: (
+              await import("components/Desertion/DesertionReservation")
+            ).default,
+          };
+        },
       },
       {
         path: "missing",
-        element: <Missing />,
+        async lazy() {
+          return {
+            Component: (await import("pages/MissingPage")).default,
+          };
+        },
       },
       {
         path: "path",
         async lazy() {
           return {
-            Component: (await import("./components/RouterTest")).default,
+            Component: (await import("pages/RouterTestPage")).default,
           };
         },
       },
@@ -35,7 +53,7 @@ const router = createBrowserRouter([
         async lazy() {
           return {
             // 컴포넌트 import
-            Component: (await import("./components/RouterTest")).default,
+            Component: (await import("pages/RouterTestPage")).default,
           };
         },
       },

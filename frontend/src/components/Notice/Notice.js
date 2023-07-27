@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import NoticeContainer from "./NoticeContainer";
+import { styled } from "styled-components";
 
 export default function Notice() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,10 +15,13 @@ export default function Notice() {
 
   return (
     <>
-      <img
+      <Img
         src={`/icons/ic_notification.svg`}
         alt="notice"
-        onClick={openNotice}
+        onClick={(event) => {
+          event.stopPropagation();
+          openNotice();
+        }}
       />
       {isOpen && (
         <Modal posX={"16px"} posY={"16px"} close={closeNotice}>
@@ -27,3 +31,7 @@ export default function Notice() {
     </>
   );
 }
+
+const Img = styled.img`
+  cursor: pointer;
+`;
