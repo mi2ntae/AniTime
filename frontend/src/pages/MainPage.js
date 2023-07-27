@@ -1,3 +1,4 @@
+import Slider from "components/Main/Slider";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
@@ -20,6 +21,7 @@ export default function MainPage() {
           애니타임
         </MainText>
       </MainImg>
+
       <ReportDiv>
         <ReportText>
           오늘 구조된 동물 <ReportNumber>{report[0]}</ReportNumber>마리
@@ -31,7 +33,9 @@ export default function MainPage() {
           보호 동물 <ReportNumber>{report[2]}</ReportNumber>마리
         </ReportText>
       </ReportDiv>
-      <div>유기동물 슬라이더 들어갈 자리</div>
+
+      <SliderTitle>입양을 기다리는 아이들이에요</SliderTitle>
+      <Slider />
       <div>애니타임 소개 들어갈 자리</div>
     </MainContainer>
   );
@@ -45,10 +49,13 @@ const MainImg = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+  position: absolute;
+  left: 0;
+  box-sizing: border-box;
   width: 100%;
+  min-width: 1200px;
   height: calc(100vh - 220px);
-  margin: 0 calc(-50vw + 50%);
-  padding: 0 calc(50vw - 50%);
+  padding-right: 20vw;
 `;
 
 const MainText = styled.h1`
@@ -64,6 +71,7 @@ const ReportDiv = styled.div`
   align-items: center;
   height: 136px;
   margin: 0;
+  margin-top: calc(100vh - 220px);
   padding: 0;
 `;
 
@@ -74,4 +82,9 @@ const ReportText = styled.span`
 const ReportNumber = styled.span`
   color: #54b1e5;
   font-weight: bold;
+`;
+
+const SliderTitle = styled.h1`
+  margin-top: 56px;
+  margin-bottom: 24px;
 `;
