@@ -2,15 +2,12 @@ import { styled } from "styled-components";
 
 const MainContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: auto;
   margin-top: 64px;
   padding: 20px;
-
   box-sizing: border-box;
-  width: 100%;
-  min-width: 480px;
-  max-width: 1000px;
+  width: 1200px;
   min-height: calc(100vh - 160px);
 `;
 
