@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Main from "./components/Main/Main";
-import Desertion from "./components/Desertion/Desertion";
-import Missing from "./components/Missing/Missing";
+import Desertion from "./pages/DesertionPage";
+import Missing from "./pages/MissingPage";
 
 
 const router = createBrowserRouter([
