@@ -13,9 +13,9 @@ const MainContainer = styled.div`
   margin-top: 64px;
   padding: 20px;
   box-sizing: border-box;
-  width: 1200px;
-  min-width: 480px;
-  max-width: 1240px;
+  width: 100%;
+  max-width:1240px;
+  min-width: 800px;
   min-height: calc(100vh - 160px);
 `;
 
