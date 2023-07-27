@@ -5,7 +5,7 @@ import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.GeneralMember;
@@ -14,13 +14,11 @@ import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -56,16 +54,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException{
+	public Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException {
 		Optional<GeneralMember> member = memberRepo.findGeneralMemberByMemberNo(memberNo);
-		if(!member.isPresent()) throw new NoExistMemberNoException();
+		if(!member.isPresent()) throw new NonExistMemberNoException();
 		return member.get();
 	}
 
 	@Override
-	public Member findShelterMemberById(int memberNo) throws NoExistMemberNoException{
+	public Member findShelterMemberById(int memberNo) throws NonExistMemberNoException {
 		Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
-		if(!member.isPresent()) throw new NoExistMemberNoException();
+		if(!member.isPresent()) throw new NonExistMemberNoException();
 		return member.get();
 	}
 

@@ -5,7 +5,7 @@ import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
@@ -21,7 +21,7 @@ public interface MemberService {
 	void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException;
 	void registShelterMember(ShelterMemberRegistReq registMember, MultipartFile image) throws IOException, SQLException;
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
-	Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException;
-	Member findShelterMemberById(int memberNo) throws NoExistMemberNoException;
+	Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException;
+	Member findShelterMemberById(int memberNo) throws NonExistMemberNoException;
 	void editGeneralMember(int memberNo,GeneralMember requestMember) throws EditInfoException;
 }
