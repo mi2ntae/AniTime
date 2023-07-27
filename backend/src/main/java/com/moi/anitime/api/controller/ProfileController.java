@@ -40,31 +40,31 @@ public class ProfileController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse registerProfile(@RequestPart("profile") @Validated ProfileRegistReq profileRegistReq, @RequestPart("uploadFile") MultipartFile uploadFile) throws IOException {
+    public CommonResponse registerProfile(@RequestPart("profile") @Validated ProfileRegistReq profileRegistReq, @RequestPart("image") MultipartFile image) throws Exception {
 
-        Optional<MultipartFile> imageFile = Optional.ofNullable(uploadFile); // 이미지가 Null이 들어와도 예외처리 x
+//        Optional<MultipartFile> imageFile = Optional.ofNullable(image); // 이미지가 Null이 들어와도 예외처리 x
 
-        if (imageFile.isPresent()) {
-            String contentType = uploadFile.getContentType();
-            if (contentType == null || !contentType.startsWith("image")) {
-                throw new IllegalArgumentException("이미지 파일을 올려주세요.");
-            }
+//        if (imageFile.isPresent()) {
+//            String contentType = image.getContentType();
+//            if (contentType == null || !contentType.startsWith("image")) {
+//                throw new IllegalArgumentException("이미지 파일을 올려주세요.");
+//            }
 
-            String originalFileName = uploadFile.getOriginalFilename();
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자 추출
-            String newFileName = UUID.randomUUID().toString() + fileExtension; // UUID를 이용해 파일명 중복 방지
-
-            Path uploadsDir = Paths.get("이미지경로");
-            if (!Files.exists(uploadsDir)) { // 폴더 생성
-                Files.createDirectories(uploadsDir);
-            }
-            uploadFile.transferTo(Paths.get(uploadsDir.toString(), newFileName)); // 이미지 저장
-
-            String imagePath = uploadsDir.resolve(newFileName).toAbsolutePath().toString();
-            profileRegistReq.setImage(imagePath);
-        }
-
-        profileService.registProfile(profileRegistReq);
+//            String originalFileName = uploadFile.getOriginalFilename();
+//            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자 추출
+//            String newFileName = UUID.randomUUID().toString() + fileExtension; // UUID를 이용해 파일명 중복 방지
+//
+//            Path uploadsDir = Paths.get("이미지경로");
+//            if (!Files.exists(uploadsDir)) { // 폴더 생성
+//                Files.createDirectories(uploadsDir);
+//            }
+//            uploadFile.transferTo(Paths.get(uploadsDir.toString(), newFileName)); // 이미지 저장
+//
+//            String imagePath = uploadsDir.resolve(newFileName).toAbsolutePath().toString();
+//            profileRegistReq.setImage(imagePath);
+//        }
+        Profile profile = profileRegistReq.toEntity();
+        profileService.registProfile(image, profile);
         return responseService.getSuccessResponse();
     }
 
