@@ -3,7 +3,7 @@ import React from "react";
 import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
 
-export default function Main() {
+export default function MainPage() {
   return (
     <MainContainer>
       <MainTest>
