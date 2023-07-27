@@ -2,15 +2,21 @@ package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.request.profile.ProfileRegistReq;
+import com.moi.anitime.exception.profile.NoExistProfileNoException;
+import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.model.entity.profile.ProfileListDTO;
 import com.moi.anitime.model.repo.ProfileRepo;
+import com.moi.anitime.model.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -18,10 +24,22 @@ import java.util.List;
 public class ProfileServiceImpl implements ProfileService{
     private final ProfileRepo profileRepo;
 
+    @Autowired
+    private S3Uploader s3Uploader;
+
     @Transactional
     @Override
-    public void registProfile(ProfileRegistReq profileRegistReq) {
-        Profile profile = profileRegistReq.toEntity();
+    public void registProfile(MultipartFile image, Profile profile) throws Exception {
+        if (!image.isEmpty()) {
+            String contentType = image.getContentType();
+            if (contentType == null || !contentType.startsWith("image")) {
+                throw new UnSupportedFileTypeException();
+            }
+
+            String storedFileName = s3Uploader.upload(image, "profile");
+            profile.setImage(storedFileName);
+        }
+
         profileRepo.save(profile);
     }
 
@@ -71,5 +89,12 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public List<ProfileListDTO> findNamesById(int generalNo) {
         return profileRepo.findProfileListByMemberNo(generalNo);
+    }
+
+    @Override
+    public Profile findProfileById(int profileNo) throws NoExistProfileNoException {
+        Optional<Profile> profile = profileRepo.findById(profileNo);
+        if (!profile.isPresent()) throw new NoExistProfileNoException();
+        return profile.get();
     }
 }
