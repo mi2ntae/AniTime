@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import Modal from "components/Modal/Modal";
 import {styled} from "styled-components";
-import FilterItem from "./FilterItem";
+import SortItem from "./SortItem";
 
-export default function Filter() {
+export default function Sort() {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = () => setIsOpen((p) => !p);
@@ -14,27 +14,26 @@ export default function Filter() {
     
     return (
         <>
-        <FilterButton
+        <SortButton
          onClick={(event) => {
             event.stopPropagation();
             toggleOpen();
         }}
-        >필터
+        >정렬
         {isOpen && (
-            <Modal posX="-25px" posY="-85px" close={closeNotice}>
-                <FilterItem/>
+            <Modal posX="13px" posY="-85px" close={closeNotice}>
+                <SortItem/>
             </Modal>
         )}
-         </FilterButton>
+         </SortButton>
         </>
     );
 
 }
 
-const FilterButton = styled.button`
-  margin-right:20px;
+const SortButton = styled.button`
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #6c757d;
   color: #fff;
   border: none;
   border-radius: 4px;
