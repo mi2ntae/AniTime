@@ -3,7 +3,10 @@ import App from "./App";
 import Main from "./components/Main/Main";
 import Desertion from "./pages/DesertionPage";
 import Missing from "./pages/MissingPage";
-
+import MyPage from "pages/MyPage";
+import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
+import MyPageChatting from "pages/mypagetab/MyPageMeeting";
+import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +24,24 @@ const router = createBrowserRouter([
       {
         path: "missing",
         element: <Missing />,
+      },
+      {
+        path: "mypage",
+        element: <MyPage />,
+        children: [
+          {
+            path: "meeting",
+            element: <MyPageMeeting />,
+          },
+          {
+            path: "chatting",
+            element: <MyPageChatting />,
+          },
+          {
+            path: "watchlist",
+            element: <MyPageWatchlist />,
+          },
+        ],
       },
       {
         path: "path",
