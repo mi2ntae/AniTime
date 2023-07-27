@@ -2,11 +2,12 @@ package com.moi.anitime.exception;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseServiceImpl;
+import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,18 @@ public class ExceptionAdvice {
         return responseService.getFailResponse(ExceptionList.EXIST_EMAIL.getCode(), ExceptionList.EXIST_EMAIL.getMessage());
     }
 
-    @ExceptionHandler(NoExistMemberNoException.class)
+    @ExceptionHandler(NonExistMemberNoException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResponse noExistMemberException() {
+    protected CommonResponse nonExistMemberException() {
         log.error("no exist member exception");
-        return responseService.getFailResponse(ExceptionList.NO_EXIST_MEMBER_NO.getCode(), ExceptionList.NO_EXIST_MEMBER_NO.getMessage());
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_MEMBER_NO.getCode(), ExceptionList.NON_EXIST_MEMBER_NO.getMessage());
+    }
+
+    @ExceptionHandler(NonExistDesertionNoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonExistDesertionNoException() {
+        log.error("no exist desertion no exception");
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_DESERTION_NO.getCode(), ExceptionList.NON_EXIST_DESERTION_NO.getMessage());
     }
 
     @ExceptionHandler(UnknownMemberKindException.class)
@@ -75,7 +83,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse unknown(Exception e) {
-        log.error("unknown exception", e);
+        log.error("unknown exception", e.getMessage());
         return responseService.getFailResponse(ExceptionList.UNKNOWN.getCode(), ExceptionList.UNKNOWN.getMessage());
     }
 
