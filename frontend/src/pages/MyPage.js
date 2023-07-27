@@ -3,8 +3,8 @@ import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
 import { Outlet } from "react-router";
 import { Routes, Route, NavLink } from "react-router-dom";
-import MyPageMeeting from "./mypagetab/MyPageChatting";
-import MyPageChatting from "./mypagetab/MyPageMeeting";
+import MyPageMeeting from "./mypagetab/MyPageMeeting";
+import MyPageChatting from "./mypagetab/MyPageChatting";
 import MyPageWatchlist from "./mypagetab/MyPageWatchlist";
 
 export default function MyPage() {

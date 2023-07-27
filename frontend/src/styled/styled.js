@@ -8,7 +8,7 @@ const MainContainer = styled.div`
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
-  max-width:1240px;
+  max-width: 1240px;
   min-width: 480px;
   min-height: calc(100vh - 160px);
 `;
