@@ -9,6 +9,7 @@ import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
+import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,13 @@ public class ExceptionAdvice {
     protected CommonResponse nonExistEmailException() {
         log.error("no exist email exception");
         return responseService.getFailResponse(ExceptionList.NON_EXIST_EMAIL.getCode(), ExceptionList.NON_EXIST_EMAIL.getMessage());
+    }
+
+    @ExceptionHandler(UnSupportedFileTypeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse unsupportedFileTypeException() {
+        log.error("unsupported file type exception");
+        return responseService.getFailResponse(ExceptionList.UNSUPPORTED_FILE_TYPE.getCode(), ExceptionList.UNSUPPORTED_FILE_TYPE.getMessage());
     }
 
     // 제일 아래에 있었으면 합니다 - 민태 -
