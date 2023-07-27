@@ -2,11 +2,13 @@ import React from "react";
 import { styled } from "styled-components";
 
 export default function SliderItem({ index, animal }) {
+  const width = 300;
   const { desertionNo, noticeNo, kind, sexcd, status } = animal;
   return (
     <Div
+      $width={width}
       style={{
-        transform: `translateX(${index * -300}px)`,
+        transform: `translateX(${index * -width}px)`,
         transition: "0.5s ease",
       }}
     >
@@ -22,7 +24,7 @@ export default function SliderItem({ index, animal }) {
 const Div = styled.div`
   box-sizing: border-box;
   border: black 3px solid;
-  width: 300px;
+  width: ${({ $width }) => $width || 300}px;
   height: 400px;
   flex-shrink: 0;
 `;
