@@ -10,7 +10,7 @@ const MainContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   min-width: 480px;
-  max-width: 1000px;
+  max-width: 1240px;
   min-height: calc(100vh - 160px);
 `;
 
@@ -27,6 +27,7 @@ const Button = styled.button`
   color: ${(props) => props.color || "black"};
   padding: ${(props) => props.padding || "8px"};
   margin: ${(props) => props.margin || "8px"};
+  cursor: pointer;
 `;
 
 export { MainContainer, Button };
