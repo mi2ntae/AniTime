@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping(value = "/exception")
 public class ExceptionController {
     @GetMapping(value = "/entrypoint")
-    public void entryPointException(){
+    public void entryPointException() throws CAuthenticationEntryPointException{
         throw new CAuthenticationEntryPointException();
     }
 }
