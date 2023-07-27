@@ -1,9 +1,14 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 
 const MainContainer = styled.div`
   display: flex;
-  flex-direction: ${({ flexDirection }) => flexDirection || "row"};
-  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
+  justify-content: space-between;
+  ${({ $vertical }) =>
+    $vertical &&
+    css`
+      flex-direction: column;
+      justify-content: flex-start;
+    `}
   margin: auto;
   margin-top: 64px;
   padding: 20px;
