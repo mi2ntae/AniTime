@@ -19,6 +19,10 @@ const router = createBrowserRouter([
         element: <Desertion />,
       },
       {
+        path:"desertion/reservation",
+        element:<DesertionReservation/>,
+      },
+      {
         path: "missing",
         element: <Missing />,
       },
