@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
-import MyPageChatting from "pages/mypagetab/MyPageMeeting";
+import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 
 const router = createBrowserRouter([
