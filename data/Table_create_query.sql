@@ -85,7 +85,7 @@ CREATE TABLE `ChatMessage` (
 	`type`	Int	NULL,
 	`sendNo`	Int	NULL,
 	`writtenTime`	datetime	NULL,
-	`read`	tinyint	NULL
+	`isRead`	tinyint	NULL
 )
 COMMENT='채팅메세지 관련 테이블'
 COLLATE='utf8mb4_bin'
