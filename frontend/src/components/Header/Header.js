@@ -13,10 +13,9 @@ export default function Header() {
           <NavBar />
         </div>
         <HeaderRight>
-          <img src="/icons/ic_help.svg" alt="help" />
-          {/* <img src="/icons/ic_notification.svg" alt="notification" /> */}
+          <Img src="/icons/ic_help.svg" alt="help" />
           <Notice />
-          <img src="/icons/ic_account.svg" alt="account" />
+          <Img src="/icons/ic_account.svg" alt="account" />
         </HeaderRight>
       </HeaderDiv>
     </StyleHeader>
@@ -25,6 +24,9 @@ export default function Header() {
 
 const StyleHeader = styled.header`
   background-color: white;
+  position: fixed;
+  top: 0px;
+  width: 100%;
 `;
 
 const HeaderDiv = styled.div`
@@ -44,4 +46,8 @@ const HeaderRight = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 160px;
+`;
+
+const Img = styled.img`
+  cursor: pointer;
 `;
