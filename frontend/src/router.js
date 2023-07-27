@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import MainPage from "./pages/MainPage";
-import Desertion from "./components/Desertion/Desertion";
-import Missing from "./components/Missing/Missing";
+import Desertion from "./pages/DesertionPage";
+import Missing from "./pages/MissingPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "desertion",
         element: <Desertion />,
+      },
+      {
+        path:"desertion/reservation",
+        element:<DesertionReservation/>,
       },
       {
         path: "missing",

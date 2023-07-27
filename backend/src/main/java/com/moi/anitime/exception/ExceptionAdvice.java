@@ -8,6 +8,7 @@ import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NoExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
+import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ public class ExceptionAdvice {
     protected CommonResponse noExistMemberException() {
         log.error("no exist member exception");
         return responseService.getFailResponse(ExceptionList.NO_EXIST_MEMBER_NO.getCode(), ExceptionList.NO_EXIST_MEMBER_NO.getMessage());
+    }
+
+    @ExceptionHandler(NoExistProfileNoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse noExistProfileException() {
+        log.error("no exist profile exception");
+        return responseService.getFailResponse(ExceptionList.NO_EXIST_PROFILE_NO.getCode(), ExceptionList.NO_EXIST_PROFILE_NO.getMessage());
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)

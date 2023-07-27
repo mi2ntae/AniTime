@@ -2,13 +2,17 @@ package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.request.profile.ProfileRegistReq;
+import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.model.entity.profile.Profile;
+import com.moi.anitime.model.entity.profile.ProfileListDTO;
 import com.moi.anitime.model.repo.ProfileRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -64,5 +68,17 @@ public class ProfileServiceImpl implements ProfileService{
         }
         // 스웨거로 요청 보내면 null이 안들어가서 ㄱ-  싹다 수정되는건 아닌지 나중에 한번 확인해보기...
         profileRepo.save(profile);
+    }
+
+    @Override
+    public List<ProfileListDTO> findNamesById(int generalNo) {
+        return profileRepo.findProfileListByMemberNo(generalNo);
+    }
+
+    @Override
+    public Profile findProfileById(int profileNo) throws NoExistProfileNoException {
+        Optional<Profile> profile = profileRepo.findById(profileNo);
+        if (!profile.isPresent()) throw new NoExistProfileNoException();
+        return profile.get();
     }
 }
