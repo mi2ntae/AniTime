@@ -5,6 +5,8 @@ import com.moi.anitime.api.request.profile.ProfileRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.response.ListResponse;
+import com.moi.anitime.api.response.SingleResponse;
+import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.model.entity.profile.ProfileListDTO;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.*;
@@ -86,9 +88,13 @@ public class ProfileController {
     @ApiOperation(value = "실종동물 프로필 목록 조회")
     @ApiResponse(code = 200, message = "성공")
     public ListResponse<ProfileListDTO> getProfileList(@PathVariable("generalNo") int generalNo) {
-        System.out.println(profileService.findNamesById(generalNo));
         return responseService.getListResponse(profileService.findNamesById(generalNo));
     }
 
-
+    @GetMapping("/detail/{profileNo}")
+    @ApiOperation(value="실종동물 상세 조회")
+    @ApiResponse(code = 200, message = "성공")
+    public SingleResponse getProfileDetail(@PathVariable("profileNo") int profileNo) {
+        return responseService.getSingleResponse(profileService.findProfileById(profileNo));
+    }
 }
