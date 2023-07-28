@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -76,6 +77,12 @@ public class MemberServiceImpl implements MemberService {
 	public void editGeneralMember(int memberNo, GeneralMember requestMember) throws EditInfoException {
 		String encodedPassword=passwordEncoder.encode(requestMember.getPassword());
 		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, requestMember.getName());
+	}
+
+	@Override
+	public List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException {
+
+		return memberRepo.findAllByMemberKind();
 	}
 
 

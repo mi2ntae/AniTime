@@ -12,4 +12,6 @@ public interface AnimalRepo extends JpaRepository<Animal, Integer> {
 
     @Query(value = "SELECT * FROM Animal WHERE kind LIKE :kind AND sexcd LIKE :sexcd ORDER BY :sortQuery",nativeQuery = true)
     public List<Animal> getAnimal(String kind, char sexcd, String sortQuery, Pageable curPageNo);
+
+
 }
