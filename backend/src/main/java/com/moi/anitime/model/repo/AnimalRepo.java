@@ -17,4 +17,3 @@ public interface AnimalRepo extends JpaRepository<Animal, Integer> {
 //    @Query("SELECT a.desertionNo, a.kind, a.sexcd, a.image1 FROM Animal a JOIN Bookmark b WHERE b.generalMember.memberNo = :generalNo ORDER BY b.bookmarkNo DESC")
     @Query(value = "SELECT a FROM Animal a JOIN Bookmark b ON a.desertionNo = b.animal.desertionNo WHERE b.generalMember.memberNo = :generalNo ORDER BY b.bookmarkNo DESC")
     public List<Animal> getBookmarkList(@Param("generalNo") int generalNo, Pageable curPageNo);
-}
