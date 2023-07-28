@@ -1,20 +1,26 @@
 package com.moi.anitime.model.service.animal;
 
+import com.moi.anitime.api.response.animal.AnimalPreviewRes;
 import com.moi.anitime.exception.animal.ListLoadingException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.repo.AnimalRepo;
+import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class AnimalServiceImpl implements AnimalService{
     private final AnimalRepo animalRepo;
+    private final MemberRepo memberRepo;
     @Override
     public List<Animal> getAllAnimal(int generalNo, int kindType, int genderType, int sortType, int curPageNo) throws ListLoadingException {
         String kind="";
@@ -50,6 +56,30 @@ public class AnimalServiceImpl implements AnimalService{
             case 2://(안락사)임박일순
                 sortQuery="noticeEdate asc";
         }
-        return animalRepo.getAnimal(kind,sexcd,sortQuery,PageRequest.of(curPageNo+1, 10));
+        return animalRepo.getAnimal(kind,sexcd,sortQuery,PageRequest.of(curPageNo, 10));
     }
+
+    @Override
+    public List<AnimalPreviewRes> getBookmarkedAnimal(int generalNo, int curPageNo) throws ListLoadingException {
+        if (!memberRepo.existsById(generalNo)) throw new NonExistMemberNoException();
+        List<Animal> bookmarkedList = animalRepo.getBookmarkList(generalNo, PageRequest.of(curPageNo, 10));
+
+        List<AnimalPreviewRes> bookmarkedListres = bookmarkedList.stream()
+                .map(animal -> {
+                    StringTokenizer token = new StringTokenizer(animal.getKind());
+                    String temp = token.nextToken();
+                    AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
+                            .desertionNo(animal.getDesertionNo())
+                            .sexCd(animal.getSexcd())
+                            .thumbnail(animal.getImage1())
+                            .category(temp.substring(1, temp.length()-1))
+                            .detailKind(token.nextToken())
+                            .build();
+                    return animalPreviewRes;
+                })
+                .collect(Collectors.toList());
+        return bookmarkedListres;
+    }
+
+
 }
