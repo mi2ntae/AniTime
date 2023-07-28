@@ -1,21 +1,27 @@
 package com.moi.anitime.model.entity.chat;
 
 
+import com.moi.anitime.model.entity.BaseTimeEntity;
 import com.moi.anitime.model.entity.member.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDateTime;
 
 @Entity(name = "chatmessage")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessage {
+@Builder
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "updateChatMessagesRead",
+                query = "UPDATE ChatMessage SET isread = 1 WHERE roomno = :roomno AND sendno != :sendno"
+        )
+})
+public class ChatMessage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatno")
@@ -28,9 +34,7 @@ public class ChatMessage {
     @ManyToOne
     @JoinColumn(name = "sendno")
     private Member sender;
-    @Column(name = "writtentime")
-    @CreatedDate
-    private LocalDateTime writtenTime;
-    @Column(columnDefinition = "TINYINT(3)")
-    private boolean read;
+    @Column(name="isread", columnDefinition = "TINYINT(3)")
+    private boolean isread;
+
 }

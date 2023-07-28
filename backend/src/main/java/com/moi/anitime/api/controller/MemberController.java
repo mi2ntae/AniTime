@@ -3,7 +3,7 @@ package com.moi.anitime.api.controller;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.ResponseService;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
@@ -29,7 +29,7 @@ public class MemberController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = -1025, message = "없는 회원"),
     })
-    public SingleResponse findById(@PathVariable("memberNo") int memberNo) throws NoExistMemberNoException {
+    public SingleResponse findById(@PathVariable("memberNo") int memberNo) throws NonExistMemberNoException {
         Member member = memberService.findGeneralMemberById(memberNo);
         return responseService.getSingleResponse(member);
     }
