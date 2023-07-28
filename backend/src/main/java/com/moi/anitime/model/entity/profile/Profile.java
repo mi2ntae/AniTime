@@ -20,7 +20,7 @@ public class Profile {
     @Column(name = "profileno")
     private int profileNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "generalno")
     private GeneralMember generalMember;
 
