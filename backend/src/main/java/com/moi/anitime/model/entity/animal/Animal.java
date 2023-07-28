@@ -1,9 +1,6 @@
 package com.moi.anitime.model.entity.animal;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
