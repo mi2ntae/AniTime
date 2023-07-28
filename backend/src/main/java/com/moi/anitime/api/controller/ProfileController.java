@@ -7,25 +7,13 @@ import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.model.entity.profile.Profile;
-import com.moi.anitime.model.entity.profile.ProfileListDTO;
+import com.moi.anitime.api.response.profile.ProfileListRes;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.UUID;
 
 @Api(value = "실종동물 프로필 Api", tags = {"Profile"})
 @RestController
@@ -40,7 +28,7 @@ public class ProfileController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse registerProfile(@RequestPart("profile") @Validated ProfileRegistReq profileRegistReq, @RequestPart("image") MultipartFile image) throws Exception {
+    public CommonResponse registerProfile(@RequestPart(value = "profile", required = false) @Validated ProfileRegistReq profileRegistReq, @RequestPart("image") MultipartFile image) throws Exception {
 
 //        Optional<MultipartFile> imageFile = Optional.ofNullable(image); // 이미지가 Null이 들어와도 예외처리 x
 
@@ -87,7 +75,7 @@ public class ProfileController {
     @GetMapping("/{generalNo}")
     @ApiOperation(value = "실종동물 프로필 목록 조회")
     @ApiResponse(code = 200, message = "성공")
-    public ListResponse<ProfileListDTO> getProfileList(@PathVariable("generalNo") int generalNo) {
+    public ListResponse<ProfileListRes> getProfileList(@PathVariable("generalNo") int generalNo) {
         return responseService.getListResponse(profileService.findNamesById(generalNo));
     }
 
