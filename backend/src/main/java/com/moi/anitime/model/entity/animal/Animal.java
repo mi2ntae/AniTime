@@ -29,7 +29,7 @@ public class Animal {
     String color;
     char sexcd;
     int age;
-    int weight;
+    float weight;
     @Column(name="specialmark")
     String specialMark;
     char neutral;
@@ -42,6 +42,6 @@ public class Animal {
     LocalDate noticeEdate;
     String image1;
     String image2;
-    BigDecimal lat;
-    BigDecimal lon;
+    float lat;
+    float lon;
 }

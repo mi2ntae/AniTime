@@ -4,13 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Component
 class AnimalScheduleTest {
 
     RestTemplateBuilder restTemplateBuilder;
-    private DataApiAnimal dataApiAnimal = new DataApiAnimal(); // MockBean을 사용하여 테스트용 더미 객체 생성
+    private DataApiAnimal dataApiAnimal; // MockBean을 사용하여 테스트용 더미 객체 생성
 
     @Test
     void apicall() throws InterruptedException {
