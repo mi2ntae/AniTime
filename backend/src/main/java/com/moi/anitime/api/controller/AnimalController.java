@@ -1,15 +1,19 @@
 package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.ResponseService;
+import com.moi.anitime.api.request.bookmark.BookmarkReq;
+import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.service.animal.AnimalService;
+import com.moi.anitime.model.service.bookmark.BookmarkService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(value = "입양동물 API", tags = {"Animal"})
 @RestController
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnimalController {
     private final AnimalService animalService;
     private final ResponseService responseService;
+    private final BookmarkService bookmarkService;
     @GetMapping("")
     public ListResponse<Animal> getAllAnimal(
             @RequestParam int generalNo,
@@ -26,5 +31,13 @@ public class AnimalController {
             @RequestParam int sortType,
             @RequestParam int curPageNo){
         return responseService.getListResponse(animalService.getAllAnimal(generalNo,kindType,genderType,sortType,curPageNo));
+    }
+
+    @PostMapping("/like")
+    @ApiOperation(value = "즐겨찾기 등록 및 삭제")
+    @ApiResponse(code = 200, message = "성공")
+    public CommonResponse bookmark(@RequestBody @Valid BookmarkReq bookmarkReq) {
+        bookmarkService.bookmark(bookmarkReq);
+        return responseService.getSuccessResponse();
     }
 }
