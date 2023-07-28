@@ -92,6 +92,7 @@ const HeaderItem = styled.p`
   height: 100%;
   box-sizing: border-box;
   border-bottom: ${(props) => (props.$selected ? "black" : "white")} 2px solid;
+  cursor: pointer;
 `;
 
 const Body = styled.div`
@@ -111,4 +112,5 @@ const Footer = styled.div`
   height: 50px;
   box-sizing: border-box;
   border-top: grey 1px solid;
+  cursor: pointer;
 `;

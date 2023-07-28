@@ -1,5 +1,7 @@
 package com.moi.anitime.api.controller;
 
+import com.moi.anitime.api.request.chat.ChatMessageReq;
+import com.moi.anitime.api.response.chat.ChatRes;
 import com.moi.anitime.model.entity.chat.ChatMessage;
 import com.moi.anitime.model.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,10 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class MessageController {
     private final SimpMessagingTemplate smso;
-    private final ChatService service;
-
+    private final ChatService chatService;
     @MessageMapping("/message")
-    public void message(ChatMessage message) throws SQLException {
-//        service.addChat(message);
-//        smso.convertAndSend("/sub/"+message.getRoomId(), message);
+    public void message(ChatMessageReq message) {
+        ChatRes chat = chatService.sendChat(message);
+        smso.convertAndSend("/sub/"+message.getRoomNo(), chat);
     }
 }

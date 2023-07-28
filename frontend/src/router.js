@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Main from "./components/Main/Main";
-import Desertion from "./pages/DesertionPage";
-import Missing from "./pages/MissingPage";
-import DesertionReservation from "components/Desertion/DesertionReservation";
+import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
+import MyPageChatting from "pages/mypagetab/MyPageChatting";
+import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
+import MyPage from "pages/MyPage";
 
 const router = createBrowserRouter([
   {
@@ -12,25 +12,61 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Main />,
+        async lazy() {
+          return {
+            Component: (await import("pages/MainPage")).default,
+          };
+        },
       },
       {
         path: "desertion",
-        element: <Desertion />,
+        async lazy() {
+          return {
+            Component: (await import("pages/DesertionPage")).default,
+          };
+        },
       },
       {
         path: "desertion/reservation",
-        element: <DesertionReservation />,
+        async lazy() {
+          return {
+            Component: (
+              await import("components/Desertion/DesertionReservation")
+            ).default,
+          };
+        },
       },
       {
         path: "missing",
-        element: <Missing />,
+        async lazy() {
+          return {
+            Component: (await import("pages/MissingPage")).default,
+          };
+        },
+      },
+      {
+        path: "mypage",
+        element: <MyPage />,
+        children: [
+          {
+            path: "meeting",
+            element: <MyPageMeeting />,
+          },
+          {
+            path: "chatting",
+            element: <MyPageChatting />,
+          },
+          {
+            path: "watchlist",
+            element: <MyPageWatchlist />,
+          },
+        ],
       },
       {
         path: "path",
         async lazy() {
           return {
-            Component: (await import("./components/RouterTest")).default,
+            Component: (await import("pages/RouterTestPage")).default,
           };
         },
       },
@@ -39,7 +75,7 @@ const router = createBrowserRouter([
         async lazy() {
           return {
             // 컴포넌트 import
-            Component: (await import("./components/RouterTest")).default,
+            Component: (await import("pages/RouterTestPage")).default,
           };
         },
       },

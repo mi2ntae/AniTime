@@ -54,7 +54,7 @@ COLLATE='utf8mb4_bin'
 CREATE TABLE `ShelterMember` (
 	`shelterNo`	Int	NOT NULL PRIMARY KEY,
 	`addr`	VARCHAR(255)	NULL,
-	`evidence`	LONGBLOB	NULL
+	`evidence`	VARCHAR(255)	NULL
 )
 COMMENT='보호소 회원 세부 정보'
 COLLATE='UTF8MB4_BIN'
@@ -85,7 +85,7 @@ CREATE TABLE `ChatMessage` (
 	`type`	Int	NULL,
 	`sendNo`	Int	NULL,
 	`writtenTime`	datetime	NULL,
-	`read`	tinyint	NULL
+	`isRead`	tinyint	NULL
 )
 COMMENT='채팅메세지 관련 테이블'
 COLLATE='utf8mb4_bin'

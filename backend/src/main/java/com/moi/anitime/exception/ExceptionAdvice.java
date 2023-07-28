@@ -2,13 +2,16 @@ package com.moi.anitime.exception;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseServiceImpl;
+import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
+import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
+import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,18 +32,32 @@ public class ExceptionAdvice {
         return responseService.getFailResponse(ExceptionList.EXIST_EMAIL.getCode(), ExceptionList.EXIST_EMAIL.getMessage());
     }
 
-    @ExceptionHandler(NoExistMemberNoException.class)
+    @ExceptionHandler(NonExistMemberNoException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResponse noExistMemberException() {
+    protected CommonResponse nonExistMemberException() {
         log.error("no exist member exception");
-        return responseService.getFailResponse(ExceptionList.NO_EXIST_MEMBER_NO.getCode(), ExceptionList.NO_EXIST_MEMBER_NO.getMessage());
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_MEMBER_NO.getCode(), ExceptionList.NON_EXIST_MEMBER_NO.getMessage());
+    }
+
+    @ExceptionHandler(NonExistDesertionNoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonExistDesertionNoException() {
+        log.error("no exist desertion no exception");
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_DESERTION_NO.getCode(), ExceptionList.NON_EXIST_DESERTION_NO.getMessage());
+    }
+
+    @ExceptionHandler(UnknownMemberKindException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse unknownMemberKindException() {
+        log.error("unknown member kind");
+        return responseService.getFailResponse(ExceptionList.UNKNOWN_MEMBER_KIND.getCode(), ExceptionList.UNKNOWN_MEMBER_KIND.getMessage());
     }
 
     @ExceptionHandler(NoExistProfileNoException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse noExistProfileException() {
         log.error("no exist profile exception");
-        return responseService.getFailResponse(ExceptionList.NO_EXIST_PROFILE_NO.getCode(), ExceptionList.NO_EXIST_PROFILE_NO.getMessage());
+        return responseService.getFailResponse(ExceptionList.UNSUPPORTED_FILE_TYPE.getCode(), ExceptionList.UNSUPPORTED_FILE_TYPE.getMessage());
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)
@@ -71,11 +88,18 @@ public class ExceptionAdvice {
         return responseService.getFailResponse(ExceptionList.NON_EXIST_EMAIL.getCode(), ExceptionList.NON_EXIST_EMAIL.getMessage());
     }
 
+    @ExceptionHandler(UnSupportedFileTypeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse unsupportedFileTypeException() {
+        log.error("unsupported file type exception");
+        return responseService.getFailResponse(ExceptionList.UNSUPPORTED_FILE_TYPE.getCode(), ExceptionList.UNSUPPORTED_FILE_TYPE.getMessage());
+    }
+
     // 제일 아래에 있었으면 합니다 - 민태 -
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse unknown(Exception e) {
-        log.error("unknown exception", e);
+        log.error("unknown exception", e.getMessage());
         return responseService.getFailResponse(ExceptionList.UNKNOWN.getCode(), ExceptionList.UNKNOWN.getMessage());
     }
 
