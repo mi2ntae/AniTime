@@ -1,10 +1,12 @@
 package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
+import com.moi.anitime.api.response.profile.ProfileDetailRes;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
+import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.profile.Profile;
-import com.moi.anitime.model.entity.profile.ProfileListDTO;
+import com.moi.anitime.api.response.profile.ProfileListRes;
 import com.moi.anitime.model.repo.ProfileRepo;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,11 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public void deleteProfile(int profileNo) {
+        Optional<Profile> profile = profileRepo.findById(profileNo);
+        if (!profile.isPresent()) throw new NoExistProfileNoException();
+        Profile temp = profile.get();
+
+        if (!temp.getImage().isBlank()) s3Uploader.deleteFileFromS3Bucket(temp.getImage());
         profileRepo.deleteById(profileNo);
     }
 
@@ -86,14 +93,30 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public List<ProfileListDTO> findNamesById(int generalNo) {
+    public List<ProfileListRes> findNamesById(int generalNo) {
         return profileRepo.findProfileListByMemberNo(generalNo);
     }
 
     @Override
-    public Profile findProfileById(int profileNo) throws NoExistProfileNoException {
+    public ProfileDetailRes findProfileById(int profileNo) throws NoExistProfileNoException {
         Optional<Profile> profile = profileRepo.findById(profileNo);
         if (!profile.isPresent()) throw new NoExistProfileNoException();
-        return profile.get();
+        Profile res = profile.get();
+        ProfileDetailRes profileDetailRes = ProfileDetailRes.builder()
+                .profileNo(res.getProfileNo())
+                .generalMember(res.getGeneralMember())
+                .profileName(res.getProfileName())
+                .profileKind(res.getProfileKind())
+                .detailKind(res.getDetailKind())
+                .sexCode(res.getSexCode())
+                .profileAge(res.getProfileAge())
+                .specialMark(res.getSpecialMark())
+                .dateAt(res.getDateAt())
+                .profileLocation(res.getProfileLocation())
+                .lat(res.getLat())
+                .lon(res.getLon())
+                .image(res.getImage())
+                .build();
+        return profileDetailRes;
     }
 }

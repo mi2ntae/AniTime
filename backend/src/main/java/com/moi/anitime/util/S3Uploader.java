@@ -76,4 +76,9 @@ public class S3Uploader {
         return Optional.empty();
     }
 
+    public void deleteFileFromS3Bucket(String filePath) {
+        if (amazonS3Client.doesObjectExist(bucket, filePath))
+            amazonS3Client.deleteObject(bucket, filePath);
+    }
+
 }

@@ -1,13 +1,12 @@
 package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
-import com.moi.anitime.api.request.profile.ProfileRegistReq;
+import com.moi.anitime.api.response.profile.ProfileDetailRes;
 import com.moi.anitime.model.entity.profile.Profile;
-import com.moi.anitime.model.entity.profile.ProfileListDTO;
+import com.moi.anitime.api.response.profile.ProfileListRes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProfileService {
     void registProfile(MultipartFile image, Profile profile) throws Exception;
@@ -16,8 +15,8 @@ public interface ProfileService {
 
     void updateProfile(int profileNo, ProfileModifyReq profileModifyReq);
 
-    List<ProfileListDTO> findNamesById(int generalNo);
+    List<ProfileListRes> findNamesById(int generalNo);
 
-    Profile findProfileById(int profileNo);
+    ProfileDetailRes findProfileById(int profileNo);
 
 }
