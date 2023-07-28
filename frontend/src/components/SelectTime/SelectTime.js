@@ -110,7 +110,12 @@ export default function SelectTime() {
   );
 }
 
-const PageContainer = styled.div``;
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 const ShelterContainer = styled.div`
   margin-bottom: 50px;
   div {
