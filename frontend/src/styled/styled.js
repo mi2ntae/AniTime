@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 
 const MainContainer = styled.div`
-  display: flex;
+display: flex;
   justify-content: center;
   ${({ $vertical }) =>
     $vertical &&
@@ -14,10 +14,11 @@ const MainContainer = styled.div`
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
-  max-width:1240px;
+  max-width: 1240px;
   min-width: 800px;
   min-height: calc(100vh - 160px);
 `;
+
 
 const Button = styled.button`
   display: flex;

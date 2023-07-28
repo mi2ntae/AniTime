@@ -21,27 +21,28 @@ export default function MyPage() {
   ];
 
   return (
-    <MainContainer>
-      <PageContainer>
-        <MyPageHeader>
-          <Span font-size="50px">김민태</Span>
-          <Button
-            background_color="#3994f0;"
-            width="100px"
-            height="60px"
-            color="white"
-          >
-            정보수정하기
-          </Button>
-        </MyPageHeader>
-        <TabGroup>
-          {tabArr.map((section, idx) => {
-            return <Tab key={idx}>{section.tabTitle}</Tab>;
-          })}
-        </TabGroup>
-        <hr />
+    <MainContainer $vertical>
+      <MyPageHeader>
+        <Span>김민태</Span>
+        <Button
+          background_color="#3994f0;"
+          width="100px"
+          height="60px"
+          color="white"
+        >
+          정보수정하기
+        </Button>
+      </MyPageHeader>
+      <TabGroup>
+        {tabArr.map((section, idx) => {
+          return <Tab key={idx}>{section.tabTitle}</Tab>;
+        })}
+      </TabGroup>
+      <DivisionLine />
+      <TabPage>
         <Outlet />
-      </PageContainer>
+      </TabPage>
+      <Margin />
       <Routes>
         <Route path="/mypage/meeting" element={<MyPageMeeting />}></Route>
         <Route path="/mypage/chatting" element={<MyPageChatting />}></Route>
@@ -51,20 +52,32 @@ export default function MyPage() {
   );
 }
 
-const PageContainer = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  min-width: 800px;
+const DivisionLine = styled.div`
+  border-top: 1px solid #444444;
+  margin-bottom: 50px;
 `;
-
+const Margin = styled.div`
+  margin-top: 100px;
+`;
 const MyPageHeader = styled.div`
   display: flex;
   flex-direction: row;
   height: 100px;
   align-items: center;
+  justify-content: space-between;
 `;
 const Span = styled.div`
   font-size: 30px;
+  float: left;
+`;
+const TabPage = styled.div`
+  width: 1000px;
+  height: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 8px;
 `;
 
 const TabGroup = styled.div`
@@ -72,7 +85,9 @@ const TabGroup = styled.div`
   flex-direction: row;
 `;
 const Tab = styled.div`
-  flex: 1;
+  display: flex;
+  padding-right: 15px;
+  justify-content: flex-start;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -82,6 +97,5 @@ const StyledNavLink = styled(NavLink)`
     color: #3994f0;
     font-weight: bold;
     border-bottom: 3.5px solid;
-    padding-bottom: 6.5px;
   }
 `;
