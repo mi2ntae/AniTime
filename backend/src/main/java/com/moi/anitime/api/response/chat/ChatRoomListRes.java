@@ -1,4 +1,4 @@
-package com.moi.anitime.api.response;
+package com.moi.anitime.api.response.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatRoomResponse {
+public class ChatRoomListRes {
     private int roomNo;
-    private String shelterName;
+    private String name;
     private String lastMsg;
     private int unreadCnt;
 }

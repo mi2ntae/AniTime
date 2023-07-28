@@ -5,22 +5,22 @@ import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.EditInfoException;
 import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NoExistMemberNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
 import com.moi.anitime.exception.member.PasswordIncorrectException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -30,10 +30,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
 	private final PasswordEncoder passwordEncoder;
+	private final S3Uploader s3Uploader;
+	@Value("{shelterMember.evidence.path")
+	private String imgPath;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
@@ -44,7 +46,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void registShelterMember(ShelterMemberRegistReq memberRegistReq, MultipartFile image) throws IOException, SQLException {
 		if(memberRepo.findByEmail(memberRegistReq.getEmail()).isPresent()) throw new ExistEmailException();
-		Member member = memberRegistReq.toEntity(passwordEncoder, image.getBytes());
+		String storedFileName = s3Uploader.upload(image, imgPath);
+		Member member = memberRegistReq.toEntity(passwordEncoder, storedFileName);
 		memberRepo.save(member);
 	}
 
@@ -56,16 +59,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findGeneralMemberById(int memberNo) throws NoExistMemberNoException{
+	public Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException {
 		Optional<GeneralMember> member = memberRepo.findGeneralMemberByMemberNo(memberNo);
-		if(!member.isPresent()) throw new NoExistMemberNoException();
+		if(!member.isPresent()) throw new NonExistMemberNoException();
 		return member.get();
 	}
 
 	@Override
-	public Member findShelterMemberById(int memberNo) throws NoExistMemberNoException{
+	public Member findShelterMemberById(int memberNo) throws NonExistMemberNoException {
 		Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
-		if(!member.isPresent()) throw new NoExistMemberNoException();
+		if(!member.isPresent()) throw new NonExistMemberNoException();
 		return member.get();
 	}
 
