@@ -3,7 +3,7 @@ import App from "./App";
 import Main from "./components/Main/Main";
 import Desertion from "./pages/DesertionPage";
 import Missing from "./pages/MissingPage";
-
+import DesertionReservation from "components/Desertion/DesertionReservation";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
         element: <Desertion />,
       },
       {
-        path:"desertion/reservation",
-        element:<DesertionReservation/>,
+        path: "desertion/reservation",
+        element: <DesertionReservation />,
       },
       {
         path: "missing",
