@@ -4,6 +4,7 @@ import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.request.bookmark.BookmarkReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.ListResponse;
+import com.moi.anitime.api.response.animal.AnimalPreviewRes;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.service.animal.AnimalService;
 import com.moi.anitime.model.service.bookmark.BookmarkService;
@@ -39,5 +40,12 @@ public class AnimalController {
     public CommonResponse bookmark(@RequestBody @Valid BookmarkReq bookmarkReq) {
         bookmarkService.bookmark(bookmarkReq);
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping("/bookmark/{generalNo}")
+    @ApiOperation(value = "즐겨찾기 유기동물 목록 조회")
+    @ApiResponse(code = 200, message = "성공")
+    public ListResponse<AnimalPreviewRes> getBookmarkedAnimal(@PathVariable int generalNo, @RequestParam int curpageNo) {
+        return responseService.getListResponse(animalService.getBookmarkedAnimal(generalNo, curpageNo));
     }
 }
