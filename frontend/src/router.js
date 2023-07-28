@@ -63,10 +63,10 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "path",
+        path: "login",
         async lazy() {
           return {
-            Component: (await import("pages/RouterTestPage")).default,
+            Component: (await import("pages/LoginPage")).default,
           };
         },
       },
