@@ -7,7 +7,7 @@ import SelectTime from "../SelectTime/SelectTime";
 
 export default function DesertionReservation() {
   var agreed = true;
-  var selected = false;
+  var selected = true;
   // 배경색 넣기
   return (
     <MainContainer
