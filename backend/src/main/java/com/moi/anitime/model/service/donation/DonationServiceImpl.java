@@ -10,14 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-//@Service
+@Service
 @Slf4j
 public class DonationServiceImpl implements DonationService {
     private final DonationBoardRepo donationBoardRepo;
 
     @Override
     public void registDonationBoard(DonationBoardRegistReq donationBoardRegistReq) {
-//        donationBoardRepo.save(donationBoardRegistReq.toEntity());
+        System.out.println(donationBoardRegistReq.toEntity());
+        donationBoardRepo.save(donationBoardRegistReq.toEntity());
     }
 
     @Override

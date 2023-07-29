@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Data
+//@Data
 @ApiModel("donationRegistReq")
 public class DonationBoardRegistReq {
     @NotNull
@@ -35,11 +35,11 @@ public class DonationBoardRegistReq {
 
     @NotNull
     @ApiModelProperty(name = "시작일")
-    private LocalDateTime startAt;
+    private String startAt;
 
     @NotNull
     @ApiModelProperty(name = "종료일")
-    private LocalDateTime endAt;
+    private String endAt;
 
     @ApiModelProperty(name = "포스터")
     private String poster;
@@ -51,8 +51,8 @@ public class DonationBoardRegistReq {
                 .title(this.title)
                 .goalAmount(this.goalAmount)
                 .attainAmount(0)
-                .startAt(this.startAt)
-                .endAt(this.endAt)
+                .startAt(LocalDateTime.parse(this.startAt))
+                .endAt(LocalDateTime.parse(this.endAt))
                 .poster(this.poster)
                 .build();
     }

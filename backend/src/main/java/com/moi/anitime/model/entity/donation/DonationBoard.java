@@ -7,11 +7,12 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//@Entity(name = "donationboard")
+@Entity(name = "donationboard")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builder
+@SuperBuilder
 @ToString
 @NamedNativeQueries({
         @NamedNativeQuery(
@@ -29,7 +30,7 @@ public class DonationBoard {
     @Column(name = "shelterno")
     private int shelterNo;
     @ManyToOne
-    @JoinColumn(name = "shelterno")
+    @JoinColumn(name = "shelterno", insertable = false, updatable = false)
     private ShelterMember shelter;      // int NOT NULL,
     private String image1;      // varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '썸네일용 이미지로 필수',
     private String title;       // varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
