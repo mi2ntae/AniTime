@@ -44,8 +44,8 @@ CREATE TABLE `Animal` (
 	`noticeEdate`	DATE NOT NULL,
 	`image1`	varchar(255)	NULL,
 	`image2`	varchar(255)	NULL,
-	`lat`	decimal	not NULL,
-	`lon`	decimal	not NULL
+	`lat`	float	not NULL,
+	`lon`	float	not NULL
 )
 COMMENT='보호소 회원이 보호 및 공고 중인 유기동물 데이터 테이블'
 COLLATE='utf8mb4_bin'
