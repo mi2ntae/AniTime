@@ -49,7 +49,7 @@ public class DataApiAnimal {
             e.printStackTrace();
         }
 
-        List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
+        //List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
 
         return data;
     }

@@ -82,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException {
 
-		return memberRepo.findAllByMemberKind();
+		return null;
 	}
 
 

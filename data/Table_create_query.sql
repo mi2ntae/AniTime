@@ -36,7 +36,7 @@ CREATE TABLE `Animal` (
 	`color`	varchar(32)	not NULL,
 	`sexcd`  CHAR(1) not NULL DEFAULT 'Q' COMMENT 'F : 암컷 M : 수컷 Q : 미상',
 	`age`	INT NOT NULL DEFAULT 1,
-	`weight`	INT DEFAULT 1,
+	`weight`	float DEFAULT 1,
 	`specialMark`	varchar(255)	NULL,
 	`neutral`	CHAR(1)	NULL COMMENT 'Y: 예 N : 아니오 U : 미상 ',
 	`noticeNo`	varchar(255)	NULL,
