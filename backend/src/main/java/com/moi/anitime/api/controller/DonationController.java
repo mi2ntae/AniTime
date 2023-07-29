@@ -12,11 +12,14 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Api(value = "후원 API", tags = {"Donation"})
-//@RestController
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/donation")
 public class DonationController {
@@ -28,7 +31,7 @@ public class DonationController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse registDonationBoard(@Validated DonationBoardRegistReq donationBoardRegistReq) {
+    public CommonResponse registDonationBoard(@RequestBody @Valid DonationBoardRegistReq donationBoardRegistReq) {
         donationService.registDonationBoard(donationBoardRegistReq);
         return responseService.getSuccessResponse();
     }

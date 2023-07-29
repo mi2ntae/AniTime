@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-//@Repository
-public interface DonationBoardRepo {//extends JpaRepository<DonationBoard, Integer> {
+@Repository
+public interface DonationBoardRepo extends JpaRepository<DonationBoard, Integer> {
     public Optional<DonationBoard> findDonationBoardByBoardNo(@Param("boardno") int boardNo);
     public List<DonationBoard> findDonationBoardsBy(Pageable page);
     public List<DonationBoard> findDonationBoardsByShelter_MemberNo(@Param("shelterno") int shelterNo, Pageable page);
