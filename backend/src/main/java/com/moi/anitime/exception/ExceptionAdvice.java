@@ -6,6 +6,7 @@ import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
+import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
@@ -95,11 +96,18 @@ public class ExceptionAdvice {
         return responseService.getFailResponse(ExceptionList.UNSUPPORTED_FILE_TYPE.getCode(), ExceptionList.UNSUPPORTED_FILE_TYPE.getMessage());
     }
 
+    @ExceptionHandler(NonExistDonationBoardException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonExistDonationBoardException() {
+        log.error("non exist donation board exception");
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_DONATION_BOARD.getCode(), ExceptionList.NON_EXIST_DONATION_BOARD.getMessage());
+    }
+
     // 제일 아래에 있었으면 합니다 - 민태 -
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse unknown(Exception e) {
-        log.error("unknown exception", e.getMessage());
+        log.error("unknown exception {}", e.getMessage());
         return responseService.getFailResponse(ExceptionList.UNKNOWN.getCode(), ExceptionList.UNKNOWN.getMessage());
     }
 
