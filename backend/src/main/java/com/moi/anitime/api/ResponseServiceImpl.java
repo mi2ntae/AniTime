@@ -1,13 +1,11 @@
 package com.moi.anitime.api;
 
-import com.moi.anitime.api.response.CommonResponse;
-import com.moi.anitime.api.response.ListResponse;
-import com.moi.anitime.api.response.LoginResponse;
-import com.moi.anitime.api.response.SingleResponse;
+import com.moi.anitime.api.response.*;
 import com.moi.anitime.model.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +32,13 @@ public class ResponseServiceImpl implements ResponseService{
     public <T> ListResponse<T> getListResponse(List<T> list) {
         ListResponse<T> result = new ListResponse<T>();
         result.setData(list);
+        this.setSuccessResult(result);
+        return result;
+    }
+
+    public <T> PageResponse<T> getPageResponse(Page<T> page) {
+        PageResponse<T> result = new PageResponse<T>();
+        result.setData(page);
         this.setSuccessResult(result);
         return result;
     }
