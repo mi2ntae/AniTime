@@ -1,10 +1,8 @@
 package com.moi.anitime.api.request.donation;
 
 import com.moi.anitime.model.entity.donation.DonationBoard;
-import com.moi.anitime.model.entity.member.ShelterMember;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-//@Data
 @ApiModel("donationRegistReq")
 public class DonationBoardRegistReq {
     @NotNull
