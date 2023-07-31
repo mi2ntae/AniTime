@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnimalPreviewRes {
-    private int desertionNo;
+    private long desertionNo;
 
     private String category; // 축종
     private String detailKind;

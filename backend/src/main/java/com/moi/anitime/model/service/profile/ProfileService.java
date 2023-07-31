@@ -6,6 +6,7 @@ import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.api.response.profile.ProfileListRes;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProfileService {
@@ -13,7 +14,7 @@ public interface ProfileService {
 
     void deleteProfile(int profileNo);
 
-    void updateProfile(int profileNo, ProfileModifyReq profileModifyReq);
+    void updateProfile(int profileNo, ProfileModifyReq profileModifyReq, MultipartFile image) throws IOException;
 
     List<ProfileListRes> findNamesById(int generalNo);
 
