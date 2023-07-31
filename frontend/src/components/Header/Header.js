@@ -3,8 +3,12 @@ import NavBar from "./NavBar";
 import { styled } from "styled-components";
 import Logo from "./Logo";
 import Notice from "../Notice/Notice";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const member = useSelector((state) => state.member);
+
   return (
     <StyleHeader>
       <HeaderDiv>
@@ -15,7 +19,9 @@ export default function Header() {
         <HeaderRight>
           <Img src="/icons/ic_help.svg" alt="help" />
           <Notice />
-          <Img src="/icons/ic_account.svg" alt="account" />
+          <Link to={member.token ? "mypage" : "login"}>
+            <Img src="/icons/ic_account.svg" alt="account" />
+          </Link>
         </HeaderRight>
       </HeaderDiv>
     </StyleHeader>
