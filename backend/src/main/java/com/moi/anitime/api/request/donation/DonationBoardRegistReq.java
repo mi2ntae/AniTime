@@ -12,15 +12,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ApiModel("donationRegistReq")
+@ApiModel("donationBoardRegistReq")
 public class DonationBoardRegistReq {
     @NotNull
     @ApiModelProperty(name = "보호소 회원 번호")
     private int shelterNo;
-
-    @NotBlank
-    @ApiModelProperty(name = "썸네일 이미지")
-    private String image1;
 
     @NotBlank
     @ApiModelProperty(name = "공고 제목")
@@ -38,19 +34,15 @@ public class DonationBoardRegistReq {
     @ApiModelProperty(name = "종료일")
     private String endAt;
 
-    @ApiModelProperty(name = "포스터")
-    private String poster;
 
     public DonationBoard toEntity() {
         return DonationBoard.builder()
                 .shelterNo(this.shelterNo)
-                .image1(this.image1)
                 .title(this.title)
                 .goalAmount(this.goalAmount)
                 .attainAmount(0)
                 .startAt(LocalDateTime.parse(this.startAt))
                 .endAt(LocalDateTime.parse(this.endAt))
-                .poster(this.poster)
                 .build();
     }
 }
