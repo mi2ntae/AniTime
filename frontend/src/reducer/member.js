@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { http } from "../api/commonHttp.js";
 
 const initialState = {
   token: "",
@@ -14,10 +15,10 @@ const memberSlice = createSlice({
   reducers: {
     setMember: (state, action) => {
       state.token = action.payload.token;
-      state.memberNo = action.payload.memberNo;
-      state.name = action.payload.name;
-      state.memberKind = action.payload.memberKind;
-      state.snsCheck = action.payload.snsCheck;
+      state.memberNo = action.payload.member.memberNo;
+      state.name = action.payload.member.name;
+      state.memberKind = action.payload.member.memberKind;
+      state.snsCheck = action.payload.member.snsCheck;
     },
   },
 });
