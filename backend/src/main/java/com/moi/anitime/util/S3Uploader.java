@@ -77,8 +77,10 @@ public class S3Uploader {
     }
 
     public void deleteFileFromS3Bucket(String filePath) {
-        if (amazonS3Client.doesObjectExist(bucket, filePath))
-            amazonS3Client.deleteObject(bucket, filePath);
+        String fileName = filePath.substring(48, filePath.length());
+        if (amazonS3Client.doesObjectExist(bucket, fileName)) {
+            amazonS3Client.deleteObject(bucket, fileName);
+        }
     }
 
 }

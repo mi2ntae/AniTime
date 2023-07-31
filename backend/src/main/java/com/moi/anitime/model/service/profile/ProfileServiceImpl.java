@@ -49,8 +49,9 @@ public class ProfileServiceImpl implements ProfileService{
         Optional<Profile> profile = profileRepo.findById(profileNo);
         if (!profile.isPresent()) throw new NoExistProfileNoException();
         Profile temp = profile.get();
-
-        if (!temp.getImage().isBlank()) s3Uploader.deleteFileFromS3Bucket(temp.getImage());
+        if (!temp.getImage().isBlank()) {
+            s3Uploader.deleteFileFromS3Bucket(temp.getImage());
+        }
         profileRepo.deleteById(profileNo);
     }
 
