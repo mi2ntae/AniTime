@@ -15,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Api(value = "실종동물 프로필 Api", tags = {"Profile"})
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class ProfileController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse registerProfile(@RequestPart(value = "profile", required = false) @Validated ProfileRegistReq profileRegistReq, @RequestPart("image") MultipartFile image) throws Exception {
+    public CommonResponse registerProfile(@RequestPart(value = "profile") @Validated ProfileRegistReq profileRegistReq, @RequestPart(value = "image", required = false) MultipartFile image) throws Exception {
 
 //        Optional<MultipartFile> imageFile = Optional.ofNullable(image); // 이미지가 Null이 들어와도 예외처리 x
 
@@ -67,8 +69,8 @@ public class ProfileController {
     @PutMapping("/{profileNo}")
     @ApiOperation(value = "실종동물 프로필 수정")
     @ApiResponse(code = 200, message = "성공")
-    public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestBody ProfileModifyReq profileModifyReq) { // 변경되는 프로필 정보만 객체에 담긴다
-        profileService.updateProfile(profileNo, profileModifyReq);
+    public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestPart ProfileModifyReq profileModifyReq, @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+        profileService.updateProfile(profileNo, profileModifyReq, image);
         return responseService.getSuccessResponse();
     }
 
