@@ -5,6 +5,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 //@RequiredArgsConstructor
+@Setter
+@Getter
 @ToString
 public class AnimalDto {
 
