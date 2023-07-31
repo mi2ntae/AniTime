@@ -341,4 +341,7 @@ REFERENCES `Member` (
 	`memberNo`
 )
 ON DELETE CASCADE
-ON UPDATE cascade;
+ON UPDATE CASCADE;
+
+INSERT INTO member VALUES (0,"aspire51@naver.com","root",1,"010-5061-8916","영천유기동물보호센터",""); 
+INSERT INTO sheltermember VALUES (1,"우리집은비밀이야", "/img/src/secret.jpg");
