@@ -104,7 +104,7 @@ COLLATE='utf8mb4_bin'
 ;
 CREATE TABLE `Bookmark` (
 	`bookmarkNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY key,
-	`desertionNo`	Int	NOT NULL,
+	`desertionNo`	bigint	NOT NULL,
 	`generalNo`	Int	NOT NULL
 )
 COMMENT='입양동물 목록 즐겨찾기'
@@ -156,7 +156,7 @@ COLLATE='utf8mb4_bin'
 CREATE TABLE `Meeting` (
 	`meetNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`generalNo`	Int	NOT NULL,
-	`desertionNo`	Int	NOT NULL,
+	`desertionNo`	bigint	NOT NULL,
 	`reservedDate`	datetime	NULL,
 	`status`	Int	NULL DEFAULT 0 COMMENT '0 : 대기 1 : 승인 2 : 거절 ',
 	`url`	varchar(255)	NULL,
@@ -168,7 +168,7 @@ COLLATE='utf8mb4_bin'
 CREATE TABLE `AdoptionForm` (
 	`formNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`generalNo`	Int	NOT NULL,
-	`desertionNo`	Int	NOT NULL,
+	`desertionNo`	bigint	NOT NULL,
 	`image`	varchar(255)	NULL
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
