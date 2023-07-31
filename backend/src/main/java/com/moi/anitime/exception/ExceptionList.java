@@ -19,6 +19,7 @@ public enum ExceptionList {
     UNKNOWN_MEMBER_KIND(-1027, "올바르지 않은 회원 종류입니다."),
     UNSUPPORTED_FILE_TYPE(-1028, "파일 형식이 잘못되었습니다."),
     NON_EXIST_DONATION_BOARD(-1029, "존재하지 않는 후원 공고입니다"),
+    NON_EXIST_DONATION(-1030, "존재하지 않는 후원 내역입니다"),
     ;
 
     private final int code;

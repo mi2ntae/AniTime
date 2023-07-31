@@ -1,31 +1,22 @@
 import ProfileTab from "components/Profile/ProfileTab";
 import React from "react";
 import { styled } from "styled-components";
-import { MainContainer } from "styled/styled";
+import { HorizontalContainer } from "styled/styled";
 
 export default function Missing() {
   return (
-    <PageContainer>
-      <MainContainer>
-        <ListFilterContainer>
-          <ListContainer>
-            <h3>실종 동물 목록</h3>
-          </ListContainer>
-        </ListFilterContainer>
-        <DetailViewBox>
-          <ProfileTab/>
-        </DetailViewBox>
-      </MainContainer>
-    </PageContainer>
+    <HorizontalContainer>
+      <ListFilterContainer>
+        <ListContainer>
+          <h3>실종 동물 목록</h3>
+        </ListContainer>
+      </ListFilterContainer>
+      <DetailViewBox>
+        <h3>상세정보창</h3>
+      </DetailViewBox>
+    </HorizontalContainer>
   );
 }
-
-const PageContainer = styled.div`
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const ListFilterContainer = styled.div`
   flex: 1;
