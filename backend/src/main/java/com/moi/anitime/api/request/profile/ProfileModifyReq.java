@@ -65,6 +65,7 @@ public class ProfileModifyReq {
                 .profileLocation(this.profileLocation)
                 .lat(this.lat)
                 .lon(this.lon)
+                .image(this.image)
                 .build();
         return profile;
     }
