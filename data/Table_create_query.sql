@@ -20,7 +20,7 @@ CREATE TABLE `Member` (
 	`memberKind`	int	DEFAULT 0  COMMENT '0 : 일반회원 1 : 보호소 회원 2 : 관리자 모드',
 	`phone`	varchar(15)	not NULL,
 	`name`	VARCHAR(50)	not NULL,
-    `DTYPE` varchar(31) 
+    `DTYPE` varchar(31) COMMENT `s: 보호소 g: 일반 회원`
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
 COLLATE='utf8mb4_bin'
@@ -28,7 +28,7 @@ COLLATE='utf8mb4_bin'
 
 
 CREATE TABLE `Animal` (
-	`desertionNo`	Int	NOT NULL PRIMARY key,
+	`desertionNo`	bigint	NOT NULL PRIMARY key,
 	`shelterNo`	Int	NOT NULL,
 	`findDate`	Date	not NULL,
 	`findPlace`	varchar(255) not NULL, 
@@ -44,6 +44,7 @@ CREATE TABLE `Animal` (
 	`noticeEdate`	DATE NOT NULL,
 	`image1`	varchar(255)	NULL,
 	`image2`	varchar(255)	NULL,
+	`processState` VARCHAR(255) NOT NULL,
 	`lat`	float	not NULL,
 	`lon`	float	not NULL
 )
@@ -341,4 +342,7 @@ REFERENCES `Member` (
 	`memberNo`
 )
 ON DELETE CASCADE
-ON UPDATE cascade;
+ON UPDATE CASCADE;
+
+INSERT INTO member VALUES (0,"aspire51@naver.com","root",1,"010-5061-8916","영천유기동물보호센터",""); 
+INSERT INTO sheltermember VALUES (1,"우리집은비밀이야", "/img/src/secret.jpg");
