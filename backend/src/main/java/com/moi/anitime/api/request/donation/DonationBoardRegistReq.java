@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ApiModel("donationRegistReq")
+@ApiModel("donationBoardRegistReq")
 public class DonationBoardRegistReq {
     @NotNull
     @ApiModelProperty(name = "보호소 회원 번호")
