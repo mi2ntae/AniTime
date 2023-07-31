@@ -1,3 +1,4 @@
+import ProfileTab from "components/Profile/ProfileTab";
 import React from "react";
 import { styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
