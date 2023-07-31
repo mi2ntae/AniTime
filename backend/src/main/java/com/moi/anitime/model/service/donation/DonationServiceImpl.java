@@ -8,13 +8,18 @@ import com.moi.anitime.model.entity.donation.DonationBoard;
 import com.moi.anitime.model.repo.DonationBoardRepo;
 import com.moi.anitime.model.repo.DonationRepo;
 import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,11 +29,23 @@ public class DonationServiceImpl implements DonationService {
     private final DonationRepo donationRepo;
     private final DonationBoardRepo donationBoardRepo;
     private final MemberRepo memberRepo;
+    private final S3Uploader s3Uploader;
+
+    @Value("{donationBoard.image.path}")
+    private String imagePath;
+    @Value("{donationBoard.poster.path}")
+    private String posterPath;
 
     @Override
-    public void registerDonationBoard(DonationBoard donationBoard) {
+    public void registerDonationBoard(DonationBoard donationBoard, MultipartFile image, MultipartFile poster) throws IOException {
         if (memberRepo.findShelterMemberByMemberNo(donationBoard.getShelterNo()).isEmpty())
             throw new NonExistMemberNoException();
+        String storedImageName = s3Uploader.upload(image, imagePath);
+        donationBoard.setImage1(storedImageName);
+        if (poster != null) {
+            String storedPosterName = s3Uploader.upload(poster, posterPath);
+            donationBoard.setPoster(storedPosterName);
+        }
         donationBoardRepo.save(donationBoard);
     }
 

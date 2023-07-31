@@ -19,8 +19,10 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Api(value = "후원 API", tags = {"Donation"})
 @RestController
@@ -35,9 +37,12 @@ public class DonationController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse registerDonationBoard(@RequestBody @Valid DonationBoardRegistReq donationBoardRegistReq)
-            throws NonExistMemberNoException {
-        donationService.registerDonationBoard(donationBoardRegistReq.toEntity());
+    public CommonResponse registerDonationBoard(
+            @RequestPart(value = "donationBoardRegistReq") @Valid DonationBoardRegistReq donationBoardRegistReq,
+            @RequestPart(value = "image") MultipartFile image,
+            @RequestPart(required = false, value = "poster") MultipartFile poster)
+            throws IOException, NonExistMemberNoException {
+        donationService.registerDonationBoard(donationBoardRegistReq.toEntity(), image, poster);
         return responseService.getSuccessResponse();
     }
 
