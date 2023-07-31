@@ -36,7 +36,19 @@ export default function MainPage() {
 
       <SliderTitle>입양을 기다리는 아이들이에요</SliderTitle>
       <Slider />
-      <div>애니타임 소개 들어갈 자리</div>
+      <IntroDiv>
+        <IntroHeader>HOW</IntroHeader>
+        <h1 style={{ fontWeight: "normal" }}>애니타임은 무엇인가요?</h1>
+        <IntroBody>
+          <IntroCard>
+            card1
+            <p>d</p>
+            <p>d</p>
+          </IntroCard>
+          <IntroCard>card2</IntroCard>
+          <IntroCard>card3</IntroCard>
+        </IntroBody>
+      </IntroDiv>
     </MainContainer>
   );
 }
@@ -87,4 +99,29 @@ const ReportNumber = styled.span`
 const SliderTitle = styled.h1`
   margin-top: 56px;
   margin-bottom: 24px;
+`;
+
+const IntroDiv = styled.div`
+  margin-top: 80px;
+  text-align: left;
+`;
+
+const IntroHeader = styled.p`
+  color: #3994f0;
+`;
+
+const IntroBody = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+`;
+
+const IntroCard = styled.div`
+  text-align: left;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border-radius: 16px;
+  border: black 1px solid;
+  margin: 32px;
+  padding: 16px;
 `;
