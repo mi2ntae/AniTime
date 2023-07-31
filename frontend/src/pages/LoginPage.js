@@ -2,31 +2,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { setMember } from "../reducer/member";
 import { MainContainer } from "styled/styled";
 import { styled } from "styled-components";
+import http from "../api/commonHttp";
 
 export default function LoginPage() {
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
   const member = useSelector((state) => {
-    // console.log(state);
     return state.member;
   });
   console.log("rend");
-  const addNumber = () => {
-    dispach(
-      setMember({
-        token: "fff",
-        memberNo: -1,
-        name: "asd",
-        memberKind: -1,
-        snsCheck: false,
+  // post 예시
+  const login = () => {
+    http
+      .post(`auth`, {
+        email: "v",
+        password: "v",
+        memberKind: 0,
       })
-    );
+      .then((res) => {
+        console.log(res.member);
+        dispatch(setMember(res));
+      });
+  };
+
+  // get 예시
+  const memberNo = 2;
+  const authen = () => {
+    http.get(`member/${memberNo}`).then((res) => {
+      console.log(res);
+    });
   };
   return (
     <PageContainer>
       <MainContainer>
         <div>
-          <div>{member.token}</div>
-          <button onClick={addNumber}>+</button>
+          <div>{member.name}</div>
+          <button onClick={login}>+</button>
+          <button onClick={authen}>-</button>
         </div>
       </MainContainer>
     </PageContainer>
