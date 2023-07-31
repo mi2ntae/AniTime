@@ -9,19 +9,12 @@ import java.time.LocalDateTime;
 
 @Entity(name = "donationboard")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
 @SuperBuilder
 @ToString
-@NamedNativeQueries({
-        @NamedNativeQuery(
-                name = "updateAttainAmountByBoardNo",
-                query = "UPDATE DonationBoard SET attainAmount = (" +
-                        "SELECT sum(donateAmount) FROM Donation WHERE boardNo = :boardNo" +
-                        ") WHERE boardNo = :boardNo"
-        )
-})
 public class DonationBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

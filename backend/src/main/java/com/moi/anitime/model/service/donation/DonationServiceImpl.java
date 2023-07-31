@@ -1,16 +1,19 @@
 package com.moi.anitime.model.service.donation;
 
-import com.moi.anitime.api.request.donation.DonationBoardRegistReq;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
+import com.moi.anitime.exception.donation.NonExistDonationException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
+import com.moi.anitime.model.entity.donation.Donation;
 import com.moi.anitime.model.entity.donation.DonationBoard;
 import com.moi.anitime.model.repo.DonationBoardRepo;
+import com.moi.anitime.model.repo.DonationRepo;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -18,15 +21,15 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class DonationServiceImpl implements DonationService {
+    private final DonationRepo donationRepo;
     private final DonationBoardRepo donationBoardRepo;
     private final MemberRepo memberRepo;
 
     @Override
-    public void registerDonationBoard(DonationBoardRegistReq donationBoardRegistReq) {
-        if (memberRepo.findShelterMemberByMemberNo(donationBoardRegistReq.getShelterNo()).isEmpty())
+    public void registerDonationBoard(DonationBoard donationBoard) {
+        if (memberRepo.findShelterMemberByMemberNo(donationBoard.getShelterNo()).isEmpty())
             throw new NonExistMemberNoException();
-        DonationBoard board = donationBoardRegistReq.toEntity();
-        donationBoardRepo.save(board);
+        donationBoardRepo.save(donationBoard);
     }
 
     @Override
@@ -46,5 +49,41 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public Page<DonationBoard> findDonationBoards(String title, String name, int curPageNo) {
         return donationBoardRepo.findDonationBoards(title, name, PageRequest.of(curPageNo, 10));
+    }
+
+    @Override
+    @Transactional
+    public void registerDonation(Donation donation) {
+        Optional<DonationBoard> donationBoard = donationBoardRepo.findDonationBoardByBoardNo(donation.getBoardNo());
+        if (donationBoard.isEmpty())
+            throw new NonExistDonationBoardException();
+        donationRepo.save(donation);
+        donationBoard.get().setAttainAmount(donationBoard.get().getAttainAmount() + donation.getDonateAmount());
+    }
+
+    @Override
+    public Donation findDonationByDonationNo(int donationNo) {
+        Optional<Donation> donation = donationRepo.findDonationByDonationNo(donationNo);
+        if (donation.isEmpty())
+            throw new NonExistDonationException();
+        return donation.get();
+    }
+
+    @Override
+    public Page<Donation> findDonationsByBoardNo(int boardNo, int curPageNo) {
+        if (donationBoardRepo.findDonationBoardByBoardNo(boardNo).isEmpty())
+            throw new NonExistDonationBoardException();
+        return donationRepo.findDonationsByBoardNo(boardNo, PageRequest.of(curPageNo, 10));
+    }
+
+    @Override
+    @Transactional
+    public void deleteDonationByDonationNo(int donationNo) {
+        Optional<Donation> donation = donationRepo.findDonationByDonationNo(donationNo);
+        if (donation.isEmpty())
+            throw new NonExistDonationException();
+        donationRepo.deleteDonationByDonationNo(donationNo);
+        Optional<DonationBoard> donationBoard = donationBoardRepo.findDonationBoardByBoardNo(donation.get().getBoardNo());
+        donationBoard.ifPresent(board -> board.setAttainAmount(board.getAttainAmount() - donation.get().getDonateAmount()));
     }
 }
