@@ -1,3 +1,4 @@
+import ProfileDetail from "components/Profile/ProfileDetail";
 import React from "react";
 import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
@@ -12,7 +13,7 @@ export default function Missing() {
           </ListContainer>
         </ListFilterContainer>
         <DetailViewBox>
-          <h3>상세정보창</h3>
+          <ProfileDetail/>
         </DetailViewBox>
       </MainContainer>
     </PageContainer>
