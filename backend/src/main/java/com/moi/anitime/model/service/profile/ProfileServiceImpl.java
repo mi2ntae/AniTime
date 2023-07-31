@@ -11,11 +11,13 @@ import com.moi.anitime.model.repo.ProfileRepo;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService{
     @Transactional
     @Override
     public void registProfile(MultipartFile image, Profile profile) throws Exception {
-        if (!image.isEmpty()) {
+        if (image != null) {
             String contentType = image.getContentType();
             if (contentType == null || !contentType.startsWith("image")) {
                 throw new UnSupportedFileTypeException();
@@ -56,40 +58,23 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void updateProfile(int profileNo, ProfileModifyReq profileModifyReq) {
+    public void updateProfile(int profileNo, ProfileModifyReq profileModifyReq, MultipartFile image) throws IOException {
         Profile profile = profileRepo.findById(profileNo)
                 .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 존재하지 않습니다. id=" + profileNo));
+        String temp = profile.getImage();
+        BeanUtils.copyProperties(profileModifyReq, profile);
+        if (image != null) {
+            if (profile.getImage() != null)s3Uploader.deleteFileFromS3Bucket(profile.getImage());
+            String contentType = image.getContentType();
+            if (contentType == null || !contentType.startsWith("image")) {
+                throw new UnSupportedFileTypeException();
+            }
+            String storedFileName = s3Uploader.upload(image, "profile");
+            profile.setImage(storedFileName);
+        } else {
 
-        if (profileModifyReq.getProfileName() != null) {
-            profile.setProfileName(profileModifyReq.getProfileName());
         }
-        if (profileModifyReq.getProfileKind() != null) {
-            profile.setProfileKind(profileModifyReq.getProfileKind());
-        }
-        if (profileModifyReq.getDetailKind() != null) {
-            profile.setDetailKind(profileModifyReq.getDetailKind());
-        }
-        if (profileModifyReq.getSexCode() != null) {
-            profile.setSexCode(profileModifyReq.getSexCode());
-        }
-        if (profileModifyReq.getProfileAge() != profile.getProfileAge()) { //손좀보기..힝
-            profile.setProfileAge(profileModifyReq.getProfileAge());
-        }
-        if (profileModifyReq.getSpecialMark() != null) {
-            profile.setSpecialMark(profileModifyReq.getSpecialMark());
-        }
-        if (profileModifyReq.getDateAt() != null) {
-            profile.setDateAt(profileModifyReq.getDateAt());
-        }
-        if (profileModifyReq.getProfileLocation() != null) {
-            profile.setProfileLocation(profileModifyReq.getProfileLocation());
-            profile.setLat(profileModifyReq.getLat());
-            profile.setLon(profileModifyReq.getLon());
-        }
-        if (profileModifyReq.getImage() != null) {
-            profile.setImage(profileModifyReq.getImage());
-        }
-        // 스웨거로 요청 보내면 null이 안들어가서 ㄱ-  싹다 수정되는건 아닌지 나중에 한번 확인해보기...
+
         profileRepo.save(profile);
     }
 
