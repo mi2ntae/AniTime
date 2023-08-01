@@ -18,6 +18,8 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "styled-components": "^6.0.5",
+    "sweetalert2": "^11.7.20",
+    "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

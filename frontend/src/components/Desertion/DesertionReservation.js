@@ -13,7 +13,7 @@ export default function DesertionReservation() {
     <MainContainer
       style={{
         width: "100vw",
-        backgroundColor: "#F7F8FA !important",
+        backgroundColor: "#F5F5F5 !important",
       }}
     >
       <Outlet />
