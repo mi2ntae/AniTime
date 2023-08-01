@@ -1,0 +1,211 @@
+.component-child,
+.component-inner,
+.component-item {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--br-5xs);
+  background-color: var(--white);
+  border: 1px solid var(--light-grey);
+  box-sizing: border-box;
+}
+.component-inner,
+.component-item {
+  height: 6.98%;
+  width: 43.33%;
+  top: 90.22%;
+  right: 51.11%;
+  bottom: 2.79%;
+  left: 5.56%;
+  border-radius: var(--br-xs);
+  border: 1px solid var(--primary);
+}
+.component-inner {
+  right: 5.56%;
+  left: 51.11%;
+  border: 1px solid var(--red);
+}
+.b6,
+.b7,
+.b8 {
+  position: absolute;
+  top: 92.04%;
+  left: 19.17%;
+  font-size: var(--font-size-base);
+  line-height: 155%;
+  font-family: var(--font-noto-sans-kr);
+  color: var(--white);
+  text-align: center;
+}
+.b7,
+.b8 {
+  left: 23.06%;
+  color: var(--primary);
+}
+.b8 {
+  left: 68.33%;
+  color: var(--red);
+}
+.div75,
+.div76 {
+  top: 44.13%;
+  font-weight: 500;
+}
+.div75 {
+  position: absolute;
+  left: 33.33%;
+  letter-spacing: 0.01em;
+  line-height: 130%;
+}
+.div76 {
+  left: 10%;
+  color: var(--grey2);
+}
+.b9,
+.div76,
+.div77,
+.div78 {
+  position: absolute;
+  letter-spacing: 0.01em;
+  line-height: 130%;
+}
+.b9 {
+  top: 40.22%;
+  left: 10%;
+  font-size: var(--font-size-xs);
+}
+.div77,
+.div78 {
+  top: 48.32%;
+  left: 33.33%;
+  font-weight: 500;
+}
+.div78 {
+  left: 10%;
+  color: var(--grey2);
+}
+.kg1 {
+  top: 52.51%;
+  left: 33.33%;
+}
+.div79,
+.div80,
+.div81,
+.kg1 {
+  position: absolute;
+  letter-spacing: 0.01em;
+  line-height: 130%;
+  font-weight: 500;
+}
+.div79 {
+  top: 52.51%;
+  left: 10%;
+  color: var(--grey2);
+}
+.div80,
+.div81 {
+  top: 56.7%;
+  left: 33.33%;
+}
+.div81 {
+  left: 10%;
+  color: var(--grey2);
+}
+.x4 {
+  top: 60.89%;
+  left: 33.33%;
+}
+.div82,
+.div83,
+.div84,
+.div85,
+.x4,
+.x5,
+.x6,
+.x7 {
+  position: absolute;
+  letter-spacing: 0.01em;
+  line-height: 130%;
+  font-weight: 500;
+}
+.div82 {
+  top: 60.89%;
+  left: 10%;
+  color: var(--grey2);
+}
+.div83,
+.div84,
+.div85,
+.x5,
+.x6,
+.x7 {
+  top: 65.08%;
+  left: 33.33%;
+}
+.div83,
+.div84,
+.div85,
+.x6,
+.x7 {
+  top: 69.27%;
+}
+.div83,
+.div84,
+.div85,
+.x7 {
+  top: 73.46%;
+}
+.div83,
+.div84,
+.div85 {
+  top: 65.08%;
+  left: 10%;
+  color: var(--grey2);
+}
+.div84,
+.div85 {
+  top: 69.27%;
+}
+.div85 {
+  top: 73.46%;
+}
+.component-child1,
+.component-child2 {
+  position: absolute;
+  height: 25.98%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 74.02%;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+}
+.component-child2 {
+  height: 36.31%;
+  bottom: 63.69%;
+}
+.rectangle-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 716px;
+}
+.component-parent {
+  position: relative;
+  background-color: var(--white);
+  width: 360px;
+  height: 716px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--black-grey);
+  font-family: var(--font-inter);
+}
