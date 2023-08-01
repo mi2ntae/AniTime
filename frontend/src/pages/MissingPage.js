@@ -3,6 +3,7 @@ import React from "react";
 import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import animaldata from "components/Missing/animaldata2.json";
+import { useIntersectionObserver } from "components/InfiniteScroll/useIntersectionObserver";
 
 export default function Missing() {
   const animals = animaldata.animals;
