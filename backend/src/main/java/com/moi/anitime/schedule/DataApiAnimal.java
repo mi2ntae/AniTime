@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.json.simple.JSONObject;
@@ -41,6 +42,7 @@ public class DataApiAnimal {
 
     private RestTemplate restTemplate = restTemplateBuilder.build() ;
 
+
     private final AnimalService animalService;
     private final MemberService memberService;
 
@@ -62,11 +64,17 @@ public class DataApiAnimal {
         String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
         String startDate = Integer.toString(year-2) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+
+        factory.setConnectTimeout(20*1000);
+        factory.setReadTimeout(20 * 1000);
+        restTemplate.setRequestFactory(factory);
+
+
         String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo="+curPage+"&bgnde="+startDate;
 
         // Send GET request and receive JSON response as a String
         String data =  restTemplate.getForObject(url, String.class);
-
         JSONParser jsonParser = new JSONParser();
         JSONArray animalOrigin = null;
         try {
@@ -78,24 +86,54 @@ public class DataApiAnimal {
             jsonObj = (JSONObject)jsonObj.get("response");
             jsonObj = (JSONObject)jsonObj.get("body");
             jsonObj = (JSONObject)jsonObj.get("items");
+
             animalOrigin = (JSONArray)jsonObj.get("item");
             System.out.println("item size : " + animalOrigin.size());
 //            System.out.println(animalOrigin.size());
-        }catch (ParseException e){
+        }catch (Exception e){
+            System.out.println(data);
             System.out.println("OpenData API ERROR");
+            return new ArrayList<AnimalDto>();
         }
 
 
         List<AnimalDto> animalDtoList = new ArrayList<>();
-
             for(int i = 0 ; i < animalOrigin.size();i++){
                 Map<String,String> cur = (Map)animalOrigin.get(i);
+                String str = cur.get("weight").replaceAll(" ","");
+                if(str.contains("-")||str.contains("~")) {
+                    if (str.contains("~")) {
+                        str = str.split("~")[0];
+                    } else {
+                        str = str.split("-")[0];
 
-                animalDtoList.add(new AnimalDto(
+                    }
+                }else{
+                    str = str.substring(0,str.indexOf("("));
+                }
+                str = str.replace(",",".");
+                str = str.replace("...",".");
+                str = str.replace("..",".");
+                str = str.replace("/","");
+                str = str.replace("?","");
+                str = str.replace("'","");
+                str = str.replace(">","");
+                str = str.replace("<","");
+                str = str.replace("`","");
+                str = str.replace("_","");
+
+                String filter = str;
+                try{
+                    float tmp = Float.parseFloat(str);
+                }catch (Exception e){
+                    filter = "1";
+                }
+//                System.out.println(filter);
+                animalDtoList.add(new   AnimalDto(
                         Long.parseLong(cur.get("desertionNo")),cur.get("filename"),cur.get("happenDt"),
                         cur.get("happenPlace"),cur.get("kindCd"),cur.get("colorCd"),
                         cur.get("age"),
-                        cur.get("weight").contains("(") ? Float.parseFloat(cur.get("weight").substring(0,cur.get("weight").indexOf("("))) : Float.parseFloat(cur.get("weight")),
+                        Float.parseFloat(filter),
                         cur.get("noticeNo"),cur.get("noticeSdt"),cur.get("noticeEdt"),cur.get("popfile"),
                         cur.get("processState"),cur.get("sexCd").charAt(0),cur.get("neuterYn").charAt(0),
                         cur.get("specialMark"),cur.get("careNm"),cur.get("careTel"),
@@ -112,15 +150,9 @@ public class DataApiAnimal {
         List<AnimalDto> animalDtoList = new ArrayList<>();
         System.out.println(inputAnimalList.size() + " inputAnimalList Size");
         System.out.println(shelterMemberList.size() + " inputAnimalList Size");
-        System.out.println("####################################################");
-        for(ShelterMember curShelter :  shelterMemberList){
-            System.out.println(curShelter.getName());}
 
-        System.out.println("####################################################");
         for(AnimalDto curAnimal : inputAnimalList){
-            System.out.println(curAnimal.getCareNm());
             for(ShelterMember curShelter :  shelterMemberList){
-//                System.out.println(curShelter.getName());
                 if(curShelter.getName().equals(curAnimal.getCareNm())){
                     animalDtoList.add(curAnimal);
                 }
@@ -160,7 +192,6 @@ public class DataApiAnimal {
                         request,
                         String.class
                 );
-                System.out.println(response.getBody());
                 JSONParser jsonParser = new JSONParser();
                 Object obj = null;
                 try {
@@ -172,7 +203,6 @@ public class DataApiAnimal {
                 JSONObject jsonObject = (JSONObject) obj;
                 JSONObject jsonObjectmeta = (JSONObject)jsonObject.get("meta");
                 long totalCount = (long)jsonObjectmeta.get("total_count");
-                System.out.println(totalCount);
                 if(totalCount==0){
                     response = restTemplate.exchange(
                             url+ animalDto.getCareAddr() ,
@@ -269,7 +299,6 @@ public class DataApiAnimal {
         }catch (ParseException e){
             e.printStackTrace();
         }
-        System.out.println(cnt);
         return cnt;
     }
 }
