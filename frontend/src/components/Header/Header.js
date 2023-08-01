@@ -17,10 +17,10 @@ export default function Header() {
           <NavBar />
         </div>
         <HeaderRight>
-          <Img src="/icons/ic_help.svg" alt="help" />
+          <Img src="/icons/header/ic_help.svg" alt="help" />
           <Notice />
           <Link to={member.token ? "/mypage" : "/login"}>
-            <Img src="/icons/ic_account.svg" alt="account" />
+            <Img src="/icons/header/ic_account.svg" alt="account" />
           </Link>
         </HeaderRight>
       </HeaderDiv>
