@@ -85,6 +85,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepo.findAllByMemberKind(1);
 	}
 
+	@Override
+	public ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException {
+		return memberRepo.findShelterMemberByNameAndMemberKind(name,1);
+	}
+
 
 //	@Autowired
 //	UserRepository userRepository;

@@ -11,59 +11,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "",
-        async lazy() {
-          return {
-            Component: (await import("pages/MainPage")).default,
-          };
-        },
-      },
-      {
-        path: "desertion",
-        async lazy() {
-          return {
-            Component: (await import("pages/DesertionPage")).default,
-          };
-        },
-      },
-      {
-        path: "desertion/reservation",
-        async lazy() {
-          return {
-            Component: (
-              await import("components/Desertion/DesertionReservation")
-            ).default,
-          };
-        },
-      },
-      {
-        path: "missing",
-        async lazy() {
-          return {
-            Component: (await import("pages/MissingPage")).default,
-          };
-        },
-      },
-      {
-        path: "mypage",
-        element: <MyPage />,
-        children: [
-          {
-            path: "meeting",
-            element: <MyPageMeeting />,
-          },
-          {
-            path: "chatting",
-            element: <MyPageChatting />,
-          },
-          {
-            path: "watchlist",
-            element: <MyPageWatchlist />,
-          },
-        ],
-      },
-      {
-        path: "login",
+        path: "/login",
         async lazy() {
           return {
             Component: (await import("pages/LoginPage")).default,
@@ -71,13 +19,75 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "path", // 경로
+        path: "",
         async lazy() {
           return {
-            // 컴포넌트 import
-            Component: (await import("pages/RouterTestPage")).default,
+            Component: (await import("pages/HomePage")).default,
           };
         },
+        children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("pages/MainPage")).default,
+              };
+            },
+          },
+          {
+            path: "desertion",
+            async lazy() {
+              return {
+                Component: (await import("pages/DesertionPage")).default,
+              };
+            },
+          },
+          {
+            path: "desertion/reservation",
+            async lazy() {
+              return {
+                Component: (
+                  await import("components/Desertion/DesertionReservation")
+                ).default,
+              };
+            },
+          },
+          {
+            path: "missing",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingPage")).default,
+              };
+            },
+          },
+          {
+            path: "mypage",
+            element: <MyPage />,
+            children: [
+              {
+                path: "meeting",
+                element: <MyPageMeeting />,
+              },
+              {
+                path: "chatting",
+                element: <MyPageChatting />,
+              },
+              {
+                path: "watchlist",
+                element: <MyPageWatchlist />,
+              },
+            ],
+          },
+          {
+            path: "path", // 경로
+            async lazy() {
+              return {
+                // 컴포넌트 import
+                Component: (await import("pages/RouterTestPage")).default,
+              };
+            },
+          },
+        ],
       },
     ],
   },

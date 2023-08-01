@@ -71,9 +71,7 @@ public class ProfileServiceImpl implements ProfileService{
             }
             String storedFileName = s3Uploader.upload(image, "profile");
             profile.setImage(storedFileName);
-        } else {
-
-        }
+        } 
 
         profileRepo.save(profile);
     }

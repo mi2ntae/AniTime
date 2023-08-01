@@ -5,15 +5,15 @@ import { Outlet } from "react-router";
 import store from "./store";
 import { Provider } from "react-redux";
 import { Interceptor } from "api/commonHttp";
+import LoginPage from "pages/LoginPage";
+import { Route, Routes } from "react-router";
 
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
         <Interceptor>
-          <Header />
           <Outlet />
-          <Footer />
         </Interceptor>
       </Provider>
     </div>
