@@ -1,9 +1,14 @@
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import { Button } from "styled/styled";
+import { ProgressBar } from "styled/styled";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function ReservationForm() {
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
   //객체를 그냥 name:"asdf",phone:"000" 형태로 할까?
   const inquiryTop = ["이름", "전화번호", "이메일", "주소"];
@@ -24,10 +29,86 @@ export default function ReservationForm() {
     });
   };
   const nullCheck = () => {
-    return;
+    if (!checked) {
+      alert("약관에 동의해 주세요.");
+      return;
+    }
+    if (
+      !(
+        Object.keys(inputTop).length === inquiryTop.length &&
+        Object.keys(inputBottom).length === inquiryBottom.length
+      )
+    ) {
+      alert("모든 답을 작성해 주세요.");
+      return;
+    }
+    for (const key in inputTop) {
+      if (inputTop[key] === null || inputTop[key] === "") {
+        alert("모든 답을 작성해 주세요.");
+        return;
+      }
+    }
+    for (const key in inputBottom) {
+      if (inputBottom[key] === null || inputBottom[key] === "") {
+        alert("모든 답을 작성해 주세요.");
+        return;
+      }
+    }
+    //정보 성공적으로 전송
+
+    Swal.fire({
+      position: "center",
+      // icon: "success",
+      title: "미팅을 예약하시겠어요?",
+      showCancelButton: true,
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        Swal.fire({
+          position: "center",
+          // icon: "success",
+          imageUrl: "./icons/img_complete.svg",
+          title: "성공적으로 예약되었습니다.",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        navigate("/desertion");
+        return;
+      } else return;
+    });
   };
+
   return (
     <PageContainer>
+      <ProgressBar>
+        <div>
+          <img src={`/icons/Component 25.svg`} />
+        </div>
+        <div
+          style={{
+            width: "312px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              color: "#7D848A",
+            }}
+          >
+            미팅일자 선택
+          </div>
+          <div
+            style={{
+              color: "#35383B",
+              fontWeight: "bold",
+            }}
+          >
+            신청서 작성
+          </div>
+        </div>
+      </ProgressBar>
       <div
         style={{
           display: "flex",
@@ -162,11 +243,17 @@ export default function ReservationForm() {
             marginTop: "97px",
           }}
         >
-          <input onClick={nullCheck} type="checkbox" name="xxx" value="yyy" />
-          <div>약관에 동의합니다.</div>
+          <input
+            id="contract"
+            checked={checked}
+            onChange={() => setChecked(() => !checked)}
+            type="checkbox"
+          />
+          <label for="contract">약관에 동의합니다.</label>
         </div>
       </FormContainer>
       <Button
+        onClick={nullCheck}
         style={{
           fontSize: "16px",
           fontWeight: "bold",

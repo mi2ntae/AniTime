@@ -48,4 +48,13 @@ const HorizontalContainer = styled.div`
   min-height: calc(100vh - 160px);
 `;
 
-export { MainContainer, Button, HorizontalContainer };
+const ProgressBar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 39px;
+  margin-bottom: 74px;
+`;
+
+export { MainContainer, Button, HorizontalContainer, ProgressBar };

@@ -3,6 +3,9 @@ import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
 import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 import MyPage from "pages/MyPage";
+import SelectTime from "components/SelectTime/SelectTime";
+import ReservationForm from "components/SelectTime/ReservationForm";
+import DesertionGuide from "components/Desertion/DesertionGuide";
 import ErrorPage from "pages/ErrorPage";
 
 const router = createBrowserRouter([
@@ -40,6 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "desertion/reservation",
+        children: [
+          { path: "selecttime", element: <SelectTime /> },
+          { path: "form", element: <ReservationForm /> },
+          { path: "", element: <DesertionGuide /> },
+        ],
         async lazy() {
           return {
             Component: (
