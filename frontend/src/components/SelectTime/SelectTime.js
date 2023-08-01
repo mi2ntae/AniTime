@@ -3,6 +3,7 @@ import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
+import { ProgressBar } from "styled/styled";
 
 export default function SelectTime() {
   const [date, setDate] = useState(new Date());
@@ -23,6 +24,34 @@ export default function SelectTime() {
   };
   return (
     <PageContainer>
+      <ProgressBar>
+        <div>
+          <img src={`/icons/Component 24.svg`} />
+        </div>
+        <div
+          style={{
+            width: "312px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              color: "#35383B",
+              fontWeight: "bold",
+            }}
+          >
+            미팅일자 선택
+          </div>
+          <div
+            style={{
+              color: "#7D848A",
+            }}
+          >
+            신청서 작성
+          </div>
+        </div>
+      </ProgressBar>
       <ShelterContainer>
         <div>{shelter.name}</div>
         <div>
