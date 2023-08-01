@@ -48,4 +48,8 @@ public class AnimalController {
     public ListResponse<AnimalPreviewRes> getBookmarkedAnimal(@PathVariable int generalNo, @RequestParam int curpageNo) {
         return responseService.getListResponse(animalService.getBookmarkedAnimal(generalNo, curpageNo));
     }
+
+//    @GetMapping("/animal/{generalNo}")
+//    @ApiResponse(code= 200, message = "성공")
+//    public
 }
