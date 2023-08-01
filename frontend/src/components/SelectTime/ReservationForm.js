@@ -2,6 +2,7 @@ import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import { Button } from "styled/styled";
+import { ProgressBar } from "styled/styled";
 
 export default function ReservationForm() {
   const [address, setAddress] = useState("");
@@ -28,6 +29,34 @@ export default function ReservationForm() {
   };
   return (
     <PageContainer>
+      <ProgressBar>
+        <div>
+          <img src={`/icons/Component 25.svg`} />
+        </div>
+        <div
+          style={{
+            width: "312px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              color: "#7D848A",
+            }}
+          >
+            미팅일자 선택
+          </div>
+          <div
+            style={{
+              color: "#35383B",
+              fontWeight: "bold",
+            }}
+          >
+            신청서 작성
+          </div>
+        </div>
+      </ProgressBar>
       <div
         style={{
           display: "flex",
