@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import SliderItem from "./SliderItem";
 
 export default function Slider() {
   const [animals, setAnimals] = useState([]);
   const [index, setIndex] = useState(0);
+
+  const moveIndex = useCallback(
+    (offset) => {
+      setIndex((p) => (p + offset + animals.length) % animals.length);
+    },
+    [animals]
+  );
 
   useEffect(() => {
     // Todo: 서버와 통신하여 데이터 받기
@@ -59,33 +66,25 @@ export default function Slider() {
     // 자동 슬라이더
     const interval = setInterval(() => {
       moveIndex(1);
-    }, 5000);
+    }, 3000);
     return () => {
       clearInterval(interval);
     };
-  }, [animals]);
-
-  const moveIndex = (offset) => {
-    setIndex((p) => (p + offset + animals.length) % animals.length);
-  };
+  }, [moveIndex]);
 
   return (
     <Div>
+      {animals.map((animal) => (
+        <SliderItem key={animal.desertionNo} index={index} animal={animal} />
+      ))}
       <ButtonDiv>
         <Button onClick={() => moveIndex(-1)}>
-          <img src="icons/ic_arrow_left.svg" />
+          <img src="icons/ic_arrow_left.svg" alt="left" />
         </Button>
         <Button onClick={() => moveIndex(1)}>
-          <img src="icons/ic_arrow_right.svg" />
+          <img src="icons/ic_arrow_right.svg" alt="right" />
         </Button>
       </ButtonDiv>
-      {animals.map((animal) => (
-        <SliderItem
-          key={animal.desertionNo}
-          index={index}
-          animal={animal}
-        ></SliderItem>
-      ))}
     </Div>
   );
 }
@@ -109,7 +108,6 @@ const ButtonDiv = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  z-index: 1;
 `;
 
 const Button = styled.button`
