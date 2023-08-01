@@ -67,7 +67,6 @@ export default function Slider() {
     const interval = setInterval(() => {
       moveIndex(1);
     }, 3000);
-    console.log(interval);
     return () => {
       clearInterval(interval);
     };
