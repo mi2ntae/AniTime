@@ -35,4 +35,17 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export { MainContainer, Button };
+const HorizontalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 64px;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1240px;
+  min-width: 800px;
+  min-height: calc(100vh - 160px);
+`;
+
+export { MainContainer, Button, HorizontalContainer };
