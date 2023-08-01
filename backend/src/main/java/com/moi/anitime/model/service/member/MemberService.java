@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 인터페이스 정의.
@@ -28,4 +29,6 @@ public interface MemberService {
 	void editGeneralMember(int memberNo,GeneralMember requestMember) throws EditInfoException;
 
 	List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException;
+
+	ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException;
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
@@ -79,6 +80,18 @@ public class AnimalServiceImpl implements AnimalService{
                 })
                 .collect(Collectors.toList());
         return bookmarkedListres;
+    }
+
+    @Override
+    public Optional<Animal> getAnimal(long generalNo) throws ListLoadingException {
+        return animalRepo.findAnimalByDesertionNo(generalNo);
+    }
+
+    @Override
+    public void dataUpdate(List<Animal> animalList) {
+        System.out.println(animalList.size());
+        animalRepo.saveAll(animalList);
+
     }
 
 
