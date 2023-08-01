@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLOutput;
@@ -47,6 +48,7 @@ class AnimalScheduleTest {
 //        System.out.println(dataApiAnimal.getData(1L).size());
     }
     @Test
+    @Transactional
     void apiCnt() throws InterruptedException, ParseException {
 
         List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
@@ -56,7 +58,7 @@ class AnimalScheduleTest {
             System.out.print(name+",");
 
         }
-        List<AnimalDto> animalDtoList = dataApiClient.getData(149L);
+        List<AnimalDto> animalDtoList = dataApiClient.getData(64L);
         //1000개씩 나눠서 동작을 진행해줘야한다.
         //1000개에서 보호소에 있는 개체만을 찾아준다.
         System.out.println("149 get data succed");
@@ -72,6 +74,12 @@ class AnimalScheduleTest {
         List<Animal> dataType = dataApiClient.splitData(animalcheckList);
 
         System.out.println("lonlat entity set up succed");
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        for(Animal animal : dataType){
+            System.out.println(animal.toString());
+        }
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         dataApiClient.insertDB(dataType);
         System.out.println(149 + " page data input succed");
         //        LocalDate now = LocalDate.now();

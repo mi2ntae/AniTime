@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Builder
 public class Animal {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desertionno")
     long desertionNo;
     @Column(name = "shelterno")
