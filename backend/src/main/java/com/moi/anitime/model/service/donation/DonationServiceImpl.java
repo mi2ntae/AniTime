@@ -31,9 +31,9 @@ public class DonationServiceImpl implements DonationService {
     private final MemberRepo memberRepo;
     private final S3Uploader s3Uploader;
 
-    @Value("{donationBoard.image.path}")
+    @Value("${donationBoard.image.path}")
     private String imagePath;
-    @Value("{donationBoard.poster.path}")
+    @Value("${donationBoard.poster.path}")
     private String posterPath;
 
     @Override
