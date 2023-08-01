@@ -62,7 +62,7 @@ const ListFilterContainer = styled.div`
 const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-content: flex-start;
   width: 700px;
   height: 600px;
@@ -97,7 +97,7 @@ const DetailViewBox = styled.div`
 `;
 
 const AnimalImg = styled.div`
-  width: 33%;
+  width: 33.33%;
   height: 240px;
   margin-top: 20px;
 `;

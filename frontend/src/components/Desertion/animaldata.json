@@ -195,6 +195,13 @@
             "processState": "공고중",
             "sexCd": "암컷",
             "image": "dummyImg.svg"
+        },
+        {
+            "upkind": "개",
+            "kind": "말티즈",
+            "processState": "공고중",
+            "sexCd": "암컷",
+            "image": "dummyImg.svg"
         }
     ]
 }
