@@ -19,7 +19,7 @@ export default function Header() {
         <HeaderRight>
           <Img src="/icons/ic_help.svg" alt="help" />
           <Notice />
-          <Link to={member.token ? "mypage" : "login"}>
+          <Link to={member.token ? "/mypage" : "/login"}>
             <Img src="/icons/ic_account.svg" alt="account" />
           </Link>
         </HeaderRight>
