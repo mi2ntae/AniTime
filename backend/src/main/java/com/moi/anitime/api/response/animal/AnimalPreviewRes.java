@@ -16,7 +16,7 @@ public class AnimalPreviewRes {
     private String detailKind;
 
     private char sexCd;
-
+    private String processState;
     private String thumbnail;
 
 

@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRepo memberRepo;
 	private final PasswordEncoder passwordEncoder;
 	private final S3Uploader s3Uploader;
-	@Value("{shelterMember.evidence.path")
+	@Value("${shelterMember.evidence.path}")
 	private String imgPath;
 	@Override
 	public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException{
@@ -56,6 +56,7 @@ public class MemberServiceImpl implements MemberService {
 	public Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException{
 		Member member = memberRepo.findByEmail(memberLoginReq.getEmail()).orElseThrow(NonExistEmailException::new);
 		if(!passwordEncoder.matches(memberLoginReq.getPassword(), member.getPassword())) throw new PasswordIncorrectException();
+		if(member.getMemberKind() != memberLoginReq.getMemberKind()) throw new NonExistEmailException();
 		return member;
 	}
 
@@ -83,6 +84,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException {
 
 		return memberRepo.findAllByMemberKind(1);
+	}
+
+	@Override
+	public ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException {
+		return memberRepo.findShelterMemberByNameAndMemberKind(name,1);
 	}
 
 

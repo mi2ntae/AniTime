@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
 import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
 import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
@@ -7,11 +6,24 @@ import MyPage from "pages/MyPage";
 import SelectTime from "components/SelectTime/SelectTime";
 import ReservationForm from "components/SelectTime/ReservationForm";
 import DesertionGuide from "components/Desertion/DesertionGuide";
+import ErrorPage from "pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/login",
+    async lazy() {
+      return {
+        Component: (await import("pages/LoginPage")).default,
+      };
+    },
+  },
+  {
+    path: "",
+    async lazy() {
+      return {
+        Component: (await import("App")).default,
+      };
+    },
     children: [
       {
         path: "",
@@ -71,14 +83,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "login",
-        async lazy() {
-          return {
-            Component: (await import("pages/LoginPage")).default,
-          };
-        },
-      },
-      {
         path: "path", // 경로
         async lazy() {
           return {
@@ -88,6 +92,10 @@ const router = createBrowserRouter([
         },
       },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
