@@ -6,7 +6,10 @@ import Sort from "components/Desertion/Sort";
 import animaldata from "components/Desertion/animaldata.json";
 
 export default function Desertion() {
-  const animals = animaldata.animals;
+  const [animals, setAnimals] = useState(animaldata.animals.slice(0, 9));
+  const [page, setPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const target = useRef(null);
 
   return (
     <HorizontalContainer>
@@ -40,6 +43,7 @@ export default function Desertion() {
                   </Span2>
                 </Div2>
               </DivP>
+              <Target ref={target0} />
             </AnimalImg>
           ))}
         </ListContainer>
@@ -133,4 +137,9 @@ const DivP = styled.div`
 
 const Blank = styled.span`
   margin-right: 5px;
+`;
+
+const Target = styled.div`
+  width: 100%;
+  height: 30px;
 `;
