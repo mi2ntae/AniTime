@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { MainContainer} from "styled/styled";
 import Filter from "../components/Desertion/Filter";
 import Sort from "components/Desertion/Sort";
+import DesertionDetail from "../components/Desertion/DesertionDetail.jsx"
 
 export default function Desertion() {
   return (
@@ -18,7 +19,7 @@ export default function Desertion() {
            </ListContainer>
          </ListFilterContainer>   
         <DetailViewBox>
-          <h3>상세정보창</h3>
+          <DesertionDetail/>
         </DetailViewBox>
       </MainContainer>
     </PageContainer>
