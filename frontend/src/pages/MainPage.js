@@ -36,7 +36,46 @@ export default function MainPage() {
 
       <SliderTitle>입양을 기다리는 아이들이에요</SliderTitle>
       <Slider />
-      <div>애니타임 소개 들어갈 자리</div>
+
+      <HowDiv>
+        <HowHeader>HOW</HowHeader>
+        <h1 style={{ fontWeight: "normal" }}>애니타임은 무엇인가요?</h1>
+        <HowBody>
+          {/* card 1 */}
+          <HowCard>
+            <HowIcon>
+              <img src="icons/how/img_home_how1.svg" alt="how icon" />
+            </HowIcon>
+            <HowCardTitle>비대면 채널을 통한 입양</HowCardTitle>
+            <HowCartContent>
+              이 항목에 대한 설명을 울랄라로 적습니다.
+              울랄라리아리이라이아리아웅라우라으륑링루ㅏㅣ우리위루아ㅣ루이ㅜ라ㅣ우리우라ㅣㅇ루아ㅣ루아ㅣ루아ㅣ루아ㅣㄹ울아ㅣㅜㄹ아ㅣㄹ아ㅣㅜㄹ이ㅜ라ㅣ우라ㅣㅜ라ㅣ우라ㅣㅇ
+            </HowCartContent>
+          </HowCard>
+          {/* card 2 */}
+          <HowCard>
+            <HowIcon>
+              <img src="icons/how/img_home_how2.svg" alt="how icon" />
+            </HowIcon>
+            <HowCardTitle>실종된 나의 가족을 찾는 방법</HowCardTitle>
+            <HowCartContent>
+              이 항목에 대한 설명을 울랄라로 적습니다.
+              울랄라리아리이라이아리아웅라우라으륑링루ㅏㅣ우리위루아ㅣ루이ㅜ라ㅣ우리우라ㅣㅇ루아ㅣ루아ㅣ루아ㅣ루아ㅣㄹ울아ㅣㅜㄹ아ㅣㄹ아ㅣㅜㄹ이ㅜ라ㅣ우라ㅣㅜ라ㅣ우라ㅣㅇ
+            </HowCartContent>
+          </HowCard>
+          {/* card 3 */}
+          <HowCard>
+            <HowIcon>
+              <img src="icons/how/img_home_how3.svg" alt="how icon" />
+            </HowIcon>
+            <HowCardTitle>지갑을 열어라 나의 지갑이여</HowCardTitle>
+            <HowCartContent>
+              이 항목에 대한 설명을 울랄라로 적습니다.
+              울랄라리아리이라이아리아웅라우라으륑링루ㅏㅣ우리위루아ㅣ루이ㅜ라ㅣ우리우라ㅣㅇ루아ㅣ루아ㅣ루아ㅣ루아ㅣㄹ울아ㅣㅜㄹ아ㅣㄹ아ㅣㅜㄹ이ㅜ라ㅣ우라ㅣㅜ라ㅣ우라ㅣㅇ
+            </HowCartContent>
+          </HowCard>
+        </HowBody>
+      </HowDiv>
     </MainContainer>
   );
 }
@@ -87,4 +126,46 @@ const ReportNumber = styled.span`
 const SliderTitle = styled.h1`
   margin-top: 56px;
   margin-bottom: 24px;
+`;
+
+const HowDiv = styled.div`
+  margin-top: 80px;
+  text-align: left;
+`;
+
+const HowHeader = styled.p`
+  color: #3994f0;
+`;
+
+const HowBody = styled.div`
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 24px;
+`;
+
+const HowCard = styled.div`
+  text-align: left;
+  flex: 1 0 30%;
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 0 24px #caced3;
+`;
+
+const HowIcon = styled.div`
+  padding: 16px;
+  border-radius: 50%;
+  background-color: #f9f9f9;
+  width: 32px;
+  height: 32px;
+`;
+
+const HowCardTitle = styled.h2`
+  color: #535a61;
+`;
+
+const HowCartContent = styled.p`
+  color: #7d848a;
 `;

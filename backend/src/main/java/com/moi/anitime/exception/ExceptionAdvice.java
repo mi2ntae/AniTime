@@ -7,6 +7,7 @@ import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
+import com.moi.anitime.exception.donation.NonExistDonationException;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.exception.member.NonExistEmailException;
@@ -101,6 +102,13 @@ public class ExceptionAdvice {
     protected CommonResponse nonExistDonationBoardException() {
         log.error("non exist donation board exception");
         return responseService.getFailResponse(ExceptionList.NON_EXIST_DONATION_BOARD.getCode(), ExceptionList.NON_EXIST_DONATION_BOARD.getMessage());
+    }
+
+    @ExceptionHandler(NonExistDonationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonExistDonationException() {
+        log.error("non exist donation exception");
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_DONATION.getCode(), ExceptionList.NON_EXIST_DONATION.getMessage());
     }
 
     // 제일 아래에 있었으면 합니다 - 민태 -
