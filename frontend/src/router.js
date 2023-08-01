@@ -4,6 +4,7 @@ import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
 import MyPageChatting from "pages/mypagetab/MyPageChatting";
 import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 import MyPage from "pages/MyPage";
+import ErrorPage from "pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
             },
           },
         ],
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
