@@ -68,13 +68,13 @@ export default function ReservationForm() {
         Swal.fire({
           position: "center",
           // icon: "success",
-          imageUrl: "./icons/img_complete.svg",
+          imageUrl: "/icons/img_complete.svg",
           title: "성공적으로 예약되었습니다.",
           showConfirmButton: false,
           timer: 1000,
+        }).then((res) => {
+          navigate("/");
         });
-        navigate("/desertion");
-        return;
       } else return;
     });
   };
