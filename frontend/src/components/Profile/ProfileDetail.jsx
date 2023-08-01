@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 
-export default function profileDetail() {
-  let detail = useSelector((state) => {
-    return state.detailInfo;
-  });
+export default function ProfileDetail() {
+  let state = useSelector((state) => state);
   return (
-    <div>{/* state에 있는 profileNo에 해당하는 프로필 상세정보 조회 */}</div>
+    <div>
+      <h1>{state.detailInfo.profileNo}</h1>
+    </div>
   );
 }
