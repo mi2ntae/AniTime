@@ -8,13 +8,19 @@ import router from "./router.js";
 import { Provider } from "react-redux";
 import store from "./store";
 import { Interceptor } from "api/commonHttp";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
+export let persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <Interceptor>
-      <RouterProvider router={router} />
-    </Interceptor>
+    <PersistGate loading={null} persistor={persistor}>
+      <Interceptor>
+        <RouterProvider router={router} />
+      </Interceptor>
+    </PersistGate>
   </Provider>
 );
 
