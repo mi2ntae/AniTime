@@ -31,7 +31,7 @@ public class AnimalSchedule {
     private final MemberService memberServiceImpl;
 
 //    @Transactional
-    @Scheduled(cron = "30 15 15 * * *")
+    @Scheduled(cron = "30 30 15 * * *")
     public void inputAnimal() throws InterruptedException {
 
         List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
