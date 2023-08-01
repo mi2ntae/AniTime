@@ -30,24 +30,17 @@ public class AnimalSchedule {
 
     private final MemberService memberServiceImpl;
 
-    @Transactional
-    @Scheduled(cron = "20 48 * * * *")
+//    @Transactional
+    @Scheduled(cron = "30 52 * * * *")
     public void inputAnimal() throws InterruptedException {
 
         List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
-        System.out.println("shelter member Count : "+ shelterMemberList.size());
-        for(ShelterMember shelterMember : shelterMemberList){
-            String name= shelterMember.getName();
-            System.out.print(name+",");
-
-        }
-        System.out.println();
         //Get요청을 통한 OPenAPI가져오기, 우리 회원이 관리하는 보호소 데이터만 가져오기
         long pageCnt = dataApiClient.getPageCnt();
         System.out.println(pageCnt);
         pageCnt = pageCnt/1000 + (pageCnt%1000==0? 0 : 1);
         System.out.println(pageCnt);
-        for(long i =1; i<=pageCnt;i++){
+        for(long i =25; i<=pageCnt;i++){
             System.out.println("page start");
             //api pageNo:i번째 데이터 1000개를 로드해온다.
             List<AnimalDto> animalDtoList = dataApiClient.getData(i);

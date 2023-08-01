@@ -145,6 +145,7 @@ CREATE TABLE `Profile` (
 	`profileAge`	INT DEFAULT 1,
 	`specialMark`	varchar(255)	NULL,
 	`dateAt`	date	NULL,
+	`weight` FLOAT NOT NULL,
 	`profileLocation`	varchar(255) NULL,
 	`lat`	float not	NULL,
 	`lon`	float not	NULL,
