@@ -28,6 +28,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class DataApiAnimal {
+
     private static final String API_URL = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic";
 
     private static final String SERVICE_KEY = "CIph4Ep9WZIczZRzxN3VnWaqSnt22CGUzr0ykamQMkhFmozlHUowzXKwYrYJKpNAdkfaBrwZakZoFCoIc9gVkQ=="; // Replace with your actual service key
@@ -53,8 +54,15 @@ public class DataApiAnimal {
     * */
     public List<AnimalDto> getData(Long curPage) throws InterruptedException {
 
+        LocalDate now = LocalDate.now();
+        // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
+        int year = now.getYear();
+        int monthValue = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
+        String startDate = Integer.toString(year-2) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
-        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo="+curPage;
+        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo="+curPage+"&bgnde="+startDate;
 
         // Send GET request and receive JSON response as a String
         String data =  restTemplate.getForObject(url, String.class);
@@ -71,6 +79,7 @@ public class DataApiAnimal {
             jsonObj = (JSONObject)jsonObj.get("body");
             jsonObj = (JSONObject)jsonObj.get("items");
             animalOrigin = (JSONArray)jsonObj.get("item");
+            System.out.println("item size : " + animalOrigin.size());
 //            System.out.println(animalOrigin.size());
         }catch (ParseException e){
             System.out.println("OpenData API ERROR");
@@ -80,7 +89,7 @@ public class DataApiAnimal {
         List<AnimalDto> animalDtoList = new ArrayList<>();
 
             for(int i = 0 ; i < animalOrigin.size();i++){
-                Map<String,String> cur = (Map)animalOrigin.get(0);
+                Map<String,String> cur = (Map)animalOrigin.get(i);
 
                 animalDtoList.add(new AnimalDto(
                         Long.parseLong(cur.get("desertionNo")),cur.get("filename"),cur.get("happenDt"),
@@ -98,22 +107,20 @@ public class DataApiAnimal {
         }
         return animalDtoList;
     }
-//    public Animal dtoEntity(List<AnimalDto> animalDtoList){
-//        for(AnimalDto curAnimal : animalDtoList){
-//            if(animalService.)
-//        }
-//        for()
-//        String url = KAKAO_API_URL + "?size=1&query=" + SERVICE_KEY ;
-//
-//        // Send GET request and receive JSON response as a String
-//
-//        JSONParser jsonParser = new JSONParser();
-//        return null;
-//    }
+
     public List<AnimalDto> checkShelter(List<AnimalDto> inputAnimalList, List<ShelterMember> shelterMemberList){
         List<AnimalDto> animalDtoList = new ArrayList<>();
+        System.out.println(inputAnimalList.size() + " inputAnimalList Size");
+        System.out.println(shelterMemberList.size() + " inputAnimalList Size");
+        System.out.println("####################################################");
+        for(ShelterMember curShelter :  shelterMemberList){
+            System.out.println(curShelter.getName());}
+
+        System.out.println("####################################################");
         for(AnimalDto curAnimal : inputAnimalList){
+            System.out.println(curAnimal.getCareNm());
             for(ShelterMember curShelter :  shelterMemberList){
+//                System.out.println(curShelter.getName());
                 if(curShelter.getName().equals(curAnimal.getCareNm())){
                     animalDtoList.add(curAnimal);
                 }
@@ -235,8 +242,15 @@ public class DataApiAnimal {
     }
 
     public long getPageCnt() throws InterruptedException {
+        LocalDate now = LocalDate.now();
+        // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
+        int year = now.getYear();
+        int monthValue = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        String startDate = Integer.toString(year-3) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
+
 //        System.out.println(SERVICE_KEY);
-        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo=1";
+        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo=1&bgnde="+startDate;
         String data = restTemplate.getForObject(url, String.class);
 
         long cnt = -1;
