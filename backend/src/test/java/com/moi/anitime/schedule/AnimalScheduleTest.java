@@ -1,6 +1,9 @@
 package com.moi.anitime.schedule;
 
 import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.member.ShelterMember;
+import com.moi.anitime.model.service.member.MemberService;
+import com.moi.anitime.schedule.dto.AnimalDto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,6 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,8 +38,9 @@ class AnimalScheduleTest {
 //
 //    @Autowired
     @Autowired
-    private DataApiAnimal dataApiAnimal; // MockBean을 사용하여 테스트용 더미 객체 생성
-//
+    private DataApiAnimal dataApiClient; // MockBean을 사용하여 테스트용 더미 객체 생성
+    @Autowired
+    private MemberService memberServiceImpl;
     @Test
     void apicall() throws InterruptedException {
 //
@@ -42,6 +48,40 @@ class AnimalScheduleTest {
     }
     @Test
     void apiCnt() throws InterruptedException, ParseException {
+
+        List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
+        System.out.println("shelter member Count : "+ shelterMemberList.size());
+        for(ShelterMember shelterMember : shelterMemberList){
+            String name= shelterMember.getName();
+            System.out.print(name+",");
+
+        }
+        List<AnimalDto> animalDtoList = dataApiClient.getData(149L);
+        //1000개씩 나눠서 동작을 진행해줘야한다.
+        //1000개에서 보호소에 있는 개체만을 찾아준다.
+        System.out.println("149 get data succed");
+        List<AnimalDto> animalcheckList = dataApiClient.checkShelter(animalDtoList,shelterMemberList);
+        System.out.println("animalcheckList size :" + animalcheckList.size());
+        //
+        if(animalcheckList.size()==0) {
+            System.out.println("checkList size is 0");
+            System.out.println( "149 page data input succed");
+
+            return;}
+        System.out.println(149+" shelter fliter succed");
+        List<Animal> dataType = dataApiClient.splitData(animalcheckList);
+
+        System.out.println("lonlat entity set up succed");
+        dataApiClient.insertDB(dataType);
+        System.out.println(149 + " page data input succed");
+        //        LocalDate now = LocalDate.now();
+//        // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
+//        int year = now.getYear();
+//        int monthValue = now.getMonthValue();
+//        int dayOfMonth = now.getDayOfMonth();
+//        String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
+//        String startDate = Integer.toString(year-2) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
+//        System.out.println(startDate);
 //        String url = KAKAO_API_URL + "?size=1&query=" + "수원시";
 //
 //        // Send GET request and receive JSON response as a String

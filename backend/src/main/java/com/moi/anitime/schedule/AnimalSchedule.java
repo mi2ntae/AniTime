@@ -31,14 +31,17 @@ public class AnimalSchedule {
     private final MemberService memberServiceImpl;
 
     @Transactional
-    @Scheduled(cron = "00 35 * * * *")
+    @Scheduled(cron = "20 48 * * * *")
     public void inputAnimal() throws InterruptedException {
 
         List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
         System.out.println("shelter member Count : "+ shelterMemberList.size());
         for(ShelterMember shelterMember : shelterMemberList){
             String name= shelterMember.getName();
+            System.out.print(name+",");
+
         }
+        System.out.println();
         //Get요청을 통한 OPenAPI가져오기, 우리 회원이 관리하는 보호소 데이터만 가져오기
         long pageCnt = dataApiClient.getPageCnt();
         System.out.println(pageCnt);
@@ -50,17 +53,21 @@ public class AnimalSchedule {
             List<AnimalDto> animalDtoList = dataApiClient.getData(i);
             //1000개씩 나눠서 동작을 진행해줘야한다.
             //1000개에서 보호소에 있는 개체만을 찾아준다.
-            System.out.println(i+"get data succed");
+            System.out.println(i+" get data succed");
             List<AnimalDto> animalcheckList = dataApiClient.checkShelter(animalDtoList,shelterMemberList);
+            System.out.println("animalcheckList size :" + animalcheckList.size());
             //
-            System.out.println(i+"shelter fliter succed");
-            //todo : kakao api로 lonlat구해오기
+            if(animalcheckList.size()==0) {
+                System.out.println("checkList size is 0");
+                System.out.println(i + " page data input succed");
+
+                continue;}
+            System.out.println(i+" shelter fliter succed");
             List<Animal> dataType = dataApiClient.splitData(animalcheckList);
 
             System.out.println("lonlat entity set up succed");
-            //todo : lonlat을 구해야하는 데이터만 선정해오기.
             dataApiClient.insertDB(dataType);
-            System.out.println(i + "page data input succed");
+            System.out.println(i + " page data input succed");
         }
 
     }
