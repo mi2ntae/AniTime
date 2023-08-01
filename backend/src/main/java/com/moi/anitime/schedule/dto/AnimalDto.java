@@ -24,7 +24,7 @@ public class AnimalDto {
     private String noticeEdt;
     private String popfile;
     private String processState;
-    private String sexCd;
+    private char sexCd;
     private char neuterYn;
     private String specialMark;
     private String careNm;
@@ -33,6 +33,10 @@ public class AnimalDto {
     private String orgNm;
     private String chargeNm;
     private String officetel;
+
+
+
+
 //        "filename": "http://www.animal.go.kr/files/shelter/2023/07/202307281007616_s.jpg",
 //        "happenDt": "20230728",
 //        "happenPlace": "경북 청송군 주왕산면 새골길 362-3",
