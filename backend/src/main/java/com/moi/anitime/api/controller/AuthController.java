@@ -77,6 +77,16 @@ public class AuthController {
         return responseService.getLoginResponse(jwtTokenProvider.createToken(member.getMemberNo(), member.getMemberKind()), member);
     }
 
+    @GetMapping("/logout/{memberNo}")
+    @ApiOperation(value = "로그아웃", notes = "카카오도 로그아웃")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public CommonResponse logout(@PathVariable("memberNo") int memberNo) throws IOException {
+        memberService.logout(memberNo);
+        return responseService.getSuccessResponse();
+    }
+
     @GetMapping("/build")
     @ApiOperation(value = "빌드 테스트", notes = "빌드!!")
     @ApiResponses({

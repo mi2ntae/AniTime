@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setMember } from "../reducer/member";
 import http from "../api/commonHttp";
 // import { Link } from "react-router-dom";
@@ -61,8 +61,7 @@ export default function LoginPage() {
           sm={4}
           md={6}
           sx={{
-            backgroundImage:
-              "url(https://anitime.s3.ap-northeast-2.amazonaws.com/loginPageImg.png)",
+            backgroundImage: "url(/loginPageImg.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -146,8 +145,16 @@ export default function LoginPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, width: 400 }}
-                fontWeight="fontWeightBold"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  width: 400,
+                  fontWeight: "fontWeightBold",
+                  fontSize: 18,
+                }}
+                style={{
+                  marginLeft: 50,
+                }}
               >
                 로그인
               </Button>
@@ -164,7 +171,14 @@ export default function LoginPage() {
                 </Grid>
               </Grid> */}
             </Box>
-            <Button onClick={kakaoLogin}>카카오</Button>
+            <Button
+              onClick={kakaoLogin}
+              style={{
+                marginTop: 50,
+              }}
+            >
+              <img src="kakao_login_medium_wide.png" alt="버튼X" />
+            </Button>
           </Box>
         </Grid>
       </Grid>

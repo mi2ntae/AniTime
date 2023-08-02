@@ -17,7 +17,7 @@ import javax.persistence.*;
                 name = "findChatRoomsByGeneralNo",
                 query = "SELECT " +
                         "chatroom.roomNo AS roomno, member.name AS name, (SELECT content from chatMessage WHERE chatmessage.roomNo = chatroom.roomNo ORDER BY chatmessage.writtentime DESC LIMIT 1) AS lastmsg, " +
-                        "(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.roomNo = chatroom.roomNo AND chatMessage.sendNo != 4 AND chatmessage.isread = 0) AS unreadcnt " +
+                        "(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.roomNo = chatroom.roomNo AND chatMessage.sendNo != :generalno AND chatmessage.isread = 0) AS unreadcnt " +
                         "from chatroom " +
                         "join Member on ChatRoom.shelterno = Member.memberNo "+
                         "join ChatMessage on ChatRoom.roomNo = ChatMessage.roomNo " +
@@ -30,7 +30,7 @@ import javax.persistence.*;
                 name = "findChatRoomsByShelterNo",
                 query = "SELECT " +
                         "chatroom.roomNo AS roomno, member.name AS name, (SELECT content from chatMessage WHERE chatmessage.roomNo = chatroom.roomNo ORDER BY chatmessage.writtentime DESC LIMIT 1) AS lastmsg, " +
-                        "(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.roomNo = chatroom.roomNo AND chatMessage.sendNo != 4 AND chatmessage.isread = 0) AS unreadcnt " +
+                        "(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.roomNo = chatroom.roomNo AND chatMessage.sendNo != :shelterno AND chatmessage.isread = 0) AS unreadcnt " +
                         "from chatroom " +
                         "join Member on ChatRoom.generalno = Member.memberNo "+
                         "join ChatMessage on ChatRoom.roomNo = ChatMessage.roomNo " +
