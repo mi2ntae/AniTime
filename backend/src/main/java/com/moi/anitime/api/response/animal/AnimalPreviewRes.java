@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class AnimalPreviewRes {
     private long desertionNo;
 
-    private String category; // 축종
-    private String detailKind;
+    private String category; // 축종 개고양
+    private String detailKind;// 골든 리튼리버
 
     private char sexCd;
     private String processState;

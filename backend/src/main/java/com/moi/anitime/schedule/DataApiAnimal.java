@@ -59,8 +59,13 @@ public class DataApiAnimal {
         LocalDate now = LocalDate.now();
         // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
         int year = now.getYear();
-        int monthValue = now.getMonthValue()-6+12%12;
-        int dayOfMonth = now.getDayOfMonth()-1+28%28;
+        int monthValue = now.getMonthValue()-6;
+        if(monthValue<=0){
+            year--;
+            monthValue = (monthValue+12)%13;
+        }
+
+        int dayOfMonth = 1;
         String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
         String startDate = Integer.toString(year) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
@@ -275,8 +280,14 @@ public class DataApiAnimal {
         LocalDate now = LocalDate.now();
         // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
         int year = now.getYear();
-        int monthValue = now.getMonthValue();
-        int dayOfMonth = now.getDayOfMonth();
+        int monthValue = now.getMonthValue()-6;
+        if(monthValue<=0){
+            year--;
+            monthValue = (monthValue+12)%13;
+        }
+
+        int dayOfMonth = 1;
+
         String startDate = Integer.toString(year-3) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
 //        System.out.println(SERVICE_KEY);
