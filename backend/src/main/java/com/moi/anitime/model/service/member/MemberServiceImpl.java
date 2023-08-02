@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.api.request.member.MemberEditReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.*;
@@ -34,6 +35,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class MemberServiceImpl implements MemberService {
+<<<<<<< backend/src/main/java/com/moi/anitime/model/service/member/MemberServiceImpl.java
     private final MemberRepo memberRepo;
     private final PasswordEncoder passwordEncoder;
     private final S3Uploader s3Uploader;
@@ -162,16 +164,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+	public void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException {
+		String encodedPassword=passwordEncoder.encode(memberEditReq.getPassword());
+		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, memberEditReq.getName());
+	}
+
+    @Override
     public Member findShelterMemberById(int memberNo) throws NonExistMemberNoException {
         Optional<ShelterMember> member = memberRepo.findShelterMemberByMemberNo(memberNo);
         if (!member.isPresent()) throw new NonExistMemberNoException();
         return member.get();
-    }
-
-    @Override
-    public void editGeneralMember(int memberNo, GeneralMember requestMember) throws EditInfoException {
-        String encodedPassword = passwordEncoder.encode(requestMember.getPassword());
-        memberRepo.updateMemberByMemberNo(memberNo, encodedPassword, requestMember.getName());
     }
 
     @Override
@@ -184,30 +186,4 @@ public class MemberServiceImpl implements MemberService {
     public ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException {
         return memberRepo.findShelterMemberByNameAndMemberKind(name, 1);
     }
-
-
-//	@Autowired
-//	UserRepository userRepository;
-//
-//	@Autowired
-//	UserRepositorySupport userRepositorySupport;
-//
-//	@Autowired
-//	PasswordEncoder passwordEncoder;
-//
-//	@Override
-//	public User createUser(UserRegisterPostReq userRegisterInfo) {
-//		User user = new User();
-//		user.setUserId(userRegisterInfo.getId());
-//		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-//		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
-//		return userRepository.save(user);
-//	}
-//
-//	@Override
-//	public User getUserByUserId(String userId) {
-//		// 디비에 유저 정보 조회 (userId 를 통한 조회).
-//		User user = userRepositorySupport.findUserByUserId(userId).get();
-//		return user;
-//	}
 }
