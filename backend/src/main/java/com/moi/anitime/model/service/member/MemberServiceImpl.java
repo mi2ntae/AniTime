@@ -120,6 +120,29 @@ public class MemberServiceImpl implements MemberService {
         return member;
     }
 
+    @Override
+    public void logout(int memberNo) throws IOException {
+        Optional<Member> member = memberRepo.findById(memberNo);
+        if(!member.isPresent()) throw new NonExistMemberNoException();
+        if(member.get().getMemberKind() == 1) return;
+
+        Optional<GeneralMember> gMember = memberRepo.findGeneralMemberByMemberNo(memberNo);
+        String accessToken = gMember.get().getSnsToken();
+        if(accessToken == null || accessToken == "") return;
+
+        String postURL = "https://kapi.kakao.com/v1/user/logout";
+        URL url = new URL(postURL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+
+        conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+        int responseCode = conn.getResponseCode();
+        System.out.println("responseCode : " + responseCode);
+        System.out.println(conn.getResponseMessage());
+        
+    }
+
     private Member getMemberByKaKaoEmail(String accessToken) throws SnsNotConnectedMemberException, NonExistEmailException, IOException {
         String email = "";
         String postURL = "https://kapi.kakao.com/v2/user/me";

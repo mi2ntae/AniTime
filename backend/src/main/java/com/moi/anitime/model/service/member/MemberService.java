@@ -28,4 +28,5 @@ public interface MemberService {
 	List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException;
 	ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException;
 	Member getMemberByKakaoAccessToken(String code) throws SnsNotConnectedMemberException, NonExistEmailException, IOException;
+	void logout(int memberNo) throws IOException;
 }

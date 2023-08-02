@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import { MainContainer, Button } from "styled/styled";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs } from "@mui/material";
 import MyPageMeeting from "components/MyPage/MyPageMeeting";
 import MyPageChatting from "components/MyPage/MyPageChatting";
 import MyPageWatchlist from "components/MyPage/MyPageWatchlist";
+import http from "../api/commonHttp.js"
+import { useNavigate } from "react-router-dom";
+import { initMember } from "../reducer/member";
 
 export default function MyPage() {
   const member = useSelector((state) => state.member);
   const [tabNo, setTabNo] = useState(0);
+  const dispatch = useDispatch();
+  const memberNo = useSelector((state) => state.member.memberNo);
+  const navigate = useNavigate();
 
+  const logout = () => {
+    let logoutNo = memberNo;
+    http.get(`auth/logout/${logoutNo}`)
+    .then((res) => {
+      alert("로그아웃 하였습니다.");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    dispatch(initMember());
+  }
   const tabs = [
     // 일반회원: memberKind == 0
     [
@@ -33,7 +50,15 @@ export default function MyPage() {
           <MemberName>{member.name}</MemberName>
           <MemberType>{member.memberKind === 1 ? "보호소회원" : ""}</MemberType>
         </MemberNameDiv>
+        <div style={{
+          display: "flex"
+        }}>
         <Button $border="#E8EBEE 1px solid">정보수정하기</Button>
+        <Button onClick={logout} $border="#E8EBEE 3px solid" $background_color="#FF7676" color="white" style={{
+          fontWeight: "bold"
+        }}>로그아웃</Button>
+
+        </div>
       </MyPageHeader>
       <Tabs value={tabNo} onChange={(event, newVal) => setTabNo(newVal)}>
         {tabs[member.memberKind].map((item, index) => {
