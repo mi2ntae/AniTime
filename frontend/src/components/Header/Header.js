@@ -4,10 +4,10 @@ import { styled } from "styled-components";
 import Logo from "./Logo";
 import Notice from "../Notice/Notice";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export default function Header() {
-  const member = useSelector((state) => state.member);
+  // const member = useSelector((state) => state.member);
 
   return (
     <StyleHeader>
@@ -19,7 +19,8 @@ export default function Header() {
         <HeaderRight>
           <Img src="/icons/header/ic_help.svg" alt="help" />
           <Notice />
-          <Link to={member.token ? "/mypage" : "/login"}>
+          {/* <Link to={member.token ? "/mypage" : "/login"}> */}
+          <Link to={"/mypage"}>
             <Img src="/icons/header/ic_account.svg" alt="account" />
           </Link>
         </HeaderRight>

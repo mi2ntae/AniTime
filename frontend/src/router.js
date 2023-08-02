@@ -1,7 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import MyPageMeeting from "pages/mypagetab/MyPageMeeting";
-import MyPageChatting from "pages/mypagetab/MyPageChatting";
-import MyPageWatchlist from "pages/mypagetab/MyPageWatchlist";
 import MyPage from "pages/MyPage";
 import SelectTime from "components/SelectTime/SelectTime";
 import ReservationForm from "components/SelectTime/ReservationForm";
@@ -14,6 +11,14 @@ const router = createBrowserRouter([
     async lazy() {
       return {
         Component: (await import("pages/LoginPage")).default,
+      };
+    },
+  },
+  {
+    path: "/kakaoLogin",
+    async lazy() {
+      return {
+        Component: (await import("pages/KakaoResPage")).default,
       };
     },
   },
@@ -58,29 +63,28 @@ const router = createBrowserRouter([
       },
       {
         path: "missing",
-        async lazy() {
-          return {
-            Component: (await import("pages/MissingPage")).default,
-          };
-        },
+        children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingPage")).default,
+              };
+            },
+          },
+          {
+            path: "regist",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingRegist")).default,
+              };
+            },
+          },
+        ],
       },
       {
         path: "mypage",
         element: <MyPage />,
-        children: [
-          {
-            path: "meeting",
-            element: <MyPageMeeting />,
-          },
-          {
-            path: "chatting",
-            element: <MyPageChatting />,
-          },
-          {
-            path: "watchlist",
-            element: <MyPageWatchlist />,
-          },
-        ],
       },
       {
         path: "path", // 경로
@@ -92,10 +96,7 @@ const router = createBrowserRouter([
         },
       },
     ],
-  },
-  {
-    path: "*",
-    element: <ErrorPage />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
