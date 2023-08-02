@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -41,8 +41,8 @@ public class DonationBoardRegistReq {
                 .title(this.title)
                 .goalAmount(this.goalAmount)
                 .attainAmount(0)
-                .startAt(LocalDateTime.parse(this.startAt))
-                .endAt(LocalDateTime.parse(this.endAt))
+                .startAt(LocalDate.parse(this.startAt))
+                .endAt(LocalDate.parse(this.endAt))
                 .build();
     }
 }
