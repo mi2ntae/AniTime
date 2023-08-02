@@ -6,6 +6,8 @@ import { Tab, Tabs } from "@mui/material";
 import MyPageMeeting from "components/MyPage/MyPageMeeting";
 import MyPageChatting from "components/MyPage/MyPageChatting";
 import MyPageWatchlist from "components/MyPage/MyPageWatchlist";
+import ShelterMeeting from "components/MyPage/ShelterMeeting";
+import ShelterDonation from "components/MyPage/ShelterDonation";
 import http from "../api/commonHttp.js"
 import { useNavigate } from "react-router-dom";
 import { initMember } from "../reducer/member";
@@ -37,9 +39,9 @@ export default function MyPage() {
     ],
     // 보호소회원: memberKind == 1
     [
-      { title: "미팅신청현황", content: <MyPageMeeting /> },
-      { title: "채팅", content: <MyPageMeeting /> },
-      { title: "후원현황", content: <MyPageMeeting /> },
+      { title: "미팅신청현황", content: <ShelterMeeting /> },
+      { title: "채팅", content: <MyPageChatting /> },
+      { title: "후원현황", content: <ShelterDonation /> },
     ],
   ];
 

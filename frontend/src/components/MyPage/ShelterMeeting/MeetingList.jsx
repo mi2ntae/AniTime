@@ -8,13 +8,16 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
+import { useDispatch } from "react-redux";
+import { setMeetingNo } from "reducer/shelterMeeting";
 import { Button } from "styled/styled";
 
-export default function MyPageMeeting() {
+export default function MeetingList() {
   const [meetings, setMeetings] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [maxPage, setMaxPage] = useState(0);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // api 통신
@@ -42,23 +45,24 @@ export default function MyPageMeeting() {
   }, [pageNo]);
 
   return (
-    <MainDiv>
+    <>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>보호소명</TableCell>
+              <TableCell>이름</TableCell>
               <TableCell>미팅내용</TableCell>
-              <TableCell>공고번호</TableCell>
               <TableCell>일시</TableCell>
               <TableCell>미팅상태</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {meetings.map((item) => (
-              <TableRow key={item.meetNo}>
+              <TableRow
+                key={item.meetNo}
+                onClick={() => dispatch(setMeetingNo(item.meetNo))}
+              >
                 <TableCell>{item.member.name}</TableCell>
-                <TableCell>{item.reservedDate}</TableCell>
                 <TableCell>{item.reservedDate}</TableCell>
                 <TableCell>{item.reservedDate}</TableCell>
                 <TableCell>
@@ -76,14 +80,6 @@ export default function MyPageMeeting() {
         page={pageNo}
         onChange={(event, value) => setPageNo(value)}
       />
-    </MainDiv>
+    </>
   );
 }
-
-const MainDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-`;
