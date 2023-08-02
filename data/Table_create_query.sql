@@ -349,3 +349,5 @@ ON UPDATE CASCADE;
 
 INSERT INTO member VALUES (0,"aspire51@naver.com","root",1,"010-5061-8916","영천유기동물보호센터",""); 
 INSERT INTO sheltermember VALUES (1,"우리집은비밀이야", "/img/src/secret.jpg");
+
+SELECT A.desertionNo,SUBSTRING(A.kind,INSTR(A.kind, '[') + 1,INSTR(A.kind, ']') - INSTR(A.kind, '[') - 1) AS category,SUBSTRING(A.kind, INSTR(A.kind, ']') + 1) AS detailKind,A.sexcd,A.processState,A.image1,IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=1;

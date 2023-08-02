@@ -23,7 +23,7 @@ public class AnimalServiceImpl implements AnimalService{
     private final AnimalRepo animalRepo;
     private final MemberRepo memberRepo;
     @Override
-    public List<Animal> getAllAnimal(int generalNo, int kindType, int genderType, int sortType, int curPageNo) throws ListLoadingException {
+    public List<AnimalPreviewRes> getAllAnimal(int generalNo, int kindType, int genderType, int sortType, int curPageNo) throws ListLoadingException {
         String kind="";
         char sexcd='\0';
         String sortQuery="";
@@ -49,11 +49,14 @@ public class AnimalServiceImpl implements AnimalService{
         }
         switch(sortType){
             case 0://공고 최신순(default)
-                sortQuery="noticeSdate desc";
+                sortQuery="A.noticeSdate desc";
                 break;
             case 1://공고 오래된순
-                sortQuery="noticeSdate asc";
+                sortQuery="A.noticeSdate asc";
                 break;
+        }
+        for(AnimalPreviewRes e:animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9))){
+            System.out.println(e);
         }
         return animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9));
     }
@@ -69,7 +72,7 @@ public class AnimalServiceImpl implements AnimalService{
                     String temp = token.nextToken();
                     AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
                             .desertionNo(animal.getDesertionNo())
-                            .sexCd(animal.getSexcd())
+                            .sexcd(animal.getSexcd())
                             .thumbnail(animal.getImage1())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
