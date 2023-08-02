@@ -3,9 +3,9 @@ import { styled } from "styled-components";
 import { MainContainer, Button } from "styled/styled";
 import { useSelector } from "react-redux";
 import { Tab, Tabs } from "@mui/material";
-import MyPageMeeting from "./mypagetab/MyPageMeeting";
-import MyPageChatting from "./mypagetab/MyPageChatting";
-import MyPageWatchlist from "./mypagetab/MyPageWatchlist";
+import MyPageMeeting from "components/MyPage/MyPageMeeting";
+import MyPageChatting from "components/MyPage/MyPageChatting";
+import MyPageWatchlist from "components/MyPage/MyPageWatchlist";
 
 export default function MyPage() {
   const member = useSelector((state) => state.member);
@@ -34,7 +34,6 @@ export default function MyPage() {
           <MemberType>{member.memberKind === 1 ? "보호소회원" : ""}</MemberType>
         </MemberNameDiv>
         <Button $border="#E8EBEE 1px solid">정보수정하기</Button>
-        {console.log(member)}
       </MyPageHeader>
       <Tabs value={tabNo} onChange={(event, newVal) => setTabNo(newVal)}>
         {tabs[member.memberKind].map((item, index) => {
@@ -42,11 +41,11 @@ export default function MyPage() {
         })}
       </Tabs>
       <TabPanel>
-        {tabs[member.memberKind]
-          .filter((item, index) => index === tabNo)
-          .map((item, index) => (
-            <Fragment key={index}>{item.content}</Fragment>
-          ))}
+        {tabs[member.memberKind].map((item, index) => (
+          <div hidden={index !== tabNo} key={index} style={{ width: "100%" }}>
+            {item.content}
+          </div>
+        ))}
       </TabPanel>
     </MainContainer>
   );
