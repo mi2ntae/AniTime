@@ -41,7 +41,7 @@ export default function Missing() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <h3>상세정보창</h3>
+        <ProfileTab/>
       </DetailViewBox>
     </HorizontalContainer>
   );

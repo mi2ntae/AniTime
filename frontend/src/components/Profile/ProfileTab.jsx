@@ -46,6 +46,7 @@ export default function ProfileTab() {
     <div>
       {profiles.map((data) => (
         <button
+          key={data.profileNo}
           onClick={() => {
             dispatch(setProfileNo(data.profileNo));
           }}
