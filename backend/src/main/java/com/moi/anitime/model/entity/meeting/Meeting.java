@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,7 +22,7 @@ public class Meeting {
     @Column(name = " desertionno")
     long desertionNo;
     @Column(name = " reserveddate")
-    Date reservedDate;
+    LocalDateTime reservedDate;
     int status;
     String url;
     String reason;
