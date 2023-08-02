@@ -63,7 +63,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse noExistProfileException() {
         log.error("no exist profile exception");
-        return responseService.getFailResponse(ExceptionList.UNSUPPORTED_FILE_TYPE.getCode(), ExceptionList.UNSUPPORTED_FILE_TYPE.getMessage());
+        return responseService.getFailResponse(ExceptionList.NO_EXIST_PROFILE_NO.getCode(), ExceptionList.NO_EXIST_PROFILE_NO.getMessage());
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)

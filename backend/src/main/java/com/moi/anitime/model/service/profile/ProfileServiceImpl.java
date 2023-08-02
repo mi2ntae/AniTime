@@ -7,6 +7,7 @@ import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.api.response.profile.ProfileListRes;
+import com.moi.anitime.model.entity.profile.SexCode;
 import com.moi.anitime.model.repo.ProfileRepo;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,20 +89,20 @@ public class ProfileServiceImpl implements ProfileService{
         if (!profile.isPresent()) throw new NoExistProfileNoException();
         Profile res = profile.get();
         ProfileDetailRes profileDetailRes = ProfileDetailRes.builder()
-                .profileNo(res.getProfileNo())
-                .generalMember(res.getGeneralMember())
-                .profileName(res.getProfileName())
-                .profileKind(res.getProfileKind())
-                .detailKind(res.getDetailKind())
-                .sexCode(res.getSexCode())
-                .profileAge(res.getProfileAge())
+                .name(res.getProfileName())
+                .category(res.getProfileKind())
+                .kind(res.getDetailKind())
+//                .gender(res.getSexCode())
+                .age(res.getProfileAge())
                 .specialMark(res.getSpecialMark())
-                .dateAt(res.getDateAt())
-                .profileLocation(res.getProfileLocation())
+                .date(res.getDateAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+                .location(res.getProfileLocation())
                 .lat(res.getLat())
                 .lon(res.getLon())
                 .image(res.getImage())
                 .build();
+        if (res.getSexCode() == SexCode.F) profileDetailRes.setGender("암컷");
+        else if (res.getSexCode() == SexCode.M) profileDetailRes.setGender("수컷");
         return profileDetailRes;
     }
 }
