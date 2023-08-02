@@ -153,34 +153,32 @@ export default function LoginPage() {
                 id="password"
                 autoComplete="current-password"
                 sx={{
-                  width :"70%"
+                  width: "70%",
                 }}
               />
               <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                height : "23px",
-                width :"25%",
-                marginLeft : "5%",
-                fontWeight: "fontWeightBold",
-                fontSize: 13,
-              }}
-              
-            >
-              업종 조회 하기
-            </Button>
-            <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="사업자 증빙 자료"
-            type="file"
-            id="password"
-
-            autoComplete="current-password"
-            />
+                type="submit"
+                variant="contained"
+                sx={{
+                  height: "56px",
+                  width: "25%",
+                  marginLeft: "5%",
+                  fontWeight: "fontWeightBold",
+                  fontSize: 13,
+                }}
+              >
+                업종 조회 하기
+              </Button>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="사업자 증빙 자료"
+                type="file"
+                id="password"
+                autoComplete="current-password"
+              />
               <Button
                 type="submit"
                 fullWidth
