@@ -8,10 +8,7 @@ import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.donation.NonExistDonationException;
-import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NonExistMemberNoException;
-import com.moi.anitime.exception.member.NonExistEmailException;
-import com.moi.anitime.exception.member.PasswordIncorrectException;
+import com.moi.anitime.exception.member.*;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +23,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionAdvice {
     private final ResponseServiceImpl responseService;
+
+    @ExceptionHandler(SnsNotConnectedMemberException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse snsNotConnectedMemberException() {
+        log.error("sns not connected member");
+        return responseService.getFailResponse(ExceptionList.SNS_NOT_CONNECTED_MEMBER.getCode(), ExceptionList.SNS_NOT_CONNECTED_MEMBER.getMessage());
+    }
 
     @ExceptionHandler(ExistEmailException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

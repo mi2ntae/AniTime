@@ -20,6 +20,7 @@ public enum ExceptionList {
     UNSUPPORTED_FILE_TYPE(-1028, "파일 형식이 잘못되었습니다."),
     NON_EXIST_DONATION_BOARD(-1029, "존재하지 않는 후원 공고입니다"),
     NON_EXIST_DONATION(-1030, "존재하지 않는 후원 내역입니다"),
+    SNS_NOT_CONNECTED_MEMBER(-1031, "sns연동이 되지 않은 회원입니다.")
     ;
 
     private final int code;
