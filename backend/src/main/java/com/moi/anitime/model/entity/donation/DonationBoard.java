@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity(name = "donationboard")
@@ -32,10 +33,10 @@ public class DonationBoard {
     @Column(name = "attainamount")
     private int attainAmount;   // int DEFAULT NULL,
     @Column(name = "startat")
-    private LocalDateTime startAt;  // datetime DEFAULT NULL,
+    private LocalDate startAt;  // datetime DEFAULT NULL,
     @Column(name = "endat")
-    private LocalDateTime endAt;    // datetime DEFAULT NULL,
+    private LocalDate endAt;    // datetime DEFAULT NULL,
     @Column(name = "deleteat")
-    private LocalDateTime deleteAt; // datetime DEFAULT NULL,
+    private LocalDate deleteAt; // datetime DEFAULT NULL,
     private String poster;      // varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
 }
