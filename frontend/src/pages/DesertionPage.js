@@ -8,50 +8,39 @@ import "intersection-observer";
 
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [target, setTarget] = useState(null);
   const page = useRef(1);
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
-      const response = await http.get(`/api/desertion`);
-      const data = response.json();
-      setAnimals((prev) => prev.concat(data.results));
+      const response = await http.get(
+        `desertion?generalNo=3&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
+      );
+      const newData = await response.data;
+      setAnimals((prev) => [...prev, ...newData]);
       page.current++;
     } catch (error) {
       console.log("에러메시지: ", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     let observer;
-    if (isLoading) {
-      if (target) {
-        observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                observer.unobserve(entry.target);
-                fetchData();
-                observer.observe(entry.target);
-              }
-            });
-          },
-          { threshold: 1 }
-        );
-        observer.observe(target);
-      }
-    } else {
-      observer && observer.unobserve(target);
+    const handleIntersect = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          fetchData();
+        }
+      });
+    };
+
+    observer = new IntersectionObserver(handleIntersect, { threshold: 1 });
+    if (target) {
+      observer.observe(target);
     }
-  }, [isLoading, target]);
+
+    return () => observer && observer.disconnect();
+  }, [target]);
 
   return (
     <HorizontalContainer>
@@ -65,7 +54,12 @@ export default function Desertion() {
             <AnimalImg key={idx}>
               <DivP>
                 <Div>
-                  <img src={animal.image1} alt="AnimalImage" height="210px" />
+                  <img
+                    src={animal.image1}
+                    alt="AnimalImage"
+                    width="220px"
+                    height="200px"
+                  />
                 </Div>
                 <Div2>
                   <Span1>
@@ -76,7 +70,7 @@ export default function Desertion() {
                   <Span2>
                     {animal.kind}
                     <span>
-                      {animal.sexcd === "암컷" ? (
+                      {animal.sexcd === "F" ? (
                         <img src="/icons/ic_female.svg" alt="female" />
                       ) : (
                         <img src="/icons/ic_male.svg" alt="male" />
@@ -85,9 +79,9 @@ export default function Desertion() {
                   </Span2>
                 </Div2>
               </DivP>
-              <Target ref={setTarget} />
             </AnimalImg>
           ))}
+          <Target ref={setTarget} />
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
@@ -151,14 +145,14 @@ const AnimalImg = styled.div`
 const Span1 = styled.span`
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
 `;
 
 const Span2 = styled.span`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   color: gray;
   // font-weight: bold;
 `;
@@ -182,6 +176,6 @@ const Blank = styled.span`
 `;
 
 const Target = styled.div`
-  width: 100%;
-  height: 30px;
+  width: 700px;
+  height: 20px;
 `;
