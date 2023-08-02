@@ -17,6 +17,12 @@ import javax.persistence.*;
 @DiscriminatorColumn(name="DTYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn // 하위 테이블의 구분 컬럼 생성(default = DTYPE)
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "updateSnsTokenByMemberNo",
+                query = "UPDATE GeneralMember SET snsToken = :snsToken WHERE generalNo = :generalNo"
+        )
+})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

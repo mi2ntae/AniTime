@@ -15,6 +15,14 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "/kakaoLogin",
+    async lazy() {
+      return {
+        Component: (await import("pages/KakaoResPage")).default,
+      };
+    },
+  },
+  {
     path: "",
     async lazy() {
       return {
