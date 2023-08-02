@@ -1,5 +1,7 @@
 package com.moi.anitime.model.entity.animal;
 
+import com.moi.anitime.api.response.animal.AnimalPreviewRes;
+import com.moi.anitime.api.response.chat.ChatRoomListRes;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +14,36 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @Builder
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "getAnimal",
+                query = "SELECT A.desertionNo," +
+                        "SUBSTRING(A.kind," +
+                        "INSTR(A.kind, '[') + 1," +
+                        "INSTR(A.kind, ']') - INSTR(A.kind, '[') - 1) AS category," +
+                        "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image1 AS thumbnail," +
+                        "IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A " +
+                        "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo " +
+                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd ORDER BY :sortQuery",
+                resultSetMapping = "getAnimal"
+        )
+
+})
+@SqlResultSetMapping(
+        name = "getAnimal",
+        classes = @ConstructorResult(
+                targetClass = AnimalPreviewRes.class,
+                columns = {
+                        @ColumnResult(name = "desertionNo", type = Long.class),
+                        @ColumnResult(name = "category", type = String.class),
+                        @ColumnResult(name = "detailKind", type = String.class),
+                        @ColumnResult(name = "sexcd", type = Character.class),
+                        @ColumnResult(name = "processState", type = String.class),
+                        @ColumnResult(name = "thumbnail", type = String.class),
+                        @ColumnResult(name = "isBookmarked", type = Boolean.class)
+                }
+        )
+)
 public class Animal {
     @Id
     @Column(name = "desertionno")
