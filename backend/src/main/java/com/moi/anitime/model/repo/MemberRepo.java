@@ -27,6 +27,7 @@ public interface MemberRepo extends JpaRepository<Member, Integer> {
     public List<ShelterMember>findAllByMemberKind(@Param("memberkind") int kind);
 
     public ShelterMember findShelterMemberByNameAndMemberKind(@Param("name")String name, @Param("memberKind") int kind );
+    @Transactional
     @Modifying
     @Query("UPDATE Member m SET m.password = :password,m.name = :name WHERE m.memberNo=:memberNo")
     public void updateMemberByMemberNo(@Param("memberNo") int memberNo,@Param("password") String password,@Param("name") String name);

@@ -31,7 +31,7 @@ public class AnimalSchedule {
     private final MemberService memberServiceImpl;
 
 //    @Transactional
-    @Scheduled(cron = "30 30 15 * * *")
+    @Scheduled(cron = "0 30 01 * * *")
     public void inputAnimal() throws InterruptedException {
 
         List<ShelterMember> shelterMemberList = memberServiceImpl.findAllShelterMember();
@@ -40,7 +40,7 @@ public class AnimalSchedule {
         System.out.println(pageCnt);
         pageCnt = pageCnt/1000 + (pageCnt%1000==0? 0 : 1);
         System.out.println(pageCnt);
-        for(long i =25; i<=pageCnt;i++){
+        for(long i =1; i<=pageCnt;i++){
             System.out.println("page start");
             //api pageNo:i번째 데이터 1000개를 로드해온다.
             List<AnimalDto> animalDtoList = dataApiClient.getData(i);
@@ -62,6 +62,8 @@ public class AnimalSchedule {
             dataApiClient.insertDB(dataType);
             System.out.println(i + " page data input succed");
         }
+
+        System.out.println(" Data synchronization Complete");
 
     }
 }

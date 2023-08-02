@@ -1,5 +1,7 @@
 package com.moi.anitime.api.controller;
 
+import com.moi.anitime.api.request.member.MemberEditReq;
+import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.ResponseService;
@@ -14,6 +16,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(value = "멤버 API", tags = {"Member"})
 @RestController
@@ -36,8 +40,8 @@ public class MemberController {
 
     @PutMapping("/{memberNo}")
     @ApiOperation(value="회원 정보 수정",notes="연습용")
-    public CommonResponse editGeneralMember(@PathVariable("memberNo") int memberNo, @RequestBody GeneralMember requestMember) throws EditInfoException{
-        memberService.editGeneralMember(memberNo,requestMember);
+    public CommonResponse editGeneralMember(@PathVariable("memberNo") int memberNo, @RequestBody @Valid MemberEditReq memberEditReq) throws EditInfoException{
+        memberService.editGeneralMember(memberNo,memberEditReq);
         return responseService.getSuccessResponse();
     }
 }
