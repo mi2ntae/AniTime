@@ -7,6 +7,7 @@ export default function ProfileDetail() {
   let [profile, setProfile] = useState([]);
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
   useEffect(() => {
+    if (profileNo === 0) return;
     http
       .get(`profile/detail/${profileNo}`)
       .then((res) => {
