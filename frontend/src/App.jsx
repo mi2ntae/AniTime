@@ -1,12 +1,18 @@
-import Footer from 'components/Footer/Footer'
-import Header from 'components/Header/Header'
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import Footer from "components/Footer/Footer";
+import Header from "components/Header/Header";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 export default function App() {
-    return<>
-    <Header/>
-    <Outlet/>
-    <Footer/>
+  const token = useSelector((state) => state.member.token);
+  const pathname = useLocation().pathname;
+
+  return (
+    <>
+      <Header />
+      {pathname === "/" || token ? <Outlet /> : <Navigate to="/login" />}
+      <Footer />
     </>
+  );
 }
