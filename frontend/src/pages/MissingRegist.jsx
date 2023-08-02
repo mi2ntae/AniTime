@@ -1,8 +1,22 @@
 import http from "api/commonHttp";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import MapComponent from "../components/Profile/MapComponent.jsx";
 
 export default function MissingRegist() {
+  const [inputText, setInputText] = useState("");
+  const [place, setPlace] = useState("");
+
+  const onChange = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPlace(inputText);
+    setInputText("");
+  };
+
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [kind, setKind] = useState("");
@@ -19,9 +33,29 @@ export default function MissingRegist() {
   const [image, setImage] = useState(null);
   const [imageurl, setImageurl] = useState(null);
 
+  const [curLat, setCurLat] = useState("");
+  const [curLon, setCurLon] = useState("");
+
   const fileInputRef = useRef(null);
 
   let general = useSelector((state) => state.member);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        setCurLat(position.coords.latitude);
+        setCurLon(position.coords.longitude);
+        console.log(curLat);
+        console.log(curLon);
+      },
+      function (error) {
+        console.error("Error occurred. Error code: " + error.code);
+        setCurLat(37.50128068899183);
+        setCurLon(127.03959900643017);
+      },
+      { enableHighAccuracy: true }
+    );
+  }, []);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -293,6 +327,16 @@ export default function MissingRegist() {
             </button>
           </div>
         </form>
+
+        <form className="inputForm" onSubmit={handleSearch}>
+          <input
+            placeholder="검색어를 입력하세요"
+            onChange={onChange}
+            value={inputText}
+          />
+          <button type="submit">검색</button>
+        </form>
+        <MapComponent searchPlace={place} />
       </div>
 
       <style jsx="true">{`
