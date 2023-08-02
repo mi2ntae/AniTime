@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setMember } from "../reducer/member";
 import http from "../api/commonHttp";
 // import { Link } from "react-router-dom";
@@ -14,13 +14,16 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const defaultTheme = createTheme();
 export default function LoginPage() {
+  // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
+  const api_key = "2ac7d3d2bff68cb6f3ed6501ef44f2ae";
+  const redirect_uri = "http://localhost:3000/kakaoLogin";
+  // const redirect_uri = "http://localhost:8000/api/auth/oauth2/kakao";
   const dispatch = useDispatch();
   const navi = useNavigate();
 
@@ -41,6 +44,10 @@ export default function LoginPage() {
       .catch((err) => {});
   };
 
+  const kakaoLogin = async () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  };
+
   const tabChange = (event, newValue) => {
     setTabNo(newValue);
   };
@@ -54,8 +61,7 @@ export default function LoginPage() {
           sm={4}
           md={6}
           sx={{
-            backgroundImage:
-              "url(https://anitime.s3.ap-northeast-2.amazonaws.com/loginPageImg.png)",
+            backgroundImage: "url(/loginPageImg.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -139,8 +145,16 @@ export default function LoginPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, width: 400 }}
-                fontWeight="fontWeightBold"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  width: 400,
+                  fontWeight: "fontWeightBold",
+                  fontSize: 18,
+                }}
+                style={{
+                  marginLeft: 50,
+                }}
               >
                 로그인
               </Button>
@@ -157,6 +171,14 @@ export default function LoginPage() {
                 </Grid>
               </Grid> */}
             </Box>
+            <Button
+              onClick={kakaoLogin}
+              style={{
+                marginTop: 50,
+              }}
+            >
+              <img src="kakao_login_medium_wide.png" alt="버튼X" />
+            </Button>
           </Box>
         </Grid>
       </Grid>

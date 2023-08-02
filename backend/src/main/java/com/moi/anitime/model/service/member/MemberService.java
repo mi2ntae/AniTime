@@ -4,10 +4,7 @@ import com.moi.anitime.api.request.member.MemberEditReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
-import com.moi.anitime.exception.member.EditInfoException;
-import com.moi.anitime.exception.member.ExistEmailException;
-import com.moi.anitime.exception.member.NonExistMemberNoException;
-import com.moi.anitime.exception.member.NonExistEmailException;
+import com.moi.anitime.exception.member.*;
 import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.ShelterMember;
@@ -28,8 +25,8 @@ public interface MemberService {
 	Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException;
 	Member findShelterMemberById(int memberNo) throws NonExistMemberNoException;
 	void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException;
-
 	List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException;
-
 	ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException;
+	Member getMemberByKakaoAccessToken(String code) throws SnsNotConnectedMemberException, NonExistEmailException, IOException;
+	void logout(int memberNo) throws IOException;
 }

@@ -15,6 +15,14 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "/kakaoLogin",
+    async lazy() {
+      return {
+        Component: (await import("pages/KakaoResPage")).default,
+      };
+    },
+  },
+  {
     path: "",
     async lazy() {
       return {
@@ -55,11 +63,24 @@ const router = createBrowserRouter([
       },
       {
         path: "missing",
-        async lazy() {
-          return {
-            Component: (await import("pages/MissingPage")).default,
-          };
-        },
+        children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingPage")).default,
+              };
+            },
+          },
+          {
+            path: "regist",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingRegist")).default,
+              };
+            },
+          },
+        ],
       },
       {
         path: "mypage",

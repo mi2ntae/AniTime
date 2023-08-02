@@ -54,10 +54,8 @@ public class AnimalServiceImpl implements AnimalService{
             case 1://공고 오래된순
                 sortQuery="noticeSdate asc";
                 break;
-            case 2://(안락사)임박일순
-                sortQuery="noticeEdate asc";
         }
-        return animalRepo.getAnimal(kind,sexcd,sortQuery,PageRequest.of(curPageNo, 10));
+        return animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9));
     }
 
     @Override
@@ -83,8 +81,8 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
     @Override
-    public Optional<Animal> getAnimal(long generalNo) throws ListLoadingException {
-        return animalRepo.findAnimalByDesertionNo(generalNo);
+    public Optional<Animal> getAnimal(long desertionNo) throws ListLoadingException {
+        return animalRepo.findAnimalByDesertionNo(desertionNo);
     }
 
     @Override
