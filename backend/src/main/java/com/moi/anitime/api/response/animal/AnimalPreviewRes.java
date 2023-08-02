@@ -15,10 +15,10 @@ public class AnimalPreviewRes {
     private String category; // 축종 개고양
     private String detailKind;// 골든 리튼리버
 
-    private char sexCd;
+    private char sexcd;
     private String processState;
     private String thumbnail;
-
+    private boolean isBookmarked;
 
 
 }

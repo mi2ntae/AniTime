@@ -25,7 +25,7 @@ public class AnimalController {
     private final ResponseService responseService;
     private final BookmarkService bookmarkService;
     @GetMapping("")
-    public ListResponse<Animal> getAllAnimal(
+    public ListResponse<AnimalPreviewRes> getAllAnimal(
             @RequestParam int generalNo,
             @RequestParam int kindType,
             @RequestParam int genderType,
