@@ -1,6 +1,7 @@
 package com.moi.anitime.model.service.member;
 
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
+import com.moi.anitime.api.request.member.MemberEditReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
 import com.moi.anitime.exception.member.EditInfoException;
@@ -75,9 +76,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void editGeneralMember(int memberNo, GeneralMember requestMember) throws EditInfoException {
-		String encodedPassword=passwordEncoder.encode(requestMember.getPassword());
-		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, requestMember.getName());
+	public void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException {
+		String encodedPassword=passwordEncoder.encode(memberEditReq.getPassword());
+		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, memberEditReq.getName());
 	}
 
 	@Override

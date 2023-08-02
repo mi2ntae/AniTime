@@ -1,5 +1,6 @@
 package com.moi.anitime.model.service.member;
 
+import com.moi.anitime.api.request.member.MemberEditReq;
 import com.moi.anitime.api.request.member.MemberLoginReq;
 import com.moi.anitime.api.request.member.GeneralMemberRegistReq;
 import com.moi.anitime.api.request.member.ShelterMemberRegistReq;
@@ -26,7 +27,7 @@ public interface MemberService {
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
 	Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException;
 	Member findShelterMemberById(int memberNo) throws NonExistMemberNoException;
-	void editGeneralMember(int memberNo,GeneralMember requestMember) throws EditInfoException;
+	void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException;
 
 	List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException;
 
