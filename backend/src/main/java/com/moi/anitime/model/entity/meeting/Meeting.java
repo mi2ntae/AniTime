@@ -2,10 +2,7 @@ package com.moi.anitime.model.entity.meeting;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -17,9 +14,13 @@ import java.time.LocalDate;
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meetno")
     int meetNo;
+    @Column(name = " generalno")
     int generalNo;
+    @Column(name = " desertionno")
     long desertionNo;
+    @Column(name = " reserveddate")
     LocalDate reservedDate;
     int status;
     String url;
