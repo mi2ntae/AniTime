@@ -26,7 +26,7 @@ const Button = styled.button`
   box-sizing: border-box;
   width: ${({ width }) => width || "auto"};
   height: ${({ height }) => height || "auto"};
-  border: ${({ border }) => border || "none"};
+  border: ${({ $border }) => $border || "none"};
   border-radius: 8px;
   background-color: ${({ $background_color }) => $background_color || "white"};
   color: ${({ color }) => color || "black"};
