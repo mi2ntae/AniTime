@@ -20,8 +20,14 @@ const memberSlice = createSlice({
       state.memberKind = action.payload.member.memberKind;
       state.snsCheck = action.payload.member.snsCheck;
     },
+    initMember: (state) => {
+      state.token = "";
+      state.memberNo = -1;
+      state.name = "";
+      state.memberKind = -1;
+      state.snsCheck = false;
+    },
   },
 });
-
-export const { setMember } = memberSlice.actions;
+export const { setMember, initMember } = memberSlice.actions;
 export default memberSlice.reducer;
