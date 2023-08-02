@@ -1,6 +1,7 @@
 import React from "react";
-import MeetingList from "./MeetingList";
+import MeetingList from "./ShelterMeeting/MeetingList";
 import { styled } from "styled-components";
+import MeetingDetail from "./ShelterMeeting/MeetingDetail";
 
 export default function ShelterMeeting() {
   return (
@@ -8,7 +9,9 @@ export default function ShelterMeeting() {
       <ListDiv>
         <MeetingList />
       </ListDiv>
-      <RoomDiv>상세</RoomDiv>
+      <RoomDiv>
+        <MeetingDetail />
+      </RoomDiv>
     </MainDiv>
   );
 }
@@ -27,5 +30,8 @@ const ListDiv = styled.div`
 `;
 const RoomDiv = styled.div`
   flex: 1 0 0;
-  background-color: antiquewhite; // 구분용 임시 색
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 `;
