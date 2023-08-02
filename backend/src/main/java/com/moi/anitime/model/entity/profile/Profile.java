@@ -47,6 +47,8 @@ public class Profile {
     @Column(name = "dateat")
     private LocalDate dateAt;
 
+    private float weight;
+
     @Column(name = "profilelocation")
     private String profileLocation;
 
