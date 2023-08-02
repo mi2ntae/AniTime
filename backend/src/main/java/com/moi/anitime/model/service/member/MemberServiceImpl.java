@@ -35,7 +35,6 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class MemberServiceImpl implements MemberService {
-<<<<<<< backend/src/main/java/com/moi/anitime/model/service/member/MemberServiceImpl.java
     private final MemberRepo memberRepo;
     private final PasswordEncoder passwordEncoder;
     private final S3Uploader s3Uploader;
