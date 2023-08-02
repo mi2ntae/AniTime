@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import memberReducer from "./reducer/member";
 import detailInfoReducer from "./reducer/detailInfo";
-import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session";
 import persistReducer from "redux-persist/es/persistReducer";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storageSession,
   whitelist: ["member", "detailInfo"],
 };
 
