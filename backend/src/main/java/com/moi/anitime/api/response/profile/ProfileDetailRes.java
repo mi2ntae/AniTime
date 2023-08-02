@@ -11,16 +11,15 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ProfileDetailRes {
-    private int profileNo;
-    private GeneralMember generalMember;
-    private String profileName;
-    private ProfileKind profileKind;
-    private String detailKind;
-    private SexCode sexCode;
-    private int profileAge;
+    private String name;
+    private ProfileKind category;
+    private String kind;
+    private String gender;
+    private int age;
+    private float weight;
     private String specialMark;
-    private LocalDate dateAt;
-    private String profileLocation;
+    private String date;
+    private String location;
     private float lat;
     private float lon;
     private String image;

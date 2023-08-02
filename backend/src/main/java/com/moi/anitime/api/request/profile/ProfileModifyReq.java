@@ -53,6 +53,9 @@ public class ProfileModifyReq {
     @ApiModelProperty(name = "이미지경로")
     String image;
 
+    @ApiModelProperty(name = "몸무게")
+    float weight;
+
     public Profile toEntity() {
         Profile profile = Profile.builder()
                 .profileName(this.profileName)
@@ -66,6 +69,7 @@ public class ProfileModifyReq {
                 .lat(this.lat)
                 .lon(this.lon)
                 .image(this.image)
+                .weight(this.weight)
                 .build();
         return profile;
     }
