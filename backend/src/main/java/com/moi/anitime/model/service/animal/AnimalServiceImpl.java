@@ -83,8 +83,8 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
     @Override
-    public Optional<Animal> getAnimal(long generalNo) throws ListLoadingException {
-        return animalRepo.findAnimalByDesertionNo(generalNo);
+    public Optional<Animal> getAnimal(long desertionNo) throws ListLoadingException {
+        return animalRepo.findAnimalByDesertionNo(desertionNo);
     }
 
     @Override
