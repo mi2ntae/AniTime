@@ -119,9 +119,9 @@ CREATE TABLE `DonationBoard` (
 	`title`	varchar(100)	NULL,
 	`goalAmount`	Int	NULL,
 	`attainAmount`	Int	NULL,
-	`startAt`	datetime	NULL,
-	`endAt`	datetime	NULL,
-	`deleteAt`	datetime	NULL,
+	`startAt`	date NULL,
+	`endAt`	date	NULL,
+	`deleteAt`	date	NULL,
 	`poster`	varchar(255)	NULL
 )
 COMMENT='후원 공고 목록 또는 후원 공고 세부 정보 조회 시 사용하는 테이블 '
