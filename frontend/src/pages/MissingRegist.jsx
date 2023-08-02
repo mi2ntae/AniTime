@@ -17,6 +17,7 @@ export default function MissingRegist() {
   const [lat, setLat] = useState(1);
   const [lon, setLon] = useState(1);
   const [image, setImage] = useState(null);
+  const [imageurl, setImageurl] = useState(null);
 
   const fileInputRef = useRef(null);
 
@@ -29,10 +30,13 @@ export default function MissingRegist() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    setImage(file);
+
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setImage(reader.result);
+      setImageurl(reader.result);
     };
 
     reader.readAsDataURL(file);
@@ -41,24 +45,49 @@ export default function MissingRegist() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const profile = {
+      generalNo: general.memberNo,
+      profileName: name,
+      profileKind: "개",
+      detailKind: kind,
+      sexCode: gender,
+      profileAge: age,
+      specialMark: specialMark,
+      year: year,
+      month: month,
+      day: day,
+      profileLocation: location,
+      lat: lat,
+      lon: lon,
+    };
+    const profileJSON = JSON.stringify(profile);
     const formData = new FormData();
-    formData.append("generalNo", general.memberNo);
-    formData.append("profileName", name);
-    formData.append("profileKind", category);
-    formData.append("detailKind", kind);
-    formData.append("sexCode", gender);
-    formData.append("profileAge", age);
-    formData.append("specialMark", specialMark);
-    formData.append("dateAt", year + "-" + month + "-" + day);
-    formData.append("profileLocation", location);
-    formData.append("lat", lat);
-    formData.append("lon", lon);
+
+    // formData.append("profile[generalNo]", general.memberNo);
+    // formData.append("profile[profileName]", name);
+    // formData.append("profile[profileKind]", category);
+    // formData.append("profile[detailKind]", kind);
+    // formData.append("profile[sexCode]", gender);
+    // formData.append("profile[profileAge]", age);
+    // formData.append("profile[specialMark]", specialMark);
+    // formData.append("profile[year]", year);
+    // formData.append("profile[month]", month);
+    // formData.append("profile[day]", day);
+    // formData.append("profile[profileLocation]", location);
+    // formData.append("profile[lat]", lat);
+    // formData.append("profile[lon]", lon);
+    formData.append("profile", profileJSON);
     formData.append("image", image);
 
     http
-      .post("/profile", formData)
+      .post("/profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         console.log("success");
+        console.log(formData);
       })
       .catch((error) => {
         console.error(error);
@@ -249,8 +278,8 @@ export default function MissingRegist() {
                 className="image"
                 onClick={handleImageClick}
                 style={{
-                  background: image
-                    ? `url(${image}) no-repeat center/cover`
+                  background: imageurl
+                    ? `url(${imageurl}) no-repeat center/cover`
                     : `url("/img_non_selected.png") no-repeat center/cover`,
                 }}
               />
