@@ -99,7 +99,7 @@ CREATE TABLE `Notice` (
 	`noticeKind`	Int	NULL COMMENT '0 : 채팅 1 : 미팅 2: 실종',
 	`noticeTime`	DateTime	NULL,
 	`noticeContent`	varchar(255)	NULL,
-	`noticeCheck` TINYINT NOT NULL DEFAULT 0
+	`noticeCheck` TINYINT(1) NOT NULL DEFAULT 0
 )
 COMMENT='알람테이블'
 COLLATE='utf8mb4_bin'
