@@ -9,9 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 @Repository
 public interface MeetingRepo extends JpaRepository<Meeting, Integer> {
     public Page<Meeting> findMeetingsByMember_MemberNoOrderByReservedDateDesc(@Param("generalno") int generalno, Pageable page);
     public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(@Param("shelterno") int shelterno, Pageable page);
-
+    public int countMeetingByReservedDateBetween(LocalDateTime start, LocalDateTime end);
 }
