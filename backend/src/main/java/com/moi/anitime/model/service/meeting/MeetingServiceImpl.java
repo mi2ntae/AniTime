@@ -64,18 +64,19 @@ public class MeetingServiceImpl implements MeetingService{
 
 
         for(Meeting meet : meetList) {
-            String shelterName = memberRepo.findById(meet.getAnimal().getShelterNo()).get().getName();
+            System.out.println(meet);
+            String shelterName = memberRepo.findShelterMemberByMemberNo(meet.getAnimal().getShelterNo()).get().getName();
             MeetingListRes newMeet = MeetingListRes.builder()
                     .meetNo(meet.getMeetNo())
                     .meetContent(meet.getAnimal().getProcessState())
-                    .reservedDate(meet.getReservedDate().toString())
+                    .reservedDate(meet.getReservedDate())
                     .desertionNo(meet.getAnimal().getDesertionNo())
                     .shelterName(shelterName)
                     .state(meet.getStatus())
                     .build();
             meets.add(newMeet);
         }
-        return new PageImpl<>(meets, meetList.getPageable(), meetList.getTotalPages());
+        return new PageImpl<>(meets, meetList.getPageable(), meetList.getTotalElements());
     }
 
 

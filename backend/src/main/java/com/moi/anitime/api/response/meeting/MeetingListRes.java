@@ -12,6 +12,6 @@ public class MeetingListRes {
     private String shelterName;
     private String meetContent;
     private long desertionNo;
-    private String reservedDate;
+    private LocalDateTime reservedDate;
     private int state;
 }
