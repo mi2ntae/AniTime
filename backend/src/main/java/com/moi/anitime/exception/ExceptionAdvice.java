@@ -8,6 +8,7 @@ import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.donation.NonExistDonationException;
+import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.exception.member.*;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
@@ -29,6 +30,12 @@ public class ExceptionAdvice {
     protected CommonResponse snsNotConnectedMemberException() {
         log.error("sns not connected member");
         return responseService.getFailResponse(ExceptionList.SNS_NOT_CONNECTED_MEMBER.getCode(), ExceptionList.SNS_NOT_CONNECTED_MEMBER.getMessage());
+    }
+    @ExceptionHandler(NonExistMeetNoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonExistMeetNoException() {
+        log.error("meeting is not exist");
+        return responseService.getFailResponse(ExceptionList.NON_EXIST_MEET_NO.getCode(), ExceptionList.NON_EXIST_MEET_NO.getMessage());
     }
 
     @ExceptionHandler(ExistEmailException.class)
