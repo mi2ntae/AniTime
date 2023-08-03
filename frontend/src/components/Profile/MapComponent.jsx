@@ -2,9 +2,9 @@ import { margin } from "@mui/system";
 import { right } from "@popperjs/core";
 import { useEffect, useState } from "react";
 
-export default function MapComponent({ setModal, getPosition }) {
-  const [curLat, setCurLat] = useState("37.5012860931305");
-  const [curLon, setCurLon] = useState("127.039604663862");
+export default function MapComponent({ y, x, setModal, getPosition }) {
+  const [curLat, setCurLat] = useState(y);
+  const [curLon, setCurLon] = useState(x);
   const [inputText, setInputText] = useState("");
   const [search, setSearch] = useState("");
 
@@ -28,7 +28,7 @@ export default function MapComponent({ setModal, getPosition }) {
     const kakao = window.kakao;
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862),
+      center: new kakao.maps.LatLng(y, x),
       level: 3,
     };
 
