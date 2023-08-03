@@ -90,7 +90,7 @@ export default function MapComponent({ setModal, getPosition }) {
   return (
     <>
       <div className="map-search-modal">
-        <h3 style={{ margin: "0px 0px 16px 0px" }}>실종위치 검색</h3>
+        <h4 style={{ margin: "0px 0px 20px 0px" }}>실종위치 검색</h4>
         <div className="map-container">
           <div className="map-area">
             <div id="map" style={{ width: "100%", height: "100%" }} />
@@ -164,6 +164,7 @@ export default function MapComponent({ setModal, getPosition }) {
         flex: 0 0 57%;
         // height: 500px;
         margin-right: 16px;
+        
     }
     .search-area {
         flex: 1;
@@ -178,6 +179,7 @@ export default function MapComponent({ setModal, getPosition }) {
         width: 57%
         height: 500px;
         margin-right: 16px;
+        border-radius: 8px;
     }
     .search-form {
         display: flex;

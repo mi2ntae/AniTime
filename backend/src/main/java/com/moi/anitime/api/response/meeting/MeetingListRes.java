@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 @Builder
 public class MeetingListRes {
     private int meetNo;
-    private String shelterName;
+    private String name;
     private String meetContent;
     private long desertionNo;
     private LocalDateTime reservedDate;
     private int state;
+    private String url;
 }

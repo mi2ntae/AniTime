@@ -1,6 +1,7 @@
 package com.moi.anitime.model.service.notice;
 
 import com.moi.anitime.api.request.notice.NoticeReq;
+import com.moi.anitime.exception.notice.NoticeGenerationException;
 import com.moi.anitime.model.entity.notice.Notice;
 import com.moi.anitime.model.repo.ChatMessageRepo;
 import com.moi.anitime.model.repo.MeetingRepo;
@@ -23,8 +24,7 @@ public class NoticeServiceImpl implements NoticeService{
     private final MeetingRepo meetingRepo;
 
     @Override
-    public void generateNotice(NoticeReq noticeReq) {
-//        여기서 noticeContent 작성해야 함
+    public void generateNotice(NoticeReq noticeReq) throws NoticeGenerationException {
         String generalMemberName=(noticeReq.getGeneralNo()==0)?"": memberRepo.findNameByMemberNo(noticeReq.getGeneralNo());
         String shelterMemberName=(noticeReq.getShelterNo()==0)?"":memberRepo.findNameByMemberNo(noticeReq.getShelterNo());
         String noticeContent;
@@ -68,10 +68,10 @@ public class NoticeServiceImpl implements NoticeService{
                         break;
                     case 3://임박-일반 회원, 보호소 회원 모두에게 미팅 임박 메시지 보냄
                         noticeContent=generalMemberName+"님의 "+shelterMemberName+" 미팅("+reservationDate+") 한 시간 전입니다.";
-                        notice=noticeReq.toEntity(noticeReq.getGeneralNo(),noticeContent);
+                        notice=noticeReq.toEntity(noticeReq.getGeneralNo(),noticeContent,true);
                         noticeRepo.save(notice);
                         noticeContent=generalMemberName+"님과의 미팅("+reservationDate+") 한 시간 전입니다.";
-                        notice=noticeReq.toEntity(noticeReq.getShelterNo(),noticeContent);
+                        notice=noticeReq.toEntity(noticeReq.getShelterNo(),noticeContent,true);
                         noticeRepo.save(notice);
                         return;
                     case 4://회원별 금일 미팅 건수

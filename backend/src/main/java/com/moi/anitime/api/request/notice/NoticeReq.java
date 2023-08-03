@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @ApiModel("noticeReq")
@@ -17,9 +18,9 @@ public class NoticeReq {
     LocalDateTime reservedDate;
     int amount;
 
-    public Notice toEntity(String noticeContent) {
+    public Notice toEntity(int memberNo, String noticeContent) {
         Notice notice=Notice.builder()
-                .memberNo(this.memberNo)
+                .memberNo(memberNo)
                 .noticeKind(this.noticeKind)
                 .noticeTime(LocalDateTime.now())
                 .noticeContent(noticeContent)
@@ -28,11 +29,11 @@ public class NoticeReq {
         return notice;
     }
 
-    public Notice toEntity(int memberNo, String noticeContent) {
+    public Notice toEntity(int memberNo, String noticeContent, boolean pending) {
         Notice notice=Notice.builder()
                 .memberNo(memberNo)
                 .noticeKind(this.noticeKind)
-                .noticeTime(LocalDateTime.now())
+                .noticeTime(this.reservedDate.minusHours(1))
                 .noticeContent(noticeContent)
                 .noticeCheck(false)
                 .build();
