@@ -4,6 +4,16 @@ import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 
 export default function ProfileDetail() {
+  let title = {
+    name: "이름",
+    kind: "품종",
+    gender: "성별",
+    age: "나이",
+    weight: "몸무게",
+    specialMark: "성격 및 기타",
+    date: "실종일",
+    location: "실종위치",
+  };
   let [profile, setProfile] = useState([]);
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
   useEffect(() => {
@@ -18,35 +28,122 @@ export default function ProfileDetail() {
       });
   }, [profileNo]);
   return (
-    <div className="component-parent">
-      <h1>{profile.profileNo}</h1>
-      <div className="rectangle-parent">
-        <div className="component-child" />
-        <div className="component-item" />
-        <div className="component-inner" />
-        <b className="b7">수정</b>
-        <b className="b8">삭제</b>
-        <div className="div75">{profile.profileName}</div>
-        <div className="div76">이름</div>
-        <b className="b9">대상동물 정보</b>
-        <div className="div77">
-          {profile.profileKind} / {profile.detailKind}
+    <>
+      <div className="profile-container">
+        <img src={profile.image} className="profile-image"></img>
+        <div className="profile-desc-container">
+          <div className="profile-title-area">{profile.name} 정보</div>
+          {/* <div className="profile-desc-area">
+            <div className="profile-desc-title">
+              {title[index]}
+            </div>
+            <div className="profile-desc-content">
+              {profile.[?]}
+            </div>
+          </div> */}
+          {Object.keys(title).map((key, index) => (
+            <div className="profile-desc-area" key={index}>
+              <div className="profile-desc-title">{title[key]}</div>
+              <div className="profile-desc-content">{profile[key]}</div>
+            </div>
+          ))}
+          <div className="profile-btn-container">
+            <button className="profile-edit-btn">수정</button>
+            <button className="profile-del-btn">삭제</button>
+          </div>
         </div>
-        <div className="div78">종류</div>
-        <div className="kg1">{profile.sexCode}</div>
-        <div className="div79">성별</div>
-        <div className="div80">{profile.profileAge}</div>
-        <div className="div81">만 나이</div>
-        <div className="x4">{profile.kg}?</div>
-        <div className="div82">몸무게</div>
-        <div className="x5">{profile.specialMark}</div>
-        <div className="x6">{profile.dateAt}</div>
-        <div className="x7">{profile.profileLocation}</div>
-        <div className="div83">성격</div>
-        <div className="div84">실종일</div>
-        <div className="div85">실종위치</div>
-        <img className="component-child2" alt="" src={profile.image} />
       </div>
-    </div>
+      <style jsx="true">{`
+        .profile-container {
+          border-radius: 8px;
+          border: 1px solid var(--lightgrey, #e8ebee);
+          width: 100%;
+        }
+        .profile-image {
+          width: 100%;
+          height: 200px;
+          border-radius: 8px 8px 0px 0px;
+        }
+        .profile-desc-container {
+          padding: 32px;
+        }
+        .profile-title-area {
+          color: var(--blackgrey, #35383b);
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 130%; /* 15.6px */
+          letter-spacing: 0.12px;
+        }
+        .profile-desc-area {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          margin: 16px 0 0 0;
+        }
+        // .profile.desc-element {
+        //   display: flex;
+        //   margin: 12px 0 0 0;
+        // }
+        .profile-desc-title {
+          width: 100px;
+          color: var(--grey-2, #a7aeb4);
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 130%; /* 18.2px */
+          letter-spacing: 0.14px;
+        }
+        .profile-desc-content {
+          flex: 1;
+          color: var(--blackgrey, #35383b);
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 130%; /* 18.2px */
+          letter-spacing: 0.14px;
+        }
+        .profile-btn-container {
+          gap: 8px;
+          display: flex;
+          margin-top: 36px;
+        }
+        .profile-edit-btn {
+          border-radius: 12px;
+          border: 1px solid var(--primary, #3994f0);
+          background: var(--white, #fff);
+
+          color: var(--primary, #3994f0);
+          text-align: center;
+          font-family: Noto Sans KR;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 700;
+          // line-height: 155%;
+
+          height: 50px;
+          flex: 1;
+        }
+        .profile-del-btn {
+          border-radius: 12px;
+          border: 1px solid var(--red, #ff7676);
+          background: var(--white, #fff);
+
+          color: var(--red, #ff7676);
+          text-align: center;
+          font-family: Noto Sans KR;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 700;
+          // line-height: 155%; /* 24.8px */
+
+          height: 50px;
+          flex: 1;
+        }
+      `}</style>
+    </>
   );
 }

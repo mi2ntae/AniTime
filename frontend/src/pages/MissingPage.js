@@ -47,24 +47,21 @@ export default function Missing() {
 }
 
 const ListFilterContainer = styled.div`
-  flex: 1;
-  width: 800px;
-  height: 700px;
-  margin-right: 20px;
-  padding: 20px;
+  display: flex;
+  margin-right: 40px;
+  flex: 2;
 `;
 
 const ListContainer = styled.div`
   display: flex;
+  flex-grow: 2;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-content: flex-start;
-  width: 700px;
   height: 600px;
   padding: 10px;
   overflow-y: scroll;
   text-align: center;
-  margin-top: 74px;
   border: 1px solid #ccc;
   border-radius: 8px;
   ${css`
@@ -76,12 +73,6 @@ const ListContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  width: 200px;
-  height: 580px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 93px;
 `;
 
 const AnimalImg = styled.div`
