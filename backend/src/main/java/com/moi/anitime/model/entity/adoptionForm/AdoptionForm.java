@@ -1,6 +1,7 @@
 package com.moi.anitime.model.entity.adoptionForm;
 
 import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.meeting.Meeting;
 import com.moi.anitime.model.entity.member.Member;
 import lombok.*;
 
@@ -18,12 +19,9 @@ public class AdoptionForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formno")
     private int formNo;
-    @ManyToOne
-    @JoinColumn(name = "generalno")
-    private Member member;
-    @ManyToOne
-    @JoinColumn(name = "desertionno")
-    private Animal animal;
+    @OneToOne
+    @JoinColumn(name = "meetno")
+    private Meeting meeting;
     private String image;
 
 }
