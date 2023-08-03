@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AnimalRepo extends JpaRepository<Animal, Integer> {
+public interface AnimalRepo extends JpaRepository<Animal, Long> {
 
     @Query(value = "SELECT A.*,IF(B.bookmarkNo IS NOT NULL,'Y','N') AS isBookMarked FROM Animal AS A " +
             "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo"+
