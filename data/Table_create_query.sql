@@ -170,8 +170,7 @@ COLLATE='utf8mb4_bin'
 ;
 CREATE TABLE `AdoptionForm` (
 	`formNo`	Int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`generalNo`	Int	NOT NULL,
-	`desertionNo`	bigint	NOT NULL,
+	`meetNo`	Int	NOT NULL,
 	`image`	varchar(255)	NULL
 )
 COMMENT='보호소 회원, 비회원의 공통된 회원 정보 저장을 위한 테이블'
@@ -329,21 +328,11 @@ REFERENCES `Animal` (
 ON DELETE CASCADE
 ON UPDATE cascade;
 
-ALTER TABLE `AdoptionForm` ADD CONSTRAINT `FK_Member_TO_AdoptionForm_generalNo` FOREIGN KEY (
-	`generalNo`
+ALTER TABLE `AdoptionForm` ADD CONSTRAINT `FK_Meeting_TO_AdoptionForm_meetNo` FOREIGN KEY (
+	`meetNo`
 )
-REFERENCES `Member` (
-	`memberNo`
+REFERENCES `Meeting` (
+	`meetNo`
 )
 ON DELETE CASCADE
 ON UPDATE cascade;
-
-ALTER TABLE `AdoptionForm` ADD CONSTRAINT `FK_Animal_TO_AdoptionForm_generalNo` FOREIGN KEY (
-	`generalNo`
-)
-REFERENCES `Member` (
-	`memberNo`
-)
-ON DELETE CASCADE
-ON UPDATE CASCADE;
-
