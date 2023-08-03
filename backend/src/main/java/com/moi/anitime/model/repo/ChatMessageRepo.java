@@ -16,6 +16,10 @@ public interface ChatMessageRepo extends JpaRepository<ChatMessage, Integer> {
     void updateChatMessagesRead(@Param("roomno") int roomNo, @Param("sendno") int sendNo);
 
     @Modifying
-    @Query("SELECT COUNT(*) FROM ChatRoom JOIN ChatMessage AS CM ON ChatRoom.roomNo = ChatMessage.roomNo WHERE ChatRoom.generalNo = :memberno AND ChatMessage.sendNo != :memberno AND ChatMessage.isread = 0")
-    int getUnreadedMessagesByMemberNo(int memberNo);
+    @Query(value = "SELECT count(*) from ChatMessage WHERE ChatMessage.roomNo in (Select roomNo from ChatRoom WHERE generalNo = :memberNo) AND sendNo != :memberNo AND isread = false",nativeQuery = true)
+    int getUnreadedMessagesByGeneralNo(int memberNo);
+
+    @Modifying
+    @Query(value = "SELECT count(*) from ChatMessage WHERE ChatMessage.roomNo in (Select roomNo from ChatRoom WHERE shelterNo = :memberNo) AND sendNo != :memberNo AND isread = false",nativeQuery = true)
+    int getUnreadedMessagesByShelterNo(int memberNo);
 }

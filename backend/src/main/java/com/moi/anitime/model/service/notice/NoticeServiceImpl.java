@@ -44,8 +44,14 @@ public class NoticeServiceImpl implements NoticeService{
         }
         switch(kind){
             case 0://읽지 않은 채팅-ㅇㅇ님, 읽지 않은 채팅이 ㅁㅁ건 있습니다.
-                noticeContent=userName+"님, 읽지 않은 채팅이 "+chatMessageRepo.getUnreadedMessagesByMemberNo(memberNo)+"건 있습니다.";
-                notice = noticeReq.toEntity(memberNo,noticeContent);
+                int cnt;
+                if(generalMemberName.length()>0){
+                    cnt= chatMessageRepo.getUnreadedMessagesByGeneralNo(memberNo);
+                }else{
+                    cnt= chatMessageRepo.getUnreadedMessagesByShelterNo(memberNo);
+                }
+                noticeContent=userName+"님, 읽지 않은 채팅이 "+cnt+"건 있습니다.";
+                notice=noticeReq.toEntity(memberNo,noticeContent);
                 break;
             case 1://미팅-ㅇㅇ님의 ㅁㅁ보호소 미팅 예약(ㅍㅍ일 ㅍㅍ시 ㅍㅍ분)이 (상태)되었습니다.
                 reservationDate=DateTimeFormatter.ofPattern("yyyy년 M월 d일 HH시 mm분").format(noticeReq.getReservedDate());
@@ -75,7 +81,6 @@ public class NoticeServiceImpl implements NoticeService{
                         noticeRepo.save(notice);
                         return;
                     case 4://회원별 금일 미팅 건수
-                        int cnt;
                         if(generalMemberName.length()>0){
                             cnt=meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(noticeReq.getReservedDate(),noticeReq.getReservedDate(), noticeReq.getGeneralNo());
                         }else{
