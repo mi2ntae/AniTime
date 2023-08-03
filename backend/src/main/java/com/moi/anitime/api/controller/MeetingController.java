@@ -62,4 +62,13 @@ public class MeetingController {
         return responseService.getSuccessResponse();
     }
 
+    @GetMapping("/reservation/{shelterNo}")
+    @ApiOperation(value = "미팅 가능 시간 조회", notes = "월,일을 받아서 미팅이 가능한 시각 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public SingleResponse findPossibleTime(@PathVariable("shelterNo") int shelterNo, @RequestParam("month") int month, @RequestParam("day") int day) {
+        return responseService.getSingleResponse(meetingService.getPossibleTime(shelterNo, month, day));
+    }
+
 }
