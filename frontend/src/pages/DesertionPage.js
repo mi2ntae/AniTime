@@ -9,13 +9,12 @@ import "intersection-observer";
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
   const [target, setTarget] = useState(null);
-  const page = useRef(1);
+  const page = useRef(0);
 
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=3&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
-      );
+        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}` );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
       page.current++;
