@@ -21,7 +21,7 @@ export default function MissingUpdate() {
   const [year, setYear] = useState("2023");
   const [month, setMonth] = useState("01");
   const [day, setDay] = useState("01");
-  const [location, setLocation] = useState("실종위치");
+  const [location, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [image, setImage] = useState(null);
@@ -109,7 +109,7 @@ export default function MissingUpdate() {
     if (!file) return;
 
     setImage(file);
-    
+
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -333,6 +333,7 @@ export default function MissingUpdate() {
                   onClick={() => {
                     setModal(true);
                   }}
+                  style={{border: modal? "1px solid var(--primary, #3994f0)" : "0.77px solid var(--lightgrey, #e8ebee)"}}
                 >
                   <span>{location}</span>
                 </div>
@@ -361,7 +362,7 @@ export default function MissingUpdate() {
 
           <div className="btn-field">
             <button className="submit-btn" type="submit">
-              실종 정보 등록
+              실종 정보 수정
             </button>
           </div>
         </form>
@@ -445,11 +446,15 @@ export default function MissingUpdate() {
           box-sizing: border-box;
           padding-left: 24px;
           margin-right: 6%;
+          color: #35383B;
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;
+        }
+        input::placeholder {
+            color: #A7AEB4;
         }
         .location-area {
           width: 86%;
@@ -465,6 +470,7 @@ export default function MissingUpdate() {
           display: flex;
           align-items: center;
           font-size: 14px;
+          color: #35383B;
         }
         .select-field {
           width: 86%;
