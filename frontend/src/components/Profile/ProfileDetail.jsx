@@ -2,8 +2,10 @@ import { useSelector } from "react-redux";
 import "./ProfileDetailCss.css";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
+import { Link } from 'react-router-dom';
 
 export default function ProfileDetail() {
+  const [modal, setModal] = useState(false);
   let title = {
     name: "이름",
     kind: "품종",
@@ -27,8 +29,24 @@ export default function ProfileDetail() {
         console.log("프로필 세부정보 조회 실패");
       });
   }, [profileNo]);
+
+  const handleDelClick = () => {
+    setModal(false);
+    window.location.reload();
+    return;
+    http
+      .delete(`profile/${profileNo}`)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
   return (
     <>
+    {modal && <div className="overlay" />}
       <div className="profile-container">
         <img src={profile.image} className="profile-image"></img>
         <div className="profile-desc-container">
@@ -48,10 +66,13 @@ export default function ProfileDetail() {
             </div>
           ))}
           <div className="profile-btn-container">
-            <button className="profile-edit-btn">수정</button>
-            <button className="profile-del-btn">삭제</button>
+            <Link to="/missing/update" style={{flex: "1"}}>
+              <button className="profile-edit-btn">수정</button>
+            </Link>
+            <button className="profile-del-btn" onClick={() => setModal(true)}>삭제</button>
           </div>
         </div>
+        {modal && (<Modal setModal={setModal} handleDelClick={handleDelClick}/>)}
       </div>
       <style jsx="true">{`
         .profile-container {
@@ -125,7 +146,8 @@ export default function ProfileDetail() {
           // line-height: 155%;
 
           height: 50px;
-          flex: 1;
+          // flex: 1;
+          width: 100%;
         }
         .profile-del-btn {
           border-radius: 12px;
@@ -143,7 +165,51 @@ export default function ProfileDetail() {
           height: 50px;
           flex: 1;
         }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.28);
+          pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+          z-index: 998;
+        }
       `}</style>
     </>
   );
+}
+
+function Modal({setModal, handleDelClick}) {
+  return (
+    <>
+    <div className="modal-container">
+    <img src="icons/img_delete.svg" alt="Error" />
+    <div style={{fontSize: "18px", fontWeight: "700", color: "var(--gray-scale-dark-gray-2, #1A1A1A)", marginTop: "24px", marginBottom: "8px"}}>정말 삭제하시겠어요?</div>
+    <div style={{fontSize: "12px", fontWeight: "400", textAlign: "center", color: "var(--gray-scale-gray-3, #6F6F6F)"}}>삭제한 내 동물은 복구가 불가능해요!<br/>신중하게 검토한 후 삭제해 주세요.</div>
+    <div style={{display: "flex", width: "100%", marginTop: "56px"}}>
+      <button style={{color: "var(--gray-scale-gray-1, #C1C1C1)", fontSize: "18px", fontWeight: "500", border: "0", flex: "1", height: "48px", backgroundColor: "white"}} onClick={() => setModal()}>취소</button>
+      <button style={{color: "var(--red, #FF7676)", fontSize: "18px", fontWeight: "500", border: "0", flex: "1", backgroundColor: "white"}} onClick={() => handleDelClick()}>삭제</button>
+    </div>
+    </div>
+    <style jsx="true">{`
+      .modal-container {
+        background-color: white;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 240px;
+        height: 320px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: column;
+        padding: 64px 56px 40px 56px;
+        z-index: 999;
+      }
+    `}</style>
+    </>
+  )
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import animaldata from "components/Missing/animaldata2.json";
+import { Link } from 'react-router-dom';
 
 export default function Missing() {
   const animals = animaldata.animals;
@@ -42,6 +43,9 @@ export default function Missing() {
       <DetailViewBox>
         <ProfileTab />
       </DetailViewBox>
+      <Link to="/missing/regist">
+        <RegistBtn/>
+      </Link>
     </HorizontalContainer>
   );
 }
@@ -112,4 +116,18 @@ const DivP = styled.div`
 
 const Blank = styled.span`
   margin-right: 5px;
+`;
+
+const RegistBtn = styled.div`
+  position: fixed;
+  top: 70%;
+  left: 90%;
+  background-color: var(--primary, #3994F0);
+  filter: drop-shadow(0px 4px 13px rgba(0, 0, 0, 0.25));
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background-image: url("/plus_regist_btn.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 `;
