@@ -75,7 +75,13 @@ public class NoticeServiceImpl implements NoticeService{
                         noticeRepo.save(notice);
                         return;
                     case 4://회원별 금일 미팅 건수
-                        noticeContent=userName+"님의 금일 미팅 건수는 "+"건입니다.";
+                        int cnt;
+                        if(generalMemberName.length()>0){
+                            cnt=meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(noticeReq.getReservedDate(),noticeReq.getReservedDate(), noticeReq.getGeneralNo());
+                        }else{
+                            cnt=meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(noticeReq.getReservedDate(),noticeReq.getReservedDate(), noticeReq.getGeneralNo());
+                        }
+                        noticeContent=userName+"님의 금일 미팅 건수는 "+cnt+"건입니다.";
                         notice=noticeReq.toEntity(memberNo,noticeContent);
                 }
                 break;
