@@ -24,7 +24,11 @@ export default function DesertionDetail() {
   return (
     <>
       <div className="animal-container">
-        <img src={animal.image2} className="animal-image" alt="Error"/>
+        <div className="animal-image" style={{
+          background: animal.image2
+          ? `url(${animal.image2}) no-repeat center/cover`
+          : `url("/no_image.png") no-repeat center/cover`,
+        }}/>
         <div className="animal-desc-container">
           <div className="animal-title-area">대상동물 정보</div>
           <div className="animal-desc-area">
