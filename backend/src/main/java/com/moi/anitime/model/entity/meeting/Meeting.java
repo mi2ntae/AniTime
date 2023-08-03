@@ -1,13 +1,15 @@
 package com.moi.anitime.model.entity.meeting;
 
+import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -17,10 +19,12 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meetno")
     int meetNo;
-    @Column(name = " generalno")
-    int generalNo;
-    @Column(name = " desertionno")
-    long desertionNo;
+    @ManyToOne
+    @JoinColumn(name = "generalno")
+    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "desertionno")
+    private Animal animal;
     @Column(name = " reserveddate")
     LocalDateTime reservedDate;
     int status;
