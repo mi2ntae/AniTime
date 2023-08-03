@@ -90,10 +90,9 @@ public class ProfileServiceImpl implements ProfileService{
         Profile res = profile.get();
         ProfileDetailRes profileDetailRes = ProfileDetailRes.builder()
                 .name(res.getProfileName())
-                .category(res.getProfileKind())
-                .kind(res.getDetailKind())
-//                .gender(res.getSexCode())
-                .age(res.getProfileAge())
+                .kind(res.getProfileKind() + " / " + res.getDetailKind())
+                .age(res.getProfileAge() + "세")
+                .weight(res.getWeight() + "kg")
                 .specialMark(res.getSpecialMark())
                 .date(res.getDateAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
                 .location(res.getProfileLocation())

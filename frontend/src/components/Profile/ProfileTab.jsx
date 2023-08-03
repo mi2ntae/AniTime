@@ -43,18 +43,30 @@ export default function ProfileTab() {
   }, []);
 
   return (
-    <div>
-      {profiles.map((data) => (
-        <button
-          key={data.profileNo}
-          onClick={() => {
-            dispatch(setProfileNo(data.profileNo));
-          }}
-        >
-          {data.profileName}
-        </button>
-      ))}
-      {whichComponent}
-    </div>
+    <>
+      <div className="profile-tab-container">
+        <div className="button-area">
+          {profiles.map((data) => (
+            <button
+              key={data.profileNo}
+              onClick={() => {
+                dispatch(setProfileNo(data.profileNo));
+              }}
+            >
+              {data.profileName}
+            </button>
+          ))}
+        </div>
+        {whichComponent}
+      </div>
+      <style jsx="true">{`
+        .profile-tab-container {
+          width: 100%;
+        }
+        .button-area {
+          width: 100%;
+        }
+      `}</style>
+    </>
   );
 }
