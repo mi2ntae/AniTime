@@ -88,6 +88,14 @@ const router = createBrowserRouter([
               };
             },
           },
+          {
+            path: "update",
+            async lazy() {
+              return {
+                Component: (await import("pages/MissingUpdate")).default,
+              };
+            },
+          },
         ],
       },
       {
