@@ -13,7 +13,7 @@ public class BookmarkReq {
     private int generalNo;
 
     @NotEmpty
-    private int desertionNo;
+    private long desertionNo;
 
     public Bookmark toEntity() {
         Bookmark bookmark = Bookmark.builder()
