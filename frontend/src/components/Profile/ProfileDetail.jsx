@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import "./ProfileDetailCss.css";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 import { Link } from 'react-router-dom';
@@ -32,8 +31,6 @@ export default function ProfileDetail() {
 
   const handleDelClick = () => {
     setModal(false);
-    window.location.reload();
-    return;
     http
       .delete(`profile/${profileNo}`)
       .then(() => {
@@ -41,14 +38,18 @@ export default function ProfileDetail() {
       })
       .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   return (
     <>
     {modal && <div className="overlay" />}
       <div className="profile-container">
-        <img src={profile.image} className="profile-image"></img>
+        <div className="profile-image" style={{
+          background: profile.image
+          ? `url(${profile.image}) no-repeat center/cover`
+          : `url("/no_image.png") no-repeat center/cover`,
+        }}/>
         <div className="profile-desc-container">
           <div className="profile-title-area">{profile.name} 정보</div>
           {/* <div className="profile-desc-area">

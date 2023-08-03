@@ -3,11 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MapComponent from "../components/Profile/MapComponent.jsx";
 
-export default function MissingRegist() {
+export default function MissingUpdate() {
   const [modal, setModal] = useState(false);
-
-  const [y, setY] = useState("");
-  const [x, setX] = useState("");
 
   const getPosition = (y, x) => {
     setLat(y);
@@ -33,10 +30,56 @@ export default function MissingRegist() {
   const fileInputRef = useRef(null);
 
   let general = useSelector((state) => state.member);
+  let profileNo = useSelector((state) => state.detailInfo.profileNo);
 
   useEffect(() => {
-    if (lat === "" || lon === "") return;
+    if (profileNo === 0) return;
+    http
+      .get(`profile/detail/${profileNo}`)
+      .then((res) => {
+        const profile = res.data;
+        setName(profile.name);
+        const kindSplit = profile.kind.split(' / ');
+        setCategory(kindSplit[0]);
+        setKind(kindSplit[1]);
+        if (profile.gender === '암컷') setGender('F');
+        else if (profile.gender === '수컷') setGender('M');
+        setAge(parseInt(profile.age, 10));
+        setWeight(parseFloat(profile.weight));
+        setSpecialMark(profile.specialMark);
+
+        const date = profile.date;
+
+        // 연도(year) 추출
+        const yearRegex = /\d+년/;
+        const yearMatch = date.match(yearRegex);
+        setYear(parseInt(yearMatch[0]));
+
+        // 월(month) 추출
+        const monthRegex = /\d+월/;
+        const monthMatch = date.match(monthRegex);
+        setMonth(parseInt(monthMatch[0]));
+
+        // 일(day) 추출
+        const dayRegex = /\d+일/;
+        const dayMatch = date.match(dayRegex);
+        setDay(parseInt(dayMatch[0]));
+
+        setLocation(profile.location);
+        setLat(profile.lat);
+        setLon(profile.lon);
+        setImage(profile.image);
+        setImageurl(profile.image);
+      })
+      .catch(() => {
+        alert("프로필 세부정보 조회 실패");
+        window.location.reload();
+      });
+  });
+
+  useEffect(() => {
     const getAddressFromLatLng = (lat, lng) => {
+      if (lat === "" || lon === "") return;
       const geocoder = new window.kakao.maps.services.Geocoder();
       const latlng = new window.kakao.maps.LatLng(lat, lng);
 
@@ -57,25 +100,6 @@ export default function MissingRegist() {
     getAddressFromLatLng(lat, lon);
   }, [lat, lon]);
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        setY(position.coords.latitude);
-        setX(position.coords.longitude);
-      }, function(error) {
-        setY(37.5012860931305);
-        setX(127.039604663862);
-      }, {
-        enableHighAccuracy: false,
-        maximumAge: 0,
-        timeout: Infinity
-    });
-    } else {
-      setY(37.5012860931305);
-      setX(127.039604663862);
-    }
-  }, [modal]);
-
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
@@ -85,7 +109,7 @@ export default function MissingRegist() {
     if (!file) return;
 
     setImage(file);
-
+    
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -115,32 +139,17 @@ export default function MissingRegist() {
     };
     const profileJSON = JSON.stringify(profile);
     const formData = new FormData();
-
-    // formData.append("profile[generalNo]", general.memberNo);
-    // formData.append("profile[profileName]", name);
-    // formData.append("profile[profileKind]", category);
-    // formData.append("profile[detailKind]", kind);
-    // formData.append("profile[sexCode]", gender);
-    // formData.append("profile[profileAge]", age);
-    // formData.append("profile[specialMark]", specialMark);
-    // formData.append("profile[year]", year);
-    // formData.append("profile[month]", month);
-    // formData.append("profile[day]", day);
-    // formData.append("profile[profileLocation]", location);
-    // formData.append("profile[lat]", lat);
-    // formData.append("profile[lon]", lon);
     formData.append("profile", profileJSON);
     formData.append("image", image);
 
     http
-      .post("/profile", formData, {
+      .put(`/profile/${profileNo}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log("success");
-        console.log(formData);
       })
       .catch((error) => {
         console.error(error);
@@ -159,7 +168,7 @@ export default function MissingRegist() {
             normalize.css
             343 패딩 16씩 */}
       <div className="container">
-        <h2 className="title">실종동물등록</h2>
+        <h2 className="title">실종동물수정</h2>
         <div className="essential-field">
           <span className="red">*</span>
           <span className="darkgrey">는 필수 입력 항목입니다</span>
@@ -365,7 +374,7 @@ export default function MissingRegist() {
           <button type="submit">검색</button>
         </form> */}
         {modal && (
-          <MapComponent y={y} x={x} setModal={setModal} getPosition={getPosition} />
+          <MapComponent y={lat} x={lon} setModal={setModal} getPosition={getPosition} />
         )}
         {/* <MapComponent
           lat={lat}
