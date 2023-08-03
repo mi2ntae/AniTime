@@ -5,10 +5,12 @@ import com.moi.anitime.api.request.meeting.MeetingStatusReq;
 import com.moi.anitime.api.response.meeting.MeetingListRes;
 import com.moi.anitime.api.response.meeting.MeetingRes;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
+import com.moi.anitime.model.entity.meeting.Meeting;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface MeetingService {
     public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException;
@@ -18,4 +20,6 @@ public interface MeetingService {
     public MeetingRes findMeetByMeetNo(int meetNo);
 
     public void setMeetState(int memberNo, MeetingStatusReq meetingStatusReq) throws NonExistMeetNoException;
+
+    public int countMeetsByNow();
 }
