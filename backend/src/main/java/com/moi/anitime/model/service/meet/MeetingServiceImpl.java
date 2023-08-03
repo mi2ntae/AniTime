@@ -26,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -110,5 +113,12 @@ public class MeetingServiceImpl implements MeetingService {
         meet.setStatus(meetingStatusReq.isStatus() ? 1 : 2);
         meet.setReason(meetingStatusReq.getReason());
         meetingRepo.save(meet);
+    }
+
+    @Override
+    public int countMeetsByNow() {
+        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0));
+        LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59));
+        return meetingRepo.countMeetingByReservedDateBetween(start, end);
     }
 }
