@@ -144,14 +144,13 @@ export default function MapComponent({ setModal, getPosition }) {
 
       <style jsx="true">{`
       .map-search-modal {
-        // background-color: pink;
         padding: 24px;
         width: 70%;
         height: 70vh;
         border-radius: 8px;
         background-color: white;
         z-index: 999;
-        position: absolute;
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
