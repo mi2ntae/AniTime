@@ -95,7 +95,7 @@ COLLATE='utf8mb4_bin'
 ;
 CREATE TABLE `Notice` (
 	`noticeNo`	Int	NOT NULL auto_increment PRIMARY key ,
-	`generalNo`	Int	NOT NULL,
+	`memberNo`	Int	NOT NULL,
 	`noticeKind`	Int	NULL COMMENT '0 : 채팅 1 : 미팅 2: 실종',
 	`noticeTime`	DateTime	NULL,
 	`noticeContent`	varchar(255)	NULL,
