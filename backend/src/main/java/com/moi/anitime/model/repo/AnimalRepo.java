@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AnimalRepo extends JpaRepository<Animal, Integer> {
+public interface AnimalRepo extends JpaRepository<Animal, Long> {
 
     @Query(name = "getAnimal", nativeQuery = true)
     public List<AnimalPreviewRes> getAnimal(int generalNo, String kind, char sexcd, String sortQuery, Pageable curPageNo);
