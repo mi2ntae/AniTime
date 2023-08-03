@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function MapComponent({ y, x, setModal, getPosition }) {
   const [curLat, setCurLat] = useState(y);
@@ -10,6 +10,21 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
 
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setModal(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const onChange = (e) => {
     setInputText(e.target.value);
@@ -87,7 +102,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
 
   return (
     <>
-      <div className="map-search-modal">
+      <div className="map-search-modal" ref={modalRef}>
         <h4 style={{ margin: "0px 0px 20px 0px" }}>실종위치 검색</h4>
         <div className="map-container">
           <div className="map-area">

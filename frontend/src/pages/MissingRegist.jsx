@@ -24,7 +24,7 @@ export default function MissingRegist() {
   const [year, setYear] = useState("2023");
   const [month, setMonth] = useState("01");
   const [day, setDay] = useState("01");
-  const [location, setLocation] = useState("실종위치");
+  const [location, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [image, setImage] = useState(null);
@@ -324,8 +324,9 @@ export default function MissingRegist() {
                   onClick={() => {
                     setModal(true);
                   }}
+                  style={{border: modal? "1px solid var(--primary, #3994f0)" : "0.77px solid var(--lightgrey, #e8ebee)"}}
                 >
-                  <span>{location}</span>
+                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>{location ? location : "실종위치"}</span>
                 </div>
               </div>
             </div>
@@ -436,17 +437,21 @@ export default function MissingRegist() {
           box-sizing: border-box;
           padding-left: 24px;
           margin-right: 6%;
+          color: #35383B;
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;
         }
+        input::placeholder {
+          color: #A7AEB4;
+      }
         .location-area {
           width: 86%;
           //   flex-grow: 7;
           background-color: var(--lightestgrey, #f7f8fa);
-          border: 0.77px solid var(--lightgrey, #e8ebee);
+          // border: 0.77px solid var(--lightgrey, #e8ebee);
           border-radius: 12px;
           height: 50px;
           box-sizing: border-box;
