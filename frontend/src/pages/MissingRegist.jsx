@@ -6,8 +6,11 @@ import MapComponent from "../components/Profile/MapComponent.jsx";
 export default function MissingRegist() {
   const [modal, setModal] = useState(false);
 
+  const [y, setY] = useState("");
+  const [x, setX] = useState("");
+
   const showModal = () => {
-    setModal(!modal);
+    setModal(true);
   };
 
   const getPosition = (y, x) => {
@@ -57,22 +60,24 @@ export default function MissingRegist() {
     getAddressFromLatLng(lat, lon);
   }, [lat, lon]);
 
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     function (position) {
-  //       setCurLat(position.coords.latitude);
-  //       setCurLon(position.coords.longitude);
-  //       console.log(curLat);
-  //       console.log(curLon);
-  //     },
-  //     function (error) {
-  //       console.error("Error occurred. Error code: " + error.code);
-  //       setCurLat(37.50128068899183);
-  //       setCurLon(127.03959900643017);
-  //     },
-  //     { enableHighAccuracy: true }
-  //   );
-  // }, []);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        setY(position.coords.latitude);
+        setX(position.coords.longitude);
+      }, function(error) {
+        setY(37.5012860931305);
+        setX(127.039604663862);
+      }, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity
+    });
+    } else {
+      setY(37.5012860931305);
+      setX(127.039604663862);
+    }
+  }, [modal]);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -363,7 +368,7 @@ export default function MissingRegist() {
           <button type="submit">검색</button>
         </form> */}
         {modal && (
-          <MapComponent setModal={setModal} getPosition={getPosition} />
+          <MapComponent y={y} x={x} setModal={setModal} getPosition={getPosition} />
         )}
         {/* <MapComponent
           lat={lat}
