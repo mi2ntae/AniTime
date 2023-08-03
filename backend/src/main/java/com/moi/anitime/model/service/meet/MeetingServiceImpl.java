@@ -26,12 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -116,9 +115,26 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public int countMeetsByNow() {
+    public int countMeetsByNow(int memberNo) throws NonExistMemberNoException{
         LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0));
         LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59));
-        return meetingRepo.countMeetingByReservedDateBetween(start, end);
+        Optional<Member> member = memberRepo.findById(memberNo);
+        if(!member.isPresent()) throw new NonExistMemberNoException();
+        int memberKind = member.get().getMemberKind();
+        if(memberKind == MemberKind.GENERAL.getCode()) return meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(start, end, memberNo);
+        else return meetingRepo.countMeetingByReservedDateBetweenAndAnimal_ShelterNo(start, end, memberNo);
+    }
+
+    @Override
+    public Map<Integer, Boolean> getPossibleTime(int shelterNo, int month, int day) {
+        Map<Integer, Boolean> map = new HashMap<>();
+        LocalDate getDate = LocalDate.of(2023, month, day);
+        List<Meeting> meets = meetingRepo.findMeetingsByAnimal_ShelterNoAndMonthAndDay(shelterNo, getDate);
+        for(int i = 0; i < 24; i++) map.put(i, true);
+        for(Meeting meet : meets) {
+            int hour = meet.getReservedDate().getHour();
+            map.put(hour, false);
+        }
+        return map;
     }
 }
