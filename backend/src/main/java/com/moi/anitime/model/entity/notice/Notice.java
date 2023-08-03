@@ -18,8 +18,12 @@ public class Notice {
     int noticeNo;
     @Column(name = "memberno")
     int memberNo;
+    @Column(name = "noticekind")
     int noticeKind;
+    @Column(name = "noticetime")
     LocalDateTime noticeTime;
+    @Column(name = "noticecontent")
     String noticeContent;
+    @Column(name = "noticecheck")
     boolean noticeCheck;
 }
