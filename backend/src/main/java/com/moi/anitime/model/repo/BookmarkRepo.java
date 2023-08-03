@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface BookmarkRepo extends JpaRepository<Bookmark, Integer> {
 
     @Query(value = "SELECT b from Bookmark b WHERE b.animal.desertionNo = :desertionNo AND b.generalMember.memberNo = :generalNo")
-    public Optional<Bookmark> findBookmark(@Param("desertionNo") int desertionNo, @Param("generalNo") int generalNo);
+    public Optional<Bookmark> findBookmark(@Param("desertionNo") long desertionNo, @Param("generalNo") int generalNo);
 
 
 }

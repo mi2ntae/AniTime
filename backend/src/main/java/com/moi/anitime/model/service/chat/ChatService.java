@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ChatService {
     public List<ChatRoomListRes> getRoomsByMemberNo(int memberKind, int memberNo) throws UnknownMemberKindException;
-    public ChatRoomInitRes initChatRoom(int generalNo, int desertionNo) throws NonExistDesertionNoException;
+    public ChatRoomInitRes initChatRoom(int generalNo, long desertionNo) throws NonExistDesertionNoException;
     public List<ChatRes> enterChatRoom(int memberNo, int roomNo) throws NonExistDesertionNoException;
     public ChatRes sendChat(ChatMessageReq message);
 }

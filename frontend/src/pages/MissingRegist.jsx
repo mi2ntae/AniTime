@@ -1,8 +1,20 @@
 import http from "api/commonHttp";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import MapComponent from "../components/Profile/MapComponent.jsx";
 
 export default function MissingRegist() {
+  const [modal, setModal] = useState(false);
+
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  const getPosition = (y, x) => {
+    setLat(y);
+    setLon(x);
+  };
+
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [kind, setKind] = useState("");
@@ -13,15 +25,54 @@ export default function MissingRegist() {
   const [year, setYear] = useState("2023");
   const [month, setMonth] = useState("01");
   const [day, setDay] = useState("01");
-  const [location, setLocation] = useState("");
-  const [lat, setLat] = useState(1);
-  const [lon, setLon] = useState(1);
+  const [location, setLocation] = useState("실종위치");
+  const [lat, setLat] = useState("");
+  const [lon, setLon] = useState("");
   const [image, setImage] = useState(null);
   const [imageurl, setImageurl] = useState(null);
 
   const fileInputRef = useRef(null);
 
   let general = useSelector((state) => state.member);
+
+  useEffect(() => {
+    const getAddressFromLatLng = (lat, lng) => {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      const latlng = new window.kakao.maps.LatLng(lat, lng);
+
+      geocoder.coord2Address(
+        latlng.getLng(),
+        latlng.getLat(),
+        (result, status) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const address = result[0].address.address_name;
+            setLocation(address);
+          } else {
+            console.log("주소 변환 실패");
+          }
+        }
+      );
+    };
+
+    getAddressFromLatLng(lat, lon);
+  }, [lat, lon]);
+
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     function (position) {
+  //       setCurLat(position.coords.latitude);
+  //       setCurLon(position.coords.longitude);
+  //       console.log(curLat);
+  //       console.log(curLon);
+  //     },
+  //     function (error) {
+  //       console.error("Error occurred. Error code: " + error.code);
+  //       setCurLat(37.50128068899183);
+  //       setCurLon(127.03959900643017);
+  //     },
+  //     { enableHighAccuracy: true }
+  //   );
+  // }, []);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -96,6 +147,7 @@ export default function MissingRegist() {
 
   return (
     <div className="wrap">
+      {modal && <div className="overlay" />}
       {/* display: block --- 가로행 전부 차지
             float는 붕 띄워서 왼쪽정렬, clear:both로 그 다음에 주면 정렬
             position: relative 후 top bottom left right로 좌표 이동
@@ -254,16 +306,25 @@ export default function MissingRegist() {
               </div>
               <div className="input-field">
                 <label className="label-area" htmlFor="profileLocation">
-                  실종위치<span className="red">*</span>
+                  실종위치
+                  <span className="red">*</span>
                 </label>
-                <input
+                {/* <input
                   className="input-area"
                   type="text"
                   value={location}
                   id="profileLocation"
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="실종위치"
-                />
+                /> */}
+                <div
+                  className="location-area"
+                  onClick={() => {
+                    showModal();
+                  }}
+                >
+                  <span>{location}</span>
+                </div>
               </div>
             </div>
             <div className="profile-img">
@@ -293,6 +354,23 @@ export default function MissingRegist() {
             </button>
           </div>
         </form>
+        {/* <form className="inputForm" onSubmit={handleSearch}>
+          <input
+            placeholder="검색어를 입력하세요"
+            onChange={onChange}
+            value={inputText}
+          />
+          <button type="submit">검색</button>
+        </form> */}
+        {modal && (
+          <MapComponent setModal={setModal} getPosition={getPosition} />
+        )}
+        {/* <MapComponent
+          lat={lat}
+          lon={lon}
+          getPosition={getPosition}
+          style={{ display: modal ? "block" : "none" }}
+        /> */}
       </div>
 
       <style jsx="true">{`
@@ -335,6 +413,7 @@ export default function MissingRegist() {
           display: flex;
           margin-top: 16px;
           flex-direction: row;
+          align-items: center;
         }
         .label-area {
           //   flex-grow: 1;
@@ -360,6 +439,21 @@ export default function MissingRegist() {
         input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;
+        }
+        .location-area {
+          width: 86%;
+          //   flex-grow: 7;
+          background-color: var(--lightestgrey, #f7f8fa);
+          border: 0.77px solid var(--lightgrey, #e8ebee);
+          border-radius: 12px;
+          height: 50px;
+          box-sizing: border-box;
+          padding-left: 24px;
+          margin-right: 6%;
+          vertical-align: middle;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
         }
         .select-field {
           width: 86%;
@@ -451,6 +545,25 @@ export default function MissingRegist() {
         }
         .blank-area {
           margin-left: 8px;
+        }
+        MapComponent {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.28);
+          pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+        }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.28);
+          pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+          z-index: 998;
         }
       `}</style>
     </div>

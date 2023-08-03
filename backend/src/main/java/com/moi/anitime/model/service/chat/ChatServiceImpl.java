@@ -49,7 +49,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Transactional
 	@Override
-	public ChatRoomInitRes initChatRoom(int generalNo, int desertionNo) throws NonExistDesertionNoException{
+	public ChatRoomInitRes initChatRoom(int generalNo, long desertionNo) throws NonExistDesertionNoException{
 		Optional<Animal> animal = animalRepo.findById(desertionNo);
 		if(!animal.isPresent()) throw new NonExistDesertionNoException();
 		int shelterNo = animal.get().getShelterNo();
