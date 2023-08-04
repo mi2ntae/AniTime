@@ -6,6 +6,7 @@ import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.donation.Donation;
 import com.moi.anitime.model.entity.donation.DonationBoard;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,4 +26,7 @@ public interface DonationService {
     Donation findDonationByDonationNo(int donationNo) throws NonExistDonationException;
     Page<Donation> findDonationsByBoardNo(int boardNo, int curPageNo) throws NonExistDonationBoardException;
     void deleteDonationByDonationNo(int donationNo) throws NonExistDonationException;
+
+    // 결제
+    void testPayment(String orderId, String paymentKey, int amount) throws IOException;
 }
