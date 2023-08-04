@@ -2,6 +2,7 @@ import http from "api/commonHttp";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MapComponent from "../components/Profile/MapComponent.jsx";
+import { useNavigate } from "react-router";
 
 export default function MissingRegist() {
   const [modal, setModal] = useState(false);
@@ -59,17 +60,21 @@ export default function MissingRegist() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        setY(position.coords.latitude);
-        setX(position.coords.longitude);
-      }, function(error) {
-        setY(37.5012860931305);
-        setX(127.039604663862);
-      }, {
-        enableHighAccuracy: false,
-        maximumAge: 0,
-        timeout: Infinity
-    });
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setY(position.coords.latitude);
+          setX(position.coords.longitude);
+        },
+        function (error) {
+          setY(37.5012860931305);
+          setX(127.039604663862);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity,
+        }
+      );
     } else {
       setY(37.5012860931305);
       setX(127.039604663862);
@@ -94,6 +99,8 @@ export default function MissingRegist() {
 
     reader.readAsDataURL(file);
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -140,7 +147,7 @@ export default function MissingRegist() {
       })
       .then((response) => {
         console.log("success");
-        console.log(formData);
+        navigate("/missing");
       })
       .catch((error) => {
         console.error(error);
@@ -324,9 +331,15 @@ export default function MissingRegist() {
                   onClick={() => {
                     setModal(true);
                   }}
-                  style={{border: modal? "1px solid var(--primary, #3994f0)" : "0.77px solid var(--lightgrey, #e8ebee)"}}
+                  style={{
+                    border: modal
+                      ? "1px solid var(--primary, #3994f0)"
+                      : "0.77px solid var(--lightgrey, #e8ebee)",
+                  }}
                 >
-                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>{location ? location : "실종위치"}</span>
+                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
+                    {location ? location : "실종위치"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -366,7 +379,12 @@ export default function MissingRegist() {
           <button type="submit">검색</button>
         </form> */}
         {modal && (
-          <MapComponent y={y} x={x} setModal={setModal} getPosition={getPosition} />
+          <MapComponent
+            y={y}
+            x={x}
+            setModal={setModal}
+            getPosition={getPosition}
+          />
         )}
         {/* <MapComponent
           lat={lat}
@@ -437,7 +455,7 @@ export default function MissingRegist() {
           box-sizing: border-box;
           padding-left: 24px;
           margin-right: 6%;
-          color: #35383B;
+          color: #35383b;
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -445,8 +463,8 @@ export default function MissingRegist() {
           margin: 0;
         }
         input::placeholder {
-          color: #A7AEB4;
-      }
+          color: #a7aeb4;
+        }
         .location-area {
           width: 86%;
           //   flex-grow: 7;
