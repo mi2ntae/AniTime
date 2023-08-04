@@ -1,7 +1,7 @@
 import { getToken } from "api/openvidu";
 import MeetingFooter from "components/Meeting/MeetingFooter";
 import MeetingHeader from "components/Meeting/MeetingHeader";
-import StreamComponent from "components/Meeting/StreamComponent";
+import OpenViduVideoComponent from "components/Meeting/OvVideo";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -22,6 +22,12 @@ export default function Openvidutest() {
     profileTab: false,
     chatTab: false,
   });
+  const [control, setControl] = useState({
+    video: false,
+    mic: false,
+    muted: false,
+    volum: 1,
+  });
 
   useEffect(() => {
     // sessionId 받아오기
@@ -35,6 +41,14 @@ export default function Openvidutest() {
   useEffect(() => {
     // console.log(user);
   }, [user]);
+
+  useEffect(() => {
+    if (openvidu.publisher) {
+      console.log("change control: " + control);
+      openvidu.publisher.publishAudio(control.mic);
+      openvidu.publisher.publishVideo(control.video);
+    }
+  }, [control, openvidu.publisher]);
 
   const handleUserChange = (event) => {
     setUser((p) => ({
@@ -119,22 +133,35 @@ export default function Openvidutest() {
 
   return (
     <Div>
+      <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} />
       {openvidu.session ? (
-        <VideoDiv>
-          <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} />
-          <UserVideo>
-            <StreamComponent streamManager={openvidu.mainStreamManager} />
-          </UserVideo>
-          <CallVideo>
-            {
-              openvidu.subscribers.map((sub, i) => (
-                <StreamComponent key={i} streamManager={sub} />
-              ))[0]
-            }
-          </CallVideo>
-          <button onClick={leaveSession}>연결 해제</button>
-          <MeetingFooter />
-        </VideoDiv>
+        <MainDiv>
+          <VideoDiv>
+            <UserVideo>
+              <OpenViduVideoComponent
+                streamManager={openvidu.mainStreamManager}
+              />
+            </UserVideo>
+            <CallVideo>
+              {
+                openvidu.subscribers.map((sub, i) => (
+                  <OpenViduVideoComponent
+                    key={i}
+                    streamManager={sub}
+                    muted={control.muted}
+                  />
+                ))[0]
+              }
+            </CallVideo>
+          </VideoDiv>
+          {(tabOpen.formTab || tabOpen.profileTab || tabOpen.chatTab) && (
+            <SideDiv>
+              {tabOpen.formTab && <TabDiv>form</TabDiv>}
+              {tabOpen.profileTab && <TabDiv>profile</TabDiv>}
+              {tabOpen.chatTab && <TabDiv>chat</TabDiv>}
+            </SideDiv>
+          )}
+        </MainDiv>
       ) : (
         <ButtonDiv>
           <input
@@ -150,6 +177,11 @@ export default function Openvidutest() {
           <button onClick={joinSession}>연결</button>
         </ButtonDiv>
       )}
+      <MeetingFooter
+        control={control}
+        handleControl={setControl}
+        close={leaveSession}
+      />
     </Div>
   );
 }
@@ -157,31 +189,43 @@ export default function Openvidutest() {
 const Div = styled.div`
   background-color: #d9d9d9;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: auto;
   width: 100vw;
   height: 100vh;
+  min-width: 1000px;
   overflow: hidden;
 `;
 
 const ButtonDiv = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const MainDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 const VideoDiv = styled.div`
-  width: 100%;
-  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 const UserVideo = styled.div`
   position: absolute;
-  top: 100px;
+  top: 50px;
   right: 50px;
   width: 315px;
   height: 180px;
@@ -192,4 +236,16 @@ const CallVideo = styled.div`
   width: fit-content;
   height: 100%;
   flex-grow: 1;
+`;
+
+const SideDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 0 0 400px;
+`;
+
+const TabDiv = styled.div`
+  flex: 1 0 0;
+  width: 100%;
 `;
