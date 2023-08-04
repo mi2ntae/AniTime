@@ -39,11 +39,11 @@ export default function MissingUpdate() {
       .then((res) => {
         const profile = res.data;
         setName(profile.name);
-        const kindSplit = profile.kind.split(' / ');
+        const kindSplit = profile.kind.split(" / ");
         setCategory(kindSplit[0]);
         setKind(kindSplit[1]);
-        if (profile.gender === '암컷') setGender('F');
-        else if (profile.gender === '수컷') setGender('M');
+        if (profile.gender === "암컷") setGender("F");
+        else if (profile.gender === "수컷") setGender("M");
         setAge(parseInt(profile.age, 10));
         setWeight(parseFloat(profile.weight));
         setSpecialMark(profile.specialMark);
@@ -75,7 +75,7 @@ export default function MissingUpdate() {
         alert("프로필 세부정보 조회 실패");
         window.location.reload();
       });
-  });
+  }, []);
 
   useEffect(() => {
     const getAddressFromLatLng = (lat, lng) => {
@@ -126,7 +126,7 @@ export default function MissingUpdate() {
       generalNo: general.memberNo,
       profileName: name,
       profileKind: "개",
-      detailKind: kind,
+      detailKind: "말티즈",
       sexCode: gender,
       profileAge: age,
       specialMark: specialMark,
@@ -137,6 +137,7 @@ export default function MissingUpdate() {
       lat: lat,
       lon: lon,
     };
+    console.log(profile);
     const profileJSON = JSON.stringify(profile);
     const formData = new FormData();
     formData.append("profile", profileJSON);
@@ -333,7 +334,11 @@ export default function MissingUpdate() {
                   onClick={() => {
                     setModal(true);
                   }}
-                  style={{border: modal? "1px solid var(--primary, #3994f0)" : "0.77px solid var(--lightgrey, #e8ebee)"}}
+                  style={{
+                    border: modal
+                      ? "1px solid var(--primary, #3994f0)"
+                      : "0.77px solid var(--lightgrey, #e8ebee)",
+                  }}
                 >
                   <span>{location}</span>
                 </div>
@@ -375,7 +380,12 @@ export default function MissingUpdate() {
           <button type="submit">검색</button>
         </form> */}
         {modal && (
-          <MapComponent y={lat} x={lon} setModal={setModal} getPosition={getPosition} />
+          <MapComponent
+            y={lat}
+            x={lon}
+            setModal={setModal}
+            getPosition={getPosition}
+          />
         )}
         {/* <MapComponent
           lat={lat}
@@ -446,7 +456,7 @@ export default function MissingUpdate() {
           box-sizing: border-box;
           padding-left: 24px;
           margin-right: 6%;
-          color: #35383B;
+          color: #35383b;
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -454,7 +464,7 @@ export default function MissingUpdate() {
           margin: 0;
         }
         input::placeholder {
-            color: #A7AEB4;
+          color: #a7aeb4;
         }
         .location-area {
           width: 86%;
@@ -470,7 +480,7 @@ export default function MissingUpdate() {
           display: flex;
           align-items: center;
           font-size: 14px;
-          color: #35383B;
+          color: #35383b;
         }
         .select-field {
           width: 86%;

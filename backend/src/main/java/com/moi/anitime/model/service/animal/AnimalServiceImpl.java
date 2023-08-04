@@ -73,7 +73,7 @@ public class AnimalServiceImpl implements AnimalService{
                     AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
                             .desertionNo(animal.getDesertionNo())
                             .sexcd(animal.getSexcd())
-                            .thumbnail(animal.getImage1())
+                            .thumbnail(animal.getImage2())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
                             .build();
@@ -86,13 +86,13 @@ public class AnimalServiceImpl implements AnimalService{
     @Override
     public Optional<Animal> getAnimal(long desertionNo) throws ListLoadingException {
         return animalRepo.findAnimalByDesertionNo(desertionNo);
+//        return animalRepo.findById(desertionNo);
     }
 
     @Override
     public void dataUpdate(List<Animal> animalList) {
         System.out.println(animalList.size());
         animalRepo.saveAll(animalList);
-
     }
 
 
