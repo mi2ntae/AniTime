@@ -6,16 +6,20 @@ import Sort from "components/Desertion/Sort";
 import http from "api/commonHttp";
 import "intersection-observer";
 import DesertionDetail from "components/Desertion/DesertionDetail";
+import { useDispatch } from "react-redux";
+import { setDesertionNo } from "reducer/detailInfo.js";
 
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
   const [target, setTarget] = useState(null);
   const page = useRef(0);
+  let dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}` );
+        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
+      );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
       page.current++;
@@ -51,15 +55,15 @@ export default function Desertion() {
         </FiltersContainer>
         <ListContainer>
           {animals.map((animal, idx) => (
-            <AnimalImg key={idx}>
+            <AnimalImg
+              key={idx}
+              onClick={() => {
+                dispatch(setDesertionNo(animal.desertionNo));
+              }}
+            >
               <DivP>
                 <Div>
-                  <img
-                    src={animal.image1}
-                    alt="AnimalImage"
-                    width="220px"
-                    height="200px"
-                  />
+                  <Img src={animal.thumbnail} alt="AnimalImage" />
                 </Div>
                 <Div2>
                   <Span1>
@@ -68,7 +72,7 @@ export default function Desertion() {
                     {animal.processState}
                   </Span1>
                   <Span2>
-                    {animal.kind}
+                    {animal.category}/{animal.detailKind}
                     <span>
                       {animal.sexcd === "F" ? (
                         <img src="/icons/ic_female.svg" alt="female" />
@@ -85,7 +89,7 @@ export default function Desertion() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <DesertionDetail/>
+        <DesertionDetail />
       </DetailViewBox>
     </HorizontalContainer>
   );
@@ -102,20 +106,18 @@ const ListFilterContainer = styled.div`
   margin-right: 40px;
   flex: 2;
   flex-direction: column;
+  align-items: end;
 `;
 
 const ListContainer = styled.div`
   display: flex;
+  flex-grow: 2;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-content: flex-start;
-  width: 700px;
-  height: 600px;
-  padding: 10px;
+  height: 700px;
   overflow-y: scroll;
   text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -125,33 +127,34 @@ const ListContainer = styled.div`
 
 const FiltersContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: right;
-  padding: 20px;
 `;
 
 const DetailViewBox = styled.div`
   flex: 1;
+  margin-top: 48px;
 `;
 
 const AnimalImg = styled.div`
   width: 33.33%;
   height: 240px;
-  margin-top: 20px;
+  margin-bottom: 28px;
 `;
 
 const Span1 = styled.span`
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
 const Span2 = styled.span`
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
   color: gray;
   // font-weight: bold;
 `;
@@ -163,8 +166,8 @@ const Div2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 const DivP = styled.div`
   align-items: center;
@@ -175,6 +178,12 @@ const Blank = styled.span`
 `;
 
 const Target = styled.div`
-  width: 700px;
+  width: 100%;
   height: 20px;
+`;
+
+const Img = styled.img`
+  width: 220px;
+  height: 220px;
+  border-radius: 8px;
 `;

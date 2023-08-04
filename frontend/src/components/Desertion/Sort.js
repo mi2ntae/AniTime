@@ -6,7 +6,9 @@ import SortItem from "./SortItem";
 export default function Sort() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleOpen = () => setIsOpen((p) => !p);
+  const openNotice = () => {
+    setIsOpen(true);
+  };
 
   const closeNotice = () => {
     setIsOpen(false);
@@ -17,7 +19,7 @@ export default function Sort() {
       <SortButton
         onClick={(event) => {
           event.stopPropagation();
-          toggleOpen();
+          openNotice();
         }}
       >
         정렬
@@ -33,6 +35,7 @@ export default function Sort() {
 
 const SortButton = styled.button`
   padding: 8px 16px;
+  margin-right: 8px;
   background-color: #6c757d;
   color: #fff;
   border: none;
