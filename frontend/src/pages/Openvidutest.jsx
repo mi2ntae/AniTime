@@ -26,7 +26,7 @@ export default function Openvidutest() {
     video: false,
     mic: false,
     muted: false,
-    volum: 1,
+    volume: 0.2,
   });
 
   useEffect(() => {
@@ -44,7 +44,6 @@ export default function Openvidutest() {
 
   useEffect(() => {
     if (openvidu.publisher) {
-      console.log("change control: " + control);
       openvidu.publisher.publishAudio(control.mic);
       openvidu.publisher.publishVideo(control.video);
     }
@@ -87,9 +86,7 @@ export default function Openvidutest() {
       // event.preventDefault();
       console.log("delete");
       setOpenvidu((p) => {
-        console.log(p.subscribers);
         const streamManager = event.stream.streamManager;
-        console.log(streamManager);
         return {
           ...p,
           subscribers: p.subscribers.filter((sub) => sub !== streamManager),
@@ -149,6 +146,7 @@ export default function Openvidutest() {
                     key={i}
                     streamManager={sub}
                     muted={control.muted}
+                    volume={control.volume}
                   />
                 ))[0]
               }
