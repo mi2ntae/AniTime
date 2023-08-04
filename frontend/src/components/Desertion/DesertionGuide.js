@@ -44,10 +44,10 @@ export default function DesertionGuide() {
           style={{
             fontSize: "16px",
           }}
-          width="197px"
-          height="50px"
-          background_color="#3994F0"
-          color="#ffffff"
+          width={"197px"}
+          height={"50px"}
+          $background_color={"#3994F0"}
+          color={"#ffffff"}
         >
           화상 미팅 예약하기
         </Button>

@@ -1,20 +1,34 @@
 import { styled } from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import { ProgressBar } from "styled/styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { setReservedDate } from "reducer/reservation";
+import http from "api/commonHttp";
 
 export default function SelectTime() {
+  const reservedDate = useSelector((state) => state.reservedDate);
+  let shelterNo = 1;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
-  const [impossible, setImpossible] = useState([]);
+  const [possible, setPossible] = useState({});
+  useEffect(() => {
+    getImpossible();
+    setTime("");
+  }, [date]);
   function getImpossible() {
-    // 이미 예약된 시간의 배열 가져옴
+    http
+      .get(
+        `http://localhost:8000/api/meet/reservation/${shelterNo}?month=${
+          date.getMonth() + 1
+        }&day=${date.getDate()}`
+      )
+      .then((res) => setPossible(res.data));
   }
   const times = Array(10)
     .fill()
@@ -31,7 +45,12 @@ export default function SelectTime() {
       alert("시간을 선택해 주세요.");
       return;
     }
-    dispatch({ type: "SUBMIT_TIME", time: time, date: date });
+    dispatch(
+      setReservedDate({
+        date: "2023-" + (date.getMonth() + 1) + "-" + date.getDate(),
+        time: time + ":00",
+      })
+    );
     navigate("/desertion/reservation/form");
   };
   return (
@@ -118,24 +137,37 @@ export default function SelectTime() {
           >
             미팅 시간
           </div>
-          {times.map((v) => {
-            return (
-              <button
-                style={
-                  v === time
-                    ? {
-                        border: "0.77px solid #3994F0",
-                        color: "#3994F0",
-                        backgroundColor: "#E1F0FF",
-                      }
-                    : { color: "#CACED3" }
-                }
-                onClick={() => setTime(v)}
-              >
-                {v}
-              </button>
-            );
-          })}
+          <TimeContainer>
+            <ScrollableDiv>
+              {times.map((v, i) => {
+                return (
+                  <button
+                    key={i}
+                    style={
+                      !possible[v.split(":")[0]]
+                        ? {
+                            color: "#7D848A",
+                            backgroundColor: "#CACED3",
+                            textDecoration: "line-through",
+                          }
+                        : v === time
+                        ? {
+                            border: "0.77px solid #3994F0",
+                            color: "#3994F0",
+                            backgroundColor: "#E1F0FF",
+                          }
+                        : { color: "#CACED3" }
+                    }
+                    onClick={() => setTime(v)}
+                    disabled={!possible[v.split(":")[0]] ? true : false}
+                  >
+                    {v}
+                  </button>
+                );
+              })}
+            </ScrollableDiv>
+          </TimeContainer>
+
           <div
             style={{
               fontSize: "12px",
@@ -232,7 +264,7 @@ const PickerContainer = styled.div`
     }
     .react-calendar__tile--now:enabled:hover,
     .react-calendar__tile--now:enabled:focus {
-      color: #ffffff;
+      color: #535a61;
     }
   }
 `;
@@ -266,5 +298,27 @@ const TimePicker = styled.div`
     width: 280px;
     height: 50px;
     background-color: #3994f0;
+  }
+`;
+
+const TimeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
+const ScrollableDiv = styled.div`
+  width: min-content;
+  overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #a7aeb4;
+    border-radius: 4px;
   }
 `;
