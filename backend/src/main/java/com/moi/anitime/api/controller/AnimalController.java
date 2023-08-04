@@ -80,7 +80,7 @@ public class AnimalController {
 
         AnimalDetailRes animalDetailRes = AnimalDetailRes.builder()
                 .kind(category.substring(1, category.length()-1) + " / " + token.nextToken())//
-                .age("만 " + (LocalDate.now().getYear() - animal.getAge()) + "세")
+                .birth(animal.getAge() + "년생")
                 .weight(animal.getWeight() + "kg")
                 .color(animal.getColor())
                 .noticeNo(animal.getNoticeNo())
@@ -89,6 +89,7 @@ public class AnimalController {
                 .specialMark(animal.getSpecialMark())
                 .shelter(shelterMember.getName())
                 .tel(shelterMember.getPhone())
+                .shelterNo(animal.getShelterNo())
                 .build();
         if (animal.getSexcd() == 'F') animalDetailRes.setGender("암컷");
         else if (animal.getSexcd() == 'M') animalDetailRes.setGender("수컷");
