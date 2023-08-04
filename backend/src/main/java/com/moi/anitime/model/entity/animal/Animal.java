@@ -44,7 +44,7 @@ import java.time.LocalDate;
                 }
         )
 )
-public class Animal {
+public class  Animal {
     @Id
     @Column(name = "desertionno")
     long desertionNo;

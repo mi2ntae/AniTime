@@ -2,6 +2,8 @@ package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.response.profile.ProfileDetailRes;
+import com.moi.anitime.api.response.profile.ProfileRes;
+import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.api.response.profile.ProfileListRes;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,5 +21,5 @@ public interface ProfileService {
     List<ProfileListRes> findNamesById(int generalNo);
 
     ProfileDetailRes findProfileById(int profileNo);
-
+    public ProfileRes findProfileByIdSystem(int profileNo) throws NoExistProfileNoException;
 }
