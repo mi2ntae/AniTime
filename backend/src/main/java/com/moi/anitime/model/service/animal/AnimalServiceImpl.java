@@ -73,7 +73,7 @@ public class AnimalServiceImpl implements AnimalService{
                     AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
                             .desertionNo(animal.getDesertionNo())
                             .sexcd(animal.getSexcd())
-                            .thumbnail(animal.getImage1())
+                            .thumbnail(animal.getImage2())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
                             .build();

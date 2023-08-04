@@ -1,5 +1,5 @@
 import { css, styled } from "styled-components";
-
+import { Box } from "@mui/material";
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -37,20 +37,20 @@ const Button = styled.button`
 
 const HorizontalContainer = styled.div`
   // display: flex;
-  // // justify-content: center;
+  // justify-content: center;
   // margin: auto;
   // margin-top: 64px;
   // padding: 20px;
   // box-sizing: border-box;
   // // width: 100%;
   // max-width: 80%;
-  // // min-width: 800px;
+  // min-width: 800px;
   // min-height: calc(100vh - 160px);
 
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin: 144px auto auto auto;
+  width: 71%;
+  margin: 96px auto 32px auto;
 `;
 
 const ProgressBar = styled.div`
@@ -62,4 +62,11 @@ const ProgressBar = styled.div`
   margin-bottom: 74px;
 `;
 
-export { MainContainer, Button, HorizontalContainer, ProgressBar };
+const StyledBox = styled(Box)`
+  width: ${({ width }) => width || "100%"};
+  height: ${({ height }) => height || "85px"};
+  background-color: ${({ background_color }) => background_color || "#3994F0"};
+  color: ${({ color }) => color || "white"};
+`;
+
+export { MainContainer, Button, HorizontalContainer, ProgressBar, StyledBox };
