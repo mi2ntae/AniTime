@@ -55,9 +55,6 @@ public class AnimalServiceImpl implements AnimalService{
                 sortQuery="A.noticeSdate asc";
                 break;
         }
-        for(AnimalPreviewRes e:animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9))){
-            System.out.println(e);
-        }
         return animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9));
     }
 
@@ -73,7 +70,7 @@ public class AnimalServiceImpl implements AnimalService{
                     AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
                             .desertionNo(animal.getDesertionNo())
                             .sexcd(animal.getSexcd())
-                            .thumbnail(animal.getImage1())
+                            .thumbnail(animal.getImage2())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
                             .build();

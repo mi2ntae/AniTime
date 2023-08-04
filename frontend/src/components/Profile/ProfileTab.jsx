@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ProfileDetail from "./ProfileDetail.jsx";
 import DesertionDetail from "../Desertion/DesertionDetail.jsx";
 import { setProfileNo } from "reducer/detailInfo.js";
+import { useNavigate } from "react-router";
 
 export default function ProfileTab() {
   let [profiles, setProfiles] = useState([]);
@@ -21,8 +22,10 @@ export default function ProfileTab() {
       setWhichComponent(<ProfileDetail />);
     }
   }, [detail]);
-
+  
+  const navigate = useNavigate();
   useEffect(() => {
+    
     http
       .get(`profile/${general.memberNo}`)
       .then((data) => {
@@ -30,12 +33,10 @@ export default function ProfileTab() {
         const input = data.data;
         setProfiles(input);
         dispatch(setProfileNo(input[0].profileNo));
-        // http
-        //   .get(`profile/detail/${input[0].profileNo}`)
-        //   .then((res) => {
-        //     setProfile(res.data);
-        //   })
-        //   .catch(console.log("프로필 세부정보 조회 실패"));
+        
+        if (input.size.length === 0 || input === null) {
+          navigate('/missing/regist');
+        };
       })
       .catch(() => {
         console.log("프로필 목록 가져오기 실패");
@@ -43,18 +44,30 @@ export default function ProfileTab() {
   }, []);
 
   return (
-    <div>
-      {profiles.map((data) => (
-        <button
-          key={data.profileNo}
-          onClick={() => {
-            dispatch(setProfileNo(data.profileNo));
-          }}
-        >
-          {data.profileName}
-        </button>
-      ))}
-      {whichComponent}
-    </div>
+    <>
+      <div className="profile-tab-container">
+        <div className="button-area">
+          {profiles.map((data) => (
+            <button
+              key={data.profileNo}
+              onClick={() => {
+                dispatch(setProfileNo(data.profileNo));
+              }}
+            >
+              {data.profileName}
+            </button>
+          ))}
+        </div>
+        {whichComponent}
+      </div>
+      <style jsx="true">{`
+        .profile-tab-container {
+          width: 100%;
+        }
+        .button-area {
+          width: 100%;
+        }
+      `}</style>
+    </>
   );
 }

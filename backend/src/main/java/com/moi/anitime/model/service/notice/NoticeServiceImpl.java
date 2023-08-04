@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -54,7 +55,7 @@ public class NoticeServiceImpl implements NoticeService{
                 notice=noticeReq.toEntity(memberNo,noticeContent);
                 break;
             case 1://미팅-ㅇㅇ님의 ㅁㅁ보호소 미팅 예약(ㅍㅍ일 ㅍㅍ시 ㅍㅍ분)이 (상태)되었습니다.
-                reservationDate=DateTimeFormatter.ofPattern("yyyy년 M월 d일 HH시 mm분").format(noticeReq.getReservedDate());
+                reservationDate=DateTimeFormatter.ofPattern("yyyy년 M월 d일 HH시 mm분").format(LocalDateTime.parse(noticeReq.getReservedDate()));
                 switch (noticeReq.getStatus()){
                     case 0://예약-일반 회원, 보호소 회원 모두에게 미팅 신청 메시지 보냄
                         noticeContent=generalMemberName+"님의 "+shelterMemberName+" 미팅 예약("+reservationDate+")이 신청되었습니다.";
@@ -82,12 +83,15 @@ public class NoticeServiceImpl implements NoticeService{
                         return;
                     case 4://회원별 금일 미팅 건수
                         if(generalMemberName.length()>0){
-                            cnt=meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(noticeReq.getReservedDate(),noticeReq.getReservedDate(), noticeReq.getGeneralNo());
+                            cnt=meetingRepo.countMeetingTodayByGeneralNo(noticeReq.getGeneralNo());
                         }else{
-                            cnt=meetingRepo.countMeetingByReservedDateBetweenAndMember_MemberNo(noticeReq.getReservedDate(),noticeReq.getReservedDate(), noticeReq.getGeneralNo());
+                            cnt=meetingRepo.countMeetingTodayByShelterNo(noticeReq.getShelterNo());
                         }
                         noticeContent=userName+"님의 금일 미팅 건수는 "+cnt+"건입니다.";
                         notice=noticeReq.toEntity(memberNo,noticeContent);
+
+                        break;
+                    default:throw new NoticeGenerationException();
                 }
                 break;
             case 2://실종-시스템 정보 갱신
@@ -102,7 +106,7 @@ public class NoticeServiceImpl implements NoticeService{
                 notice=noticeReq.toEntity(noticeReq.getShelterNo(),noticeContent);
                 noticeRepo.save(notice);
                 return;
-            default:break;
+            default:throw new NoticeGenerationException();
         }
         noticeRepo.save(notice);
         return;

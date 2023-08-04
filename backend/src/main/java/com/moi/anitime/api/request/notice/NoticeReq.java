@@ -15,7 +15,7 @@ public class NoticeReq {
     int shelterNo;
     int noticeKind;
     int status;
-    LocalDateTime reservedDate;
+    String reservedDate;
     int amount;
 
     public Notice toEntity(int memberNo, String noticeContent) {
@@ -33,7 +33,7 @@ public class NoticeReq {
         Notice notice=Notice.builder()
                 .memberNo(memberNo)
                 .noticeKind(this.noticeKind)
-                .noticeTime(this.reservedDate.minusHours(1))
+                .noticeTime(LocalDateTime.parse(this.reservedDate).minusHours(1))
                 .noticeContent(noticeContent)
                 .noticeCheck(false)
                 .build();

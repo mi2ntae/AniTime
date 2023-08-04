@@ -5,17 +5,17 @@ import Filter from "../components/Desertion/Filter";
 import Sort from "components/Desertion/Sort";
 import http from "api/commonHttp";
 import "intersection-observer";
+import DesertionDetail from "components/Desertion/DesertionDetail";
 
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
   const [target, setTarget] = useState(null);
-  const page = useRef(1);
+  const page = useRef(0);
 
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=3&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
-      );
+        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}` );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
       page.current++;
@@ -85,18 +85,23 @@ export default function Desertion() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <h3>상세정보창</h3>
+        <DesertionDetail/>
       </DetailViewBox>
     </HorizontalContainer>
   );
 }
 
 const ListFilterContainer = styled.div`
-  flex: 1;
-  width: 800px;
-  height: 700px;
-  margin-right: 20px;
-  padding: 20px;
+  // flex: 1;
+  // width: 800px;
+  // height: 700px;
+  // margin-right: 20px;
+  // padding: 20px;
+
+  display: flex;
+  margin-right: 40px;
+  flex: 2;
+  flex-direction: column;
 `;
 
 const ListContainer = styled.div`
@@ -128,12 +133,6 @@ const FiltersContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  width: 200px;
-  height: 580px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 93px;
 `;
 
 const AnimalImg = styled.div`
