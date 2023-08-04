@@ -6,6 +6,7 @@ import {
   VolumeOff,
   VolumeUp,
 } from "@mui/icons-material";
+import { Slider } from "@mui/material";
 import React from "react";
 import { styled } from "styled-components";
 import { Button } from "styled/styled";
@@ -48,7 +49,7 @@ export default function MeetingFooter({ control, handleControl, close }) {
           음소거 {control.mic ? "" : " 해제"}
         </ImgButton>
         <VerticalLine />
-        <VolumDiv>
+        <VolumeDiv>
           {control.muted ? (
             <VolumeOff
               fontSize="large"
@@ -62,7 +63,18 @@ export default function MeetingFooter({ control, handleControl, close }) {
               sx={{ cursor: "pointer" }}
             />
           )}
-        </VolumDiv>
+          <Slider
+            value={control.volume}
+            step={0.1}
+            min={0.0}
+            max={1.0}
+            onChange={(event, newVal) =>
+              handleControl((p) => ({ ...p, volume: newVal }))
+            }
+            sx={{ width: "200px" }}
+            disabled={control.muted}
+          />
+        </VolumeDiv>
       </LeftDiv>
       <RightDiv>
         <Button
@@ -107,7 +119,7 @@ const ImgButton = styled.div`
   gap: 8px;
   width: 88px;
 `;
-const VolumDiv = styled.div`
+const VolumeDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;

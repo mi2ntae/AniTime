@@ -9,12 +9,16 @@ export default class OpenViduVideoComponent extends Component {
   componentDidUpdate(props) {
     if (props && !!this.videoRef) {
       this.props.streamManager.addVideoElement(this.videoRef.current);
+      let media = this.videoRef.current;
+      this.props.volume && (media.volume = this.props.volume);
     }
   }
 
   componentDidMount() {
     if (this.props && !!this.videoRef) {
       this.props.streamManager.addVideoElement(this.videoRef.current);
+      let media = this.videoRef.current;
+      this.props.volume && (media.volume = this.props.volume);
     }
   }
 
