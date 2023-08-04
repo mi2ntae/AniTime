@@ -35,4 +35,8 @@ public interface MemberRepo extends JpaRepository<Member, Integer> {
     @Modifying
     @Query(value = "updateSnsTokenByMemberNo", nativeQuery = true)
     public void updateSnsTokenByMemberNo(@Param("snsToken") String accessToken, @Param("generalNo") int memberNo);
+
+    @Transactional
+    @Query(value = "SELECT name FROM Member WHERE memberNo=:memberNo",nativeQuery = true)
+    public String findNameByMemberNo(int memberNo);
 }
