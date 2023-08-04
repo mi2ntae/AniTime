@@ -3,14 +3,10 @@ import { setMember } from "../reducer/member";
 import http from "../api/commonHttp";
 // import { Link } from "react-router-dom";
 import Logo from "../components/Header/Logo";
-//
 import { Tab, Tabs } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -21,46 +17,160 @@ import { useState } from "react";
 const defaultTheme = createTheme();
 export default function LoginPage() {
   // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
-  const api_key = "2ac7d3d2bff68cb6f3ed6501ef44f2ae";
-  const redirect_uri = "http://localhost:3000/kakaoLogin";
   // const redirect_uri = "http://localhost:8000/api/auth/oauth2/kakao";
+  const [tabNo, setTabNo] = useState("0");
+
   const dispatch = useDispatch();
   const navi = useNavigate();
 
-  const [tabNo, setTabNo] = useState("0");
-  const login = (event) => {
+  //-----------공통 정보 저장 ------------------------
+  const [commoninfo, setInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const handleTextValueChangeTop = (e) => {
+    const { name, value } = e.target;
+    setInfo((input) => {
+      return { ...input, [name]: value };
+    });
+  };
+  const [passwordCheck, setpPass] = useState({});
+
+  const handlePassWordCheck = (e) => {
+    const { name, value } = e.target;
+    setpPass((input) => {
+      return { ...input, [name]: value };
+    });
+  };
+  //-------보호소 정보 저장 변수, onChange, Reset()---------
+  const [shelterInfo, setShelterInfo] = useState({
+    bisNo: "",
+    bisNoCheck: false,
+    filedata: null,
+  });
+  const handleShelterValueimage = (e) => {
+    console.log(e);
+    const { name, files } = e.target;
+    setShelterInfo((input) => {
+      return { ...input, [name]: files.length > 0 ? files[0] : "" };
+    });
+  };
+  const handleShelterValueChange = (e) => {
+    console.log(e);
+    const { name, value } = e.target;
+    setShelterInfo((input) => {
+      return { ...input, [name]: value };
+    });
+  };
+
+  const handleShelterValueReset = () => {
+    // setInfo({
+    //   bisNo: "",
+    //   bisNoCheck: false,
+    //   filedata: null,
+    // });
+  };
+  //----------------------------------------------
+  const join = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+
+    if (tabNo === "1" && !shelterInfo.bisNoCheck) {
+      alert("사업자 조회 번호를 인증해 주세요");
+      return;
+    }
+    const data = tabNo === "0" ? { ...commoninfo } : new FormData();
+
+    if (tabNo !== "0") {
+      data.append(
+        `member`,
+        new Blob([JSON.stringify({ ...commoninfo, addr: shelterInfo.addr })]),
+        { type: "application/json" }
+      );
+      data.append(`image`, shelterInfo.filedata);
+    }
+    console.log(data);
+
     http
-      .post(`auth`, {
-        email: data.get("email"),
-        password: data.get("password"),
-        memberKind: parseInt(tabNo),
-      })
+      .post(
+        tabNo === "0" ? `auth/general` : `auth/shelter`,
+        data,
+        tabNo === "0" // 요청
+          ? {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          : {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+        // password: data.get("password"),
+        // memberKind: parseInt(tabNo),
+      )
       .then((res) => {
-        dispatch(setMember(res));
-        navi("/");
+        console.log(
+          "보호소 회원 가입이 완료되었습니다.\n 추후 승인 후 이용 가능하십니다. "
+        );
       })
       .catch((err) => {});
   };
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const bisNoCehck = (e) => {
+    e.preventDefault();
+    // bisNocheck event
+    // axios({
+    //   url: '/test',
+    //   method: 'post',
+    //   data: {
+    //     name: 'veneas'
+    //   }
+    // })
+    // .then(function a(response) {
+    //   console.log(response)
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+
+    setShelterInfo((input) => {
+      return { ...input, bisNoCheck: true };
+    });
+    console.log("사업자 번호 조회하는 이벤트입니다.");
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
+    // setSelectedFile(file);
   };
 
   const handleUpload = () => {
-    if (selectedFile) {
-      // 여기에서 파일 업로드 로직을 추가하세요.
-      // 예: 서버로 파일 전송 등
-    }
+    // if (selectedFile) {
+    // 여기에서 파일 업로드 로직을 추가하세요.
+    // 예: 서버로 파일 전송 등
+    // }
+  };
+
+  // 전화번호 포맷으로 자동 전환
+  // const phone = "010-12345678";
+
+  // phone
+  //   .replace(/[^0-9]/g, '') // 숫자를 제외한 모든 문자 제거
+  //   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`); 입력->01050161 -> state -> 010-5061-8916 -> html
+
+  const checkBisNo = () => {
+    //https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=CIph4Ep9WZIczZRzxN3VnWaqSnt22CGUzr0ykamQMkhFmozlHUowzXKwYrYJKpNAdkfaBrwZakZoFCoIc9gVkQ%3D%3D
+    // 여긴 api용 822-05-01554 -> 이준협가게 샘플 사업자 번호
   };
 
   const tabChange = (event, newValue) => {
     setTabNo(newValue);
+    handleShelterValueReset();
+    console.log(commoninfo);
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -84,7 +194,7 @@ export default function LoginPage() {
         <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: 8,
+              my: 0,
               mx: 4,
               display: "flex",
               flexDirection: "column",
@@ -99,7 +209,7 @@ export default function LoginPage() {
               // indicatorColor="secondary"
               aria-label="secondary tabs example"
               style={{
-                marginTop: 30,
+                marginTop: 10,
               }}
             >
               <Tab
@@ -120,71 +230,162 @@ export default function LoginPage() {
             <Box
               component="form"
               noValidate
-              onSubmit={login}
+              // onSubmit={login}
               sx={{ mt: 1, maxWidth: 500 }}
             >
               <TextField
-                margin="normal"
+                size="small"
+                margin="dense"
+                required
+                fullWidth
+                id="name"
+                label={tabNo === "0" ? "이름" : "보호소 명"}
+                name="name"
+                autoComplete="name"
+                autoFocus
+                backgroundcolor="Black"
+                value={commoninfo["name"]}
+                onChange={handleTextValueChangeTop}
+              />
+
+              <TextField
+                size="small"
+                margin="dense"
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                type="email"
+                label="Email"
                 name="email"
                 autoComplete="email"
                 autoFocus
                 backgroundcolor="Black"
+                value={commoninfo["email"]}
+                onChange={handleTextValueChangeTop}
               />
               <TextField
-                margin="normal"
+                size="small"
+                margin="dense"
+                required
+                fullWidth
+                id="phone"
+                type="email"
+                label={tabNo === "0" ? "전화번호" : "대표번호"}
+                name="phone"
+                autoComplete="phone"
+                autoFocus
+                backgroundcolor="Black"
+                value={commoninfo["phone"]}
+                onChange={handleTextValueChangeTop}
+              />
+              <TextField
+                size="small"
+                margin="dense"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="비밀번호"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={commoninfo["passwordCheck"]}
+                onChange={handleTextValueChangeTop}
               />
               <TextField
-                margin="none"
+                margin="dense"
+                size="small"
                 required
-                name="password"
-                label="Password"
+                fullWidth
+                name="passwordCheck"
+                label="비밀번호 확인"
                 type="password"
-                id="password"
+                id="passwordCheck"
                 autoComplete="current-password"
-                sx={{
-                  width: "70%",
-                }}
+                value={passwordCheck.passwordCheck}
+                onChange={handlePassWordCheck}
               />
+
+              {tabNo !== "0" && (
+                <>
+                  <TextField
+                    size="small"
+                    margin="dense"
+                    required
+                    fullWidth
+                    name="addr"
+                    label="주소"
+                    type="text"
+                    id="addr"
+                    autoComplete="current-addr"
+                    value={shelterInfo["addr"]}
+                    onChange={handleShelterValueChange}
+                  />
+                  <TextField
+                    size="small"
+                    marginTop="10"
+                    required
+                    name="passwordCheck"
+                    label="사업자 번호"
+                    type="text"
+                    id="passwordCheck"
+                    onChange={handleShelterValueChange}
+                    autoComplete="current-password"
+                    sx={{
+                      width: "70%",
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                      height: "40px",
+                      width: "25%",
+                      marginLeft: "5%",
+                      fontWeight: "fontWeightBold",
+                      fontSize: 13,
+                    }}
+                    onClick={bisNoCehck}
+                  >
+                    업종 조회 하기
+                  </Button>
+
+                  <input
+                    name="filedata"
+                    type="file"
+                    id="filedata"
+                    autoComplete="filedata"
+                    onChange={handleShelterValueimage}
+                    style={{ display: "none" }}
+                  />
+                  <TextField
+                    size="small"
+                    margin="dense"
+                    required
+                    fullWidth
+                    name="passwordCheck"
+                    label="사업자 등록증"
+                    type="text"
+                    id="passwordCheck"
+                    autoComplete="current-password"
+                    readOnly="true"
+                    value={
+                      shelterInfo["filedata"] === null
+                        ? ""
+                        : shelterInfo["filedata"].name
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById("filedata").click();
+                    }}
+                  />
+                </>
+              )}
               <Button
                 type="submit"
-                variant="contained"
-                sx={{
-                  height: "56px",
-                  width: "25%",
-                  marginLeft: "5%",
-                  fontWeight: "fontWeightBold",
-                  fontSize: 13,
-                }}
-              >
-                업종 조회 하기
-              </Button>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="사업자 증빙 자료"
-                type="file"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{
-                  mt: 3,
+                  mt: 0.5,
                   mb: 2,
                   width: 400,
                   fontWeight: "fontWeightBold",
@@ -193,6 +394,7 @@ export default function LoginPage() {
                 style={{
                   marginLeft: 50,
                 }}
+                onClick={join}
               >
                 로그인
               </Button>
