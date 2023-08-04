@@ -91,7 +91,7 @@ public class ProfileServiceImpl implements ProfileService{
         ProfileDetailRes profileDetailRes = ProfileDetailRes.builder()
                 .name(res.getProfileName())
                 .kind(res.getProfileKind() + " / " + res.getDetailKind())
-                .age(res.getProfileAge() + "세")
+                .birth(res.getProfileAge() + "년생")
                 .weight(res.getWeight() + "kg")
                 .specialMark(res.getSpecialMark())
                 .date(res.getDateAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))

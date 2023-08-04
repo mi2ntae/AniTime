@@ -154,7 +154,7 @@ import { Box } from "@mui/material";
   
     return (
       <>
-        <Box sx={{width:"50%", height: "600px",  display: "flex",  flexDirection: "column",border: "1px solid #ccc"}}>
+        <Box sx={{width:"100%", height: "600px",  display: "flex",  flexDirection: "column",border: "1px solid #ccc"}}>
         <Box sx={{height: "85px", width: "100%",borderBottom: "1px solid #ccc"}}>
             <Text>
             <Font1>메시지</Font1>

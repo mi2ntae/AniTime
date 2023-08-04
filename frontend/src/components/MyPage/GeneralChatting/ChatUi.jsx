@@ -2,10 +2,8 @@ import * as React from "react";
 import {css, styled} from "styled-components";
 import {
   Box,
-  TextField,
   Button,
   Typography,
-  Grid,
   Paper,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
@@ -18,7 +16,7 @@ const messages = [
   { text: "내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일내일은금요일",  time: "오후 05:07" ,sender: "user" }
 ];
 
-export default function ChatUi() {
+export default function ChatUi({width,height}) {
   const [input, setInput] = React.useState("");
 
   const handleSend = () => {
@@ -33,33 +31,31 @@ export default function ChatUi() {
   };
 
   return (
-    <Box sx={{ height: "600px", width: "50%", display: "flex",
-     flexDirection: "column", border: "1px solid #ccc" }}>
-        <Box sx={{height: "85px", width: "100%",backgroundColor:"#3994F0", 
-       color: "white"}}>
+    <ChatBox
+       $width={width}
+       $height= {height}
+       display="flex" 
+       flexDirection= "column"
+       border= "1px solid #ccc"
+       background_color="white">
+        <ChatHeader>
             <Text>
             <Font1>태민동물병원</Font1>
             <Font2>010-2868-2108</Font2>
             </Text>
-        </Box>
+        </ChatHeader>
       <Box2>
         {messages.map((message) => (
           <Message key={message.id} message={message} />
         ))}
        </Box2>
-      <Box sx={{ p: 2, backgroundColor: "background.default", borderTop:"1px solid #ccc" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-            <TextField
-              fullWidth
-              placeholder="채팅 메시지를 입력하세요."
+      <Box sx={{ p: 2, backgroundColor: "background.default", borderTop:"1px solid #ccc" ,display:"flex"}}>
+            <InputText
+              type="text"
               value={input}
               onChange={handleInputChange}
             />
-          </Grid>
-          <Grid item xs={2}>
             <Button
-              fullWidth
               size="large"
               color="primary"
               variant="contained"
@@ -67,10 +63,8 @@ export default function ChatUi() {
               onClick={handleSend}
             >
             </Button>
-          </Grid>
-        </Grid>
       </Box>
-    </Box>
+    </ChatBox>
   );
 };
 
@@ -131,3 +125,27 @@ const Box2 = styled.div`
     }
   `}
 `;
+const InputText = styled.input`
+  outline: none;
+  border: none;
+  padding: 0;
+  flex-grow: 1;
+  margin-right:10px;
+`;
+
+const ChatBox = styled(Box)`
+  width: ${(props) => props.$width || "auto"};
+  height: ${(props) => props.$height || "auto"};
+  background-color: ${({ background_color }) => background_color || "#3994F0"};
+  color: ${({ color }) => color || "white"};
+  display: ${({ display }) => display || "flex"};
+`;
+
+const ChatHeader = styled(Box)`
+  width: ${({ width }) => width || "auto"};
+  height: ${({ height }) => height || "auto"};
+  background-color: ${({ background_color }) => background_color || "#3994F0"};
+  color: ${({ color }) => color || "white"};
+  display: ${({ display }) => display || "flex"};
+`;
+
