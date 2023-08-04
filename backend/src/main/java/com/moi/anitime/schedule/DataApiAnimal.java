@@ -287,8 +287,9 @@ public class DataApiAnimal {
         }
 
         int dayOfMonth = 1;
+        String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
+        String startDate = Integer.toString(year) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
-        String startDate = Integer.toString(year-3) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
 //        System.out.println(SERVICE_KEY);
         String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo=1&bgnde="+startDate;
