@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Phone } from "@mui/icons-material";
 
 const defaultTheme = createTheme();
 export default function LoginPage() {
@@ -30,7 +29,6 @@ export default function LoginPage() {
     email: "",
     phone: "",
     password: "",
-    passwordCheck: "",
   });
   const handleTextValueChangeTop = (e) => {
     const { name, value } = e.target;
@@ -38,7 +36,14 @@ export default function LoginPage() {
       return { ...input, [name]: value };
     });
   };
+  const [passwordCheck, setpPass] = useState({});
 
+  const handlePassWordCheck = (e) => {
+    const { name, value } = e.target;
+    setpPass((input) => {
+      return { ...input, [name]: value };
+    });
+  };
   //-------보호소 정보 저장 변수, onChange, Reset()---------
   const [shelterInfo, setShelterInfo] = useState({
     bisNo: "",
@@ -47,33 +52,92 @@ export default function LoginPage() {
   });
   const handleShelterValueimage = (e) => {
     console.log(e);
-    const { name, value } = e.target.files.length > 1 ? e.target.files[0] : "";
-    setInfo((input) => {
-      return { ...input, [name]: value };
+    const { name, files } = e.target;
+    setShelterInfo((input) => {
+      return { ...input, [name]: files.length > 0 ? files[0] : "" };
     });
   };
   const handleShelterValueChange = (e) => {
     console.log(e);
     const { name, value } = e.target;
-    setInfo((input) => {
+    setShelterInfo((input) => {
       return { ...input, [name]: value };
     });
   };
 
   const handleShelterValueReset = () => {
-    setInfo({
-      bisNo: "",
-      bisNoCheck: false,
-      filedata: null,
-    });
+    // setInfo({
+    //   bisNo: "",
+    //   bisNoCheck: false,
+    //   filedata: null,
+    // });
   };
-  // const [addrCheck, setAddr] = useState(false);
-  // const [bischeck, setbisNo] = useState(false);
-  // const [, setSheNo] = useState(false);
-  // const [phone, setPhone] = useState(false);
+  //----------------------------------------------
+  const join = (event) => {
+    event.preventDefault();
+
+    if (tabNo === "1" && !shelterInfo.bisNoCheck) {
+      alert("사업자 조회 번호를 인증해 주세요");
+      return;
+    }
+    const data = tabNo === "0" ? { ...commoninfo } : new FormData();
+
+    if (tabNo !== "0") {
+      data.append(
+        `member`,
+        new Blob([JSON.stringify({ ...commoninfo, addr: shelterInfo.addr })]),
+        { type: "application/json" }
+      );
+      data.append(`image`, shelterInfo.filedata);
+    }
+    console.log(data);
+
+    http
+      .post(
+        tabNo === "0" ? `auth/general` : `auth/shelter`,
+        data,
+        tabNo === "0" // 요청
+          ? {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          : {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+        // password: data.get("password"),
+        // memberKind: parseInt(tabNo),
+      )
+      .then((res) => {
+        console.log(
+          "보호소 회원 가입이 완료되었습니다.\n 추후 승인 후 이용 가능하십니다. "
+        );
+      })
+      .catch((err) => {});
+  };
 
   const bisNoCehck = (e) => {
     e.preventDefault();
+    // bisNocheck event
+    // axios({
+    //   url: '/test',
+    //   method: 'post',
+    //   data: {
+    //     name: 'veneas'
+    //   }
+    // })
+    // .then(function a(response) {
+    //   console.log(response)
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+
+    setShelterInfo((input) => {
+      return { ...input, bisNoCheck: true };
+    });
     console.log("사업자 번호 조회하는 이벤트입니다.");
   };
 
@@ -170,10 +234,10 @@ export default function LoginPage() {
               sx={{ mt: 1, maxWidth: 500 }}
             >
               <TextField
-                margin="small"
+                size="small"
+                margin="dense"
                 required
                 fullWidth
-                size=""
                 id="name"
                 label={tabNo === "0" ? "이름" : "보호소 명"}
                 name="name"
@@ -185,7 +249,8 @@ export default function LoginPage() {
               />
 
               <TextField
-                margin="small"
+                size="small"
+                margin="dense"
                 required
                 fullWidth
                 id="email"
@@ -199,7 +264,8 @@ export default function LoginPage() {
                 onChange={handleTextValueChangeTop}
               />
               <TextField
-                margin="small"
+                size="small"
+                margin="dense"
                 required
                 fullWidth
                 id="phone"
@@ -213,7 +279,8 @@ export default function LoginPage() {
                 onChange={handleTextValueChangeTop}
               />
               <TextField
-                margin="small"
+                size="small"
+                margin="dense"
                 required
                 fullWidth
                 name="password"
@@ -221,11 +288,12 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={commoninfo["password"]}
+                value={commoninfo["passwordCheck"]}
                 onChange={handleTextValueChangeTop}
               />
               <TextField
-                margin="small"
+                margin="dense"
+                size="small"
                 required
                 fullWidth
                 name="passwordCheck"
@@ -233,12 +301,27 @@ export default function LoginPage() {
                 type="password"
                 id="passwordCheck"
                 autoComplete="current-password"
-                value={commoninfo["passwordCheck"]}
-                onChange={handleTextValueChangeTop}
+                value={passwordCheck.passwordCheck}
+                onChange={handlePassWordCheck}
               />
+
               {tabNo !== "0" && (
                 <>
                   <TextField
+                    size="small"
+                    margin="dense"
+                    required
+                    fullWidth
+                    name="addr"
+                    label="주소"
+                    type="text"
+                    id="addr"
+                    autoComplete="current-addr"
+                    value={shelterInfo["addr"]}
+                    onChange={handleShelterValueChange}
+                  />
+                  <TextField
+                    size="small"
                     marginTop="10"
                     required
                     name="passwordCheck"
@@ -255,7 +338,7 @@ export default function LoginPage() {
                     type="submit"
                     variant="contained"
                     sx={{
-                      height: "56px",
+                      height: "40px",
                       width: "25%",
                       marginLeft: "5%",
                       fontWeight: "fontWeightBold",
@@ -272,11 +355,11 @@ export default function LoginPage() {
                     id="filedata"
                     autoComplete="filedata"
                     onChange={handleShelterValueimage}
-                    value={shelterInfo["filedata"]}
-                    // style={{ display: "none" }}
+                    style={{ display: "none" }}
                   />
                   <TextField
-                    margin="small"
+                    size="small"
+                    margin="dense"
                     required
                     fullWidth
                     name="passwordCheck"
@@ -284,8 +367,12 @@ export default function LoginPage() {
                     type="text"
                     id="passwordCheck"
                     autoComplete="current-password"
-                    // InputProps={{ readOnly: true }}
-                    value={shelterInfo["filedata"]}
+                    readOnly="true"
+                    value={
+                      shelterInfo["filedata"] === null
+                        ? ""
+                        : shelterInfo["filedata"].name
+                    }
                     onClick={(e) => {
                       e.preventDefault();
                       document.getElementById("filedata").click();
@@ -298,7 +385,7 @@ export default function LoginPage() {
                 fullWidth
                 variant="contained"
                 sx={{
-                  mt: 3,
+                  mt: 0.5,
                   mb: 2,
                   width: 400,
                   fontWeight: "fontWeightBold",
@@ -307,6 +394,7 @@ export default function LoginPage() {
                 style={{
                   marginLeft: 50,
                 }}
+                onClick={join}
               >
                 로그인
               </Button>
