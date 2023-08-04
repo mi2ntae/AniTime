@@ -1,10 +1,8 @@
-import { margin } from "@mui/system";
-import { right } from "@popperjs/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function MapComponent({ setModal, getPosition }) {
-  const [curLat, setCurLat] = useState("37.5012860931305");
-  const [curLon, setCurLon] = useState("127.039604663862");
+export default function MapComponent({ y, x, setModal, getPosition }) {
+  const [curLat, setCurLat] = useState(y);
+  const [curLon, setCurLon] = useState(x);
   const [inputText, setInputText] = useState("");
   const [search, setSearch] = useState("");
 
@@ -12,6 +10,21 @@ export default function MapComponent({ setModal, getPosition }) {
 
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setModal(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const onChange = (e) => {
     setInputText(e.target.value);
@@ -28,7 +41,7 @@ export default function MapComponent({ setModal, getPosition }) {
     const kakao = window.kakao;
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862),
+      center: new kakao.maps.LatLng(y, x),
       level: 3,
     };
 
@@ -89,7 +102,7 @@ export default function MapComponent({ setModal, getPosition }) {
 
   return (
     <>
-      <div className="map-search-modal">
+      <div className="map-search-modal" ref={modalRef}>
         <h4 style={{ margin: "0px 0px 20px 0px" }}>실종위치 검색</h4>
         <div className="map-container">
           <div className="map-area">
@@ -106,7 +119,7 @@ export default function MapComponent({ setModal, getPosition }) {
               />
               <button type="submit" className="search-btn">
                 검색&nbsp;
-                <img src="/icons/ic_search.svg" style={{ width: "23%" }} />
+                <img src="/icons/ic_search.svg" alt="Error" style={{ width: "23%" }} />
               </button>
             </form>
             <div className="search-result-list">
@@ -144,14 +157,13 @@ export default function MapComponent({ setModal, getPosition }) {
 
       <style jsx="true">{`
       .map-search-modal {
-        // background-color: pink;
         padding: 24px;
         width: 70%;
         height: 70vh;
         border-radius: 8px;
         background-color: white;
         z-index: 999;
-        position: absolute;
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
