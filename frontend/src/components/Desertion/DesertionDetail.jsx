@@ -24,6 +24,7 @@ export default function DesertionDetail() {
       .get(`desertion/${desertionNo}`)
       .then((res) => {
         setAnimal(res.data);
+        console.log(animal);
       })
       .catch(() => {
         console.log("유기동물 세부정보 조회 실패");
@@ -49,7 +50,7 @@ export default function DesertionDetail() {
           </div>
           <div className="animal-desc-area">
             <div className="animal-desc-title">추정나이</div>
-            <div className="animal-desc-content">{animal.age}</div>
+            <div className="animal-desc-content">{animal.birth}</div>
           </div>
           <div className="animal-desc-area">
             <div className="animal-desc-title">몸무게</div>
