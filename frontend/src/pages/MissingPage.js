@@ -3,7 +3,7 @@ import React from "react";
 import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import animaldata from "components/Missing/animaldata2.json";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Missing() {
   const animals = animaldata.animals;
@@ -44,7 +44,7 @@ export default function Missing() {
         <ProfileTab />
       </DetailViewBox>
       <Link to="/missing/regist">
-        <RegistBtn/>
+        <RegistBtn />
       </Link>
     </HorizontalContainer>
   );
@@ -120,9 +120,9 @@ const Blank = styled.span`
 
 const RegistBtn = styled.div`
   position: fixed;
-  top: 70%;
-  left: 90%;
-  background-color: var(--primary, #3994F0);
+  top: 80%;
+  left: 85%;
+  background-color: var(--primary, #3994f0);
   filter: drop-shadow(0px 4px 13px rgba(0, 0, 0, 0.25));
   width: 80px;
   height: 80px;

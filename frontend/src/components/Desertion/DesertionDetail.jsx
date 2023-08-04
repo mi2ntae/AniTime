@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 
 export default function DesertionDetail() {
@@ -9,6 +9,7 @@ export default function DesertionDetail() {
 
   let [animal, setAnimal] = useState([]);
   let desertionNo = useSelector((state) => state.detailInfo.desertionNo);
+
   useEffect(() => {
     if (desertionNo === 0) return;
     http
@@ -24,68 +25,80 @@ export default function DesertionDetail() {
   return (
     <>
       <div className="animal-container">
-        <div className="animal-image" style={{
-          background: animal.image2
-          ? `url(${animal.image2}) no-repeat center/cover`
-          : `url("/no_image.png") no-repeat center/cover`,
-        }}/>
+        <div
+          className="animal-image"
+          style={{
+            background: animal.image2
+              ? `url(${animal.image2}) no-repeat center/cover`
+              : `url("/no_image.png") no-repeat center/cover`,
+          }}
+        />
         <div className="animal-desc-container">
           <div className="animal-title-area">대상동물 정보</div>
           <div className="animal-desc-area">
-              <div className="animal-desc-title">종류</div>
-              <div className="animal-desc-content">{animal.kind}</div>
-            </div>
+            <div className="animal-desc-title">종류</div>
+            <div className="animal-desc-content">{animal.kind}</div>
+          </div>
           <div className="animal-desc-area">
-              <div className="animal-desc-title">추정나이</div>
-              <div className="animal-desc-content">{animal.age}세</div>
-            </div>
+            <div className="animal-desc-title">추정나이</div>
+            <div className="animal-desc-content">{animal.age}</div>
+          </div>
           <div className="animal-desc-area">
-              <div className="animal-desc-title">몸무게</div>
-              <div className="animal-desc-content">{animal.weight}kg</div>
-            </div>
+            <div className="animal-desc-title">몸무게</div>
+            <div className="animal-desc-content">{animal.weight}</div>
+          </div>
           <div className="animal-desc-area">
-              <div className="animal-desc-title">털색</div>
-              <div className="animal-desc-content">{animal.color}</div>
-            </div>
+            <div className="animal-desc-title">털색</div>
+            <div className="animal-desc-content">{animal.color}</div>
+          </div>
           <div className="animal-desc-area">
-              <div className="animal-desc-title">성별</div>
-              <div className="animal-desc-content">{animal.gender}</div>
-            </div>
+            <div className="animal-desc-title">성별</div>
+            <div className="animal-desc-content">{animal.gender}</div>
+          </div>
 
-            <div className="animal-title-area" style={{marginTop: "32px"}}>공고 정보</div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">공고번호</div>
-              <div className="animal-desc-content">{animal.noticeNo}</div>
-            </div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">공고기간</div>
-              <div className="animal-desc-content">{animal.noticeSdate}&nbsp;~&nbsp;{animal.noticeEdate}</div>
-            </div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">발견장소</div>
-              <div className="animal-desc-content">{animal.findPlace}</div>
-            </div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">특이사항</div>
-              <div className="animal-desc-content">{animal.specialMark}</div>
-            </div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">보호센터</div>
-              <div className="animal-desc-content">??</div>
-            </div>
-            <div className="animal-desc-area">
-              <div className="animal-desc-title">연락처</div>
-              <div className="animal-desc-content">??</div>
-            </div>
+          <div className="animal-title-area" style={{ marginTop: "32px" }}>
+            공고 정보
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">공고번호</div>
+            <div className="animal-desc-content">{animal.noticeNo}</div>
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">공고기간</div>
+            <div className="animal-desc-content">{animal.noticeDate}</div>
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">발견장소</div>
+            <div className="animal-desc-content">{animal.location}</div>
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">특이사항</div>
+            <div className="animal-desc-content">{animal.specialMark}</div>
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">보호센터</div>
+            <div className="animal-desc-content">{animal.shelter}</div>
+          </div>
+          <div className="animal-desc-area">
+            <div className="animal-desc-title">연락처</div>
+            <div className="animal-desc-content">{animal.tel}</div>
+          </div>
 
           <div className="animal-btn-container">
-            <button className="animal-chat-btn" onClick={() => setModal(true)}>채팅하기</button>
-            <Link to="/desertion/reservation" style={{flex: "1"}}>
-              <button className="animal-meet-btn">미팅하기</button>
+            <button className="animal-chat-btn" onClick={() => setModal(true)}>
+              채팅하기
+            </button>
+            <Link to="/desertion/reservation" style={{ flex: "1" }}>
+              <button
+                className="animal-meet-btn"
+                onClick={window.scrollTo(0, 0)}
+              >
+                미팅하기
+              </button>
             </Link>
           </div>
         </div>
-        {modal && (<ChatUi setModal={setModal}/>)}
+        {modal && <ChatUi setModal={setModal} />}
       </div>
       <style jsx="true">{`
         .animal-container {
@@ -178,4 +191,3 @@ export default function DesertionDetail() {
     </>
   );
 }
-
