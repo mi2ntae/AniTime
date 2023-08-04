@@ -1,3 +1,4 @@
+unlock tables;
 drop database if exists test;
 create database test;
 use test;
@@ -245,7 +246,7 @@ ON UPDATE CASCADE;
 
 
 ALTER TABLE `Notice` ADD CONSTRAINT `FK_Member_TO_Notice` FOREIGN KEY (
-	`generalNo`
+	`memberNo`
 )
 REFERENCES `Member` (
 	`memberNo`
