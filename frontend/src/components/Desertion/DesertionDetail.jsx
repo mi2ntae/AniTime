@@ -36,8 +36,8 @@ export default function DesertionDetail() {
         <div
           className="animal-image"
           style={{
-            background: animal.image2
-              ? `url(${animal.image2}) no-repeat center/cover`
+            background: animal.thumbnail
+              ? `url(${animal.thumbnail}) no-repeat center/cover`
               : `url("/no_image.png") no-repeat center/cover`,
           }}
         />
