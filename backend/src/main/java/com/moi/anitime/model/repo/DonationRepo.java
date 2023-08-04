@@ -14,4 +14,5 @@ public interface DonationRepo extends JpaRepository<Donation, Integer> {
     Optional<Donation> findDonationByDonationNo(@Param("donationno") int donationNo);
     Page<Donation> findDonationsByBoardNo(@Param("boardno") int boardNo, Pageable pageable);
     void deleteDonationByDonationNo(@Param("donationno") int donationNo);
+
 }
