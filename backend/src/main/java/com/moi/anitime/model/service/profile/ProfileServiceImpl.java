@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.profile;
 
 import com.moi.anitime.api.request.profile.ProfileModifyReq;
 import com.moi.anitime.api.response.profile.ProfileDetailRes;
+import com.moi.anitime.api.response.profile.ProfileRes;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
 import com.moi.anitime.exception.profile.UnSupportedFileTypeException;
 import com.moi.anitime.model.entity.member.GeneralMember;
@@ -103,5 +104,27 @@ public class ProfileServiceImpl implements ProfileService{
         if (res.getSexCode() == SexCode.F) profileDetailRes.setGender("암컷");
         else if (res.getSexCode() == SexCode.M) profileDetailRes.setGender("수컷");
         return profileDetailRes;
+    }
+
+    @Override
+    public ProfileRes findProfileByIdSystem(int profileNo) throws NoExistProfileNoException {
+        Optional<Profile> profile = profileRepo.findById(profileNo);
+        if (!profile.isPresent()) throw new NoExistProfileNoException();
+        Profile res = profile.get();
+        ProfileRes profileRes = ProfileRes.builder()
+                .name(res.getProfileName())
+                .profileKind(String.valueOf(res.getProfileKind()))
+                .detailKind(res.getDetailKind())
+                .age(res.getProfileAge() + "세")
+                .weight(res.getWeight() + "kg")
+                .specialMark(res.getSpecialMark())
+                .date(res.getDateAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+                .location(res.getProfileLocation())
+                .lat(res.getLat())
+                .lon(res.getLon())
+                .image(res.getImage())
+                .gender(String.valueOf(res.getSexCode()))
+                .build();
+        return profileRes;
     }
 }
