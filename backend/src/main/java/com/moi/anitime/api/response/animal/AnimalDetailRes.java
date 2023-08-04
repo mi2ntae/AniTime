@@ -6,6 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class AnimalDetailRes {
+    private String thumbnail;
     private String kind;
     private String birth;
     private String weight;

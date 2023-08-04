@@ -79,6 +79,7 @@ public class AnimalController {
         Member shelterMember = memberService.findShelterMemberById(animal.getShelterNo());
 
         AnimalDetailRes animalDetailRes = AnimalDetailRes.builder()
+                .thumbnail(animal.getImage2())
                 .kind(category.substring(1, category.length()-1) + " / " + token.nextToken())//
                 .birth(animal.getAge() + "년생")
                 .weight(animal.getWeight() + "kg")
