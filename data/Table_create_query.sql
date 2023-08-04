@@ -1,6 +1,3 @@
-drop database if exists test;
-create database test;
-use test;
 DROP TABLE  if EXISTS bookmark cascade;
 DROP TABLE  if EXISTS `Profile` cascade;
 DROP TABLE  if EXISTS notice cascade;
@@ -95,11 +92,11 @@ COLLATE='utf8mb4_bin'
 ;
 CREATE TABLE `Notice` (
 	`noticeNo`	Int	NOT NULL auto_increment PRIMARY key ,
-	`generalNo`	Int	NOT NULL,
+	`memberNo`	Int	NOT NULL,
 	`noticeKind`	Int	NULL COMMENT '0 : 채팅 1 : 미팅 2: 실종',
 	`noticeTime`	DateTime	NULL,
 	`noticeContent`	varchar(255)	NULL,
-	`noticeCheck` TINYINT NOT NULL DEFAULT 0
+	`noticeCheck` TINYINT(1) NOT NULL DEFAULT 0
 )
 COMMENT='알람테이블'
 COLLATE='utf8mb4_bin'
@@ -245,7 +242,7 @@ ON UPDATE CASCADE;
 
 
 ALTER TABLE `Notice` ADD CONSTRAINT `FK_Member_TO_Notice` FOREIGN KEY (
-	`generalNo`
+	`memberNo`
 )
 REFERENCES `Member` (
 	`memberNo`

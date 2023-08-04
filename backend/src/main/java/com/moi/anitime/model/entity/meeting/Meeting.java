@@ -25,7 +25,7 @@ public class Meeting {
     @ManyToOne
     @JoinColumn(name = "desertionno")
     private Animal animal;
-    @Column(name = " reserveddate")
+    @Column(name = "reserveddate")
     LocalDateTime reservedDate;
     int status;
     String url;
