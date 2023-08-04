@@ -3,7 +3,7 @@ import React from "react";
 import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import animaldata from "components/Missing/animaldata2.json";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Missing() {
   const animals = animaldata.animals;
@@ -16,7 +16,12 @@ export default function Missing() {
             <AnimalImg key={idx}>
               <DivP>
                 <Div>
-                  <img src={animal.image} alt="AnimalImage" height="210px" />
+                  <img
+                    src={animal.image}
+                    alt="AnimalImage"
+                    width="220px"
+                    height="220px"
+                  />
                 </Div>
                 <Div2>
                   <Span1>
@@ -44,7 +49,7 @@ export default function Missing() {
         <ProfileTab />
       </DetailViewBox>
       <Link to="/missing/regist">
-        <RegistBtn/>
+        <RegistBtn />
       </Link>
     </HorizontalContainer>
   );
@@ -54,6 +59,7 @@ const ListFilterContainer = styled.div`
   display: flex;
   margin-right: 40px;
   flex: 2;
+  margin-top: 48px;
 `;
 
 const ListContainer = styled.div`
@@ -62,12 +68,9 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-content: flex-start;
-  height: 600px;
-  padding: 10px;
+  height: 700px;
   overflow-y: scroll;
   text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -77,12 +80,13 @@ const ListContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
+  margin-top: 80px;
 `;
 
 const AnimalImg = styled.div`
   width: 33.33%;
   height: 240px;
-  margin-top: 20px;
+  margin-bottom: 28px;
 `;
 
 const Span1 = styled.span`
@@ -122,7 +126,7 @@ const RegistBtn = styled.div`
   position: fixed;
   top: 70%;
   left: 90%;
-  background-color: var(--primary, #3994F0);
+  background-color: var(--primary, #3994f0);
   filter: drop-shadow(0px 4px 13px rgba(0, 0, 0, 0.25));
   width: 80px;
   height: 80px;
