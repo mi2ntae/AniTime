@@ -55,9 +55,6 @@ public class AnimalServiceImpl implements AnimalService{
                 sortQuery="A.noticeSdate asc";
                 break;
         }
-        for(AnimalPreviewRes e:animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9))){
-            System.out.println(e);
-        }
         return animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9));
     }
 

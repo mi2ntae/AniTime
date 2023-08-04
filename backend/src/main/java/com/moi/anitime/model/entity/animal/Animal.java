@@ -21,7 +21,7 @@ import java.time.LocalDate;
                         "SUBSTRING(A.kind," +
                         "INSTR(A.kind, '[') + 1," +
                         "INSTR(A.kind, ']') - INSTR(A.kind, '[') - 1) AS category," +
-                        "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image1 AS thumbnail," +
+                        "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image2 AS thumbnail," +
                         "IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A " +
                         "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo " +
                         "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd ORDER BY :sortQuery",
