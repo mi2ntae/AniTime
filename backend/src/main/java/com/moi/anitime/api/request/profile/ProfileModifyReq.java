@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -21,54 +23,61 @@ import java.time.LocalDate;
 @ApiModel("profileModifyReq")
 public class ProfileModifyReq {
     @ApiModelProperty(name="이름")
+    @NotBlank
     String profileName;
 
-    @ApiModelProperty(name="축종")
+    @NotNull
+    int generalNo;
+
+    @ApiModelProperty(name="축종") @NotNull
     ProfileKind profileKind;
 
-    @ApiModelProperty(name="품종")
+    @ApiModelProperty(name="품종") @NotBlank
     String detailKind;
 
-    @ApiModelProperty(name="성별")
+    @ApiModelProperty(name="성별") @NotNull
     SexCode sexCode;
 
     @ApiModelProperty(name="나이")
     int profileAge;
 
+    @ApiModelProperty(name="몸무게")
+    float weight;
+
     @ApiModelProperty(name="특징")
     String specialMark;
 
-    @ApiModelProperty(name="실종일")
-    LocalDate dateAt;
+    @ApiModelProperty(name="실종일-연도") @NotNull
+    int year;
 
-    @ApiModelProperty(name="실종위치")
+    @ApiModelProperty(name="실종일-월") @NotNull
+    int month;
+
+    @ApiModelProperty(name="실종일-일") @NotNull
+    int day;
+
+    @ApiModelProperty(name="실종위치") @NotBlank
     String profileLocation;
 
-    @ApiModelProperty(name="위도")
+    @ApiModelProperty(name="위도") @NotNull
     float lat;
 
-    @ApiModelProperty(name="경도")
+    @ApiModelProperty(name="경도") @NotNull
     float lon;
-
-    @ApiModelProperty(name = "이미지경로")
-    String image;
-
-    @ApiModelProperty(name = "몸무게")
-    float weight;
 
     public Profile toEntity() {
         Profile profile = Profile.builder()
                 .profileName(this.profileName)
+                .generalMember(new GeneralMember(generalNo))
                 .profileKind(this.profileKind)
                 .detailKind(this.detailKind)
                 .sexCode(this.sexCode)
                 .profileAge(this.profileAge)
                 .specialMark(this.specialMark)
-                .dateAt(this.dateAt)
+                .dateAt(LocalDate.of(this.year, this.month, this.day))
                 .profileLocation(this.profileLocation)
                 .lat(this.lat)
                 .lon(this.lon)
-                .image(this.image)
                 .weight(this.weight)
                 .build();
         return profile;
