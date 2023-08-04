@@ -1,5 +1,7 @@
 import { getToken } from "api/openvidu";
-import StreamComponent from "components/OpenVidu/StreamComponent";
+import MeetingFooter from "components/Meeting/MeetingFooter";
+import MeetingHeader from "components/Meeting/MeetingHeader";
+import StreamComponent from "components/Meeting/StreamComponent";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -14,6 +16,11 @@ export default function Openvidutest() {
     mainStreamManager: undefined,
     publisher: undefined,
     subscribers: [],
+  });
+  const [tabOpen, setTabOpen] = useState({
+    formTab: false,
+    profileTab: false,
+    chatTab: false,
   });
 
   useEffect(() => {
@@ -88,16 +95,12 @@ export default function Openvidutest() {
           videoSource: undefined, // The source of video. If undefined default webcam
           publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
           publishVideo: true, // Whether you want to start publishing with your video enabled or not
-          resolution: "640x480", // The resolution of your video
+          resolution: "1260x720", // The resolution of your video
           frameRate: 30, // The frame rate of your video
           insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
           mirror: false, // Whether to mirror your local video or not
         });
         session.publish(publisher);
-        // const devices = await OV.getDevices();
-        // const videoDevices = devices.filter(device => device.kind === "videoinput");
-        // const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-        // const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
         setOpenvidu((p) => ({
           ...p,
           session: session,
@@ -118,15 +121,19 @@ export default function Openvidutest() {
     <Div>
       {openvidu.session ? (
         <VideoDiv>
+          <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} />
           <UserVideo>
             <StreamComponent streamManager={openvidu.mainStreamManager} />
           </UserVideo>
           <CallVideo>
-            {openvidu.subscribers.map((sub, i) => (
-              <StreamComponent key={i} streamManager={sub} />
-            ))}
+            {
+              openvidu.subscribers.map((sub, i) => (
+                <StreamComponent key={i} streamManager={sub} />
+              ))[0]
+            }
           </CallVideo>
           <button onClick={leaveSession}>연결 해제</button>
+          <MeetingFooter />
         </VideoDiv>
       ) : (
         <ButtonDiv>
@@ -148,13 +155,14 @@ export default function Openvidutest() {
 }
 
 const Div = styled.div`
-  background-color: aliceblue;
+  background-color: #d9d9d9;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
-  width: 1000px;
+  width: 100vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 const ButtonDiv = styled.div`
@@ -168,18 +176,20 @@ const VideoDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const UserVideo = styled.div`
   position: absolute;
   top: 100px;
   right: 50px;
-  width: 300px;
-  height: fit-content;
+  width: 315px;
+  height: 180px;
   border-radius: 8px;
   border: black 1px solid;
 `;
 const CallVideo = styled.div`
-  width: 100%;
-  height: fit-content;
+  width: fit-content;
+  height: 100%;
   flex-grow: 1;
 `;
