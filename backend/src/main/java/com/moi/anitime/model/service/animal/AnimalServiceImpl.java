@@ -55,9 +55,6 @@ public class AnimalServiceImpl implements AnimalService{
                 sortQuery="A.noticeSdate asc";
                 break;
         }
-        for(AnimalPreviewRes e:animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9))){
-            System.out.println(e);
-        }
         return animalRepo.getAnimal(generalNo,kind,sexcd,sortQuery,PageRequest.of(curPageNo, 9));
     }
 
@@ -86,13 +83,13 @@ public class AnimalServiceImpl implements AnimalService{
     @Override
     public Optional<Animal> getAnimal(long desertionNo) throws ListLoadingException {
         return animalRepo.findAnimalByDesertionNo(desertionNo);
+//        return animalRepo.findById(desertionNo);
     }
 
     @Override
     public void dataUpdate(List<Animal> animalList) {
         System.out.println(animalList.size());
         animalRepo.saveAll(animalList);
-
     }
 
 

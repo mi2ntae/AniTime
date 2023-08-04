@@ -124,8 +124,8 @@ const Blank = styled.span`
 
 const RegistBtn = styled.div`
   position: fixed;
-  top: 70%;
-  left: 90%;
+  top: 80%;
+  left: 85%;
   background-color: var(--primary, #3994f0);
   filter: drop-shadow(0px 4px 13px rgba(0, 0, 0, 0.25));
   width: 80px;

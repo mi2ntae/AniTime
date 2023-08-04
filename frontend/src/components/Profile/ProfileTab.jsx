@@ -22,24 +22,23 @@ export default function ProfileTab() {
       setWhichComponent(<ProfileDetail />);
     }
   }, [detail]);
-  
+
   const navigate = useNavigate();
+
   useEffect(() => {
-    
+    if (!general) return;
     http
       .get(`profile/${general.memberNo}`)
       .then((data) => {
-        console.log(data);
         const input = data.data;
         setProfiles(input);
+        if (input.length === 0 || input === null) {
+          navigate("/missing/regist");
+        }
         dispatch(setProfileNo(input[0].profileNo));
-        
-        if (input.size.length === 0 || input === null) {
-          navigate('/missing/regist');
-        };
       })
-      .catch(() => {
-        console.log("프로필 목록 가져오기 실패");
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
@@ -66,6 +65,12 @@ export default function ProfileTab() {
         }
         .button-area {
           width: 100%;
+          margin-bottom: 8px;
+        }
+        button {
+          background-color: white;
+          border: 0;
+          font-weight: 600;
         }
       `}</style>
     </>

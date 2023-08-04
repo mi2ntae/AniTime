@@ -14,6 +14,7 @@
     "dayjs": "^1.11.9",
     "intersection-observer": "^0.12.2",
     "moment": "^2.29.4",
+    "openvidu-browser": "^2.28.0",
     "react": "^18.2.0",
     "react-calendar": "^4.5.0",
     "react-dom": "^18.2.0",
@@ -26,8 +27,7 @@
     "styled-components": "^6.0.5",
     "sweetalert2": "^11.7.20",
     "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^2.1.4",
-    "openvidu-react": "2.27.0"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

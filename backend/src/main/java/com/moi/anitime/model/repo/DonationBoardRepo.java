@@ -15,6 +15,6 @@ import java.util.Optional;
 public interface DonationBoardRepo extends JpaRepository<DonationBoard, Integer> {
     Optional<DonationBoard> findDonationBoardByBoardNo(@Param("boardno") int boardNo);
     Page<DonationBoard> findDonationBoardsByShelter_MemberNo(@Param("shelterno") int shelterNo, Pageable page);
-    @Query(value = "SELECT d FROM donationboard d JOIN sheltermember m ON d.shelterNo = m.memberNo WHERE d.title LIKE :title AND m.name LIKE :name")
+    @Query(value = "SELECT d FROM donationboard d JOIN sheltermember m ON d.shelterNo = m.memberNo WHERE d.title LIKE :title AND m.name LIKE :name AND d.endAt > CURDATE() AND d.startAt <= CURDATE()")
     Page<DonationBoard> findDonationBoards(@Param("title") String title, @Param("name") String name, Pageable page);
 }

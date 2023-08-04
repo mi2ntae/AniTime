@@ -6,6 +6,10 @@ import com.moi.anitime.api.request.donation.DonationRegistReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.PageResponse;
 import com.moi.anitime.api.response.SingleResponse;
+import com.moi.anitime.api.response.donation.DonationBoardListRes;
+import com.moi.anitime.api.response.donation.DonationBoardRes;
+import com.moi.anitime.api.response.donation.DonationBoardsListForShelterRes;
+import com.moi.anitime.api.response.donation.DonationListRes;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.donation.NonExistDonationException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
@@ -48,7 +52,7 @@ public class DonationController {
 
     @GetMapping("/shelter/{shelterNo}")
     @ApiOperation(value = "보호소 회원이 작성한 후원 공고 목록 조회")
-    public PageResponse<DonationBoard> getDonationBoardsByShelter_MemberNo(
+    public PageResponse<DonationBoardsListForShelterRes> getDonationBoardsByShelter_MemberNo(
             @PathVariable int shelterNo,
             @RequestParam(required = false, defaultValue = "0") int pageNo)
             throws NonExistMemberNoException {
@@ -57,24 +61,22 @@ public class DonationController {
 
     @GetMapping("/shelter/board/{boardNo}")
     @ApiOperation(value = "후원 공고의 후원 내역 조회")
-    public PageResponse<Donation> getDonationsByBoardNo(
+    public PageResponse<DonationListRes> getDonationsByBoardNo(
             @PathVariable int boardNo,
             @RequestParam(required = false, defaultValue = "0") int pageNo)
             throws NonExistDonationBoardException {
-        Page<Donation> donations = donationService.findDonationsByBoardNo(boardNo, pageNo);
-        return responseService.getPageResponse(donations);
+        return responseService.getPageResponse(donationService.findDonationsByBoardNo(boardNo, pageNo));
     }
 
     @GetMapping("/{boardNo}")
     @ApiOperation(value = "후원 공고 상세 조회")
-    public SingleResponse<DonationBoard> getDonationBoardsByBoardNo(@PathVariable int boardNo) throws NonExistDonationBoardException {
-        DonationBoard board = donationService.findDonationBoardByBoardNo(boardNo);
-        return responseService.getSingleResponse(board);
+    public SingleResponse<DonationBoardRes> getDonationBoardsByBoardNo(@PathVariable int boardNo) throws NonExistDonationBoardException {
+        return responseService.getSingleResponse(donationService.findDonationBoardByBoardNo(boardNo));
     }
 
     @GetMapping
     @ApiOperation(value = "후원 공고 검색")
-    public PageResponse<DonationBoard> getDonationBoards(
+    public PageResponse<DonationBoardListRes> getDonationBoards(
             @RequestParam(required = false) String searchType,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false, defaultValue = "0") int pageNo) {

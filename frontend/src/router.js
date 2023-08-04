@@ -111,16 +111,16 @@ const router = createBrowserRouter([
           };
         },
       },
-      {
-        path: "openvidutest",
-        async lazy() {
-          return {
-            Component: (await import("pages/Openvidutest")).default,
-          };
-        },
-      },
     ],
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "openvidutest",
+    async lazy() {
+      return {
+        Component: (await import("pages/Openvidutest")).default,
+      };
+    },
   },
 ]);
 

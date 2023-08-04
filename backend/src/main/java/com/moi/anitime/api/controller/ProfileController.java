@@ -69,7 +69,8 @@ public class ProfileController {
     @PutMapping("/{profileNo}")
     @ApiOperation(value = "실종동물 프로필 수정")
     @ApiResponse(code = 200, message = "성공")
-    public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestPart ProfileModifyReq profileModifyReq, @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+    public CommonResponse modifyProfile(@PathVariable("profileNo") int profileNo, @RequestPart(value = "profile") ProfileModifyReq profileModifyReq, @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+        System.out.println("여긴오냐?");
         profileService.updateProfile(profileNo, profileModifyReq, image);
         return responseService.getSuccessResponse();
     }
