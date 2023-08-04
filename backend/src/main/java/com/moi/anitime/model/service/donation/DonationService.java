@@ -1,5 +1,9 @@
 package com.moi.anitime.model.service.donation;
 
+import com.moi.anitime.api.response.donation.DonationBoardListRes;
+import com.moi.anitime.api.response.donation.DonationBoardRes;
+import com.moi.anitime.api.response.donation.DonationBoardsListForShelterRes;
+import com.moi.anitime.api.response.donation.DonationListRes;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.donation.NonExistDonationException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
@@ -16,13 +20,13 @@ import java.io.IOException;
 public interface DonationService {
     // 후원 공고
     void registerDonationBoard(DonationBoard donationBoard, MultipartFile image, MultipartFile poster) throws IOException, NonExistMemberNoException;
-    DonationBoard findDonationBoardByBoardNo(int boardNo) throws NonExistDonationBoardException;
-    Page<DonationBoard> findDonationBoardsByShelter_MemberNo(int shelterNo, int curPageNo) throws NonExistMemberNoException;
-    Page<DonationBoard> findDonationBoards(String title, String name, int curPageNo);
+    DonationBoardRes findDonationBoardByBoardNo(int boardNo) throws NonExistDonationBoardException;
+    Page<DonationBoardsListForShelterRes> findDonationBoardsByShelter_MemberNo(int shelterNo, int curPageNo) throws NonExistMemberNoException;
+    Page<DonationBoardListRes> findDonationBoards(String title, String name, int curPageNo);
 
     // 후원 내역
     void registerDonation(Donation donation) throws NonExistDonationBoardException;
     Donation findDonationByDonationNo(int donationNo) throws NonExistDonationException;
-    Page<Donation> findDonationsByBoardNo(int boardNo, int curPageNo) throws NonExistDonationBoardException;
+    Page<DonationListRes> findDonationsByBoardNo(int boardNo, int curPageNo) throws NonExistDonationBoardException;
     void deleteDonationByDonationNo(int donationNo) throws NonExistDonationException;
 }
