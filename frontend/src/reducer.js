@@ -4,6 +4,7 @@ import detailInfoReducer from "./reducer/detailInfo";
 import shelterMeetingReducer from "./reducer/shelterMeeting";
 import storageSession from "redux-persist/lib/storage/session";
 import persistReducer from "redux-persist/es/persistReducer";
+import reservedDateReducer from "./reducer/reservation";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   member: memberReducer,
   detailInfo: detailInfoReducer,
   shelterMeeting: shelterMeetingReducer,
+  reservedDate: reservedDateReducer,
   // 필요한거 더 추가하세요
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

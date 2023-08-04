@@ -260,7 +260,7 @@ export default function ReservationForm() {
         }}
         width="280px"
         height="50px"
-        background_color="#3994F0"
+        $background_color="#3994F0"
         color="#ffffff"
       >
         계속
