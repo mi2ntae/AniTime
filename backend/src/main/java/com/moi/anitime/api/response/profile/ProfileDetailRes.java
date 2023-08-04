@@ -6,15 +6,13 @@ import com.moi.anitime.model.entity.profile.SexCode;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
 @Builder
 public class ProfileDetailRes {
     private String name;
     private String kind;
     private String gender;
-    private String age;
+    private String birth;
     private String weight;
     private String specialMark;
     private String date;

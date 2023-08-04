@@ -6,8 +6,9 @@ import lombok.Data;
 @Builder
 @Data
 public class AnimalDetailRes {
+    private String thumbnail;
     private String kind;
-    private String age;
+    private String birth;
     private String weight;
     private String color;
     private String gender;
@@ -18,4 +19,5 @@ public class AnimalDetailRes {
     private String specialMark;
     private String shelter;
     private String tel;
+    private int shelterNo;
 }

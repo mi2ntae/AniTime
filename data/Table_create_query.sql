@@ -1,7 +1,3 @@
-unlock tables;
-drop database if exists test;
-create database test;
-use test;
 DROP TABLE  if EXISTS bookmark cascade;
 DROP TABLE  if EXISTS `Profile` cascade;
 DROP TABLE  if EXISTS notice cascade;
