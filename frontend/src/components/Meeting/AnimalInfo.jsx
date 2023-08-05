@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import http from "api/commonHttp";
 export default function AnimalInfo() {
+  // 임시로 임의의 desertionNo를 넣음
   const desertionNo = 447510202300017;
+  const [dDay, setDDay] = useState();
   const items = [
     "종류",
     "추정 나이",
@@ -35,23 +37,38 @@ export default function AnimalInfo() {
       .get(`desertion/${desertionNo}`)
       .then((res) => {
         setInfo(res.data);
+        console.log(res.data);
       })
       .catch(() => {
         console.log("유기동물 세부정보 조회 실패");
       });
   }, []);
+  useEffect(() => {
+    if (info.noticeDate !== undefined) {
+      const noticeEdate = new Date(info.noticeDate.substr(13));
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      const today = new Date(`${year}-${month}-${day}`);
+      setDDay(
+        (noticeEdate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      );
+    }
+  }, [info]);
   return (
     <RootContainer>
       <Top>
         <div>동물 프로필</div>
         <button>X</button>
       </Top>
-      <ImageContainer
-        style={{
-          backgroundImage: info.thumbnail,
-        }}
-      >
-        {/* <img src={info.thumbnail} alt="썸네일 이미지"></img> */}
+
+      <ImageContainer style={{ backgroundImage: `url(${info.thumbnail})` }}>
+        <div class="box">
+          <div></div>
+          <div>공고중</div>
+          <div>{dDay < 0 ? `(D+${Math.abs(dDay)})` : `(D-${dDay})`}</div>
+        </div>
       </ImageContainer>
       <InfoContainer>
         <Content>
@@ -72,7 +89,7 @@ export default function AnimalInfo() {
             .map((v, i) => (
               <ItemContainer key={i}>
                 <div>{v}</div>
-                <div>{info[index[i]]}</div>
+                <div>{info[index[i + 5]]}</div>
               </ItemContainer>
             ))}
         </Content>
@@ -119,10 +136,32 @@ const InfoContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
   width: 360px;
   height: 186px;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  .box {
+    margin: 24px 24px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 140px;
+    height: 34px;
+    background-color: #ffffff;
+    opacity: 0.8;
+    border-radius: 8px;
+  }
+  div > div:first-child {
+    background-color: #f0a739;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+  }
 `;
 const Content = styled.div`
   padding: 0 36px;
