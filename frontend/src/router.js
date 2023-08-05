@@ -110,7 +110,7 @@ const router = createBrowserRouter([
             Component: (await import("pages/RouterTestPage")).default,
           };
         },
-      },
+      }
     ],
     errorElement: <ErrorPage />,
   },
