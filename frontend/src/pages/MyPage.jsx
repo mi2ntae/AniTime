@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { MainContainer, Button } from "styled/styled";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,8 @@ import MyPageChatting from "components/MyPage/MyPageChatting";
 import MyPageWatchlist from "components/MyPage/MyPageWatchlist";
 import ShelterMeeting from "components/MyPage/ShelterMeeting";
 import ShelterDonation from "components/MyPage/ShelterDonation";
-import http from "../api/commonHttp.js"
+import ShelterDonationDetail from "components/MyPage/ShelterDonationDetail.jsx";
+import http from "../api/commonHttp.js";
 import { useNavigate } from "react-router-dom";
 import { initMember } from "../reducer/member";
 
@@ -19,17 +20,21 @@ export default function MyPage() {
   const memberNo = useSelector((state) => state.member.memberNo);
   const navigate = useNavigate();
 
+  const [boardNo, setBoardNo] = useState("");
+  const [showDonationDetail, setShowDonationDetail] = useState(false);
+
   const logout = () => {
     let logoutNo = memberNo;
-    http.get(`auth/logout/${logoutNo}`)
-    .then((res) => {
-      alert("로그아웃 하였습니다.");
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    http
+      .get(`auth/logout/${logoutNo}`)
+      .then((res) => {
+        alert("로그아웃 하였습니다.");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     dispatch(initMember());
-  }
+  };
   const tabs = [
     // 일반회원: memberKind == 0
     [
@@ -41,7 +46,15 @@ export default function MyPage() {
     [
       { title: "미팅신청현황", content: <ShelterMeeting /> },
       { title: "채팅", content: <MyPageChatting /> },
-      { title: "후원현황", content: <ShelterDonation /> },
+      {
+        title: "후원현황",
+        content: (
+          <ShelterDonation
+            setBoardNo={setBoardNo}
+            setShowDonationDetail={setShowDonationDetail}
+          />
+        ),
+      },
     ],
   ];
 
@@ -52,17 +65,32 @@ export default function MyPage() {
           <MemberName>{member.name}</MemberName>
           <MemberType>{member.memberKind === 1 ? "보호소회원" : ""}</MemberType>
         </MemberNameDiv>
-        <div style={{
-          display: "flex"
-        }}>
-        <Button $border="#E8EBEE 1px solid">정보수정하기</Button>
-        <Button onClick={logout} $border="#E8EBEE 3px solid" $background_color="#FF7676" color="white" style={{
-          fontWeight: "bold"
-        }}>로그아웃</Button>
-
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <Button $border="#E8EBEE 1px solid">정보수정하기</Button>
+          <Button
+            onClick={logout}
+            $border="#E8EBEE 3px solid"
+            $background_color="#FF7676"
+            color="white"
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            로그아웃
+          </Button>
         </div>
       </MyPageHeader>
-      <Tabs value={tabNo} onChange={(event, newVal) => setTabNo(newVal)}>
+      <Tabs
+        value={tabNo}
+        onChange={(event, newVal) => {
+          setTabNo(newVal);
+        }}
+        onClick={() => setShowDonationDetail(false)}
+      >
         {tabs[member.memberKind].map((item, index) => {
           return <Tab key={index} value={index} label={item.title} />;
         })}
@@ -70,7 +98,11 @@ export default function MyPage() {
       <TabPanel>
         {tabs[member.memberKind].map((item, index) => (
           <div hidden={index !== tabNo} key={index} style={{ width: "100%" }}>
-            {item.content}
+            {index === 2 && showDonationDetail ? (
+              <ShelterDonationDetail boardNo={boardNo} />
+            ) : (
+              item.content
+            )}
           </div>
         ))}
       </TabPanel>
