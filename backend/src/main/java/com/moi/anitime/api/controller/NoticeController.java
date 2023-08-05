@@ -3,12 +3,11 @@ package com.moi.anitime.api.controller;
 import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.request.notice.NoticeReq;
 import com.moi.anitime.api.response.CommonResponse;
+import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.model.service.notice.NoticeService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "알림 API", tags = {"Notice"})
 @RestController
@@ -21,5 +20,10 @@ public class NoticeController {
     CommonResponse test(NoticeReq noticeReq){
         noticeService.generateNotice(noticeReq);
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping("")
+    ListResponse getNoticeList(@RequestParam(value="memberNo",required = true)int memberNo){
+        return responseService.getListResponse(noticeService.getNoticeList(memberNo));
     }
 }
