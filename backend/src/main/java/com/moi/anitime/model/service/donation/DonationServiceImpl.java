@@ -96,9 +96,10 @@ public class DonationServiceImpl implements DonationService {
                             .date(board.getStartAt().format(formatter) + " ~ " + board.getEndAt().format(formatter))
                             .attained(board.getAttainAmount() + "원")
                             .goal(board.getGoalAmount() + "원")
+                            .boardNo(board.getBoardNo())
                             .build();
 
-                    if (board.getStartAt().isBefore(LocalDate.now())) donationBoardsListForShelterRes.setStatus(0);
+                    if (LocalDate.now().isBefore(board.getStartAt())) donationBoardsListForShelterRes.setStatus(0);
                     else if (!LocalDate.now().isAfter(board.getEndAt())) donationBoardsListForShelterRes.setStatus(1);
                     else if (board.getAttainAmount() >= board.getGoalAmount()) donationBoardsListForShelterRes.setStatus(2);
                     else if (board.getAttainAmount() < board.getGoalAmount()) donationBoardsListForShelterRes.setStatus(3);

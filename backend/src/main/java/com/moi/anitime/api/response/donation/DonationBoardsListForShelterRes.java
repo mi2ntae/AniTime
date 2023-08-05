@@ -12,4 +12,5 @@ public class DonationBoardsListForShelterRes {
     private String date;
     private String attained;
     private String goal;
+    private int boardNo;
 }
