@@ -39,7 +39,17 @@ export default function MainPage() {
 
       <HowDiv>
         <HowHeader>HOW</HowHeader>
-        <h1 style={{ fontWeight: "normal" }}>애니타임은 무엇인가요?</h1>
+        <h1
+          style={{
+            color: "var(--darkestgrey, #535A61)",
+            fontSize: "36px",
+            fontWeight: "500",
+            marginTop: "16px",
+            marginBottom: "64px",
+          }}
+        >
+          애니타임은 무엇인가요?
+        </h1>
         <HowBody>
           {/* card 1 */}
           <HowCard>
@@ -134,15 +144,18 @@ const HowDiv = styled.div`
 `;
 
 const HowHeader = styled.p`
-  color: #3994f0;
+  color: var(--primary, #3994f0);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
 `;
 
 const HowBody = styled.div`
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
-  gap: 32px;
-  padding: 24px;
+  gap: 20px;
+  // padding: 24px;
 `;
 
 const HowCard = styled.div`
@@ -150,8 +163,10 @@ const HowCard = styled.div`
   flex: 1 0 30%;
   box-sizing: border-box;
   border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 0 24px #caced3;
+  padding: 32px;
+  box-shadow: 0px 1.8790196180343628px 46.97549057006836px 0px
+    rgba(175, 173, 181, 0.1);
+  min-height: 288px;
 `;
 
 const HowIcon = styled.div`
@@ -163,9 +178,16 @@ const HowIcon = styled.div`
 `;
 
 const HowCardTitle = styled.h2`
-  color: #535a61;
+  font-size: 20px;
+  color: var(--darkestgrey, #535a61);
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 8px;
 `;
 
 const HowCartContent = styled.p`
-  color: #7d848a;
+  color: var(--darkgrey, #7d848a);
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
 `;
