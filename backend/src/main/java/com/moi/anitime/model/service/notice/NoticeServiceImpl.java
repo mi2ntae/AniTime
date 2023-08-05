@@ -11,9 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -111,4 +112,23 @@ public class NoticeServiceImpl implements NoticeService{
         noticeRepo.save(notice);
         return;
     }
+
+    @Override
+    public List<Notice> getNoticeList(int memberNo) {
+        return noticeRepo.findNoticesByMemberNoAndNoticeCheck(memberNo,false);
+    }
+
+    @Override
+    @Transactional
+    public void readNotice(int noticeNo) {
+        Notice notice = noticeRepo.findNoticeByNoticeNo(noticeNo);
+        notice.setNoticeCheck(true);
+    }
+
+    @Override
+    public int countUnreadedNotice(int noticeNo) {
+        return noticeRepo.countByMemberNoAndNoticeCheck(noticeNo,false);
+    }
+
+
 }

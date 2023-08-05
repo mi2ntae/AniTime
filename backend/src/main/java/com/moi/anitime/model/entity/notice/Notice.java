@@ -1,12 +1,13 @@
 package com.moi.anitime.model.entity.notice;
 
+import com.moi.anitime.model.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -16,7 +17,10 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "noticeno")
     int noticeNo;
-    @Column(name = "memberno")
+//    @ManyToOne
+//    @JoinColumn(name = "memberno")
+//    Member member;
+    @Column(name="memberno")
     int memberNo;
     @Column(name = "noticekind")
     int noticeKind;
