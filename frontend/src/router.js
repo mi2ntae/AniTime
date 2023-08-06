@@ -168,6 +168,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "meeting",
+    async lazy() {
+      return {
+        Component: (await import("pages/MeetingPage")).default,
+      };
+    },
+  },
+  {
     path: "openvidutest",
     async lazy() {
       return {
