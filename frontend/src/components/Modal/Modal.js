@@ -9,6 +9,7 @@ export default function Modal({
   children,
   width,
   height,
+  border_radius,
 }) {
   const modalRef = useRef(null);
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function Modal({
       $posY={posY}
       $width={width}
       $height={height}
+      $border_radius={border_radius}
       ref={modalRef}
     >
       {children}
@@ -58,5 +60,5 @@ const ModalContainer = styled.div`
     props.$posX && "translateX(" + props.$posX + ")"} ${(props) =>
     props.$posY && "translateY(" + props.$posY + ")"};
 
-  border-radius: 8px;
+  border-radius: ${(props) => props.$border_radius || "8px"};
 `;
