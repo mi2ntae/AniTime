@@ -84,7 +84,6 @@ export default function ShelterDonationDetail({ boardNo }) {
                   whiteSpace: "nowrap", //텍스트 줄 바꿈 방지
                   textOverflow: "ellipsis", // 말줄임(...)
                   overflow: "hidden",
-                  fontSize: "14px",
                 }}
               >
                 {content.donationDate}
@@ -123,7 +122,7 @@ const Table = styled.div`
   // background-color: var(--lightestgrey, #f7f8fa);
   border: 1px solid var(--lightgrey, #e8ebee);
   border-radius: 8px;
-  flex: 1;
+  // flex: 1;
 `;
 const TableHeader = styled.div`
   background-color: var(--lightestgrey, #f7f8fa);

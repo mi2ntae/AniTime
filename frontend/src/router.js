@@ -99,6 +99,27 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "donation",
+        children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("pages/DonationPage")).default,
+              };
+            },
+          },
+          {
+            path: "write",
+            async lazy() {
+              return {
+                Component: (await import("pages/DonationRegist")).default,
+              };
+            },
+          },
+        ],
+      },
+      {
         path: "mypage",
         element: <MyPage />,
       },
