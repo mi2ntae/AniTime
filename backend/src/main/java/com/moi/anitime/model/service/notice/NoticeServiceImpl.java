@@ -1,7 +1,7 @@
 package com.moi.anitime.model.service.notice;
 
 import com.moi.anitime.api.request.notice.NoticeReq;
-import com.moi.anitime.exception.notice.NoticeGenerationException;
+import com.moi.anitime.exception.notice.*;
 import com.moi.anitime.model.entity.notice.Notice;
 import com.moi.anitime.model.repo.ChatMessageRepo;
 import com.moi.anitime.model.repo.MeetingRepo;
@@ -114,20 +114,25 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public List<Notice> getNoticeList(int memberNo) {
+    public List<Notice> getNoticeList(int memberNo) throws LoadNoticeException {
         return noticeRepo.findNoticesByMemberNoAndNoticeCheck(memberNo,false);
     }
 
     @Override
     @Transactional
-    public void readNotice(int noticeNo) {
+    public void readNotice(int noticeNo) throws ReadNoticeException {
         Notice notice = noticeRepo.findNoticeByNoticeNo(noticeNo);
         notice.setNoticeCheck(true);
     }
 
     @Override
-    public int countUnreadedNotice(int noticeNo) {
-        return noticeRepo.countByMemberNoAndNoticeCheck(noticeNo,false);
+    public int countUnreadedNotice(int memberNo) throws CountNoticeException {
+        return noticeRepo.countByMemberNoAndNoticeCheck(memberNo,false);
+    }
+
+    @Override
+    public void deleteAllNotice(int memberNo) throws DeleteNoticeException {
+        noticeRepo.deleteAllByMemberNo(memberNo);
     }
 
 
