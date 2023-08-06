@@ -2,9 +2,11 @@ package com.moi.anitime.api.response.profile;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
+@ToString
 public class ProfileRes {
     private String name;
     private String profileKind;
