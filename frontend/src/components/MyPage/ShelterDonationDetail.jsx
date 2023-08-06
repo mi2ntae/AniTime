@@ -51,9 +51,9 @@ export default function ShelterDonationDetail({ boardNo }) {
       <TabHeader>
         <TabTitle>후원 현황</TabTitle>
         <Button
-          $background_color="#3994F0"
-          color="#FFFFFF"
           style={{
+            backgroundColor: "#3994F0",
+            color: "white",
             padding: "10px 16px",
             fontSize: "14px",
             fontWeight: 700,
