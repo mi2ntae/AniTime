@@ -208,6 +208,10 @@ const TableContent = styled.div`
   align-items: center;
   gap: 24px;
   font-weight: 400;
+
+  &:hover {
+    background-color: #f0f8ff;
+  }
 `;
 const ContentTitle = styled.div`
   flex: 2;
