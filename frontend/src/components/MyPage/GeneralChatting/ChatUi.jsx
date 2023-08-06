@@ -1,7 +1,6 @@
 import * as React from "react";
 import { css, styled } from "styled-components";
-import { Box, Button, Typography, Paper } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, Typography, Paper } from "@mui/material";
 
 const messages = [
   {
