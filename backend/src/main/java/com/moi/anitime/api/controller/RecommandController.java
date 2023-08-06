@@ -1,10 +1,13 @@
 package com.moi.anitime.api.controller;
 
 
+import com.moi.anitime.api.ResponseService;
+import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.api.response.animal.AnimalPreviewRes;
 import com.moi.anitime.api.response.profile.ProfileRes;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.member.Member;
+import com.moi.anitime.model.service.animal.AnimalService;
 import com.moi.anitime.model.service.profile.ProfileService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +25,17 @@ import java.util.List;
 public class RecommandController {
 
     private ProfileService profileService;
+    private AnimalService animalService;
 
+    private ResponseService responseService;
     @GetMapping("/{profileNo}")
-    public List<AnimalPreviewRes> recommandAnimal(@PathVariable("profileNo") int profileNo) throws NonExistMemberNoException {
+    public ListResponse<AnimalPreviewRes> recommandAnimal(@PathVariable("profileNo") int profileNo) throws NonExistMemberNoException {
         //여기서 먼저
         ProfileRes profileInfo = profileService.findProfileByIdSystem(profileNo);
+        System.out.println(profileInfo.toString());
         //필요한 정보를 profileService에 전달해준다.
 
-        return null;
+        return responseService.getListResponse(animalService.getAnimalRecommand(profileInfo));
     }
+
 }
