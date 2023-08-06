@@ -119,6 +119,7 @@ export default function MeetingPage() {
         subscribers: [],
       }));
     }
+    navigate("/");
   };
 
   const joinSession = async () => {
@@ -136,7 +137,7 @@ export default function MeetingPage() {
     });
     session.on("streamDestroyed", (event) => {
       // event.preventDefault();
-      console.log("delete");
+      // console.log("delete");
       setOpenvidu((p) => {
         const streamManager = event.stream.streamManager;
         return {
@@ -206,7 +207,7 @@ export default function MeetingPage() {
           </VideoDiv>
           {(tabOpen.formTab || tabOpen.profileTab || tabOpen.chatTab) && (
             <SideDiv>
-              <TabDiv hidden={!tabOpen.formTab}>form</TabDiv>
+              <TabDiv hidden={!tabOpen.formTab}>{meeting.url}</TabDiv>
               <TabDiv hidden={!tabOpen.profileTab}>
                 <DesertionDetail />
               </TabDiv>
