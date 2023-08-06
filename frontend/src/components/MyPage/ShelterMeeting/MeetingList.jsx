@@ -7,12 +7,15 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMeetingNo } from "reducer/shelterMeeting";
 import { Button } from "styled/styled";
 
 export default function MeetingList() {
+  const member = useSelector((state) => state.member);
+
   const [meetings, setMeetings] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [maxPage, setMaxPage] = useState(0);
@@ -21,28 +24,16 @@ export default function MeetingList() {
 
   useEffect(() => {
     // api 통신
-    const testData = [
-      {
-        meetNo: 12345,
-        member: {
-          name: "김민태",
-        },
-        reservedDate: "2023-07-24 15:00",
-        status: "종료",
-      },
-      {
-        meetNo: 12347,
-        member: {
-          name: "김민태",
-        },
-        reservedDate: "2023-07-24 15:00",
-        status: "종료",
-      },
-    ];
-    console.log("pageNo: " + pageNo);
-    setMeetings(testData);
-    setMaxPage(5);
-  }, [pageNo]);
+    http
+      .get(`meet/${member.memberNo}/?page=${pageNo - 1}`)
+      .then(({ data: { content, totalPages } }) => {
+        setMeetings(content);
+        setMaxPage(totalPages);
+      })
+      .catch(() => {
+        console.log("미팅 목록 조회 실패");
+      });
+  }, [pageNo, member.memberNo]);
 
   return (
     <>
@@ -62,12 +53,12 @@ export default function MeetingList() {
                 key={item.meetNo}
                 onClick={() => dispatch(setMeetingNo(item.meetNo))}
               >
-                <TableCell>{item.member.name}</TableCell>
-                <TableCell>{item.reservedDate}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.meetContent}</TableCell>
                 <TableCell>{item.reservedDate}</TableCell>
                 <TableCell>
                   <Button onClick={() => console.log(item.meetNo)}>
-                    {item.status}
+                    {item.state}
                   </Button>
                 </TableCell>
               </TableRow>
