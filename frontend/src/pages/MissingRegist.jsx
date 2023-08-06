@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MapComponent from "../components/Profile/MapComponent.jsx";
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 
 export default function MissingRegist() {
   const [modal, setModal] = useState(false);
@@ -200,7 +201,6 @@ export default function MissingRegist() {
       lat: lat,
       lon: lon,
     };
-    console.log(profile);
     const profileJSON = JSON.stringify(profile);
     const formData = new FormData();
     formData.append("profile", profileJSON);
@@ -356,27 +356,6 @@ export default function MissingRegist() {
       return ["축종을 먼저 선택해주세요"];
     }
   };
-
-  function handleRippleEffect(event) {
-    const button = event.currentTarget;
-    const ripple = document.createElement("span");
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = event.clientX - rect.left - size / 2;
-    const y = event.clientY - rect.top - size / 2;
-
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-
-    ripple.classList.add("ripple");
-
-    button.appendChild(ripple);
-
-    ripple.addEventListener("animationend", () => {
-      ripple.remove();
-    });
-  }
 
   return (
     <div className="wrap">
@@ -765,13 +744,21 @@ export default function MissingRegist() {
           </div>
 
           <div className="btn-field">
-            <button
-              className="submit-btn"
+            <Button
               type="submit"
-              onClick={handleRippleEffect}
+              style={{
+                width: "280px",
+                height: "50px",
+                borderRadius: "12px",
+                backgroundColor: "#3994f0",
+                color: "white",
+                fontSize: "16px",
+                fontWeight: "700",
+                border: "none",
+              }}
             >
               실종 정보 등록
-            </button>
+            </Button>
           </div>
         </form>
         {/* <form className="inputForm" onSubmit={handleSearch}>
@@ -790,12 +777,6 @@ export default function MissingRegist() {
             getPosition={getPosition}
           />
         )}
-        {/* <MapComponent
-          lat={lat}
-          lon={lon}
-          getPosition={getPosition}
-          style={{ display: modal ? "block" : "none" }}
-        /> */}
       </div>
 
       <style jsx="true">{`
