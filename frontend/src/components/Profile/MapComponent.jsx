@@ -20,9 +20,9 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -119,7 +119,11 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
               />
               <button type="submit" className="search-btn">
                 검색&nbsp;
-                <img src="/icons/ic_search.svg" alt="Error" style={{ width: "23%" }} />
+                <img
+                  src="/icons/ic_search.svg"
+                  alt="Error"
+                  style={{ width: "23%" }}
+                />
               </button>
             </form>
             <div className="search-result-list">
