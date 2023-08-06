@@ -27,6 +27,7 @@ const ListDiv = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  border-right: 1px solid var(--lightgrey, #e8ebee);
 `;
 const RoomDiv = styled.div`
   flex: 1 0 0;

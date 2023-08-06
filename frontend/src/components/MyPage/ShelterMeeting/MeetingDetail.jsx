@@ -1,33 +1,28 @@
+import http from "api/commonHttp";
+import DesertionDetail from "components/Desertion/DesertionDetail";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setDesertionNo } from "reducer/detailInfo";
 import { styled } from "styled-components";
 import { Button } from "styled/styled";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
+  const dispatch = useDispatch();
+
   const [meeting, setMeeting] = useState(undefined);
+  const [adoptionForm, setAdoptionForm] = useState("");
+
   useEffect(() => {
     if (meetingNo !== -1) {
       // api 통신
-      console.log("초기화");
-      const data = {
-        member: {
-          name: "임성원",
-          phone: "010-0000-0000",
-          email: "chunjae@gmail.com",
-        },
-        reservedDate: "2023-08-02",
-        animal: {
-          img1: "{img 경로}",
-          kind: "포메라니안",
-          age: 21,
-          sexcd: 1,
-          neutral: true,
-        },
-        img: " img경로 ",
-      };
-      setMeeting(data);
-      console.log(meetingNo);
+      http
+        .get(`meet/shelter/${meetingNo}`)
+        .then(({ data: { meet, adoptionForm } }) => {
+          setMeeting(meet);
+          setAdoptionForm(adoptionForm);
+          dispatch(setDesertionNo(meet.animal.desertionNo));
+        });
     }
   }, [meetingNo]);
 
@@ -40,8 +35,11 @@ export default function MeetingDetail() {
         <HeaderLayer>상태입니다</HeaderLayer>
       </Header>
       {meeting ? (
-        <Body>
-          <Content>{meeting.animal.img1}</Content>
+        <>
+          <Content>
+            <DesertionDetail />
+            {adoptionForm}
+          </Content>
           <Footer>
             <DateDiv>미팅일시 : {"미팅날짜"}</DateDiv>
             <div>승인 반려 선택하는 입력</div>
@@ -55,7 +53,7 @@ export default function MeetingDetail() {
               제출
             </Button>
           </Footer>
-        </Body>
+        </>
       ) : (
         ""
       )}
@@ -88,15 +86,10 @@ const HeaderLayer = styled.div`
   transform: translateX(50%);
 `;
 
-const Body = styled.div`
-  width: 100%;
-  height: 100%;
-`;
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 160px);
-  overflow: hidden;
-  background-color: aliceblue;
+  flex: 1 0 0;
+  overflow: auto;
 `;
 const DateDiv = styled.div`
   display: flex;
