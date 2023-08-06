@@ -9,7 +9,7 @@ export default function Footer() {
           style={{
             color: "var(--darkestgrey, #535A61)",
             fontFeatureSettings: "'clig' off, 'liga' off",
-            fontSize: "18px",
+            fontSize: "14px",
             fontWeight: "400",
             lineHeight: "20px",
           }}
