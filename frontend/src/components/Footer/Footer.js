@@ -5,8 +5,33 @@ export default function Footer() {
   return (
     <StyleFooter>
       <FooterDiv>
+<<<<<<< HEAD
         <span>Copyright © Mo. I | All Rights Reserved </span>
         <span>권지훈 | 김민태 | 김정현 | 임성원 | 장명주 | 허재웅</span>
+=======
+        <span
+          style={{
+            color: "var(--darkestgrey, #535A61)",
+            fontFeatureSettings: "'clig' off, 'liga' off",
+            fontSize: "14px",
+            fontWeight: "400",
+            lineHeight: "20px",
+          }}
+        >
+          Copyright © Mo. I | All Rights Reserved{" "}
+        </span>
+        <span
+          style={{
+            color: "var(--darkestgrey, #535A61)",
+            fontFeatureSettings: "'clig' off, 'liga' off",
+            fontSize: "12px",
+            fontWeight: "400",
+            lineHeight: "20px",
+          }}
+        >
+          권지훈 | 김민태 | 김정현 | 임성원 | 장명주 | 허재웅
+        </span>
+>>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
       </FooterDiv>
     </StyleFooter>
   );

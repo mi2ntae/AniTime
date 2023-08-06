@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MapComponent from "../components/Profile/MapComponent.jsx";
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 
 export default function MissingRegist() {
   const [modal, setModal] = useState(false);
@@ -154,6 +155,145 @@ export default function MissingRegist() {
       });
   };
 
+<<<<<<< HEAD
+=======
+  const kindList = () => {
+    if (category === "개") {
+      return [
+        "골든 리트리버",
+        "그레이 하운드",
+        "그레이트 피레니즈",
+        "노퍽테리어믹스인듯",
+        "닥스훈트",
+        "달마시안",
+        "도고 까니리오",
+        "도베르만",
+        "도사",
+        "도사 믹스견",
+        "동경견",
+        "라브라도 리트리버",
+        "라이카",
+        "로트와일러",
+        "로트와일러 믹스견",
+        "리트리버와 웰시코기믹스로보임",
+        "마리노이즈",
+        "말라뮤트",
+        "말라뮤트 믹스견",
+        "말티즈",
+        "말티푸",
+        "미니어쳐 슈나우저",
+        "미니어쳐 푸들",
+        "미니어쳐 핀셔",
+        "미상",
+        "믹스견",
+        "발바리",
+        "베들링턴 테리어",
+        "보더 콜리",
+        "보스턴 테리어",
+        "불독",
+        "브리타니 스파니엘",
+        "블랙 셰퍼트",
+        "블랙탄",
+        "비글",
+        "비숑 프리제",
+        "빠삐용",
+        "사모예드",
+        "삽살개",
+        "샤페이",
+        "세터",
+        "세퍼드믹스",
+        "셔틀랜드 쉽독",
+        "셰퍼드",
+        "쉬나우저",
+        "슈나우져",
+        "스탠다드 푸들",
+        "스피츠",
+        "스피츠믹스견",
+        "시바",
+        "시바견믹스인듯",
+        "시베리안 허스키",
+        "시츄",
+        "아메리칸 불독",
+        "아메리칸 핏불 테리어",
+        "아메리칸불리",
+        "아이리쉬 세터",
+        "아키다",
+        "아키다믹스",
+        "알라스칸 말라뮤트",
+        "엄마는 노리치테리어",
+        "오브차카",
+        "올드 잉글리쉬 불독",
+        "올드 잉글리쉬 쉽독",
+        "요크셔 테리어",
+        "울프독",
+        "웰시 코기 카디건",
+        "웰시 코기 펨브로크",
+        "이탈리안 그레이 하운드",
+        "잉글리쉬 세터",
+        "잉글리쉬 포인터",
+        "재패니즈 스피츠",
+        "저먼 셰퍼드 독",
+        "저먼 포인터",
+        "제주개",
+        "진도견",
+        "진도믹스견 추정",
+        "차우차우",
+        "치와와",
+        "치와와믹스",
+        "치와와믹스견",
+        "캐벌리어 킹 찰스 스파니엘",
+        "코카 스파니엘",
+        "콜리",
+        "토이 푸들",
+        "퍼그",
+        "페키니즈",
+        "포메라니안",
+        "포메라니안+스피츠=폼피츠",
+        "포인터",
+        "폼피츠",
+        "푸들",
+        "푸들믹스",
+        "풍산견",
+        "프렌치 불독",
+        "플랫 코티드 리트리버",
+        "핏불테리어",
+        "핏불테리어 믹스견",
+        "호피견",
+        "화이트테리어",
+        "휘펫",
+      ];
+    } else if (category === "고양이") {
+      return [
+        "고양이",
+        "기타믹스",
+        "노르웨이 숲",
+        "러시안 블루",
+        "레그돌",
+        "먼치킨",
+        "믹스묘",
+        "벵갈",
+        "봄베이",
+        "브리티시 쇼트헤어",
+        "샴",
+        "스코티시폴드",
+        "스핑크스",
+        "아메리칸 쇼트헤어",
+        "아메리칸 컬",
+        "아비시니안",
+        "이그조틱",
+        "터키시 앙고라",
+        "페르시안",
+        "페르시안-페르시안 친칠라",
+        "품종묘 추정",
+        "한국 고양이",
+        "히말라얀고양이",
+      ];
+    } else {
+      return ["축종을 먼저 선택해주세요"];
+    }
+  };
+
+>>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
   return (
     <div className="wrap">
       {modal && <div className="overlay" />}
@@ -365,9 +505,25 @@ export default function MissingRegist() {
           </div>
 
           <div className="btn-field">
+<<<<<<< HEAD
             <button className="submit-btn" type="submit">
+=======
+            <Button
+              type="submit"
+              style={{
+                width: "280px",
+                height: "50px",
+                borderRadius: "12px",
+                backgroundColor: "#3994f0",
+                color: "white",
+                fontSize: "16px",
+                fontWeight: "700",
+                border: "none",
+              }}
+            >
+>>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
               실종 정보 등록
-            </button>
+            </Button>
           </div>
         </form>
         {/* <form className="inputForm" onSubmit={handleSearch}>
@@ -386,12 +542,6 @@ export default function MissingRegist() {
             getPosition={getPosition}
           />
         )}
-        {/* <MapComponent
-          lat={lat}
-          lon={lon}
-          getPosition={getPosition}
-          style={{ display: modal ? "block" : "none" }}
-        /> */}
       </div>
 
       <style jsx="true">{`

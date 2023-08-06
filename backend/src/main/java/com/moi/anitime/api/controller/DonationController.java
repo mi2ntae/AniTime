@@ -110,4 +110,12 @@ public class DonationController {
         donationService.deleteDonationByDonationNo(donationNo);
         return responseService.getSuccessResponse();
     }
+
+    @GetMapping("/payment")
+    @ApiOperation(value = "테스트 결제하기")
+    public CommonResponse testPayment(@RequestParam("orderId") String orderId, @RequestParam("paymentKey") String paymentKey, @RequestParam("amount") int amount) throws IOException {
+        donationService.testPayment(orderId, paymentKey, amount);
+        return responseService.getSuccessResponse();
+    }
+
 }
