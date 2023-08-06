@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import http from "api/commonHttp";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -229,7 +230,7 @@ export default function DonationRegist() {
                 >
                   {poster === null ? "파일을 선택해주세요." : posterName}
                 </Poster>
-                <button
+                <Button
                   style={{
                     border: "1px solid var(--primary, #3994F0)",
                     background: "var(--white, #FFF)",
@@ -244,7 +245,7 @@ export default function DonationRegist() {
                   onClick={handlePosterClick}
                 >
                   파일 선택
-                </button>
+                </Button>
               </Row>
             </div>
             <div style={{ flex: 1, maxWidth: "100%" }}>
@@ -282,9 +283,8 @@ export default function DonationRegist() {
             </div>
           </div>
           <div style={{ marginTop: "64px", textAlign: "center" }}>
-            <button
+            <Button
               type="submit"
-              //   onClick={handleRippleEffect}
               style={{
                 width: "280px",
                 height: "50px",
@@ -296,8 +296,8 @@ export default function DonationRegist() {
                 border: "none",
               }}
             >
-              실종 정보 등록
-            </button>
+              후원 공고 등록
+            </Button>
           </div>
         </form>
       </Container>
