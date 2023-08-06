@@ -17,4 +17,8 @@ public interface DonationBoardRepo extends JpaRepository<DonationBoard, Integer>
     Page<DonationBoard> findDonationBoardsByShelter_MemberNo(@Param("shelterno") int shelterNo, Pageable page);
     @Query(value = "SELECT d FROM donationboard d JOIN sheltermember m ON d.shelterNo = m.memberNo WHERE d.title LIKE :title AND m.name LIKE :name AND d.endAt > CURDATE() AND d.startAt <= CURDATE()")
     Page<DonationBoard> findDonationBoards(@Param("title") String title, @Param("name") String name, Pageable page);
+
+    @Modifying
+    @Query(value = "UPDATE donationboard d SET d.attainAmount = d.attainAmount + :amount WHERE d.boardNo = :boardNo")
+    void updateAmount(@Param("boardNo") int boardNo, @Param("amount") int amount);
 }

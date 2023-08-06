@@ -31,6 +31,22 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "donation/success",
+    async lazy() {
+      return {
+        Component: (await import("pages/DonationSuccessPage")).default,
+      };
+    },
+  },
+  {
+    path: "donation/fail",
+    async lazy() {
+      return {
+        Component: (await import("pages/DonationFailPage")).default,
+      };
+    },
+  },
+  {
     path: "",
     async lazy() {
       return {
@@ -99,6 +115,27 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "donation",
+        children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("pages/DonationPage")).default,
+              };
+            },
+          },
+          {
+            path: "write",
+            async lazy() {
+              return {
+                Component: (await import("pages/DonationRegist")).default,
+              };
+            },
+          },
+        ],
+      },
+      {
         path: "mypage",
         element: <MyPage />,
       },
@@ -110,9 +147,37 @@ const router = createBrowserRouter([
             Component: (await import("pages/RouterTestPage")).default,
           };
         },
+<<<<<<< HEAD
       }
+=======
+      },
+      {
+        path: "openvidutest",
+        async lazy() {
+          return {
+            Component: (await import("pages/Openvidutest")).default,
+          };
+        },
+      },
+      {
+        path: "donation",
+        async lazy() {
+          return {
+            Component: (await import("pages/DonationPage")).default,
+          };
+        },
+      },
+>>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
     ],
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "meeting",
+    async lazy() {
+      return {
+        Component: (await import("pages/MeetingPage")).default,
+      };
+    },
   },
   {
     path: "openvidutest",
