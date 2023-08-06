@@ -10,6 +10,6 @@ public interface NoticeService {
     void generateNotice(NoticeReq noticeReq) throws NoticeGenerationException;
     List<Notice> getNoticeList(int memberNo);
     void readNotice(int noticeNo);
-
     int countUnreadedNotice(int noticeNo);
+    void deleteAllNotice(int memberNo);
 }
