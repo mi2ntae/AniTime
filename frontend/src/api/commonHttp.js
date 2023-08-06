@@ -7,20 +7,6 @@ const http = axios.create({
   // process.env 파일로 url저장해서 쓰면 더 좋음! (누가 적용 해주셈)
 });
 
-// http.defaults.headers.common["Authorization"] =
-//   "Bearer " + useSelector((state) => state.member.token);
-// http.interceptors.request.use(
-//   (config) => {
-//     const token = useSelector((state) => {
-//       return state.member.token;
-//     });
-//     if (token) config.headers.Authorization = `Bearer ${token}`;
-//     return config;
-//   },
-//   (err) => {
-//     return Promise.reject(err);
-//   }
-// );
 
 const Interceptor = ({ children }) => {
   useEffect(() => {
@@ -50,18 +36,6 @@ const Interceptor = ({ children }) => {
   return children;
 };
 
-// http.interceptors.response.use(
-//   (response) => {
-//     console.log(response);
-//     const res = response.data;
-//     return res;
-//   },
-//   (err) => {
-//     console.log(err);
-//     console.log(err.response.data.message);
-//     // return Promise.reject(err);
-//   }
-// );
 
 export { Interceptor };
 export default http;

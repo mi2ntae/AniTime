@@ -33,13 +33,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
-import java.util.List;
+import java.util.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Optional;
-import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -55,7 +52,7 @@ public class DonationServiceImpl implements DonationService {
     private String imagePath;
     @Value("${donationBoard.poster.path}")
     private String posterPath;
-    @Value("${toss.payment.secret}")
+    @Value("${toss.payment.secret.encode}")
     private String secret_key;
 
     @Override
@@ -190,6 +187,7 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
+    @Transactional
     public void testPayment(String orderId, String paymentKey, int amount) throws IOException{
         String reqURL = "https://api.tosspayments.com/v1/payments/confirm";
 
@@ -200,11 +198,7 @@ public class DonationServiceImpl implements DonationService {
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
-        String key = secret_key+":";
-        System.out.println(key);
-        byte[] encoded = Base64.encode(key.getBytes());
-        System.out.println(encoded);
-        conn.setRequestProperty("Authorization", "Basic " + encoded);
+        conn.setRequestProperty("Authorization", "Basic " + secret_key);
         //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
         JSONObject send = new JSONObject();
@@ -222,7 +216,7 @@ public class DonationServiceImpl implements DonationService {
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line = "";
         String result = "";
-
+        System.out.println("dddd");
         while ((line = br.readLine()) != null) {
             result += line;
         }
@@ -231,10 +225,18 @@ public class DonationServiceImpl implements DonationService {
         //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(result);
+        String don_mem = element.getAsJsonObject().get("orderName").getAsString();
+        System.out.println(don_mem);
+        StringTokenizer st = new StringTokenizer(don_mem, " ");
+        int boardNo = Integer.parseInt(st.nextToken());
+        int memberNo = Integer.parseInt(st.nextToken());
 
-//        access_Token = element.getAsJsonObject().get("access_token").getAsString();
-//        refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-//        System.out.println("access_token : " + access_Token);
-//        System.out.println("refresh_token : " + refresh_Token);
+        Donation donation = Donation.builder()
+                .boardNo(boardNo)
+                .generalNo(memberNo)
+                .donateAmount(amount)
+                .donateDate(LocalDateTime.now()).build();
+        donationRepo.save(donation);
+        donationBoardRepo.updateAmount(boardNo, amount);
     }
 }
