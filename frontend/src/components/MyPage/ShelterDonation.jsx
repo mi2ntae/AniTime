@@ -1,4 +1,4 @@
-import { Pagination, Typography } from "@mui/material";
+import { Pagination } from "@mui/material";
 import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -114,23 +114,40 @@ export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
                   whiteSpace: "nowrap", //텍스트 줄 바꿈 방지
                   textOverflow: "ellipsis", // 말줄임(...)
                   overflow: "hidden",
+                  color: "var(--blackgrey, #35383b)",
+                  fontSize: "16px",
+                  fontWeight: 400,
                 }}
               >
                 {content.title}
               </div>
             </ContentTitle>
-            <ContentDuration>{content.date}</ContentDuration>
+            <ContentDuration
+              style={{
+                color: "var(--darkestgrey, #535a61)",
+                fontSize: "14px",
+                fontWeight: 400,
+              }}
+            >
+              {content.date}
+            </ContentDuration>
             <ContentAttained>
               <span
                 style={{
                   color: "var(--blackgrey, #35383B)",
                   fontSize: "16px",
-                  fontWeight: "400",
                 }}
               >
                 {content.attained}
               </span>
-              / {content.goal}
+              <span
+                style={{
+                  color: "var(--darkgrey, #7d848a)",
+                  fontSize: "14px",
+                }}
+              >
+                / {content.goal}
+              </span>
             </ContentAttained>
           </TableContent>
         ))}
@@ -190,31 +207,22 @@ const TableContent = styled.div`
   height: 64px;
   align-items: center;
   gap: 24px;
+  font-weight: 400;
 `;
 const ContentTitle = styled.div`
   flex: 2;
-  // background-color: red;
   display: flex;
   flex-direction: row;
   gap: 24px;
-  color: var(--blackgrey, #35383b);
-  font-size: 16px;
-  font-weight: 400;
   overflow: hidden;
 `;
 const ContentDuration = styled.div`
   flex: 1;
   // background-color: green;
   text-align: center;
-  color: var(--darkestgrey, #535a61);
-  font-size: 14px;
-  font-weight: 400;
 `;
 const ContentAttained = styled.div`
   flex: 1;
   // background-color: blue;
   text-align: center;
-  color: var(--darkgrey, #7d848a);
-  font-size: 14px;
-  font-weight: 400;
 `;
