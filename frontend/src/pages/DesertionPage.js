@@ -6,7 +6,7 @@ import Sort from "components/Desertion/Sort";
 import http from "api/commonHttp";
 import "intersection-observer";
 import DesertionDetail from "components/Desertion/DesertionDetail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo.js";
 
 export default function Desertion() {
@@ -14,11 +14,14 @@ export default function Desertion() {
   const [target, setTarget] = useState(null);
   const page = useRef(0);
   let dispatch = useDispatch();
-
+  const kindType = useSelector((state) => state.filterInfo.kindType);
+  console.log(kindType);
+  const genderType = useSelector((state) => state.filterInfo.genderType);
+  console.log(genderType);
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
+        `desertion?generalNo=2&kindType=${kindType}&genderType=${genderType}&sortType=0&curPageNo=${page.current}`
       );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
