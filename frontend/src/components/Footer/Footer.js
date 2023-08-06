@@ -5,6 +5,10 @@ export default function Footer() {
   return (
     <StyleFooter>
       <FooterDiv>
+<<<<<<< HEAD
+        <span>Copyright © Mo. I | All Rights Reserved </span>
+        <span>권지훈 | 김민태 | 김정현 | 임성원 | 장명주 | 허재웅</span>
+=======
         <span
           style={{
             color: "var(--darkestgrey, #535A61)",
@@ -27,6 +31,7 @@ export default function Footer() {
         >
           권지훈 | 김민태 | 김정현 | 임성원 | 장명주 | 허재웅
         </span>
+>>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
       </FooterDiv>
     </StyleFooter>
   );
