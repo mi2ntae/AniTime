@@ -14,17 +14,19 @@ import { styled } from "styled-components";
 export default function MeetingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const login = useSelector((state) => state.member);
 
   const [user, setUser] = useState({
     sessionId: undefined,
-    username: useSelector((state) => state.member.name),
+    username: undefined,
+    userkind: undefined,
   });
   const [meeting, setMeeting] = useState({
     meetNo: undefined,
     shelterNo: undefined,
     generalNo: undefined,
     desertionNo: undefined,
-    url: undefined,
+    adoptionForm: undefined,
   });
   const [openvidu, setOpenvidu] = useState({
     session: undefined,
@@ -47,38 +49,44 @@ export default function MeetingPage() {
   useEffect(() => {
     console.log("effect");
     // 로그인 유저 정보 확인 후 없으면 홈으로
-    console.log(user.username);
-    if (!user.username) navigate("/");
+    if (!login.token) navigate("/");
+    setUser((p) => ({
+      ...p,
+      username: login.name,
+      userkind: login.memberKind,
+    }));
     // meeting 정보 받아오기
     {
       // const 범위(data 변수 이름 중복)때문에 사용하는 블록
-      const data = {
-        meetNo: 1,
-        member: {
-          memberNo: 2,
+      const { meet, adoptionForm } = {
+        meet: {
+          meetNo: 1,
+          member: {
+            memberNo: 2,
+          },
+          animal: {
+            desertionNo: 447510202300017,
+            shelterNo: 1,
+          },
+          reserveData: undefined,
+          url: "imageUrl",
+          reason: undefined,
         },
-        animal: {
-          desertionNo: 447510202300017,
-          shelterNo: 1,
-        },
-        reserveData: undefined,
-        url: "imageUrl",
-        reason: undefined,
+        adoptionForm: "adoptionForm",
       };
       // error일때 홈으로
       const {
         meetNo,
         member: { memberNo: generalNo },
         animal: { desertionNo, shelterNo },
-        url,
-      } = data;
+      } = meet;
       setMeeting((p) => ({
         ...p,
         meetNo,
         generalNo,
         desertionNo,
         shelterNo,
-        url,
+        adoptionForm: adoptionForm,
       }));
       // 동물 정보 세팅
       dispatch(setDesertionNo(desertionNo));
@@ -96,6 +104,7 @@ export default function MeetingPage() {
   }, []);
 
   useEffect(() => {
+    // 로그 지우기
     console.log(user);
     console.log(meeting);
     joinSession();
@@ -207,7 +216,7 @@ export default function MeetingPage() {
           </VideoDiv>
           {(tabOpen.formTab || tabOpen.profileTab || tabOpen.chatTab) && (
             <SideDiv>
-              <TabDiv hidden={!tabOpen.formTab}>{meeting.url}</TabDiv>
+              <TabDiv hidden={!tabOpen.formTab}>{meeting.adoptionForm}</TabDiv>
               <TabDiv hidden={!tabOpen.profileTab}>
                 <DesertionDetail />
               </TabDiv>
