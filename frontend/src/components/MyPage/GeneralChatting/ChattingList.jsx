@@ -1,237 +1,211 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+  import React, { useEffect, useState } from "react";
 //   import { useDispatch } from "react-redux";
-import { css, styled } from "styled-components";
+  import {css, styled} from "styled-components";
 //   import { setMeetingNo } from "reducer/shelterMeeting";
 //   import { Button } from "styled/styled";
+  
+  export default function ChattingList() {
+    const [chatList, setChatList] = useState([]);
 
-export default function ChattingList() {
-  const [chatList, setChatList] = useState([]);
-
-  // const dispatch = useDispatch();
-
-  useEffect(() => {
-    // api 통신
-    const chattingListData = [
-      {
-        roomNo: 111,
-        shelterMember: {
-          name: "태민 보호소",
+    // const dispatch = useDispatch();
+  
+    useEffect(() => {
+      // api 통신
+      const chattingListData = [
+        {
+          roomNo: 111,
+          shelterMember: {
+            name: "태민 보호소",
+          },
+          lastDate: "어제",
+          lastMsg: "메시지가 도착했습니다.",
+          unreadCnt: 1,
         },
-        lastDate: "어제",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 1,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
+        {
+          roomNo: 112,
+          shelterMember: {
+            name: "소호보호소",
+          },
+          lastDate: "오전 11:30",
+          lastMsg: "메시지가 도착했습니다.",
+          unreadCnt: 30,
         },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 300,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 300,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 0,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-    ];
-    setChatList(chattingListData);
-  }, []);
-
-  return (
-    <>
-      <Box
-        sx={{
-          width: "100%",
-          height: "600px",
-          display: "flex",
-          flexDirection: "column",
-          border: "1px solid #E8EBEE",
-        }}
-      >
-        <Box
-          sx={{
-            height: "72px",
-            width: "100%",
-            borderBottom: "1px solid #E8EBEE",
-          }}
-        >
-          <Text>
+        {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 300,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 300,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 0,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          },
+          {
+            roomNo: 112,
+            shelterMember: {
+              name: "소호보호소",
+            },
+            lastDate: "오전 11:30",
+            lastMsg: "메시지가 도착했습니다.",
+            unreadCnt: 30,
+          }
+      ];
+      setChatList(chattingListData );
+    }, []);
+  
+    return (
+      <>
+        <Box sx={{width:"100%", height: "600px",  display: "flex",  flexDirection: "column",border: "1px solid #ccc"}}>
+        <Box sx={{height: "85px", width: "100%",borderBottom: "1px solid #ccc"}}>
+            <Text>
             <Font1>메시지</Font1>
-          </Text>
+            </Text>
+            </Box>
+            <Box2>
+              {chatList.map((item) => (
+                <Box 
+                  sx={{padding:"15px"}} 
+                  key={item.roomNo}
+                >
+                     {/* onClick={() => dispatch(setChatList(item.roomNo))} */}
+                  <Div>
+                  <ShelterName>{item.shelterMember.name}</ShelterName><LastDate>{item.lastDate}</LastDate>
+                  </Div>
+                  <Div>
+                  <LastMsg>{item.lastMsg}</LastMsg>{item.unreadCnt!==0 ?<Cnt unreadCnt={item.unreadCnt}>{item.unreadCnt}</Cnt>: null}
+                  </Div>
+                </Box>
+              ))}
+            </Box2>
         </Box>
-        <Box2>
-          {chatList.map((item) => (
-            <ChatPreview key={item.roomNo}>
-              {/* onClick={() => dispatch(setChatList(item.roomNo))} */}
-              <Div>
-                <ShelterName>{item.shelterMember.name}</ShelterName>
-                <LastDate>{item.lastDate}</LastDate>
-              </Div>
-              <Div>
-                <LastMsg>{item.lastMsg}</LastMsg>
-                {item.unreadCnt !== 0 ? (
-                  <Cnt unreadCnt={item.unreadCnt}>{item.unreadCnt}</Cnt>
-                ) : null}
-              </Div>
-            </ChatPreview>
-          ))}
-        </Box2>
-      </Box>
-    </>
-  );
-}
+      </>
+    );
+  }
 
-const ShelterName = styled.span`
-  color: var(--blackgrey, #35383b);
-  font-size: 14px;
-  font-weight: 400;
-`;
+  const ShelterName = styled.span`
+    font-size: 18px;
+    font-weight: bold;
+  `
 
-const Font1 = styled.span`
-  color: var(--blackgrey, #35383b);
-  font-size: 20px;
-  font-weight: 700;
-  align-items: center;
-  display: flex;
-`;
-const Text = styled.div`
-  padding-left: 32px;
-  height: 72px;
-  display: flex;
-`;
-const LastMsg = styled.span`
-  color: var(--darkgrey, #7d848a);
-  font-size: 12px;
-`;
-const LastDate = styled.span`
-  color: var(--grey-2, #a7aeb4);
-  text-align: right;
-  font-size: 12px;
-  font-weight: 400;
-`;
-const Cnt = styled.span`
+  const Font1 = styled.span`
+     font-size: 25px;
+  `;
+  const Text = styled.div`
+  padding: 12px 15px 12px 25px;
+  `;
+  const LastMsg = styled.span`
+  font-size: 15px;
+  `;
+  const LastDate =styled.span`
+    font-size: 15px;
+  `
+  const Cnt = styled.span`
   variant: outlined;
-  width: 18px;
-  height: 18px;
-  background-color: #ff7676;
+  width: 22px;
+  height: 22px;
+  background-color: #FF7676;
   color: white;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -239,33 +213,20 @@ const Cnt = styled.span`
   border-radius: ${({ unreadCnt }) =>
     unreadCnt >= 100 ? "30%" : unreadCnt > 0 ? "50%" : "null"};
 `;
-const ChatPreview = styled.div`
-  height: 72px;
-  max-height: 100%;
-  padding: 16px;
-  flex: 1;
-  display: flex;
-  gap: 7px;
-  flex-direction: column;
-  background-color: var(--lightestgrey, #f7f8fa);
-  border-radius: 10px;
-`;
-const Box2 = styled.div`
-  flex: 1;
+  const Box2 = styled.div`
+  flex-grow: 1;
   overflow-y: scroll;
-  padding: 16px;
-  ${css`
+  padding: 20px;
+   ${css`
     &::-webkit-scrollbar {
       display: none;
     }
   `}
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 `;
 
 const Div = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
 `;
+
