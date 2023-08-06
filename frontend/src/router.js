@@ -4,6 +4,7 @@ import SelectTime from "components/SelectTime/SelectTime";
 import ReservationForm from "components/SelectTime/ReservationForm";
 import DesertionGuide from "components/Desertion/DesertionGuide";
 import ErrorPage from "pages/ErrorPage";
+import FAQ from "components/FAQ/FAQ";
 
 const router = createBrowserRouter([
   {
@@ -147,27 +148,7 @@ const router = createBrowserRouter([
             Component: (await import("pages/RouterTestPage")).default,
           };
         },
-<<<<<<< HEAD
       }
-=======
-      },
-      {
-        path: "openvidutest",
-        async lazy() {
-          return {
-            Component: (await import("pages/Openvidutest")).default,
-          };
-        },
-      },
-      {
-        path: "donation",
-        async lazy() {
-          return {
-            Component: (await import("pages/DonationPage")).default,
-          };
-        },
-      },
->>>>>>> 41461a7de22ef7586180d6419a910bd0a56bf454
     ],
     errorElement: <ErrorPage />,
   },
@@ -186,7 +167,10 @@ const router = createBrowserRouter([
         Component: (await import("pages/Openvidutest")).default,
       };
     },
-  },
+  },{
+    path:"faq",
+    element:<FAQ/>
+  }
 ]);
 
 export default router;
