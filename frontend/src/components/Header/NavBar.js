@@ -7,7 +7,7 @@ export default function NavBar() {
     <Nav>
       <LinkP to="desertion">입양하기</LinkP>
       <LinkP to="missing">실종동물</LinkP>
-      <LinkP to="">후원하기</LinkP>
+      <LinkP to="donation">후원하기</LinkP>
     </Nav>
   );
 }

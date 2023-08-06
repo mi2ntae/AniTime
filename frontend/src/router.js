@@ -31,6 +31,22 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "donation/success",
+    async lazy() {
+      return {
+        Component: (await import("pages/DonationSuccessPage")).default,
+      };
+    },
+  },
+  {
+    path: "donation/fail",
+    async lazy() {
+      return {
+        Component: (await import("pages/DonationFailPage")).default,
+      };
+    },
+  },
+  {
     path: "",
     async lazy() {
       return {
@@ -129,6 +145,22 @@ const router = createBrowserRouter([
           return {
             // 컴포넌트 import
             Component: (await import("pages/RouterTestPage")).default,
+          };
+        },
+      },
+      {
+        path: "openvidutest",
+        async lazy() {
+          return {
+            Component: (await import("pages/Openvidutest")).default,
+          };
+        },
+      },
+      {
+        path: "donation",
+        async lazy() {
+          return {
+            Component: (await import("pages/DonationPage")).default,
           };
         },
       },
