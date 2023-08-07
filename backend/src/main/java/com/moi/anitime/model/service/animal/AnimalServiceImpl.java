@@ -1,9 +1,11 @@
 package com.moi.anitime.model.service.animal;
 
 import com.moi.anitime.api.response.animal.AnimalPreviewRes;
+import com.moi.anitime.api.response.profile.ProfileRes;
 import com.moi.anitime.exception.animal.ListLoadingException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.profile.Profile;
 import com.moi.anitime.model.repo.AnimalRepo;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
@@ -90,6 +92,34 @@ public class AnimalServiceImpl implements AnimalService{
     public void dataUpdate(List<Animal> animalList) {
         System.out.println(animalList.size());
         animalRepo.saveAll(animalList);
+    }
+
+    @Override
+    public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile) throws ListLoadingException {
+        // 프로필에서 가져와야하는 정보는?
+        String data = profile.getDate(); // lost date
+        String gender = profile.getGender().equals("F") ? "M" : "F";
+        String profileKind = "[" + profile.getProfileKind() + "]%";
+
+        List<Animal> animalList = animalRepo.findAnimalByRecommand(profile.getDate(), profile.getGender(),profile.getProfileKind());
+
+        List<AnimalPreviewRes> animalListres = animalList.stream()
+                .map(animal -> {
+                    StringTokenizer token = new StringTokenizer(animal.getKind());
+                    String temp = token.nextToken();
+                    AnimalPreviewRes animalPreviewRes = AnimalPreviewRes.builder()
+                            .desertionNo(animal.getDesertionNo())
+                             .sexcd(animal.getSexcd())
+                            .thumbnail(animal.getImage2())
+                            .category(temp.substring(1, temp.length()-1))
+                            .detailKind(token.nextToken())
+                            .processState(animal.getProcessState())
+                            .isBookmarked(false)
+                            .build();
+                    return animalPreviewRes;
+                })
+                .collect(Collectors.toList());
+        return animalListres;
     }
 
 

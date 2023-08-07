@@ -6,7 +6,7 @@ import Sort from "components/Desertion/Sort";
 import http from "api/commonHttp";
 import "intersection-observer";
 import DesertionDetail from "components/Desertion/DesertionDetail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo.js";
 
 export default function Desertion() {
@@ -14,11 +14,16 @@ export default function Desertion() {
   const [target, setTarget] = useState(null);
   const page = useRef(0);
   let dispatch = useDispatch();
-
+  let kindType = useSelector((state) => state.filterInfo.kindType);
+  console.log(kindType);
+  let genderType = useSelector((state) => state.filterInfo.genderType);
+  console.log(genderType);
+  let sortType = useSelector((state) => state.sortInfo.sortType);
+  console.log(sortType);
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
+        `desertion?generalNo=2&kindType=${kindType}&genderType=${genderType}&sortType=${sortType}&curPageNo=${page.current}`
       );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
@@ -33,6 +38,7 @@ export default function Desertion() {
     const handleIntersect = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          console.log("success");
           fetchData();
         }
       });
@@ -45,6 +51,16 @@ export default function Desertion() {
 
     return () => observer && observer.disconnect();
   }, [target]);
+
+  const toggleBookmark = (desertionNo) => {
+    setAnimals((prevAnimals) =>
+      prevAnimals.map((prevAnimal) =>
+        prevAnimal.desertionNo === desertionNo
+          ? { ...prevAnimal, isBookmarked: !prevAnimal.isBookmarked }
+          : prevAnimal
+      )
+    );
+  };
 
   return (
     <HorizontalContainer>
@@ -61,10 +77,25 @@ export default function Desertion() {
                 dispatch(setDesertionNo(animal.desertionNo));
               }}
             >
+              <AnimalContainer>
+                <Img src={animal.thumbnail} alt="AnimalImage" />
+                <BookmarkButton
+                  onClick={() => toggleBookmark(animal.desertionNo)}
+                >
+                  {animal.isBookmarked ? (
+                    <FilledHeartIcon
+                      src="/icons/btn_favorite_active.svg"
+                      alt="Bookmark"
+                    />
+                  ) : (
+                    <EmptyHeartIcon
+                      src="/icons/btn_favorite_inactive.svg"
+                      alt="Bookmark"
+                    />
+                  )}
+                </BookmarkButton>
+              </AnimalContainer>
               <DivP>
-                <Div>
-                  <Img src={animal.thumbnail} alt="AnimalImage" />
-                </Div>
                 <Div2>
                   <Span1>
                     <img src="/icons/Eclipse 33.svg" alt="state" />
@@ -159,9 +190,9 @@ const Span2 = styled.span`
   // font-weight: bold;
 `;
 
-const Div = styled.div`
-  align-items: center;
-`;
+// const Div = styled.div`
+//   align-items: center;
+// `;
 const Div2 = styled.div`
   display: flex;
   align-items: center;
@@ -179,11 +210,35 @@ const Blank = styled.span`
 
 const Target = styled.div`
   width: 100%;
-  height: 20px;
+  height: 30px;
 `;
 
 const Img = styled.img`
   width: 220px;
   height: 220px;
   border-radius: 8px;
+`;
+const AnimalContainer = styled.div`
+  position: relative;
+`;
+
+const BookmarkButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 28px;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+`;
+const EmptyHeartIcon = styled.img`
+  width: 32px;
+  height: 32px;
+`;
+
+const FilledHeartIcon = styled.img`
+  width: 32px;
+  height: 32px;
 `;
