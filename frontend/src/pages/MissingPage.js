@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo.js";
 import http from "api/commonHttp";
 import "intersection-observer";
@@ -13,11 +13,11 @@ export default function Missing() {
   const [target, setTarget] = useState(null);
   const page = useRef(0);
   let dispatch = useDispatch();
-
+  let profileNo = useSelector((state) => state.detailInfo.profileNo);
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=2&kindType=0&genderType=0&sortType=0&curPageNo=${page.current}`
+        `recommand/${profileNo}?curPageNo=${page.current}`
       );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
@@ -86,7 +86,7 @@ export default function Missing() {
       <DetailViewBox>
         <ProfileTab />
       </DetailViewBox>
-      <Link to="/missing/regist">
+      <Link to="/missing/write">
         <RegistBtn />
       </Link>
     </HorizontalContainer>
