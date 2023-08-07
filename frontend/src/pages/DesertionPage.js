@@ -210,7 +210,9 @@ const Blank = styled.span`
 
 const Target = styled.div`
   width: 100%;
-  height: 30px;
+  height: 35px;
+  position: relative;
+  bottom: 5px;
 `;
 
 const Img = styled.img`
