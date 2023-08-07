@@ -1,45 +1,58 @@
 import * as React from "react";
 import { css, styled } from "styled-components";
 import { Box, Typography, Paper } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import http from "../../../api/commonHttp";
 import { useState } from "react";
 import SockJs from "sockjs-client";
 import Stomp from "webstomp-client";
+import { setStomp } from "reducer/stomp";
+import { setRoom } from "reducer/chatRoom";
 
 export default function ChatUi({ width, height }) {
+  const dispatch = useDispatch();
+
+  const socket = useSelector((state) => state.stomp.socket);
+  const stompClient = useSelector((state) => state.stomp.client);
   const [input, setInput] = React.useState("");
   const roomNo = useSelector((state) => state.chatRoom.roomNo);
   const roomName = useSelector((state) => state.chatRoom.name);
   const memberNo = useSelector((state) => state.member.memberNo);
   const [messages, setMessages] = useState([]);
-  
-  const socket = new SockJs("http://localhost:8000/ws/chat");
-  const stompClient = Stomp.over(socket);
-  stompClient.connect({}, onConnected, onError);
 
+  
   const onConnected = () => {
     console.log("stomp connected")
   }
-
+  
   const onError = () => {
     console.log("stomp error")
   }
-
+  
   const onMessageReceived = (payload) => {
     setMessages((prev) => {
+      console.log(payload)
       return [...prev, JSON.parse(payload.body)]
     })
   }
 
+  if(socket == null && stompClient == null) {
+    let sock = new SockJs("http://localhost:8000/ws/chat");
+    let client = Stomp.over(sock);
+    dispatch(setStomp({socket: sock, client: client}));
+  }
 
   useEffect(() => {
-    stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived)
+    if(stompClient != null) stompClient.connect({}, onConnected, onError);
     return () => {
-      stompClient.disconnect();
+      if(stompClient != null) {
+        stompClient.disconnect();
+        dispatch(setRoom({roomNo: -1, name: ""}));
+        dispatch(setStomp({socket: null, client: null}));
+      }
     }
-  }, [])
+  }, [socket])
 
   useEffect(() => {
     if(roomNo != -1) {
@@ -51,6 +64,10 @@ export default function ChatUi({ width, height }) {
       .catch((err) => {
         console.log(err);
       })
+    }
+    if(socket != null && stompClient != null) {
+      stompClient.unsubscribe("curRoom");
+      stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {id : "curRoom"});
     }
   }, [roomNo])
 
@@ -78,13 +95,13 @@ export default function ChatUi({ width, height }) {
       <Box
         sx={{
           display: "flex",
-          justifyContent: isMe ? "flex-start" : "flex-end",
+          justifyContent: !isMe ? "flex-start" : "flex-end",
           mb: 2.5,
         }}
       >
         {message.content.trim() ? (
           <>
-            {isMe ? null : <Time>{message.writtenTime}</Time>}
+            {!isMe ? null : <Time>{message.writtenTime}</Time>}
             <Paper
               elevation={0}
               sx={{
@@ -109,7 +126,7 @@ export default function ChatUi({ width, height }) {
                 {message.content}
               </Typography>
             </Paper>
-            {isMe ? <Time>{message.writtenTime}</Time> : null}
+            {!isMe ? <Time>{message.writtenTime}</Time> : null}
           </>
         ) : null}
       </Box>
