@@ -24,7 +24,7 @@ import java.time.LocalDate;
                         "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image2 AS thumbnail," +
                         "IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A " +
                         "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo " +
-                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd ORDER BY :sortQuery",
+                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd and processState like  '보호중'ORDER BY :sortQuery  ",
                 resultSetMapping = "getAnimal"
         )
 
@@ -44,7 +44,7 @@ import java.time.LocalDate;
                 }
         )
 )
-public class Animal {
+public class  Animal {
     @Id
     @Column(name = "desertionno")
     long desertionNo;

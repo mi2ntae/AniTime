@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Modal from "components/Modal/Modal";
 import { styled } from "styled-components";
 import SortItem from "./SortItem";
+import { useSelector } from "react-redux";
 
 export default function Sort() {
   const [isOpen, setIsOpen] = useState(false);
+  let descClicked = useSelector((state) => state.sortInfo.descClicked);
+  let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
+  let sortSelected = useSelector((state) => state.sortInfo.sortSelected);
 
   const openNotice = () => {
     setIsOpen(true);
@@ -22,11 +26,13 @@ export default function Sort() {
           openNotice();
         }}
       >
-        <Span>정렬</Span>
-        <Span></Span>
+        <Span>{sortSelected}</Span>
+        <Span>
+          <img src="icons/ic_arrow_bottom.svg" />
+        </Span>
         {isOpen && (
-          <Modal posX="39px" posY="-40px" close={closeNotice}>
-            <SortItem />
+          <Modal posX="49px" posY="25px" close={closeNotice}>
+            <SortItem descClicked={descClicked} ascClicked={ascClicked} />
           </Modal>
         )}
       </SortButton>
@@ -35,7 +41,7 @@ export default function Sort() {
 }
 
 const SortButton = styled.button`
-  width: 91px;
+  width: 100px;
   height: 40px;
   margin-right: 8px;
   background-color: #f8f8f8;
@@ -43,7 +49,14 @@ const SortButton = styled.button`
   border: 2px solid #e8ebee;
   border-radius: 12px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 const Span = styled.span`
   font-size: 15px;
+  // font-weight: bold;
+  display: flex;
+  align-items: center;
 `;

@@ -49,7 +49,7 @@ const HorizontalContainer = styled.div`
 
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 70%;
   margin: 96px auto 32px auto;
 `;
 
@@ -69,4 +69,104 @@ const StyledBox = styled(Box)`
   color: ${({ color }) => color || "white"};
 `;
 
-export { MainContainer, Button, HorizontalContainer, ProgressBar, StyledBox };
+const WriteContainer = styled.div`
+  width: 68%;
+  min-width: 343px;
+  border-radius: 8px;
+  border: 1px solid var(--lightgrey, #e8ebee);
+  position: relative;
+  padding: 80px;
+`;
+
+const WriteTitle = styled.div`
+  text-align: left;
+  font-size: 16px;
+  color: var(--blackgrey, #35383b);
+  font-weight: 700;
+  margin-bottom: 24px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  width: 100%;
+`;
+
+const InputLabel = styled.label`
+  min-width: 100px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--grey-2, #a7aeb4);
+  height: 50px;
+  line-height: 50px;
+`;
+
+const Input = styled.input`
+  flex: 1;
+  width: 86%;
+  background-color: var(--lightestgrey, #f7f8fa);
+  border: 0.77px solid var(--lightgrey, #e8ebee);
+  border-radius: 12px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 24px;
+  color: #35383b;
+  outline: none;
+
+  /* Spinner 숨기기 */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Firefox */
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* 클릭시 border color 변경 */
+  &:focus {
+    border: 1px solid #3994f0;
+  }
+
+  &::placeholder {
+    color: #a7aeb4;
+  }
+`;
+const Poster = styled.div`
+  flex: 5;
+  width: 86%;
+  background-color: var(--lightestgrey, #f7f8fa);
+  border: 0.77px solid var(--lightgrey, #e8ebee);
+  border-radius: 12px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 24px;
+  color: var(--grey-2, #a7aeb4);
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+`;
+
+const Red = styled.span`
+  color: var(--red, #ff7676);
+`;
+
+export {
+  MainContainer,
+  Button,
+  HorizontalContainer,
+  ProgressBar,
+  StyledBox,
+  WriteContainer,
+  WriteTitle,
+  Row,
+  InputLabel,
+  Input,
+  Poster,
+  Red,
+};
