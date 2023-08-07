@@ -11,6 +11,7 @@ import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMeetingNo } from "reducer/shelterMeeting";
+import { styled } from "styled-components";
 import { Button } from "styled/styled";
 
 export default function MeetingList() {
@@ -65,12 +66,20 @@ export default function MeetingList() {
             ))}
           </TableBody>
         </Table>
+        {maxPage == 0 && <Text>미팅 내역이 없습니다</Text>}
       </TableContainer>
-      <Pagination
-        count={maxPage}
-        page={pageNo}
-        onChange={(event, value) => setPageNo(value)}
-      />
+      {maxPage != 0 && (
+        <Pagination
+          count={maxPage}
+          page={pageNo}
+          onChange={(event, value) => setPageNo(value)}
+        />
+      )}
     </>
   );
 }
+
+const Text = styled.div`
+  text-align: center;
+  padding-top: 16px;
+`;

@@ -37,7 +37,7 @@ export default function MeetingDetail() {
       {meeting ? (
         <>
           <Content>
-            <DesertionDetail />
+            <DesertionDetail readOnly={true} />
             {adoptionForm}
           </Content>
           <Footer>
