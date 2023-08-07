@@ -98,6 +98,7 @@ public class ChatServiceImpl implements ChatService {
 		ChatMessage chat = message.toEntity(room, sender);
 		chat = chatMessageRepo.save(chat);
 		return ChatRes.builder()
+				.chatNo(chat.getChatNo())
 				.sendNo(chat.getSender().getMemberNo())
 				.content(chat.getContent())
 				.writtenTime(chat.getWrittenTime()).build();
