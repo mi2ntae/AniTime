@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ChatRes {
+    private int chatNo;
     private int sendNo;
     private String content;
     private LocalDateTime writtenTime;
