@@ -1,11 +1,12 @@
 import http from "api/commonHttp";
 import DesertionDetail from "components/Desertion/DesertionDetail";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo";
 import { keyframes, styled } from "styled-components";
 import { processState } from "./processState";
 import { Button } from "@mui/material";
+import { Input, Row } from "styled/styled";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
@@ -35,6 +36,18 @@ export default function MeetingDetail() {
     return status;
   };
 
+  const fetchData = useCallback(() => {
+    // api 통신
+    http
+      .get(`meet/shelter/${meetingNo}`)
+      .then(({ data: { meet, adoptionForm } }) => {
+        setMeeting(meet);
+        setAdoptionForm(adoptionForm);
+        setMeetingState(processMeetingState(meet));
+        dispatch(setDesertionNo(meet.animal.desertionNo));
+      });
+  }, [meetingNo]);
+
   const handleRadioCheck = (event) => {
     setSubData((p) => ({ ...p, status: Number(event.target.value) }));
   };
@@ -42,6 +55,20 @@ export default function MeetingDetail() {
   const handleSubmit = () => {
     console.log("submit " + meetingNo);
     console.log(subData);
+    if (subData.status != 1 && subData.status != 2) {
+      alert("승인 또는 반려를 선택해주세요");
+      return;
+    }
+    http
+      .put(`meet/${meetingNo}`, {
+        status: subData.status == 1,
+        reason: subData.reason,
+      })
+      .then(() => {
+        // fetchData();
+        window.history.go();
+      })
+      .catch((error) => alert(error));
   };
 
   const handleEnterMeeting = () => {
@@ -51,16 +78,13 @@ export default function MeetingDetail() {
   useEffect(() => {
     if (meetingNo !== -1) {
       // api 통신
-      http
-        .get(`meet/shelter/${meetingNo}`)
-        .then(({ data: { meet, adoptionForm } }) => {
-          setMeeting(meet);
-          setAdoptionForm(adoptionForm);
-          setMeetingState(processMeetingState(meet));
-          dispatch(setDesertionNo(meet.animal.desertionNo));
-        });
+      fetchData();
     }
-  }, [meetingNo]);
+    setSubData({
+      status: 0,
+      reason: "",
+    });
+  }, [fetchData]);
 
   return (
     <>
@@ -83,12 +107,15 @@ export default function MeetingDetail() {
           <Footer>
             <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>
             <Row>
-              <RadioBox>
+              <RadioBox
+                style={{ width: "fit-content", margin: 0, marginLeft: "24px" }}
+              >
                 <input
                   type="radio"
                   id="accept"
                   name="status"
                   value="1"
+                  checked={subData.status == 1}
                   onChange={handleRadioCheck}
                 />
                 <label htmlFor="accept">승인</label>
@@ -97,6 +124,7 @@ export default function MeetingDetail() {
                   id="denie"
                   name="status"
                   value="2"
+                  checked={subData.status == 2}
                   onChange={handleRadioCheck}
                 />
                 <label htmlFor="denie">반려</label>
@@ -177,17 +205,9 @@ const Footer = styled.div`
   height: 160px;
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  width: 100%;
-`;
 const RadioBox = styled.div`
-  width: fit-content;
-  margin-left: 24px;
+  width: 86%;
+  margin: 0px 6% 0px 0px;
   line-height: 50px;
 
   input[type="radio"] {
@@ -197,7 +217,7 @@ const RadioBox = styled.div`
   label {
     position: relative;
     padding-left: 28px;
-    margin-right: 8px;
+    margin-right: 40px;
     cursor: pointer;
     color: var(--darkgrey, #7d848a);
     font-size: 14px;
@@ -237,37 +257,5 @@ const RadioBox = styled.div`
 
   input[type="radio"]:checked + label {
     color: var(--darkestgrey, #535a61);
-  }
-`;
-const Input = styled.input`
-  flex: 1;
-  width: 86%;
-  background-color: var(--lightestgrey, #f7f8fa);
-  border: 0.77px solid var(--lightgrey, #e8ebee);
-  border-radius: 12px;
-  height: 50px;
-  box-sizing: border-box;
-  padding-left: 24px;
-  color: #35383b;
-  outline: none;
-
-  /* Spinner 숨기기 */
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  /* Firefox */
-  &[type="number"] {
-    -moz-appearance: textfield;
-  }
-
-  /* 클릭시 border color 변경 */
-  &:focus {
-    border: 1px solid #3994f0;
-  }
-
-  &::placeholder {
-    color: #a7aeb4;
   }
 `;
