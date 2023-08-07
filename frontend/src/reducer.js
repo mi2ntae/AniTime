@@ -8,6 +8,8 @@ import reservedDateReducer from "./reducer/reservation";
 import filterInfoReducer from "reducer/filterInfo";
 import chatRoomReducer from "reducer/chatRoom";
 import sortInfoReducer from "reducer/sortInfo";
+import stompReducer from "reducer/stomp";
+
 const persistConfig = {
   key: "root",
   storage: storageSession,
@@ -22,6 +24,7 @@ const rootReducer = combineReducers({
   filterInfo: filterInfoReducer,
   chatRoom: chatRoomReducer,
   sortInfo: sortInfoReducer,
+  stomp: stompReducer,
   // 필요한거 더 추가하세요
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
