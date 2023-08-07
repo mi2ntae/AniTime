@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import http from "../../../api/commonHttp";
 import { useState } from "react";
-import SockJS from "sockjs-client";
+import SockJs from "sockjs-client";
 import Stomp from "webstomp-client";
 
 export default function ChatUi({ width, height }) {
@@ -27,11 +27,17 @@ export default function ChatUi({ width, height }) {
     console.log("stomp error")
   }
 
+  const onMessageReceived = (payload) => {
+    setMessages((prev) => {
+      return [...prev, JSON.parse(payload.body)]
+    })
+  }
+
 
   useEffect(() => {
-    stompClient.subscribe(`/message/sub/${roomNo}`, onMessageReceived)
+    stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived)
     return () => {
-      client.deactivate();
+      stompClient.disconnect();
     }
   }, [])
 
@@ -51,8 +57,14 @@ export default function ChatUi({ width, height }) {
   const handleSend = () => {
     if (input.trim() !== "") {
       console.log(input);
+      const message = {
+        roomNo: roomNo,
+        sendNo: memberNo,
+        content: input,
+      }
+      stompClient.send("/pub/message", JSON.stringify(message));
       setInput("");
-    }
+    } else console.log("메시지를 입력해주세요!");
   };
 
   const handleInputChange = (event) => {

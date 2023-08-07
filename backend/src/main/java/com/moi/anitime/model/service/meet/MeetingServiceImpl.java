@@ -110,7 +110,12 @@ public class MeetingServiceImpl implements MeetingService {
         if(!tmpMeet.isPresent()) throw new NonExistMeetNoException();
         Meeting meet = tmpMeet.get();
         meet.setStatus(meetingStatusReq.isStatus() ? 1 : 2);
-        meet.setReason(meetingStatusReq.getReason());
+        StringBuilder sb = new StringBuilder();
+        sb.append(meet.getReservedDate().toString()).append("_").append(meet.getAnimal().getShelterNo()).append("_").append(meet.getMember().getMemberNo());
+        if(!meetingStatusReq.isStatus()) meet.setReason(meetingStatusReq.getReason());
+        else meet.setUrl(sb.toString());
+        System.out.println(sb);
+
         meetingRepo.save(meet);
     }
 
