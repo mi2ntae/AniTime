@@ -97,10 +97,10 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: "regist",
+            path: "write",
             async lazy() {
               return {
-                Component: (await import("pages/MissingRegist")).default,
+                Component: (await import("pages/MissingRegistPage")).default,
               };
             },
           },
