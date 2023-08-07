@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function ProfileDetail() {
   const [modal, setModal] = useState(false);
@@ -9,7 +9,7 @@ export default function ProfileDetail() {
     name: "이름",
     kind: "품종",
     gender: "성별",
-    age: "나이",
+    birth: "출생연도",
     weight: "몸무게",
     specialMark: "성격 및 기타",
     date: "실종일",
@@ -43,13 +43,16 @@ export default function ProfileDetail() {
 
   return (
     <>
-    {modal && <div className="overlay" />}
+      {modal && <div className="overlay" />}
       <div className="profile-container">
-        <div className="profile-image" style={{
-          background: profile.image
-          ? `url(${profile.image}) no-repeat center/cover`
-          : `url("/no_image.png") no-repeat center/cover`,
-        }}/>
+        <div
+          className="profile-image"
+          style={{
+            background: profile.image
+              ? `url(${profile.image}) no-repeat center/cover`
+              : `url("/no_image.png") no-repeat center/cover`,
+          }}
+        />
         <div className="profile-desc-container">
           <div className="profile-title-area">{profile.name} 정보</div>
           {/* <div className="profile-desc-area">
@@ -67,13 +70,15 @@ export default function ProfileDetail() {
             </div>
           ))}
           <div className="profile-btn-container">
-            <Link to="/missing/update" style={{flex: "1"}}>
+            <Link to="/missing/update" style={{ flex: "1" }}>
               <button className="profile-edit-btn">수정</button>
             </Link>
-            <button className="profile-del-btn" onClick={() => setModal(true)}>삭제</button>
+            <button className="profile-del-btn" onClick={() => setModal(true)}>
+              삭제
+            </button>
           </div>
         </div>
-        {modal && (<Modal setModal={setModal} handleDelClick={handleDelClick}/>)}
+        {modal && <Modal setModal={setModal} handleDelClick={handleDelClick} />}
       </div>
       <style jsx="true">{`
         .profile-container {
@@ -83,7 +88,7 @@ export default function ProfileDetail() {
         }
         .profile-image {
           width: 100%;
-          height: 200px;
+          height: 240px;
           border-radius: 8px 8px 0px 0px;
         }
         .profile-desc-container {
@@ -181,36 +186,82 @@ export default function ProfileDetail() {
   );
 }
 
-function Modal({setModal, handleDelClick}) {
+function Modal({ setModal, handleDelClick }) {
   return (
     <>
-    <div className="modal-container">
-    <img src="icons/img_delete.svg" alt="Error" />
-    <div style={{fontSize: "18px", fontWeight: "700", color: "var(--gray-scale-dark-gray-2, #1A1A1A)", marginTop: "24px", marginBottom: "8px"}}>정말 삭제하시겠어요?</div>
-    <div style={{fontSize: "12px", fontWeight: "400", textAlign: "center", color: "var(--gray-scale-gray-3, #6F6F6F)"}}>삭제한 내 동물은 복구가 불가능해요!<br/>신중하게 검토한 후 삭제해 주세요.</div>
-    <div style={{display: "flex", width: "100%", marginTop: "56px"}}>
-      <button style={{color: "var(--gray-scale-gray-1, #C1C1C1)", fontSize: "18px", fontWeight: "500", border: "0", flex: "1", height: "48px", backgroundColor: "white"}} onClick={() => setModal()}>취소</button>
-      <button style={{color: "var(--red, #FF7676)", fontSize: "18px", fontWeight: "500", border: "0", flex: "1", backgroundColor: "white"}} onClick={() => handleDelClick()}>삭제</button>
-    </div>
-    </div>
-    <style jsx="true">{`
-      .modal-container {
-        background-color: white;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 240px;
-        height: 320px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        flex-direction: column;
-        padding: 64px 56px 40px 56px;
-        z-index: 999;
-      }
-    `}</style>
+      <div className="modal-container">
+        <img src="icons/img_delete.svg" alt="Error" />
+        <div
+          style={{
+            fontSize: "18px",
+            fontWeight: "700",
+            color: "var(--gray-scale-dark-gray-2, #1A1A1A)",
+            marginTop: "24px",
+            marginBottom: "8px",
+          }}
+        >
+          정말 삭제하시겠어요?
+        </div>
+        <div
+          style={{
+            fontSize: "12px",
+            fontWeight: "400",
+            textAlign: "center",
+            color: "var(--gray-scale-gray-3, #6F6F6F)",
+          }}
+        >
+          삭제한 내 동물은 복구가 불가능해요!
+          <br />
+          신중하게 검토한 후 삭제해 주세요.
+        </div>
+        <div style={{ display: "flex", width: "100%", marginTop: "56px" }}>
+          <button
+            style={{
+              color: "var(--gray-scale-gray-1, #C1C1C1)",
+              fontSize: "18px",
+              fontWeight: "500",
+              border: "0",
+              flex: "1",
+              height: "48px",
+              backgroundColor: "white",
+            }}
+            onClick={() => setModal()}
+          >
+            취소
+          </button>
+          <button
+            style={{
+              color: "var(--red, #FF7676)",
+              fontSize: "18px",
+              fontWeight: "500",
+              border: "0",
+              flex: "1",
+              backgroundColor: "white",
+            }}
+            onClick={() => handleDelClick()}
+          >
+            삭제
+          </button>
+        </div>
+      </div>
+      <style jsx="true">{`
+        .modal-container {
+          background-color: white;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 240px;
+          height: 320px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          flex-direction: column;
+          padding: 64px 56px 40px 56px;
+          z-index: 999;
+        }
+      `}</style>
     </>
-  )
+  );
 }

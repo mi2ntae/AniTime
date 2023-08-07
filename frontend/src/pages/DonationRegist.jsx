@@ -62,7 +62,6 @@ export default function DonationRegist() {
 
     setThumbnail(file);
     const reader = new FileReader();
-    console.log("???????");
     reader.onloadend = () => {
       setThumbnailUrl(reader.result);
     };
