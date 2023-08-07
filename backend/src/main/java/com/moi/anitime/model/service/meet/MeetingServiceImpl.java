@@ -113,7 +113,7 @@ public class MeetingServiceImpl implements MeetingService {
         StringBuilder sb = new StringBuilder();
         sb.append(meet.getReservedDate().toString()).append("_").append(meet.getAnimal().getShelterNo()).append("_").append(meet.getMember().getMemberNo());
         if(!meetingStatusReq.isStatus()) meet.setReason(meetingStatusReq.getReason());
-        else meet.setUrl(sb.toString());
+        else meet.setUrl(sb.toString().replace(":", "_").replace("T", "_").replace("-", "_"));
         System.out.println(sb);
 
         meetingRepo.save(meet);
