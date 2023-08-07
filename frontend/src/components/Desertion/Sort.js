@@ -22,9 +22,10 @@ export default function Sort() {
           openNotice();
         }}
       >
-        정렬
+        <Span>정렬</Span>
+        <Span></Span>
         {isOpen && (
-          <Modal posX="13px" posY="-85px" close={closeNotice}>
+          <Modal posX="39px" posY="-40px" close={closeNotice}>
             <SortItem />
           </Modal>
         )}
@@ -34,11 +35,15 @@ export default function Sort() {
 }
 
 const SortButton = styled.button`
-  padding: 8px 16px;
+  width: 91px;
+  height: 40px;
   margin-right: 8px;
-  background-color: #6c757d;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: black;
+  border: 2px solid #e8ebee;
+  border-radius: 12px;
   cursor: pointer;
+`;
+const Span = styled.span`
+  font-size: 15px;
 `;
