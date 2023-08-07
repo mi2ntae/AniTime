@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo";
 import { styled } from "styled-components";
 import { Button } from "styled/styled";
+import { processState } from "./processState";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
@@ -32,9 +33,13 @@ export default function MeetingDetail() {
         <span style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
           미팅 신청 내용
         </span>
-        <HeaderLayer>상태입니다</HeaderLayer>
+        {meeting && (
+          <HeaderLayer>
+            {processState({ ...meeting, state: meeting.status })}
+          </HeaderLayer>
+        )}
       </Header>
-      {meeting ? (
+      {meeting && (
         <>
           <Content>
             <DesertionDetail readOnly={true} />
@@ -54,8 +59,6 @@ export default function MeetingDetail() {
             </Button>
           </Footer>
         </>
-      ) : (
-        ""
       )}
     </>
   );
@@ -76,11 +79,6 @@ const HeaderLayer = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border-radius: 8px;
-  background-color: ${({ $background_color }) => $background_color || "white"};
-  color: ${({ color }) => color || "black"};
-  padding: ${({ padding }) => padding || "8px"};
-  margin: ${({ margin }) => margin || "8px"};
   position: absolute;
   right: 25%;
   transform: translateX(50%);

@@ -11,22 +11,21 @@ import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMeetingNo } from "reducer/shelterMeeting";
-import { styled } from "styled-components";
-import { Button } from "styled/styled";
+import { css, styled } from "styled-components";
+import { processState } from "./processState";
 
 export default function MeetingList() {
   const member = useSelector((state) => state.member);
+  const dispatch = useDispatch();
 
   const [meetings, setMeetings] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [maxPage, setMaxPage] = useState(0);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     // api 통신
     http
-      .get(`meet/${member.memberNo}/?page=${pageNo - 1}`)
+      .get(`meet/${member.memberNo}?page=${pageNo - 1}`)
       .then(({ data: { content, totalPages } }) => {
         setMeetings(content);
         setMaxPage(totalPages);
@@ -57,11 +56,7 @@ export default function MeetingList() {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.meetContent}</TableCell>
                 <TableCell>{item.reservedDate}</TableCell>
-                <TableCell>
-                  <Button onClick={() => console.log(item.meetNo)}>
-                    {item.state}
-                  </Button>
-                </TableCell>
+                <TableCell>{processState(item)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
