@@ -66,7 +66,7 @@ export default function Payment() {
           fontWeight: "bold",
           width: 100,
           marginTop: 10,
-          marginLeft: 20,
+          marginLeft: 30,
           fontSize: 16,
         }}
       >
