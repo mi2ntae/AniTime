@@ -4,6 +4,8 @@ import SelectTime from "components/SelectTime/SelectTime";
 import ReservationForm from "components/SelectTime/ReservationForm";
 import DesertionGuide from "components/Desertion/DesertionGuide";
 import ErrorPage from "pages/ErrorPage";
+// import FAQ from "pages/FAQ";
+import FAQ from "components/FAQ/FAQ";
 
 const router = createBrowserRouter([
   {
@@ -175,6 +177,15 @@ const router = createBrowserRouter([
       };
     },
   },
+  // {
+  //   path: "/faq",
+  //   async lazy() {
+  //     return {
+  //       Component: (await import("pages/FAQ")).default,
+  //     };
+  //   },
+  // },
+  { path: "/faq", element: <FAQ /> },
 ]);
 
 export default router;
