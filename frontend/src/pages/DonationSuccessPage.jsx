@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { useEffect } from "react";
 import http from "api/commonHttp";
+import { useNavigate } from "react-router-dom";
+
 export default function DonationSuccessPage() {
+  const navi = useNavigate();
   const params = new URL(document.location.toString()).searchParams;
   const orderId = params.get("orderId");
   const paymentKey = params.get("paymentKey");
@@ -23,6 +26,7 @@ export default function DonationSuccessPage() {
       })
       .catch((err) => {
         console.log(err);
+        navi("/donation/fail");
       });
   }, []);
   return (

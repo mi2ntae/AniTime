@@ -76,7 +76,7 @@ public class MeetingServiceImpl implements MeetingService {
         for(Meeting meet : meetList) {
             String name;
             if(memberKind == MemberKind.GENERAL.getCode()) name = memberRepo.findShelterMemberByMemberNo(meet.getAnimal().getShelterNo()).get().getName();
-            else name = member.get().getName();
+            else name = memberRepo.findNameByMemberNo(meet.getMember().getMemberNo());
             MeetingListRes newMeet = MeetingListRes.builder()
                     .meetNo(meet.getMeetNo())
                     .meetContent(meet.getAnimal().getProcessState())
