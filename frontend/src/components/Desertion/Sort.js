@@ -55,7 +55,7 @@ const SortButton = styled.button`
   justify-content: space-evenly;
 `;
 const Span = styled.span`
-  font-size: 15px;
+  font-size: 14px;
   // font-weight: bold;
   display: flex;
   align-items: center;
