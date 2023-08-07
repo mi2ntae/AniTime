@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "donation/success",
+    path: "/donation/success",
     async lazy() {
       return {
         Component: (await import("pages/DonationSuccessPage")).default,
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "donation/fail",
+    path: "/donation/fail",
     async lazy() {
       return {
         Component: (await import("pages/DonationFailPage")).default,
@@ -153,14 +153,6 @@ const router = createBrowserRouter([
         async lazy() {
           return {
             Component: (await import("pages/Openvidutest")).default,
-          };
-        },
-      },
-      {
-        path: "donation",
-        async lazy() {
-          return {
-            Component: (await import("pages/DonationPage")).default,
           };
         },
       },
