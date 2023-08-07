@@ -14,14 +14,16 @@ export default function Desertion() {
   const [target, setTarget] = useState(null);
   const page = useRef(0);
   let dispatch = useDispatch();
-  const kindType = useSelector((state) => state.filterInfo.kindType);
+  let kindType = useSelector((state) => state.filterInfo.kindType);
   console.log(kindType);
-  const genderType = useSelector((state) => state.filterInfo.genderType);
+  let genderType = useSelector((state) => state.filterInfo.genderType);
   console.log(genderType);
+  let sortType = useSelector((state) => state.sortInfo.sortType);
+  console.log(sortType);
   const fetchData = async () => {
     try {
       const response = await http.get(
-        `desertion?generalNo=2&kindType=${kindType}&genderType=${genderType}&sortType=0&curPageNo=${page.current}`
+        `desertion?generalNo=2&kindType=${kindType}&genderType=${genderType}&sortType=${sortType}&curPageNo=${page.current}`
       );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);

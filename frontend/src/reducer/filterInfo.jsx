@@ -7,7 +7,7 @@ const initialState = {
   maleChecked: true,
   kindType: 0,
   genderType: 0,
-  sortType: 0,
+  // checkedCnt: 4
 };
 
 const filterInfoSlice = createSlice({
@@ -32,16 +32,15 @@ const filterInfoSlice = createSlice({
     setGenderType: (state, action) => {
       state.genderType = action.payload;
     },
-    setSortType: (state, action) => {
-      state.sortType = action.payload;
-    },
-    resetFilter: (state) => {
-      state.kindType = 0;
-      state.genderType = 0;
-      state.sortType = 0;
-    },
+    // setCheckedCnt: (state, action) => {
+    //   state.checkedCnt = action.payload;
+    // }
+    // resetFilter: (state) => {
+    //   state.kindType = 0;
+    //   state.genderType = 0;
+    // },
   },
 });
-export const {setDogChecked,setCatChecked, setKindType,  setFemaleChecked, setMaleChecked, setGenderType, setSortType, resetFilter } =
+export const {setDogChecked,setCatChecked, setKindType,  setFemaleChecked, setMaleChecked, setGenderType} =
   filterInfoSlice.actions;
 export default filterInfoSlice.reducer;

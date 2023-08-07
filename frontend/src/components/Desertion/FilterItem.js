@@ -1,5 +1,5 @@
 import React from "react";
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { useDispatch, useSelector } from "react-redux/";
 import {
   setDogChecked,
@@ -8,6 +8,7 @@ import {
   setMaleChecked,
   setFemaleChecked,
   setGenderType,
+  // setCheckedCnt,
 } from "reducer/filterInfo";
 export default function FilterItem() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function FilterItem() {
   let catChecked = useSelector((state) => state.filterInfo.catChecked);
   let femaleChecked = useSelector((state) => state.filterInfo.femaleChecked);
   let maleChecked = useSelector((state) => state.filterInfo.maleChecked);
+
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
 
@@ -84,7 +86,7 @@ export default function FilterItem() {
             checked={dogChecked}
             onChange={handleCheckboxChange}
           />
-          개
+          <Font2>개</Font2>
         </Label>
         <Label>
           <StyledCheckbox
@@ -93,7 +95,7 @@ export default function FilterItem() {
             checked={catChecked}
             onChange={handleCheckboxChange}
           />
-          고양이
+          <Font2>고양이</Font2>
         </Label>
       </ContentDiv>
       <DivisionLine />
@@ -106,7 +108,7 @@ export default function FilterItem() {
             checked={maleChecked}
             onChange={handleCheckboxChange}
           />
-          수컷
+          <Font2>수컷</Font2>
         </Label>
         <Label>
           <StyledCheckbox
@@ -115,7 +117,7 @@ export default function FilterItem() {
             checked={femaleChecked}
             onChange={handleCheckboxChange}
           />
-          암컷
+          <Font2>암컷</Font2>
         </Label>
       </ContentDiv>
     </ItemDiv>
@@ -138,7 +140,7 @@ const ContentDiv = styled.div`
 const Label = styled.span`
   display: flex;
   margin: 10px 20px 10px 0px;
-  padding-left: 30px;
+  padding-left: 20px;
   font-size: 15px;
   align-items: center;
 `;
@@ -151,6 +153,12 @@ const Font = styled.div`
   margin-top: 25px;
   font-size: 15px;
   font-weight: bold;
+`;
+const Font2 = styled.span`
+  padding-left: 10px;
+  text-align: left;
+  font-size: 15px;
+  // font-weight: bold;
 `;
 const StyledCheckbox = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
