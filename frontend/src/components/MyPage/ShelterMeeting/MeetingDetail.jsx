@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo";
 import { styled } from "styled-components";
-import { Button } from "styled/styled";
 import { processState } from "./processState";
+import { Button } from "@mui/material";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
@@ -13,6 +13,36 @@ export default function MeetingDetail() {
 
   const [meeting, setMeeting] = useState(undefined);
   const [adoptionForm, setAdoptionForm] = useState("");
+  const [meetingState, setMeetingState] = useState(0);
+
+  const [subData, setSubData] = useState({
+    status: 0,
+    reason: "",
+  });
+
+  const processMeetingState = ({ reservedDate, status }) => {
+    if (status == 1) {
+      const rDate = new Date(reservedDate);
+      const nDate = new Date();
+      const diff = rDate.getTime() - nDate.getTime();
+      // 30분
+      if (diff < -1800000) {
+        return 4; // 종료
+      } else if (diff < 1800000) {
+        return 3; // 입장 가능
+      }
+    }
+    return status;
+  };
+
+  const handleSubmit = () => {
+    console.log("submit " + meetingNo);
+    console.log(subData);
+  };
+
+  const handleEnterMeeting = () => {
+    console.log("enter " + meetingNo);
+  };
 
   useEffect(() => {
     if (meetingNo !== -1) {
@@ -22,6 +52,7 @@ export default function MeetingDetail() {
         .then(({ data: { meet, adoptionForm } }) => {
           setMeeting(meet);
           setAdoptionForm(adoptionForm);
+          setMeetingState(processMeetingState(meet));
           dispatch(setDesertionNo(meet.animal.desertionNo));
         });
     }
@@ -46,16 +77,24 @@ export default function MeetingDetail() {
             {adoptionForm}
           </Content>
           <Footer>
-            <DateDiv>미팅일시 : {"미팅날짜"}</DateDiv>
+            <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>
             <div>승인 반려 선택하는 입력</div>
             <br />
             <Button
-              $background_color="#3994f0"
-              color="#ffffff"
-              width="126px"
-              style={{ fontWeight: "bold" }}
+              sx={{
+                fontWeight: "bold",
+                backgroundColor: "#3994f0",
+                color: "#ffffff",
+                width: "144px",
+                "&:hover": {
+                  backgroundColor: "#3994f0",
+                },
+              }}
+              variant="contained"
+              onClick={meetingState == 3 ? handleEnterMeeting : handleSubmit}
+              disabled={meetingState != 0 && meetingState != 3}
             >
-              제출
+              {meetingState == 3 ? "미팅방 입장하기" : "제출"}
             </Button>
           </Footer>
         </>
