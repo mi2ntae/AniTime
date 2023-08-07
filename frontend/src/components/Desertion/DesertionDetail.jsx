@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import Modal from "components/Modal/Modal";
 
-export default function DesertionDetail() {
+export default function DesertionDetail({ readOnly }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openNotice = () => {
@@ -14,7 +14,7 @@ export default function DesertionDetail() {
   const closeNotice = () => {
     setIsOpen(false);
   };
-  
+
   let [animal, setAnimal] = useState([]);
   let desertionNo = useSelector((state) => state.detailInfo.desertionNo);
 
@@ -93,28 +93,36 @@ export default function DesertionDetail() {
             <div className="animal-desc-content">{animal.tel}</div>
           </div>
 
-          <div className="animal-btn-container">
-            <button className="animal-chat-btn"
-             onClick={(event) => {
-              event.stopPropagation();
-              openNotice();
-        }}>채팅하기   {isOpen && (
-          <Modal posX="-250px" posY="-900px" close={closeNotice}>
-             <ChatUi width="400px" height="600px"/>
-          </Modal>
-        )}</button>
-            <Link to="/desertion/reservation" style={{flex: "1"}}>
-              <button className="animal-meet-btn">미팅하기</button>
-            </Link>
-          </div>
+          {!readOnly && (
+            <div className="animal-btn-container">
+              <button
+                className="animal-chat-btn"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  openNotice();
+                }}
+              >
+                채팅하기{" "}
+                {isOpen && (
+                  <Modal posX="-250px" posY="-900px" close={closeNotice}>
+                    <ChatUi width="400px" height="600px" />
+                  </Modal>
+                )}
+              </button>
+              <Link to="/desertion/reservation" style={{ flex: "1" }}>
+                <button className="animal-meet-btn">미팅하기</button>
+              </Link>
+            </div>
+          )}
         </div>
-        </div>
+      </div>
 
       <style jsx="true">{`
         .animal-container {
           border-radius: 8px;
           border: 1px solid var(--lightgrey, #e8ebee);
           width: 100%;
+          box-sizing: border-box;
         }
         .animal-image {
           width: 100%;
