@@ -97,6 +97,10 @@ public class AnimalServiceImpl implements AnimalService{
     @Override
     public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile) throws ListLoadingException {
         // 프로필에서 가져와야하는 정보는?
+        String data = profile.getDate(); // lost date
+        String gender = profile.getGender().equals("F") ? "M" : "F";
+        String profileKind = "[" + profile.getProfileKind() + "]%";
+
         List<Animal> animalList = animalRepo.findAnimalByRecommand(profile.getDate(), profile.getGender(),profile.getProfileKind());
 
         List<AnimalPreviewRes> animalListres = animalList.stream()
@@ -109,6 +113,8 @@ public class AnimalServiceImpl implements AnimalService{
                             .thumbnail(animal.getImage2())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
+                            .processState(animal.getProcessState())
+                            .isBookmarked(false)
                             .build();
                     return animalPreviewRes;
                 })

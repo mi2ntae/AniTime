@@ -1,8 +1,13 @@
 package com.moi.anitime.schedule;
 
+import com.moi.anitime.api.ResponseService;
+import com.moi.anitime.api.response.animal.AnimalPreviewRes;
+import com.moi.anitime.api.response.profile.ProfileRes;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.entity.member.ShelterMember;
+import com.moi.anitime.model.service.animal.AnimalService;
 import com.moi.anitime.model.service.member.MemberService;
+import com.moi.anitime.model.service.profile.ProfileService;
 import com.moi.anitime.schedule.dto.AnimalDto;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,8 +34,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AnimalScheduleTest {
-//    private final RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-//
+//    private final RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder()
+    @Autowired
+    private ProfileService profileService;
+    @Autowired
+    private AnimalService animalService;
+    @Autowired
+    private ResponseService responseService;
+
+    @Test
+    void apitest(){
+        ProfileRes profileInfo = profileService.findProfileByIdSystem(2);
+        System.out.println(profileInfo.toString());
+        //필요한 정보를 profileService에 전달해준다.
+        List<AnimalPreviewRes> tmp = animalService.getAnimalRecommand(profileInfo);
+        System.out.println(tmp.size());
+        for(AnimalPreviewRes a : tmp){
+            System.out.println(a.toString());
+        }
+        System.out.println("@!#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+        System.out.println(responseService.getListResponse(animalService.getAnimalRecommand(profileInfo)));
+//        System.out.println(responseService.getListResponse());
+//        System.out.println(responseService.getListResponse)
+    }
 //    private RestTemplate restTemplate = restTemplateBuilder.build() ;
 //    private static final String KAKAO_SERVICE_KEY = "9326b022f047dd4e819b116ae72e3576";
 //
