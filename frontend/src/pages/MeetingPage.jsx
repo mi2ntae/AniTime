@@ -1,3 +1,4 @@
+import http from "api/commonHttp";
 import { getToken } from "api/openvidu";
 import DesertionDetail from "components/Desertion/DesertionDetail";
 import MeetingFooter from "components/Meeting/MeetingFooter";
@@ -21,6 +22,7 @@ export default function MeetingPage() {
     sessionId: undefined,
     username: undefined,
     userkind: undefined,
+    userno: 0,
   });
   const [meeting, setMeeting] = useState({
     meetNo: undefined,
@@ -49,7 +51,6 @@ export default function MeetingPage() {
 
   useEffect(() => {
     console.log("effect");
-    console.log(meetingNo);
     // 로그인 유저 정보 확인 후 없으면 홈으로
     if (!login.token) {
       navigate("/");
@@ -59,50 +60,37 @@ export default function MeetingPage() {
       ...p,
       username: login.name,
       userkind: login.memberKind,
+      userno: login.memberNo,
     }));
     // meeting 정보 받아오기
-    {
-      // const 범위(data 변수 이름 중복)때문에 사용하는 블록
-      const { meet, adoptionForm } = {
-        meet: {
-          meetNo: 1,
-          member: {
-            memberNo: 2,
-          },
-          animal: {
-            desertionNo: 447510202300017,
-            shelterNo: 1,
-          },
-          reserveData: undefined,
-          url: "imageUrl",
-          reason: undefined,
-        },
-        adoptionForm: "adoptionForm",
-      };
-      // error일때 홈으로
-      const {
-        meetNo,
-        member: { memberNo: generalNo },
-        animal: { desertionNo, shelterNo },
-      } = meet;
-      setMeeting((p) => ({
-        ...p,
-        meetNo,
-        generalNo,
-        desertionNo,
-        shelterNo,
-        adoptionForm: adoptionForm,
-      }));
-      // 동물 정보 세팅
-      dispatch(setDesertionNo(desertionNo));
-    }
-    // sessionId 받아오기
-    {
-      const data = "sessionA";
-      // sessionId 받아오는데 실패하면 홈으로
-      if (!data) navigate("/");
-      setUser((p) => ({ ...p, sessionId: data }));
-    }
+    http
+      .get(`meet/shelter/${meetingNo}`)
+      .then(({ data }) => {
+        console.log(data);
+        const { meet, adoptionForm } = data;
+        // error일때 홈으로
+        const {
+          meetNo,
+          member: { memberNo: generalNo },
+          animal: { desertionNo, shelterNo },
+          url,
+        } = meet;
+        setMeeting((p) => ({
+          ...p,
+          meetNo,
+          generalNo,
+          desertionNo,
+          shelterNo,
+          adoptionForm: adoptionForm,
+        }));
+        // 동물 정보 세팅
+        dispatch(setDesertionNo(desertionNo));
+        setUser((p) => ({ ...p, sessionId: url }));
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate("/");
+      });
     return () => {
       leaveSession();
     };
@@ -112,7 +100,12 @@ export default function MeetingPage() {
     // 로그 지우기
     console.log(user);
     console.log(meeting);
-    joinSession();
+    if (user.sessionId) {
+      alert("잘못된 세션 아이디입니다");
+      navigate("/");
+    } else {
+      joinSession();
+    }
   }, [user]);
 
   useEffect(() => {
@@ -137,7 +130,6 @@ export default function MeetingPage() {
   };
 
   const joinSession = async () => {
-    if (user.sessionId === undefined) return;
     const OV = new OpenVidu();
     OV.enableProdMode();
     const session = OV.initSession();
