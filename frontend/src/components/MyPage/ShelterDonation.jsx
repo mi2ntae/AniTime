@@ -181,10 +181,8 @@ const TabTitle = styled.span`
   font-weight: 700;
 `;
 const Table = styled.div`
-  // background-color: var(--lightestgrey, #f7f8fa);
   border: 1px solid var(--lightgrey, #e8ebee);
   border-radius: 8px;
-  flex: 1;
 `;
 const TableHeader = styled.div`
   background-color: var(--lightestgrey, #f7f8fa);
