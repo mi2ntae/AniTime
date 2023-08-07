@@ -59,7 +59,7 @@ export default function MyPage() {
   ];
 
   return (
-    <MainContainer $vertical>
+    <MainContainer>
       <MyPageHeader>
         <MemberNameDiv>
           <MemberName>{member.name}</MemberName>

@@ -2,13 +2,8 @@ import { css, styled } from "styled-components";
 import { Box } from "@mui/material";
 const MainContainer = styled.div`
   display: flex;
-  justify-content: center;
-  ${({ $vertical }) =>
-    $vertical &&
-    css`
-      flex-direction: column;
-      justify-content: flex-start;
-    `}
+  flex-direction: column;
+  justify-content: flex-start;
   margin: auto;
   margin-top: 64px;
   padding: 20px;
@@ -70,12 +65,12 @@ const StyledBox = styled(Box)`
 `;
 
 const WriteContainer = styled.div`
-  width: 68%;
   min-width: 343px;
   border-radius: 8px;
   border: 1px solid var(--lightgrey, #e8ebee);
   position: relative;
   padding: 80px;
+  margin-top: 40px;
 `;
 
 const WriteTitle = styled.div`
@@ -106,7 +101,6 @@ const InputLabel = styled.label`
 
 const Input = styled.input`
   flex: 1;
-  width: 86%;
   background-color: var(--lightestgrey, #f7f8fa);
   border: 0.77px solid var(--lightgrey, #e8ebee);
   border-radius: 12px;

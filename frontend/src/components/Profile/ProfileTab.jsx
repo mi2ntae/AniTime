@@ -33,7 +33,7 @@ export default function ProfileTab() {
         const input = data.data;
         setProfiles(input);
         if (input.length === 0 || input === null) {
-          navigate("/missing/regist");
+          navigate("/missing/write");
         }
         dispatch(setProfileNo(input[0].profileNo));
       })
