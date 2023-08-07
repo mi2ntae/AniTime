@@ -7,6 +7,7 @@ import { setDesertionNo } from "reducer/detailInfo.js";
 import http from "api/commonHttp";
 import "intersection-observer";
 import ProfileTab from "components/Profile/ProfileTab";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 export default function Missing() {
   const [animals, setAnimals] = useState([]);
@@ -14,12 +15,15 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
+  console.log(profileNo);
   const fetchData = async () => {
     try {
       const response = await http.get(
         `recommand/${profileNo}?curPageNo=${page.current}`
       );
       const newData = await response.data;
+      console.log("recommand result");
+      console.log("newData");
       setAnimals((prev) => [...prev, ...newData]);
       page.current++;
     } catch (error) {
