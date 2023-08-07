@@ -1,14 +1,13 @@
 package com.moi.anitime.api.response.animal;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class AnimalPreviewRes {
     private long desertionNo;
 
