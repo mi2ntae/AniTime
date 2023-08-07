@@ -162,7 +162,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "meeting",
+    path: "meeting/:meetingNo",
     async lazy() {
       return {
         Component: (await import("pages/MeetingPage")).default,

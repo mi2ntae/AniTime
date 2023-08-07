@@ -7,10 +7,12 @@ import { keyframes, styled } from "styled-components";
 import { processState } from "./processState";
 import { Button } from "@mui/material";
 import { Input, Row } from "styled/styled";
+import { useNavigate } from "react-router";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [meeting, setMeeting] = useState(undefined);
   const [adoptionForm, setAdoptionForm] = useState("");
@@ -39,7 +41,7 @@ export default function MeetingDetail() {
   const fetchData = useCallback(() => {
     // api 통신
     http
-      .get(`meet/shelter/${meetingNo}`)
+      .get(`/meet/shelter/${meetingNo}`)
       .then(({ data: { meet, adoptionForm } }) => {
         setMeeting(meet);
         setAdoptionForm(adoptionForm);
@@ -73,6 +75,7 @@ export default function MeetingDetail() {
 
   const handleEnterMeeting = () => {
     console.log("enter " + meetingNo);
+    navigate(`/meeting/${meetingNo}`);
   };
 
   useEffect(() => {

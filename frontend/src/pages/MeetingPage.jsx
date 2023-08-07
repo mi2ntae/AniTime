@@ -7,13 +7,14 @@ import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import { OpenVidu } from "openvidu-browser";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { setDesertionNo } from "reducer/detailInfo";
 import { styled } from "styled-components";
 
 export default function MeetingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { meetingNo } = useParams();
   const login = useSelector((state) => state.member);
 
   const [user, setUser] = useState({
@@ -48,8 +49,12 @@ export default function MeetingPage() {
 
   useEffect(() => {
     console.log("effect");
+    console.log(meetingNo);
     // 로그인 유저 정보 확인 후 없으면 홈으로
-    if (!login.token) navigate("/");
+    if (!login.token) {
+      navigate("/");
+      return;
+    }
     setUser((p) => ({
       ...p,
       username: login.name,
