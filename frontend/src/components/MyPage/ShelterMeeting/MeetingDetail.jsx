@@ -3,7 +3,7 @@ import DesertionDetail from "components/Desertion/DesertionDetail";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo";
-import { styled } from "styled-components";
+import { keyframes, styled } from "styled-components";
 import { processState } from "./processState";
 import { Button } from "@mui/material";
 
@@ -33,6 +33,10 @@ export default function MeetingDetail() {
       }
     }
     return status;
+  };
+
+  const handleRadioCheck = (event) => {
+    setSubData((p) => ({ ...p, status: Number(event.target.value) }));
   };
 
   const handleSubmit = () => {
@@ -78,7 +82,35 @@ export default function MeetingDetail() {
           </Content>
           <Footer>
             <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>
-            <div>승인 반려 선택하는 입력</div>
+            <Row>
+              <RadioBox>
+                <input
+                  type="radio"
+                  id="accept"
+                  name="status"
+                  value="1"
+                  onChange={handleRadioCheck}
+                />
+                <label htmlFor="accept">승인</label>
+                <input
+                  type="radio"
+                  id="denie"
+                  name="status"
+                  value="2"
+                  onChange={handleRadioCheck}
+                />
+                <label htmlFor="denie">반려</label>
+              </RadioBox>
+              <Input
+                type="text"
+                value={subData.reason}
+                id="reason"
+                onChange={(e) =>
+                  setSubData((p) => ({ ...p, reason: e.target.value }))
+                }
+                placeholder="반려 사유를 적어주세요"
+              />
+            </Row>
             <br />
             <Button
               sx={{
@@ -143,4 +175,99 @@ const Footer = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 160px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  width: 100%;
+`;
+const RadioBox = styled.div`
+  width: fit-content;
+  margin-left: 24px;
+  line-height: 50px;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    position: relative;
+    padding-left: 28px;
+    margin-right: 8px;
+    cursor: pointer;
+    color: var(--darkgrey, #7d848a);
+    font-size: 14px;
+  }
+
+  label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e8ebee;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--darkgrey, #7d848a);
+    font-size: 14px;
+  }
+
+  input[type="radio"]:checked + label:after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 14px;
+    height: 14px;
+    background-color: #3994f0;
+    border-radius: 50%;
+    animation: ${keyframes`
+    to {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  `} 0.3s forwards;
+  }
+
+  input[type="radio"]:checked + label {
+    color: var(--darkestgrey, #535a61);
+  }
+`;
+const Input = styled.input`
+  flex: 1;
+  width: 86%;
+  background-color: var(--lightestgrey, #f7f8fa);
+  border: 0.77px solid var(--lightgrey, #e8ebee);
+  border-radius: 12px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 24px;
+  color: #35383b;
+  outline: none;
+
+  /* Spinner 숨기기 */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Firefox */
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* 클릭시 border color 변경 */
+  &:focus {
+    border: 1px solid #3994f0;
+  }
+
+  &::placeholder {
+    color: #a7aeb4;
+  }
 `;
