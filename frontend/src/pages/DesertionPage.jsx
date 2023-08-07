@@ -13,17 +13,23 @@ export default function Desertion() {
   const [animals, setAnimals] = useState([]);
   const [target, setTarget] = useState(null);
   const page = useRef(0);
+  const kind = useRef(0);
+  const gender = useRef(0);
+  const sort = useRef(0);
   let dispatch = useDispatch();
   let kindType = useSelector((state) => state.filterInfo.kindType);
-  console.log(kindType);
+  kind.current = kindType;
+
   let genderType = useSelector((state) => state.filterInfo.genderType);
-  console.log(genderType);
+  gender.current = genderType;
+
   let sortType = useSelector((state) => state.sortInfo.sortType);
-  console.log(sortType);
+  sort.current = sortType;
+
   const fetchData = async () => {
     try {
-      const response = await http.get(
-        `desertion?generalNo=2&kindType=${kindType}&genderType=${genderType}&sortType=${sortType}&curPageNo=${page.current}`
+      let response = await http.get(
+        `desertion?generalNo=0&kindType=${kind.current}&genderType=${gender.current}&sortType=${sort.current}&curPageNo=${page.current}`
       );
       const newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
@@ -32,6 +38,12 @@ export default function Desertion() {
       console.log("에러메시지: ", error);
     }
   };
+
+  useEffect(() => {
+    setAnimals([]);
+    page.current = 0;
+    fetchData();
+  }, [kindType, genderType, sortType]);
 
   useEffect(() => {
     let observer;
