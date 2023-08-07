@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setReservedDate } from "reducer/reservation";
 import http from "api/commonHttp";
+import Swal from "sweetalert2";
 
 export default function SelectTime() {
   const reservedDate = useSelector((state) => state.reservedDate);
@@ -30,11 +31,11 @@ export default function SelectTime() {
       )
       .then((res) => setPossible(res.data));
   }
-  const times = Array(10)
+  const times = Array(9)
     .fill()
     .map((_, index) => {
       return 9 + index + ":00";
-    }); // "9:00" ~ "18:00"이 담긴 배열 생성
+    }); // "9:00" ~ "17:00"이 담긴 배열 생성
   const shelter = {
     name: "싸피 보호소",
     phone: "010-0000-0000",
@@ -45,14 +46,47 @@ export default function SelectTime() {
       alert("시간을 선택해 주세요.");
       return;
     }
+    let tempTime;
+    if (time.length === 4) {
+      tempTime = "0" + time;
+    } else {
+      tempTime = time;
+    }
     dispatch(
       setReservedDate({
-        date: "2023-" + (date.getMonth() + 1) + "-" + date.getDate(),
-        time: time + ":00",
+        date:
+          "2023-" +
+          (date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1) +
+          "-" +
+          (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()),
+        time: tempTime,
       })
     );
     navigate("/desertion/reservation/form");
   };
+  function setReservationDate(value) {
+    const temp = new Date();
+    const year = temp.getFullYear();
+    const month = ("0" + (temp.getMonth() + 1)).slice(-2);
+    const day = ("0" + temp.getDate()).slice(-2);
+    const today = new Date(`${year}-${month}-${day}T00:00:00`);
+    if (value < today) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "오늘 이전의 날짜는 선택할 수 없습니다.",
+        timer: 1000,
+        showCloseButton: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+      });
+      return;
+    } else {
+      setDate(value);
+    }
+  }
   return (
     <PageContainer>
       <ProgressBar>
@@ -97,7 +131,7 @@ export default function SelectTime() {
       <PickerContainer>
         <Calendar
           value={date}
-          onChange={setDate}
+          onChange={setReservationDate}
           formatDay={(locale, date) => dayjs(date).format("D")}
         ></Calendar>
         <TimePicker>
@@ -251,8 +285,8 @@ const PickerContainer = styled.div`
       background: transparent;
       text-align: center;
     }
+    // .react-calendar__tile:enabled:focus,
     .react-calendar__tile:enabled:hover,
-    .react-calendar__tile:enabled:focus,
     .react-calendar__tile--active {
       background-color: #ffffff;
       border-radius: 40px;

@@ -5,8 +5,13 @@ import { Button } from "styled/styled";
 import { ProgressBar } from "styled/styled";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useDispatch, useSelector } from "react-redux";
+import http from "api/commonHttp";
 
 export default function ReservationForm() {
+  const generalNo = useSelector((state) => state.member.memberNo);
+  const reservedDate = useSelector((state) => state.reservedDate);
+  const desertionNo = useSelector((state) => state.desertionNo);
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
@@ -55,26 +60,60 @@ export default function ReservationForm() {
       }
     }
     //정보 성공적으로 전송
-
     Swal.fire({
       position: "center",
       // icon: "success",
       title: "미팅을 예약하시겠어요?",
       showCancelButton: true,
+      confirmButtonColor: "#3994F0",
       confirmButtonText: "확인",
       cancelButtonText: "취소",
     }).then((res) => {
       if (res.isConfirmed) {
-        Swal.fire({
-          position: "center",
-          // icon: "success",
-          imageUrl: "/icons/img_complete.svg",
-          title: "성공적으로 예약되었습니다.",
-          showConfirmButton: false,
-          timer: 1000,
-        }).then((res) => {
-          navigate("/");
-        });
+        const data = new FormData();
+        data.append(
+          `meetReservation`,
+          new Blob([
+            JSON.stringify({
+              desertionNo: desertionNo,
+              generalNo: generalNo,
+              reservedDate: reservedDate.date + "T" + reservedDate.time,
+            }),
+          ]),
+          {
+            type: "application/json",
+          }
+        );
+        http
+          .post(`meet/reservation`, data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            if (res.code === 200) {
+              Swal.fire({
+                position: "center",
+                // icon: "success",
+                imageUrl: "/icons/img_complete.svg",
+                title: "성공적으로 예약되었습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              }).then((res) => {
+                navigate("/");
+              });
+            }
+          })
+          .catch(() => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              // imageUrl: "/icons/img_complete.svg",
+              title: "오류가 발생했습니다.",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          });
       } else return;
     });
   };
