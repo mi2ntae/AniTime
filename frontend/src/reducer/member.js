@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { http } from "../api/commonHttp.js";
 
 const initialState = {
   token: "",

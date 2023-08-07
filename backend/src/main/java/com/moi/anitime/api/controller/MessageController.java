@@ -19,6 +19,6 @@ public class MessageController {
     @MessageMapping("/message")
     public void message(ChatMessageReq message) {
         ChatRes chat = chatService.sendChat(message);
-        smso.convertAndSend("/sub/"+message.getRoomNo(), chat);
+        smso.convertAndSend("/sub/message/"+message.getRoomNo(), chat);
     }
 }
