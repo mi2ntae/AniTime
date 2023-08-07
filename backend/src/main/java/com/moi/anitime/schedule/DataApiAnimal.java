@@ -134,6 +134,7 @@ public class DataApiAnimal {
                     filter = "1";
                 }
 //                System.out.println(filter);
+                if(cur.get("kindCd").substring(0,5).equals("[기타]")) continue;
                 animalDtoList.add(new   AnimalDto(
                         Long.parseLong(cur.get("desertionNo")),cur.get("filename"),cur.get("happenDt"),
                         cur.get("happenPlace"),cur.get("kindCd"),cur.get("colorCd"),
