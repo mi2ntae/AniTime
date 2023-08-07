@@ -35,9 +35,13 @@ const StyleHeader = styled.header`
   top: 0px;
   width: 100%;
   z-index: 1;
+  border-bottom: 1px solid #d7d7d7;
+  min-height: 80px;
+  display: flex;
 `;
 
 const HeaderDiv = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

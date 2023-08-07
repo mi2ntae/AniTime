@@ -1,4 +1,6 @@
+import { Button } from "@mui/material";
 import http from "api/commonHttp";
+import MapComponent from "components/Profile/MapComponent";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -11,6 +13,7 @@ import {
   Input,
   Poster,
   Red,
+  MainContainer,
 } from "styled/styled";
 
 export default function MissingRegistPage() {
@@ -19,7 +22,7 @@ export default function MissingRegistPage() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [kind, setKind] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("F");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [specialMark, setSpecialMark] = useState("");
@@ -39,14 +42,14 @@ export default function MissingRegistPage() {
   const [dayBoxClicked, setDayBoxClicked] = useState(false);
   // select box 이외의 영역 클릭시 닫히는 처리
   const kindBoxClose = useRef();
-  //   const yearBoxClose = useRef();
-  //   const monthBoxClose = useRef();
-  //   const dayBoxClose = useRef();
+  const yearBoxClose = useRef();
+  const monthBoxClose = useRef();
+  const dayBoxClose = useRef();
   const selectBoxCloseHandler = ({ target }) => {
     if (!kindBoxClose.current.contains(target)) setKindBoxClicked(false);
-    // if (!yearBoxClose.current.contains(target)) setYearBoxClicked(false);
-    // if (!monthBoxClose.current.contains(target)) setMonthBoxClicked(false);
-    // if (!dayBoxClose.current.contains(target)) setDayBoxClicked(false);
+    if (!yearBoxClose.current.contains(target)) setYearBoxClicked(false);
+    if (!monthBoxClose.current.contains(target)) setMonthBoxClicked(false);
+    if (!dayBoxClose.current.contains(target)) setDayBoxClicked(false);
   };
   useEffect(() => {
     window.addEventListener("click", selectBoxCloseHandler);
@@ -54,6 +57,141 @@ export default function MissingRegistPage() {
       window.removeEventListener("click", selectBoxCloseHandler);
     };
   });
+
+  // 연-월-일 데이터
+  const currentYear = new Date().getFullYear();
+  const yearData = [];
+  for (let i = currentYear; i >= currentYear - 30; i--) {
+    yearData.push(i);
+  }
+  const monthData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const dayDataFor28 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28,
+  ];
+  const dayDataFor29 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29,
+  ];
+  const dayDataFor30 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30,
+  ];
+  const dayDataFor31 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  ];
+  const [dayData, setDayData] = useState([]);
+
+  useEffect(() => {
+    if (day !== "") {
+      if (
+        (day === 30 && month === 2) ||
+        (day === 29 && month === 2 && year % 4 !== 0)
+      )
+        setDay("");
+      if (
+        day === 31 &&
+        (month === 2 ||
+          month === 4 ||
+          month === 6 ||
+          month === 9 ||
+          month === 11)
+      )
+        setDay("");
+    }
+    if (month === 2 && year % 4 === 0) setDayData(dayDataFor29);
+    else if (month === 2) setDayData(dayDataFor28);
+    else if (
+      month === 1 ||
+      month === 3 ||
+      month === 5 ||
+      month === 7 ||
+      month === 8 ||
+      month === 10 ||
+      month === 12
+    )
+      setDayData(dayDataFor31);
+    else setDayData(dayDataFor31);
+  }, [month, year]);
+
+  // 위치검색 모달 띄우는 여부
+  const [modal, setModal] = useState(false);
+
+  // 지도검색 관련
+  const [y, setY] = useState("");
+  const [x, setX] = useState("");
+
+  const getPosition = (y, x) => {
+    setLat(y);
+    setLon(x);
+  };
+
+  useEffect(() => {
+    if (lat === "" || lon === "") return;
+    const getAddressFromLatLng = (lat, lng) => {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      const latlng = new window.kakao.maps.LatLng(lat, lng);
+
+      geocoder.coord2Address(
+        latlng.getLng(),
+        latlng.getLat(),
+        (result, status) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const address = result[0].address.address_name;
+            setLocation(address);
+          } else {
+            console.log("주소 변환 실패");
+          }
+        }
+      );
+    };
+
+    getAddressFromLatLng(lat, lon);
+  }, [lat, lon]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setY(position.coords.latitude);
+          setX(position.coords.longitude);
+        },
+        function (error) {
+          setY(37.5012860931305);
+          setX(127.039604663862);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity,
+        }
+      );
+    } else {
+      setY(37.5012860931305);
+      setX(127.039604663862);
+    }
+  }, [modal]);
+
+  const imageInputRef = useRef();
+  const handleimageClick = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 형식의 파일만 등록 가능합니다.");
+      return;
+    }
+    setImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageurl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -117,14 +255,7 @@ export default function MissingRegistPage() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "96px",
-        marginBottom: "40px",
-      }}
-    >
+    <MainContainer>
       <WriteContainer>
         <h2 style={{ textAlign: "left", margin: 0 }}>실종동물등록</h2>
         <div
@@ -210,6 +341,7 @@ export default function MissingRegistPage() {
                     name="gender"
                     value="F"
                     onChange={(e) => setGender(e.target.value)}
+                    checked="checked"
                   />
                   <label htmlFor="F">암컷</label>
                   <input
@@ -254,7 +386,7 @@ export default function MissingRegistPage() {
                   placeholder="성격 및 기타"
                 />
               </Row>
-              {/* <Row>
+              <Row>
                 <InputLabel htmlFor="year">
                   실종일<Red>*</Red>
                 </InputLabel>
@@ -283,21 +415,162 @@ export default function MissingRegistPage() {
                   </Selected>
                   {yearBoxClicked && (
                     <OptionBox>
-                      <OptionElement onClick={() => setCategory("개")}>
-                        개
-                      </OptionElement>
-                      <OptionElement onClick={() => setCategory("고양이")}>
-                        고양이
-                      </OptionElement>
+                      {yearData.map((data, i) => (
+                        <OptionElement onClick={() => setYear(data)} key={i}>
+                          {data}
+                        </OptionElement>
+                      ))}
                     </OptionBox>
                   )}
                 </SelectBox>
-              </Row> */}
+                <SelectBox
+                  onClick={() => setMonthBoxClicked(!monthBoxClicked)}
+                  style={
+                    monthBoxClicked
+                      ? { border: "1px solid var(--primary, #3994f0)" }
+                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
+                  }
+                  ref={monthBoxClose}
+                >
+                  <Selected>
+                    <SelectedValue
+                      style={
+                        month === ""
+                          ? { color: "var(--grey-2, #A7AEB4)" }
+                          : { color: "color: var(--blackgrey, #35383B)" }
+                      }
+                    >
+                      {month === "" ? "월" : month}
+                    </SelectedValue>
+                    <div style={{ marginRight: 16 }}>
+                      <img src="/icons/ic_arrow_select.svg" />
+                    </div>
+                  </Selected>
+                  {monthBoxClicked && (
+                    <OptionBox>
+                      {monthData.map((data, i) => (
+                        <OptionElement onClick={() => setMonth(data)} key={i}>
+                          {data}
+                        </OptionElement>
+                      ))}
+                    </OptionBox>
+                  )}
+                </SelectBox>
+                <SelectBox
+                  onClick={() => setDayBoxClicked(!dayBoxClicked)}
+                  style={
+                    dayBoxClicked
+                      ? { border: "1px solid var(--primary, #3994f0)" }
+                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
+                  }
+                  ref={dayBoxClose}
+                >
+                  <Selected>
+                    <SelectedValue
+                      style={
+                        day === ""
+                          ? { color: "var(--grey-2, #A7AEB4)" }
+                          : { color: "color: var(--blackgrey, #35383B)" }
+                      }
+                    >
+                      {day === "" ? "일" : day}
+                    </SelectedValue>
+                    <div style={{ marginRight: 16 }}>
+                      <img src="/icons/ic_arrow_select.svg" />
+                    </div>
+                  </Selected>
+                  {dayBoxClicked && month !== "" && (
+                    <OptionBox>
+                      {dayData.map((data, i) => (
+                        <OptionElement onClick={() => setDay(data)} key={i}>
+                          {data}
+                        </OptionElement>
+                      ))}
+                    </OptionBox>
+                  )}
+                </SelectBox>
+              </Row>
+              <Row>
+                <InputLabel htmlFor="profileLocation">
+                  실종위치<Red>*</Red>
+                </InputLabel>
+                <LocationInput
+                  onClick={() => {
+                    setModal(true);
+                  }}
+                  style={{
+                    border: modal
+                      ? "1px solid var(--primary, #3994f0)"
+                      : "0.77px solid var(--lightgrey, #e8ebee)",
+                  }}
+                >
+                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
+                    {location ? location : "실종위치"}
+                  </span>
+                </LocationInput>
+              </Row>
             </div>
+            <div style={{ flex: 1, maxWidth: "100%" }}>
+              <WriteTitle>사진</WriteTitle>
+              <input
+                ref={imageInputRef}
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+              <div
+                onClick={handleimageClick}
+                style={{
+                  background: imageurl
+                    ? `url(${imageurl}) no-repeat center/cover`
+                    : `url("/img_non_selected.png") no-repeat center/cover`,
+                  aspectRatio: "1/1",
+                  backgroundColor: "var(--lightestgrey, #f7f8fa)",
+                  borderRadius: "12px",
+                  border: "0.77px solid var(--lightgrey, #e8ebee)",
+                  backgroundSize: "100%",
+                }}
+              />
+              <div
+                style={{
+                  color: "var(--grey-2, #a7aeb4)",
+                  fontSize: "12px",
+                  textAlign: "left",
+                  marginTop: "10px",
+                }}
+              >
+                사진 사이즈는 어쩌고
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: "64px", textAlign: "center" }}>
+            <Button
+              type="submit"
+              style={{
+                width: "280px",
+                height: "50px",
+                borderRadius: "12px",
+                backgroundColor: "#3994f0",
+                color: "white",
+                fontSize: "16px",
+                fontWeight: "700",
+                border: "none",
+              }}
+            >
+              후원 공고 등록
+            </Button>
           </div>
         </form>
       </WriteContainer>
-    </div>
+      {modal && (
+        <MapComponent
+          y={y}
+          x={x}
+          setModal={setModal}
+          getPosition={getPosition}
+        />
+      )}
+    </MainContainer>
   );
 }
 
@@ -363,7 +636,7 @@ const OptionBox = styled.ul`
           }
   `} 0.5s forwards;
 
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
 `;
@@ -435,4 +708,16 @@ const RadioBox = styled.div`
   input[type="radio"]:checked + label {
     color: var(--darkestgrey, #535a61);
   }
+`;
+const LocationInput = styled.div`
+  flex: 1;
+  background-color: var(--lightestgrey, #f7f8fa);
+  border-radius: 12px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 24px;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
 `;
