@@ -4,152 +4,29 @@ import React, { useEffect, useState } from "react";
 import { css, styled } from "styled-components";
 //   import { setMeetingNo } from "reducer/shelterMeeting";
 //   import { Button } from "styled/styled";
+import http from "api/commonHttp";
+import { useSelector, useDispatch } from "react-redux";
+import { setRoom } from "reducer/chatRoom";
 
 export default function ChattingList() {
+  const dispatch = useDispatch();
+
+  const memberKind = useSelector((state) => state.member.memberKind);
+  const memberNo = useSelector((state) => state.member.memberNo);
+  
   const [chatList, setChatList] = useState([]);
 
   // const dispatch = useDispatch();
 
   useEffect(() => {
-    // api 통신
-    const chattingListData = [
-      {
-        roomNo: 111,
-        shelterMember: {
-          name: "태민 보호소",
-        },
-        lastDate: "어제",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 1,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 300,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 300,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 0,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-      {
-        roomNo: 112,
-        shelterMember: {
-          name: "소호보호소",
-        },
-        lastDate: "오전 11:30",
-        lastMsg: "메시지가 도착했습니다.",
-        unreadCnt: 30,
-      },
-    ];
-    setChatList(chattingListData);
+    http.get(`chat/room/${memberKind}/${memberNo}`)
+    .then((res) => {
+      console.log(res.data)
+      setChatList(res.data);
+    })
+    .catch((err) => {
+      console.log("ddd");
+    })
   }, []);
 
   return (
@@ -176,14 +53,13 @@ export default function ChattingList() {
         </Box>
         <Box2>
           {chatList.map((item) => (
-            <ChatPreview key={item.roomNo}>
+            <ChatPreview key={item.roomNo} onClick={() => dispatch(setRoom({roomNo: item.roomNo, name: item.name}))}>
               {/* onClick={() => dispatch(setChatList(item.roomNo))} */}
               <Div>
-                <ShelterName>{item.shelterMember.name}</ShelterName>
-                <LastDate>{item.lastDate}</LastDate>
+                <ShelterName>{item.name}</ShelterName>
               </Div>
               <Div>
-                <LastMsg>{item.lastMsg}</LastMsg>
+                <LastMsg>{item.lastMsg.length > 25 ? item.lastMsg.substr(0, 25)+"..." : item.lastMsg}</LastMsg>
                 {item.unreadCnt !== 0 ? (
                   <Cnt unreadCnt={item.unreadCnt}>{item.unreadCnt}</Cnt>
                 ) : null}
@@ -241,7 +117,7 @@ const Cnt = styled.span`
 `;
 const ChatPreview = styled.div`
   height: 72px;
-  max-height: 100%;
+  max-height: 15%;
   padding: 16px;
   flex: 1;
   display: flex;
@@ -249,6 +125,7 @@ const ChatPreview = styled.div`
   flex-direction: column;
   background-color: var(--lightestgrey, #f7f8fa);
   border-radius: 10px;
+
 `;
 const Box2 = styled.div`
   flex: 1;
