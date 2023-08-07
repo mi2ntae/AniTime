@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { Button } from "styled/styled";
 
-export default function DonationPage() {
+export default function Payment() {
   const selector = "#payment-widget";
   const member = useSelector((state) => state.member);
   const clientKey = "test_ck_7DLJOpm5QrlKM42ZEqeVPNdxbWnY";
