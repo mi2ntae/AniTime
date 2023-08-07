@@ -64,7 +64,6 @@ public class AnimalServiceImpl implements AnimalService{
     public List<AnimalPreviewRes> getBookmarkedAnimal(int generalNo, int curPageNo) throws ListLoadingException {
         if (!memberRepo.existsById(generalNo)) throw new NonExistMemberNoException();
         List<Animal> bookmarkedList = animalRepo.getBookmarkList(generalNo, PageRequest.of(curPageNo, 10));
-
         List<AnimalPreviewRes> bookmarkedListres = bookmarkedList.stream()
                 .map(animal -> {
                     StringTokenizer token = new StringTokenizer(animal.getKind());
@@ -100,8 +99,12 @@ public class AnimalServiceImpl implements AnimalService{
         String data = profile.getDate(); // lost date
         String gender = profile.getGender().equals("F") ? "M" : "F";
         String profileKind = "[" + profile.getProfileKind() + "]%";
-
-        List<Animal> animalList = animalRepo.findAnimalByRecommand(profile.getDate(), profile.getGender(),profile.getProfileKind());
+        String detailKind = "%"+profile.getDetailKind()+"%";
+        float weight = Float.parseFloat(profile.getWeight().substring(0,profile.getWeight().length()-2));
+        float lon = profile.getLon();
+        float lat = profile.getLat();
+        //List<Animal> findAnimalByRecommand(String ,String ,String profileKind,String detailKind, float proweight, float proLon, float proLat);
+        List<Animal> animalList = animalRepo.findAnimalByRecommand(data, gender,profileKind,detailKind,weight,lon,lat);
 
         List<AnimalPreviewRes> animalListres = animalList.stream()
                 .map(animal -> {
