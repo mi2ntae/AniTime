@@ -155,6 +155,7 @@ const ListContainer = styled.div`
   display: flex;
   flex-grow: 2;
   flex-wrap: wrap;
+  margin-top:10px;
   justify-content: flex-start;
   align-content: flex-start;
   height: 700px;
@@ -228,6 +229,7 @@ const Target = styled.div`
 
 const Img = styled.img`
   width: 220px;
+  min-width: 220px;
   height: 220px;
   border-radius: 8px;
 `;
@@ -237,8 +239,8 @@ const AnimalContainer = styled.div`
 
 const BookmarkButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 28px;
+  top: 8px;
+  right: 40px;
   width: 35px;
   height: 35px;
   background-color: transparent;

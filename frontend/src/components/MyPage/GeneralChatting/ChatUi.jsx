@@ -19,7 +19,6 @@ export default function ChatUi({ width, height }) {
   const roomNo = useSelector((state) => state.chatRoom.roomNo);
   const roomName = useSelector((state) => state.chatRoom.name);
   const memberNo = useSelector((state) => state.member.memberNo);
-  const memberKind = useSelector((state)=> state.member.memberKind);
   const [messages, setMessages] = useState([]);
 
   var messageArea = null;
