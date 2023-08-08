@@ -74,7 +74,7 @@ export default function Filter() {
 
 const FilterButton = styled.button`
   width: 110px;
-  height: 40px;
+  height: 45px;
   margin-right: 8px;
   background-color: #f8f8f8;
   color: black;
