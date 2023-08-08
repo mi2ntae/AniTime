@@ -6,7 +6,7 @@ import MeetingHeader from "components/Meeting/MeetingHeader";
 import OpenViduVideoComponent from "components/Meeting/OvVideo";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import { OpenVidu } from "openvidu-browser";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { setDesertionNo } from "reducer/detailInfo";
@@ -17,6 +17,8 @@ export default function MeetingPage() {
   const dispatch = useDispatch();
   const { meetingNo } = useParams();
   const login = useSelector((state) => state.member);
+
+  const didMount = useRef(false);
 
   const [user, setUser] = useState({
     sessionId: undefined,
@@ -50,7 +52,6 @@ export default function MeetingPage() {
   });
 
   useEffect(() => {
-    console.log("effect");
     // 로그인 유저 정보 확인 후 없으면 홈으로
     if (!login.token) {
       navigate("/");
@@ -66,7 +67,6 @@ export default function MeetingPage() {
     http
       .get(`meet/shelter/${meetingNo}`)
       .then(({ data }) => {
-        console.log(data);
         const { meet, adoptionForm } = data;
         // error일때 홈으로
         const {
@@ -86,6 +86,7 @@ export default function MeetingPage() {
         // 동물 정보 세팅
         dispatch(setDesertionNo(desertionNo));
         setUser((p) => ({ ...p, sessionId: url }));
+        didMount.current = true;
       })
       .catch((error) => {
         console.log(error);
@@ -97,14 +98,20 @@ export default function MeetingPage() {
   }, []);
 
   useEffect(() => {
-    // 로그 지우기
-    console.log(user);
-    console.log(meeting);
-    if (user.sessionId) {
-      alert("잘못된 세션 아이디입니다");
-      navigate("/");
-    } else {
-      joinSession();
+    if (didMount.current) {
+      if (!user.sessionId) {
+        alert("잘못된 세션 아이디입니다");
+        navigate("/");
+      } else if (user.memberKind == 0 && user.userno == meeting.generalNo) {
+        alert("당신의 미팅이 아닙니다");
+        navigate("/");
+      } else if (user.memberKind == 1 && user.userno == meeting.shelterNo) {
+        alert("당신의 미팅이 아닙니다");
+        navigate("/");
+      } else {
+        console.log("joinSession");
+        joinSession();
+      }
     }
   }, [user]);
 
@@ -163,12 +170,12 @@ export default function MeetingPage() {
         const publisher = await OV.initPublisherAsync(undefined, {
           audioSource: "communications", // The source of audio. If undefined default microphone
           videoSource: undefined, // The source of video. If undefined default webcam
-          publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-          publishVideo: true, // Whether you want to start publishing with your video enabled or not
+          publishAudio: control.video, // Whether you want to start publishing with your audio unmuted or not
+          publishVideo: control.mic, // Whether you want to start publishing with your video enabled or not
           resolution: "1260x720", // The resolution of your video
           frameRate: 30, // The frame rate of your video
           insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-          mirror: false, // Whether to mirror your local video or not
+          mirror: true, // Whether to mirror your local video or not
         });
         session.publish(publisher);
         setOpenvidu((p) => ({
