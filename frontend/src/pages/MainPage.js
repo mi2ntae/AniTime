@@ -2,14 +2,34 @@ import Slider from "components/Main/Slider";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
+import http from "api/commonHttp";
 
 export default function MainPage() {
-  const [report, setReport] = useState([]);
+  const [newAnimals,setNewAnimals]=useState(-1);
+  const [posting,setPosting]=useState(-1);
+  const [keeping,setKeeping]=useState(-1);
 
   useEffect(() => {
     // 서버와 통신하여 데이터 가져오기
-    const testData = [12, 34, 56];
-    setReport(testData);
+    const data = [-1,-1,-1];
+    http
+      .get(`desertion/new`)
+      .then((res) => {
+        setNewAnimals(res.data);
+      })
+      .catch((err) => {window.alert(err)});
+    http
+      .get(`desertion/count/posting`)
+      .then((res) => {
+        setPosting(res.data);
+      })
+      .catch((err) => {window.alert(err)});
+    http
+      .get(`desertion/count/keeping`)
+      .then((res) => {
+        setKeeping(res.data);
+      })
+      .catch((err) => {window.alert(err)});
   }, []);
 
   return (
@@ -24,13 +44,13 @@ export default function MainPage() {
 
       <ReportDiv>
         <ReportText>
-          오늘 구조된 동물 <ReportNumber>{report[0]}</ReportNumber>마리
+          오늘 구조된 동물 <ReportNumber>{newAnimals}</ReportNumber>마리
         </ReportText>
         <ReportText>
-          현재 공고 동물 <ReportNumber>{report[1]}</ReportNumber>마리
+          현재 공고 동물 <ReportNumber>{posting}</ReportNumber>마리
         </ReportText>
         <ReportText>
-          보호 동물 <ReportNumber>{report[2]}</ReportNumber>마리
+          보호 동물 <ReportNumber>{keeping}</ReportNumber>마리
         </ReportText>
       </ReportDiv>
 
