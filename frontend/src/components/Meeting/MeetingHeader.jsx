@@ -1,31 +1,37 @@
+import Logo from "components/Header/Logo";
 import React from "react";
 import { styled } from "styled-components";
 
 export default function MeetingHeader({ tabOpen, handleTabOpen }) {
   return (
     <Header>
-      <Span
-        $active={tabOpen.formTab}
-        onClick={() => handleTabOpen((p) => ({ ...p, formTab: !p.formTab }))}
-      >
-        상담 신청서
-      </Span>
-      |
-      <Span
-        $active={tabOpen.profileTab}
-        onClick={() =>
-          handleTabOpen((p) => ({ ...p, profileTab: !p.profileTab }))
-        }
-      >
-        동물 프로필
-      </Span>
-      |
-      <Span
-        $active={tabOpen.chatTab}
-        onClick={() => handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }))}
-      >
-        채팅 열기
-      </Span>
+      <Div>
+        <Logo white={true} />
+      </Div>
+      <Div>
+        <Span
+          $active={tabOpen.formTab}
+          onClick={() => handleTabOpen((p) => ({ ...p, formTab: !p.formTab }))}
+        >
+          상담 신청서
+        </Span>
+        |
+        <Span
+          $active={tabOpen.profileTab}
+          onClick={() =>
+            handleTabOpen((p) => ({ ...p, profileTab: !p.profileTab }))
+          }
+        >
+          동물 프로필
+        </Span>
+        |
+        <Span
+          $active={tabOpen.chatTab}
+          onClick={() => handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }))}
+        >
+          채팅 열기
+        </Span>
+      </Div>
     </Header>
   );
 }
@@ -36,11 +42,15 @@ const Header = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  gap: 16px;
   color: white;
+`;
+
+const Div = styled.div`
+  display: flex;
+  gap: 16px;
 `;
 
 const Span = styled.span`
