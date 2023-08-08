@@ -7,11 +7,12 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
 import http from "api/commonHttp";
+import html2canvas from "html2canvas";
 
 export default function ReservationForm() {
   const generalNo = useSelector((state) => state.member.memberNo);
   const reservedDate = useSelector((state) => state.reservedDate);
-  const desertionNo = useSelector((state) => state.desertionNo);
+  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
@@ -70,54 +71,94 @@ export default function ReservationForm() {
       cancelButtonText: "취소",
     }).then((res) => {
       if (res.isConfirmed) {
-        const data = new FormData();
-        data.append(
-          `meetReservation`,
-          new Blob([
-            JSON.stringify({
-              desertionNo: desertionNo,
-              generalNo: generalNo,
-              reservedDate: reservedDate.date + "T" + reservedDate.time,
-            }),
-          ]),
-          {
-            type: "application/json",
-          }
-        );
-        http
-          .post(`meet/reservation`, data, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((res) => {
-            if (res.code === 200) {
+        capture((file) => {
+          const data = new FormData();
+          data.append("adoptionForm", file);
+          data.append(
+            `meetReservation`,
+            new Blob([
+              JSON.stringify({
+                desertionNo: desertionNo,
+                generalNo: generalNo,
+                reservedDate: reservedDate.date + "T" + reservedDate.time,
+              }),
+            ]),
+            {
+              type: "application/json",
+            }
+          );
+          http
+            .post(`meet/reservation`, data, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then((res) => {
+              if (res.code === 200) {
+                Swal.fire({
+                  position: "center",
+                  // icon: "success",
+                  imageUrl: "/icons/img_complete.svg",
+                  title: "성공적으로 예약되었습니다.",
+                  showConfirmButton: false,
+                  timer: 1000,
+                }).then((res) => {
+                  navigate("/");
+                });
+              }
+            })
+            .catch(() => {
               Swal.fire({
                 position: "center",
-                // icon: "success",
-                imageUrl: "/icons/img_complete.svg",
-                title: "성공적으로 예약되었습니다.",
+                icon: "error",
+                // imageUrl: "/icons/img_complete.svg",
+                title: "오류가 발생했습니다.",
                 showConfirmButton: false,
                 timer: 1000,
-              }).then((res) => {
-                navigate("/");
               });
-            }
-          })
-          .catch(() => {
-            Swal.fire({
-              position: "center",
-              icon: "error",
-              // imageUrl: "/icons/img_complete.svg",
-              title: "오류가 발생했습니다.",
-              showConfirmButton: false,
-              timer: 1000,
             });
-          });
+        });
       } else return;
     });
   };
+  function capture(callback) {
+    html2canvas(document.querySelector("#form")).then((canvas) => {
+      var imgBase64 = canvas.toDataURL("image/jpg", 1.0);
+      var base64ImageContent = imgBase64.replace(
+        /^data:image\/(png|jpg);base64,/,
+        ""
+      );
+      var blob = base64ToBlob(base64ImageContent, "image/png");
+      const file = new File([blob], "captured-image.jpg", {
+        type: "image/png",
+      });
+      return callback(file);
+    });
+  }
+  function base64ToBlob(base64, mime) {
+    mime = mime || "";
+    var sliceSize = 1024;
+    var byteChars = window.atob(base64);
+    var byteArrays = [];
 
+    for (
+      var offset = 0, len = byteChars.length;
+      offset < len;
+      offset += sliceSize
+    ) {
+      var slice = byteChars.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: mime });
+    return blob;
+  }
   return (
     <PageContainer>
       <ProgressBar>
@@ -176,7 +217,8 @@ export default function ReservationForm() {
           아래 신청서를 작성하여 제출해 주세요.
         </div>
       </div>
-      <FormContainer>
+      <button onClick={capture}>캡쳐</button>
+      <FormContainer id="form">
         <FormTop>
           <div
             style={{
