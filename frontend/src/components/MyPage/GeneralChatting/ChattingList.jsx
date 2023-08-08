@@ -28,8 +28,7 @@ export default function ChattingList() {
       console.log("ddd");
     })
   }, []);
-
-
+  
   return (
     <>
       <Box
@@ -54,8 +53,14 @@ export default function ChattingList() {
         </Box>
         <Box2>
           {chatList.map((item) => (
-            <ChatPreview key={item.roomNo} onClick={() => dispatch(setRoom({roomNo: item.roomNo, name: item.name}))
-            }>
+            <ChatPreview key={item.roomNo} onClick={() => {dispatch(setRoom({roomNo: item.roomNo, name: item.name}));
+            const updatedChatList = chatList.map(chatRoom => {
+              if (chatRoom.roomNo === item.roomNo) {
+                return { ...chatRoom, unreadCnt: 0 };
+              }
+              return chatRoom;
+            });
+            setChatList(updatedChatList);}}>
               <Div>
                 <ShelterName>{item.name}</ShelterName>
               </Div>
