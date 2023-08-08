@@ -136,6 +136,7 @@ const ReportNumber = styled.span`
 const SliderTitle = styled.h1`
   margin-top: 56px;
   margin-bottom: 24px;
+  text-align: center;
 `;
 
 const HowDiv = styled.div`
