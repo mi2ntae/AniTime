@@ -22,8 +22,10 @@ public enum ExceptionList {
     NON_EXIST_DONATION(-1030, "존재하지 않는 후원 내역입니다"),
     SNS_NOT_CONNECTED_MEMBER(-1031, "sns연동이 되지 않은 회원입니다."),
     NO_EXIST_PROFILE_NO(-1032, "프로필 정보가 존재하지 않습니다"),
-    NON_EXIST_MEET_NO(-1033, "해당 미팅 정보가 존재하지 않습니다")
+    NON_EXIST_MEET_NO(-1033, "해당 미팅 정보가 존재하지 않습니다"),
+    FAILED_TO_COUNT_ANIMALS(-1034, "동물 개체수를 불러오는 데 실패했습니다.")
     ;
+
 
     private final int code;
     private final String message;

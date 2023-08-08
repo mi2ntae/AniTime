@@ -2,6 +2,7 @@ package com.moi.anitime.exception;
 
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.ResponseServiceImpl;
+import com.moi.anitime.exception.animal.CountAnimalsException;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.auth.CAuthenticationEntryPointException;
 import com.moi.anitime.exception.auth.NonValidJwtTokenException;
@@ -120,6 +121,13 @@ public class ExceptionAdvice {
     protected CommonResponse nonExistDonationException() {
         log.error("non exist donation exception");
         return responseService.getFailResponse(ExceptionList.NON_EXIST_DONATION.getCode(), ExceptionList.NON_EXIST_DONATION.getMessage());
+    }
+
+    @ExceptionHandler(CountAnimalsException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse CountAnimalsException() {
+        log.error("counting animals exception");
+        return responseService.getFailResponse(ExceptionList.FAILED_TO_COUNT_ANIMALS.getCode(), ExceptionList.FAILED_TO_COUNT_ANIMALS.getMessage());
     }
 
     // 제일 아래에 있었으면 합니다 - 민태 -
