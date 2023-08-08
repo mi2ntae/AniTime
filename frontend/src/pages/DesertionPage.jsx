@@ -28,22 +28,16 @@ export default function Desertion() {
 
   const fetchData = async () => {
     try {
+      page.current++;
       let response = await http.get(
         `desertion?generalNo=0&kindType=${kind.current}&genderType=${gender.current}&sortType=${sort.current}&curPageNo=${page.current}`
       );
-      const newData = await response.data;
+      let newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
-      page.current++;
     } catch (error) {
       console.log("에러메시지: ", error);
     }
   };
-
-  useEffect(() => {
-    setAnimals([]);
-    page.current = 0;
-    fetchData();
-  }, [kindType, genderType, sortType]);
 
   useEffect(() => {
     let observer;
@@ -63,6 +57,12 @@ export default function Desertion() {
 
     return () => observer && observer.disconnect();
   }, [target]);
+
+  useEffect(() => {
+    setAnimals([]);
+    page.current = -1;
+    fetchData();
+  }, [kindType, genderType, sortType]);
 
   const toggleBookmark = (desertionNo) => {
     setAnimals((prevAnimals) =>
