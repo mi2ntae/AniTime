@@ -1,3 +1,4 @@
+import http from "api/commonHttp";
 import { getToken } from "api/openvidu";
 import DesertionDetail from "components/Desertion/DesertionDetail";
 import MeetingFooter from "components/Meeting/MeetingFooter";
@@ -5,21 +6,25 @@ import MeetingHeader from "components/Meeting/MeetingHeader";
 import OpenViduVideoComponent from "components/Meeting/OvVideo";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import { OpenVidu } from "openvidu-browser";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { setDesertionNo } from "reducer/detailInfo";
 import { styled } from "styled-components";
 
 export default function MeetingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { meetingNo } = useParams();
   const login = useSelector((state) => state.member);
+
+  const didMount = useRef(false);
 
   const [user, setUser] = useState({
     sessionId: undefined,
     username: undefined,
     userkind: undefined,
+    userno: 0,
   });
   const [meeting, setMeeting] = useState({
     meetNo: undefined,
@@ -47,67 +52,68 @@ export default function MeetingPage() {
   });
 
   useEffect(() => {
-    console.log("effect");
     // 로그인 유저 정보 확인 후 없으면 홈으로
-    if (!login.token) navigate("/");
+    if (!login.token) {
+      navigate("/");
+      return;
+    }
     setUser((p) => ({
       ...p,
       username: login.name,
       userkind: login.memberKind,
+      userno: login.memberNo,
     }));
     // meeting 정보 받아오기
-    {
-      // const 범위(data 변수 이름 중복)때문에 사용하는 블록
-      const { meet, adoptionForm } = {
-        meet: {
-          meetNo: 1,
-          member: {
-            memberNo: 2,
-          },
-          animal: {
-            desertionNo: 447510202300017,
-            shelterNo: 1,
-          },
-          reserveData: undefined,
-          url: "imageUrl",
-          reason: undefined,
-        },
-        adoptionForm: "adoptionForm",
-      };
-      // error일때 홈으로
-      const {
-        meetNo,
-        member: { memberNo: generalNo },
-        animal: { desertionNo, shelterNo },
-      } = meet;
-      setMeeting((p) => ({
-        ...p,
-        meetNo,
-        generalNo,
-        desertionNo,
-        shelterNo,
-        adoptionForm: adoptionForm,
-      }));
-      // 동물 정보 세팅
-      dispatch(setDesertionNo(desertionNo));
-    }
-    // sessionId 받아오기
-    {
-      const data = "sessionA";
-      // sessionId 받아오는데 실패하면 홈으로
-      if (!data) navigate("/");
-      setUser((p) => ({ ...p, sessionId: data }));
-    }
+    http
+      .get(`meet/shelter/${meetingNo}`)
+      .then(({ data }) => {
+        const { meet, adoptionForm } = data;
+        // error일때 홈으로
+        const {
+          meetNo,
+          member: { memberNo: generalNo },
+          animal: { desertionNo, shelterNo },
+          url,
+        } = meet;
+        setMeeting((p) => ({
+          ...p,
+          meetNo,
+          generalNo,
+          desertionNo,
+          shelterNo,
+          adoptionForm: adoptionForm,
+        }));
+        // 동물 정보 세팅
+        dispatch(setDesertionNo(desertionNo));
+        setUser((p) => ({ ...p, sessionId: url }));
+        didMount.current = true;
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate("/");
+      });
     return () => {
+      console.log("return");
       leaveSession();
     };
   }, []);
 
   useEffect(() => {
-    // 로그 지우기
-    console.log(user);
-    console.log(meeting);
-    joinSession();
+    if (didMount.current) {
+      if (!user.sessionId) {
+        alert("잘못된 세션 아이디입니다");
+        navigate("/");
+      } else if (user.userkind === 0 && user.userno !== meeting.generalNo) {
+        alert("당신의 미팅이 아닙니다");
+        navigate("/");
+      } else if (user.userkind === 1 && user.userno !== meeting.shelterNo) {
+        alert("당신의 미팅이 아닙니다");
+        navigate("/");
+      } else {
+        console.log("joinSession");
+        joinSession();
+      }
+    }
   }, [user]);
 
   useEffect(() => {
@@ -132,7 +138,6 @@ export default function MeetingPage() {
   };
 
   const joinSession = async () => {
-    if (user.sessionId === undefined) return;
     const OV = new OpenVidu();
     OV.enableProdMode();
     const session = OV.initSession();
@@ -166,12 +171,12 @@ export default function MeetingPage() {
         const publisher = await OV.initPublisherAsync(undefined, {
           audioSource: "communications", // The source of audio. If undefined default microphone
           videoSource: undefined, // The source of video. If undefined default webcam
-          publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-          publishVideo: true, // Whether you want to start publishing with your video enabled or not
+          publishAudio: control.video, // Whether you want to start publishing with your audio unmuted or not
+          publishVideo: control.mic, // Whether you want to start publishing with your video enabled or not
           resolution: "1260x720", // The resolution of your video
           frameRate: 30, // The frame rate of your video
           insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-          mirror: false, // Whether to mirror your local video or not
+          mirror: true, // Whether to mirror your local video or not
         });
         session.publish(publisher);
         setOpenvidu((p) => ({

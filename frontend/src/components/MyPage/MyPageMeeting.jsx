@@ -10,15 +10,23 @@ import {
 import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { Button } from "styled/styled";
 
 export default function MyPageMeeting() {
+  const navigate = useNavigate();
+
   const member = useSelector((state) => state.member);
 
   const [meetings, setMeetings] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+
+  const enterMeeting = (meetingNo) => {
+    console.log("enter: " + meetingNo);
+    navigate(`/meeting/${meetingNo}`);
+  };
 
   const processState = (item) => {
     let res = undefined;
@@ -39,7 +47,7 @@ export default function MyPageMeeting() {
               $background_color="#3994F0"
               color="#FFFFFF"
               style={{ fontWeight: "bold" }}
-              onClick={() => console.log(item.meetNo)}
+              onClick={() => enterMeeting(item.meetNo)}
             >
               미팅 참여
             </Button>
