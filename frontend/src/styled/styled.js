@@ -1,11 +1,11 @@
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { Box } from "@mui/material";
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin: auto;
-  margin-top: 64px;
+  margin-top: 60px;
   padding: 20px;
   box-sizing: border-box;
   width: 100%;

@@ -13,4 +13,5 @@ public class DonationBoardListRes {
     private int achievement;
     private String attained;
     private String goal;
+    private int boardNo;
 }
