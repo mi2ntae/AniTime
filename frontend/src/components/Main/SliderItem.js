@@ -2,7 +2,6 @@ import React from "react";
 import { styled } from "styled-components";
 
 export default function SliderItem({ animal }) {
-  const width = 300;
   const { desertionNo, noticeNo, kind, sexcd, status } = animal;
   return (
     <Div>
@@ -18,7 +17,7 @@ export default function SliderItem({ animal }) {
 const Div = styled.div`
   box-sizing: border-box;
   border: black 3px solid;
-  width: ${({ $width }) => $width || 300}px;
+  width: 300px;
   height: 400px;
   flex-shrink: 0;
 `;
