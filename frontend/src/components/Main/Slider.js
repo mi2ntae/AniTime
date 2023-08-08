@@ -90,14 +90,12 @@ export default function Slider() {
           <SliderItem key={animal.desertionNo * 100 + index} animal={animal} />
         ))}
       </SliderDiv>
-      <ButtonDiv>
-        <Button onClick={() => handleClick(-1)}>
-          <img src="icons/ic_arrow_left.svg" alt="left" />
-        </Button>
-        <Button onClick={() => handleClick(1)}>
-          <img src="icons/ic_arrow_right.svg" alt="right" />
-        </Button>
-      </ButtonDiv>
+      <Button onClick={() => handleClick(-1)} style={{ left: 0 }}>
+        <img src="icons/ic_arrow_left.svg" alt="left" />
+      </Button>
+      <Button onClick={() => handleClick(1)} style={{ right: 0 }}>
+        <img src="icons/ic_arrow_right.svg" alt="right" />
+      </Button>
     </Div>
   );
 }
@@ -116,19 +114,12 @@ const Div = styled.div`
 const SliderDiv = styled.div`
   display: flex;
   overflow: visible;
-`;
-
-const ButtonDiv = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  padding: 0 8px;
+  gap: 16px;
 `;
 
 const Button = styled.button`
+  position: absolute;
   background: none;
   border: none;
   margin: 32px;
