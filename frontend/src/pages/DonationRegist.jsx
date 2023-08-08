@@ -267,7 +267,7 @@ export default function DonationRegist() {
                   backgroundColor: "var(--lightestgrey, #f7f8fa)",
                   borderRadius: "12px",
                   border: "0.77px solid var(--lightgrey, #e8ebee)",
-                  backgroundSize: "100%",
+                  backgroundSize: "cover",
                 }}
               />
               <div
