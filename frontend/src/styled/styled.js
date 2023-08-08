@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { Box } from "@mui/material";
 const MainContainer = styled.div`
   display: flex;
