@@ -4,8 +4,6 @@ import { MainContainer } from "styled/styled";
 import http from "api/commonHttp";
 import { keyframes, styled } from "styled-components";
 import { useNavigate } from "react-router";
-import SearchTypeSelect from "../components/Donation/SearchTypeSelect.jsx";
-import { useSelect } from "downshift";
 
 export default function DonationPage() {
   const [searchType, setSearchType] = useState("title");
