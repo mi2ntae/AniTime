@@ -44,7 +44,6 @@ export default function Desertion() {
     const handleIntersect = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log("success");
           fetchData();
         }
       });
