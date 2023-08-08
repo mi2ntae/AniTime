@@ -11,6 +11,7 @@ import {
   Input,
   Poster,
   Red,
+  MainContainer,
 } from "styled/styled";
 
 export default function DonationRegist() {
@@ -120,14 +121,7 @@ export default function DonationRegist() {
       .catch((error) => console.log(error));
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "96px",
-        marginBottom: "40px",
-      }}
-    >
+    <MainContainer>
       <WriteContainer>
         <h2 style={{ textAlign: "left", margin: 0 }}>후원공고등록</h2>
         <div
@@ -308,6 +302,6 @@ export default function DonationRegist() {
           </div>
         </form>
       </WriteContainer>
-    </div>
+    </MainContainer>
   );
 }
