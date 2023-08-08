@@ -19,6 +19,7 @@ export default function ChatUi({ width, height }) {
   const roomNo = useSelector((state) => state.chatRoom.roomNo);
   const roomName = useSelector((state) => state.chatRoom.name);
   const memberNo = useSelector((state) => state.member.memberNo);
+  const memberKind = useSelector((state)=> state.member.memberKind);
   const [messages, setMessages] = useState([]);
 
   var messageArea = null;
@@ -98,6 +99,12 @@ export default function ChatUi({ width, height }) {
     setInput(event.target.value);
   };
 
+  const handleOnKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSend(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
   const Message = ({ message }) => {
     const isMe = memberNo === message.sendNo ? true : false;
   
@@ -143,6 +150,9 @@ export default function ChatUi({ width, height }) {
     );
   };
 
+
+
+
   return (
     <ChatBox
       $width={width}
@@ -155,6 +165,7 @@ export default function ChatUi({ width, height }) {
       <ChatHeader>
         <Text>
           <Font1>{roomName}</Font1>
+          <Font2></Font2>
         </Text>
       </ChatHeader>
         <Box2 id="messageArea">
@@ -174,7 +185,7 @@ export default function ChatUi({ width, height }) {
           padding: "0",
         }}
       >
-        <InputText type="text" value={input} onChange={handleInputChange} />
+        <InputText type="text" value={input} onChange={handleInputChange} onKeyDown={handleOnKeyDown}/>
         <button
           onClick={handleSend}
           style={{ padding: "16px", backgroundColor: "white", border: "0px" }}
@@ -215,6 +226,7 @@ const Box2 = styled.ul`
   padding: 20px;
   ${css`
     &::-webkit-scrollbar {
+      display: none;
     }
   `}
 `;
