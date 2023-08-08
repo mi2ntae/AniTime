@@ -93,6 +93,7 @@ export default function MeetingPage() {
         navigate("/");
       });
     return () => {
+      console.log("return");
       leaveSession();
     };
   }, []);
@@ -102,10 +103,10 @@ export default function MeetingPage() {
       if (!user.sessionId) {
         alert("잘못된 세션 아이디입니다");
         navigate("/");
-      } else if (user.memberKind == 0 && user.userno == meeting.generalNo) {
+      } else if (user.userkind === 0 && user.userno !== meeting.generalNo) {
         alert("당신의 미팅이 아닙니다");
         navigate("/");
-      } else if (user.memberKind == 1 && user.userno == meeting.shelterNo) {
+      } else if (user.userkind === 1 && user.userno !== meeting.shelterNo) {
         alert("당신의 미팅이 아닙니다");
         navigate("/");
       } else {
