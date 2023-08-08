@@ -83,7 +83,7 @@ export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
           <TableContent
             key={index}
             onClick={() => {
-              setBoardNo(index);
+              setBoardNo(content.boardNo);
               setShowDonationDetail(true);
             }}
           >

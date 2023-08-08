@@ -121,7 +121,7 @@ public class DonationServiceImpl implements DonationService {
 
         List<DonationBoardListRes> data = res.getContent().stream()
                 .map(board -> {
-                    int cal = board.getAttainAmount() / board.getGoalAmount() * 100;
+                    int cal = board.getAttainAmount() * 100 / board.getGoalAmount();
                     DonationBoardListRes donationBoardListRes = DonationBoardListRes.builder()
                             .thumbnail(board.getImage1())
                             .title(board.getTitle())
@@ -130,6 +130,7 @@ public class DonationServiceImpl implements DonationService {
                             .achievement(cal)
                             .attained(board.getAttainAmount() + "원")
                             .goal(board.getGoalAmount() + "원")
+                            .boardNo(board.getBoardNo())
                             .build();
                     return donationBoardListRes;
                 }).collect(Collectors.toList());
