@@ -57,6 +57,7 @@ export default function Missing() {
             <AnimalImg
               key={idx}
               onClick={() => {
+                console.log(animal.desertionNo);
                 dispatch(setDesertionNo(animal.desertionNo));
               }}
             >
