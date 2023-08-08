@@ -1,14 +1,28 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 import { Link } from "react-router-dom";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import Modal from "components/Modal/Modal";
+import { setRoom } from "reducer/chatRoom";
 
 export default function DesertionDetail({ readOnly }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const memberNo = useSelector((state) => state.member.memberNo);
+  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
 
-  const openNotice = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const roomNo = useSelector((state) => state.chatRoom.roomNo);
+  const openNotice = async () => {
+    if(roomNo == -1) {
+      await http.post(`chat/room?generalNo=${memberNo}&desertionNo=${desertionNo}`)
+      .then((res) => {
+        dispatch(dispatch(setRoom({roomNo: res.data.roomNo, name: ""})));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
     setIsOpen(true);
   };
   const closeNotice = () => {
@@ -16,7 +30,6 @@ export default function DesertionDetail({ readOnly }) {
   };
 
   let [animal, setAnimal] = useState([]);
-  let desertionNo = useSelector((state) => state.detailInfo.desertionNo);
 
   useEffect(() => {
     if (desertionNo === 0) return;
