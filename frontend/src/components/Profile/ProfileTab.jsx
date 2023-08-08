@@ -7,21 +7,24 @@ import { setProfileNo } from "reducer/detailInfo.js";
 import { useNavigate } from "react-router";
 
 export default function ProfileTab() {
-  let [profiles, setProfiles] = useState([]);
-  let [whichComponent, setWhichComponent] = useState(<ProfileDetail />);
-  let detail = useSelector((state) => state.detailInfo);
-  let general = useSelector((state) => state.member);
-  let dispatch = useDispatch();
+  const [profiles, setProfiles] = useState([]);
+  const [whichComponent, setWhichComponent] = useState(<ProfileDetail />);
+  // const profileNo = useSelector((state) => state.detailInfo.profileNo);
+  // const detailNo = useSelector((state) => state.detailInfo.detailNo);
+  const { profileNo, desertionNo } = useSelector((state) => state.detailInfo);
+
+  const general = useSelector((state) => state.member);
+  const dispatch = useDispatch();
 
   // const generalNo = 2;
 
   useEffect(() => {
-    if (detail.desertionNo) {
-      setWhichComponent(<DesertionDetail />);
-    } else if (detail.profileNo) {
-      setWhichComponent(<ProfileDetail />);
-    }
-  }, [detail]);
+    setWhichComponent(<DesertionDetail />);
+  }, [desertionNo]);
+
+  useEffect(() => {
+    setWhichComponent(<ProfileDetail />);
+  }, [profileNo]);
 
   const navigate = useNavigate();
 
