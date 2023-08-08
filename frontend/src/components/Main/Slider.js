@@ -1,82 +1,73 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import SliderItem from "./SliderItem";
+import http from "api/commonHttp";
 
 export default function Slider() {
   const [animals, setAnimals] = useState([]);
-  const [index, setIndex] = useState(0);
+
+  const sliderRef = useRef();
+  const index = useRef(0);
+  const animalLen = useRef(1);
 
   const moveIndex = useCallback(
     (offset) => {
-      setIndex((p) => (p + offset + animals.length) % animals.length);
+      const prev = index.current;
+      index.current += offset;
+      const sliderWidth = sliderRef.current.offsetWidth / 3;
+      const itemWidth = sliderWidth / animalLen.current;
+      sliderRef.current.animate(
+        {
+          transform: [
+            `translateX(${-sliderWidth - prev * itemWidth}px)`,
+            `translateX(${-sliderWidth - index.current * itemWidth}px)`,
+          ],
+        },
+        {
+          duration: 500, // 밀리초 지정
+          fill: "forwards", // 종료 시 속성을 지님
+          easing: "ease", // 가속도 종류
+        }
+      );
+      index.current = (index.current + animalLen.current) % animalLen.current;
+      console.log(index.current);
     },
     [animals]
   );
 
   useEffect(() => {
     // Todo: 서버와 통신하여 데이터 받기
-    const testData = [
-      {
-        desertionNo: 1,
-        noticeNo: 1,
-        kind: "고양이",
-        sexcd: "F",
-        status: "공고중", // 공고종료일로 계산
-      },
-      {
-        desertionNo: 2,
-        noticeNo: 1,
-        kind: "고양이",
-        sexcd: "M",
-        status: "공고중", // 공고종료일로 계산
-      },
-      {
-        desertionNo: 3,
-        noticeNo: 1,
-        kind: "고양이",
-        sexcd: "F",
-        status: "공고중", // 공고종료일로 계산
-      },
-      {
-        desertionNo: 4,
-        noticeNo: 1,
-        kind: "고양이",
-        sexcd: "F",
-        status: "공고중", // 공고종료일로 계산
-      },
-      {
-        desertionNo: 5,
-        noticeNo: 1,
-        kind: "개",
-        sexcd: "F",
-        status: "공고중", // 공고종료일로 계산
-      },
-      {
-        desertionNo: 6,
-        noticeNo: 1,
-        kind: "고양이",
-        sexcd: "F",
-        status: "공고중", // 공고종료일로 계산
-      },
-    ];
-    setAnimals(testData);
+    http
+      .get(
+        `desertion?generalNo=0&kindType=0&genderType=0&sortType=0&curPageNo=0`
+      )
+      .then(({ data }) => {
+        console.log(data);
+        setAnimals([...data, ...data, ...data]);
+        animalLen.current = data.length;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   useEffect(() => {
     // 자동 슬라이더
-    const interval = setInterval(() => {
-      moveIndex(1);
-    }, 3000);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(() => {
+    //   moveIndex(1);
+    // }, 3000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, [moveIndex]);
 
   return (
     <Div>
-      {animals.map((animal) => (
-        <SliderItem key={animal.desertionNo} index={index} animal={animal} />
-      ))}
+      <SliderDiv ref={sliderRef}>
+        {animals.map((animal, index) => (
+          <SliderItem key={animal.desertionNo * 100 + index} animal={animal} />
+        ))}
+      </SliderDiv>
       <ButtonDiv>
         <Button onClick={() => moveIndex(-1)}>
           <img src="icons/ic_arrow_left.svg" alt="left" />
@@ -98,6 +89,11 @@ const Div = styled.div`
   width: 100%;
   /* min-width: 1200px; */
   overflow: hidden;
+`;
+
+const SliderDiv = styled.div`
+  display: flex;
+  overflow: visible;
 `;
 
 const ButtonDiv = styled.div`
