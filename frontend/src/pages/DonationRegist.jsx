@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import http from "api/commonHttp";
+import SelectBox from "components/Profile/SelectBox";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -47,6 +48,11 @@ export default function DonationRegist() {
     setPoster(file);
     setPosterName(file.name);
   };
+
+  const yearData = [];
+  for (let i = 2023; i >= 2023 - 30; i--) {
+    yearData.push(i);
+  }
 
   const [thumbnailurl, setThumbnailUrl] = useState("");
   const thumbnailInputRef = useRef();
@@ -149,6 +155,13 @@ export default function DonationRegist() {
                   id="title"
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="공고제목"
+                />
+              </Row>
+              <Row>
+                <SelectBox
+                  items={yearData}
+                  placeholder="연도"
+                  setValue={setSYear}
                 />
               </Row>
               <Row>
