@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Builder
 @NamedNativeQueries({
         @NamedNativeQuery(
-                name = "getAnimal",
+                name = "getAnimalAsc",
                 query = "SELECT A.desertionNo," +
                         "SUBSTRING(A.kind," +
                         "INSTR(A.kind, '[') + 1," +
@@ -24,13 +24,24 @@ import java.time.LocalDate;
                         "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image2 AS thumbnail," +
                         "IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A " +
                         "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo " +
-                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd and processState like  '보호중'ORDER BY :sortQuery  ",
-                resultSetMapping = "getAnimal"
-        )
-
+                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd and processState like  '보호중' ORDER BY A.noticeSdate asc",
+                resultSetMapping = "getAnimalAsc"
+        ),
+        @NamedNativeQuery(
+                name = "getAnimalDesc",
+                query = "SELECT A.desertionNo," +
+                        "SUBSTRING(A.kind," +
+                        "INSTR(A.kind, '[') + 1," +
+                        "INSTR(A.kind, ']') - INSTR(A.kind, '[') - 1) AS category," +
+                        "SUBSTRING(A.kind, INSTR(A.kind, ']') + 2) AS detailKind,A.sexcd,A.processState,A.image2 AS thumbnail," +
+                        "IF(B.bookmarkNo IS NOT NULL,1,0) AS isBookmarked FROM Animal AS A " +
+                        "LEFT JOIN Bookmark AS B ON A.desertionNo=B.desertionNo AND B.generalNo=:generalNo " +
+                        "WHERE A.kind LIKE :kind AND A.sexcd LIKE :sexcd and processState like  '보호중' ORDER BY A.noticeSdate desc",
+                resultSetMapping = "getAnimalDesc"
+        ),
 })
 @SqlResultSetMapping(
-        name = "getAnimal",
+        name = "getAnimalAsc",
         classes = @ConstructorResult(
                 targetClass = AnimalPreviewRes.class,
                 columns = {
@@ -44,6 +55,23 @@ import java.time.LocalDate;
                 }
         )
 )
+@SqlResultSetMapping(
+        name = "getAnimalDesc",
+        classes = @ConstructorResult(
+                targetClass = AnimalPreviewRes.class,
+                columns = {
+                        @ColumnResult(name = "desertionNo", type = Long.class),
+                        @ColumnResult(name = "category", type = String.class),
+                        @ColumnResult(name = "detailKind", type = String.class),
+                        @ColumnResult(name = "sexcd", type = Character.class),
+                        @ColumnResult(name = "processState", type = String.class),
+                        @ColumnResult(name = "thumbnail", type = String.class),
+                        @ColumnResult(name = "isBookmarked", type = Boolean.class)
+                }
+        )
+)
+
+
 public class  Animal {
     @Id
     @Column(name = "desertionno")
