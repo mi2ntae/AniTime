@@ -29,6 +29,7 @@ export default function ChattingList() {
     })
   }, []);
 
+
   return (
     <>
       <Box
@@ -53,16 +54,20 @@ export default function ChattingList() {
         </Box>
         <Box2>
           {chatList.map((item) => (
-            <ChatPreview key={item.roomNo} onClick={() => dispatch(setRoom({roomNo: item.roomNo, name: item.name}))}>
-              {/* onClick={() => dispatch(setChatList(item.roomNo))} */}
+            <ChatPreview key={item.roomNo} onClick={() => dispatch(setRoom({roomNo: item.roomNo, name: item.name}))
+            }>
               <Div>
                 <ShelterName>{item.name}</ShelterName>
               </Div>
               <Div>
                 <LastMsg>{item.lastMsg.length > 25 ? item.lastMsg.substr(0, 25)+"..." : item.lastMsg}</LastMsg>
-                {item.unreadCnt !== 0 ? (
-                  <Cnt unreadCnt={item.unreadCnt}>{item.unreadCnt}</Cnt>
-                ) : null}
+                {item.unreadCnt !== 0 ? 
+                  item.unreadCnt >9 ? item.unreadCnt>99? item.unreadCnt>300 ?  
+                 <Cnt4>300+</Cnt4>
+                 :<Cnt3>{item.unreadCnt}</Cnt3>
+                 :<Cnt2>{item.unreadCnt}</Cnt2>
+                 : <Cnt>{item.unreadCnt}</Cnt>
+                 : null}
               </Div>
             </ChatPreview>
           ))}
@@ -71,11 +76,10 @@ export default function ChattingList() {
     </>
   );
 }
-
 const ShelterName = styled.span`
   color: var(--blackgrey, #35383b);
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: bold;
 `;
 
 const Font1 = styled.span`
@@ -92,40 +96,155 @@ const Text = styled.div`
 `;
 const LastMsg = styled.span`
   color: var(--darkgrey, #7d848a);
-  font-size: 12px;
+  font-size: 14px;
 `;
-const LastDate = styled.span`
-  color: var(--grey-2, #a7aeb4);
-  text-align: right;
-  font-size: 12px;
-  font-weight: 400;
-`;
+// const LastDate = styled.span`
+//   color: var(--grey-2, #a7aeb4);
+//   text-align: right;
+//   font-size: 12px;
+//   font-weight: 400;
+// `;
 const Cnt = styled.span`
   variant: outlined;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   background-color: #ff7676;
   color: white;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-radius: ${({ unreadCnt }) =>
-    unreadCnt >= 100 ? "30%" : unreadCnt > 0 ? "50%" : "null"};
+  margin-right: 20px;
+  border-radius: 50%;
+`;
+const Cnt2 = styled.span`
+  width: 31px;
+  height: 22px;
+  padding: 0px 0px 1px 0px;
+  background-color: #ff7676;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-right: 20px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    left: -10px;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    right: -10px;
+  }
+`;
+const Cnt3 = styled.span`
+  width: 39px;
+  height: 22px;
+  padding: 0px 0px 1px 0px;
+  background-color: #ff7676;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-right: 20px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    left: -10px;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    right: -10px;
+  }
+`;
+const Cnt4 = styled.span`
+  width: 45px;
+  height: 22px;
+  padding: 0px 0px 1px 4px;
+  background-color: #ff7676;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-right: 20px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    left: -10px;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 22px;
+    background-color: #ff7676;
+    border-radius: 50%;
+    top: 0;
+    right: -10px;
+  }
 `;
 const ChatPreview = styled.div`
   height: 72px;
   max-height: 15%;
-  padding: 16px;
+  padding: 25px 0px 0px 30px;
   flex: 1;
   display: flex;
   gap: 7px;
   flex-direction: column;
   background-color: var(--lightestgrey, #f7f8fa);
   border-radius: 10px;
-
+  align-content: center;
+  jusify-content: center;
 `;
 const Box2 = styled.div`
   flex: 1;
