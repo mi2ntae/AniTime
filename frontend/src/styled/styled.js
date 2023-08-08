@@ -5,7 +5,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   margin: auto;
-  margin-top: 64px;
+  margin-top: 60px;
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
