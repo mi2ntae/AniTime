@@ -135,6 +135,14 @@ const router = createBrowserRouter([
               };
             },
           },
+          {
+            path: ":id",
+            async lazy() {
+              return {
+                Component: (await import("pages/DonationDetailPage")).default,
+              };
+            },
+          },
         ],
       },
       {
