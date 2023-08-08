@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/exception/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/desertion/count/**").permitAll()
+                .antMatchers("/api/desertion/new/**").permitAll()
                 .antMatchers("/ws/chat/**").permitAll()
                 .antMatchers("/api/openvidu/**").permitAll()
                 .antMatchers( "/v3/api-docs","/swagger*/**").permitAll()

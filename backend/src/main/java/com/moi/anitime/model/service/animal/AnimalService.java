@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.animal;
 
 import com.moi.anitime.api.response.animal.AnimalPreviewRes;
 import com.moi.anitime.api.response.profile.ProfileRes;
+import com.moi.anitime.exception.animal.CountAnimalsException;
 import com.moi.anitime.exception.animal.ListLoadingException;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.entity.profile.Profile;
@@ -20,5 +21,11 @@ public interface AnimalService {
     public void dataUpdate(List<Animal> animalList);
 
     public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile)throws ListLoadingException;
+
+    public int countNewAnimals() throws CountAnimalsException;
+
+    public int countKeepingAnimals() throws CountAnimalsException;
+
+    public int countPostingAnimals() throws CountAnimalsException;
 
 }
