@@ -10,8 +10,12 @@ export default function Sort() {
   let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
   let sortSelected = useSelector((state) => state.sortInfo.sortSelected);
 
-  const openNotice = () => {
-    setIsOpen(true);
+  // const openNotice = () => {
+  //   setIsOpen(true);
+  // };
+
+  const toggleOpen = () => {
+    setIsOpen((prev) => !prev);
   };
 
   const closeNotice = () => {
@@ -23,7 +27,7 @@ export default function Sort() {
       <SortButton
         onClick={(event) => {
           event.stopPropagation();
-          openNotice();
+          toggleOpen();
         }}
       >
         <Span>{sortSelected}</Span>
@@ -42,7 +46,7 @@ export default function Sort() {
 
 const SortButton = styled.button`
   width: 100px;
-  height: 40px;
+  height: 45px;
   margin-right: 8px;
   background-color: #f8f8f8;
   color: black;
