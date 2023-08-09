@@ -96,4 +96,19 @@ public class AnimalController {
         else if (animal.getSexcd() == 'M') animalDetailRes.setGender("수컷");
         return responseService.getSingleResponse(animalDetailRes);
     }
+
+    @GetMapping("/new")
+    SingleResponse<Integer> countNewAnimals(){
+        return responseService.getSingleResponse(animalService.countNewAnimals());
+    }
+
+    @GetMapping("/count/posting")
+    SingleResponse<Integer> countPostingAnimals(){
+        return responseService.getSingleResponse(animalService.countPostingAnimals());
+    }
+
+    @GetMapping("/count/keeping")
+    SingleResponse<Integer> countKeepingAnimals(){
+        return responseService.getSingleResponse(animalService.countKeepingAnimals());
+    }
 }
