@@ -88,6 +88,8 @@ const Img = styled.img`
   min-width: 220px;
   height: 220px;
   border-radius: 8px;
+  object-fit:cover;
+  object-position: center center;
 `;
 const AnimalContainer = styled.div`
   position: relative;

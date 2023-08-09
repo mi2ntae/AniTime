@@ -23,6 +23,11 @@ const LinkP = styled(NavLink)`
     font-weight: 800;
     transition: 0.1s;
   }
+  &:hover {
+    color: #3994f0;
+    font-weight: 800;
+    transition: 0.2s;
+  }
 `;
 
 const Nav = styled.div`
