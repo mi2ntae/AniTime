@@ -186,10 +186,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-	public void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException {
-		String encodedPassword=passwordEncoder.encode(memberEditReq.getPassword());
-		memberRepo.updateMemberByMemberNo(memberNo,encodedPassword, memberEditReq.getName());
-	}
+	public void editGeneralMemberPW(int memberNo, MemberEditReq memberEditReq) throws EditInfoException {
+        String encodedPassword=passwordEncoder.encode(memberEditReq.getPassword());
+        memberRepo.updateGeneralMemberPWByMemberNo(memberNo,encodedPassword);
+    }
+
+    @Override
+    public void editGeneralMemberCheck(int memberNo){
+        Optional<GeneralMember> member=memberRepo.findGeneralMemberByMemberNo(memberNo);
+        GeneralMember m=member.get();
+        m.setSnsCheck(true);
+        memberRepo.save(m);
+    }
+
+
 
     @Override
     public Member findShelterMemberById(int memberNo) throws NonExistMemberNoException {
