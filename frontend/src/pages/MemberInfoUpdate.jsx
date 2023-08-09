@@ -13,7 +13,7 @@ import {
   MainContainer,
 } from "styled/styled";
 
-export default function DonationRegist() {
+export default function UserUpdate() {
   let generalNo = useSelector((state) => state.member.memberNo);
   console.log(generalNo);
   const [general, setgeneral] = useState({
@@ -245,7 +245,7 @@ export default function DonationRegist() {
               }}
               onClick={handleSubmit}
             >
-              후원 공고 등록
+              수정하기
             </Button>
           </div>
         </form>
