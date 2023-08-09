@@ -1,5 +1,5 @@
 import { useCombobox } from "downshift";
-import { keyframes, styled } from "styled-components";
+import { keyframes, styled, css } from "styled-components";
 
 export default function SelectBox({ items, placeholder, setValue }) {
   const {
@@ -28,7 +28,7 @@ export default function SelectBox({ items, placeholder, setValue }) {
         {...getInputProps()}
         isOpen={isOpen}
       />
-      <OptionBox {...getMenuProps()}>
+      <OptionBox {...getMenuProps()} isOpen={isOpen}>
         {isOpen &&
           items.map((item, index) => (
             <OptionElement
@@ -85,7 +85,7 @@ const OptionBox = styled.ul`
   margin: 0px;
 
   background-color: var(--lightestgrey, #f7f8fa);
-  border: 0.77px solid var(--lightgrey, #e8ebee);
+  // border: 0.77px solid var(--lightgrey, #e8ebee);
   border-radius: 12px;
   box-sizing: border-box;
   // padding: 0px 8px 0px 8px;
@@ -100,20 +100,27 @@ const OptionBox = styled.ul`
   max-height: 300px;
   overflow-y: auto;
   z-index: 555;
-  animation: ${keyframes`
-    from {
-            clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
-            opacity: 0.5;
-          }
-          to {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            opacity: 1;
-          }
-  `} 0.5s forwards;
+  // animation: ${keyframes`
+  //   from {
+  //           clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+  //           opacity: 0.5;
+  //         }
+  //         to {
+  //           clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  //           opacity: 1;
+  //         }
+  // `} 0.5s forwards;
 
   &::-webkit-scrollbar {
     display: none;
   }
+
+  animation: ${({ isOpen }) =>
+    isOpen
+      ? css`
+          ${fadeInAnimation} 0.5s forwards
+        `
+      : "none"}; // css 헬퍼를 사용하여 keyframes를 감싸줍니다.
 `;
 
 const OptionElement = styled.li`
@@ -127,5 +134,16 @@ const OptionElement = styled.li`
 
   &:hover {
     background-color: #e8ebee;
+  }
+`;
+
+const fadeInAnimation = keyframes`
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+    opacity: 0.5;
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
   }
 `;
