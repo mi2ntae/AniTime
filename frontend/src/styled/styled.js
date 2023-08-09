@@ -44,8 +44,8 @@ const HorizontalContainer = styled.div`
 
   display: flex;
   justify-content: space-between;
-  width: 70%;
-  max-width: 70%;
+  width: 77%;
+  max-width: 77%;
   margin: 96px auto 32px auto;
 `;
 
