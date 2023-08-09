@@ -160,6 +160,28 @@ export default function LoginPage() {
               >
                 로그인
               </Button>
+              <Button
+                // type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navi("/join");
+                  return;
+                }}
+                fullWidth
+                variant="contained"
+                sx={{
+                  // mt: 3,
+                  mb: 2,
+                  width: 400,
+                  fontWeight: "fontWeightBold",
+                  fontSize: 18,
+                }}
+                style={{
+                  marginLeft: 50,
+                }}
+              >
+                회원가입
+              </Button>
               {/* <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -176,7 +198,7 @@ export default function LoginPage() {
             <Button
               onClick={kakaoLogin}
               style={{
-                marginTop: 50,
+                marginTop: 1,
               }}
             >
               <img src="kakao_login_medium_wide.png" alt="버튼X" />
