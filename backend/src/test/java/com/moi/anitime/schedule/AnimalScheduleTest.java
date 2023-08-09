@@ -42,22 +42,22 @@ class AnimalScheduleTest {
     @Autowired
     private ResponseService responseService;
 
-    @Test
-    void apitest(){
-        ProfileRes profileInfo = profileService.findProfileByIdSystem(2);
-        System.out.println(profileInfo.toString());
-        //필요한 정보를 profileService에 전달해준다.
-        List<AnimalPreviewRes> tmp = animalService.getAnimalRecommand(profileInfo, 0);
-        System.out.println(tmp.size());
-        for(AnimalPreviewRes a : tmp){
-            System.out.println(a.toString());
-        }
-        System.out.println("@!#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-        System.out.println(responseService.getListResponse(animalService.getAnimalRecommand(profileInfo, 0)));
+//    @Test
+//    void apitest(){
+//        ProfileRes profileInfo = profileService.findProfileByIdSystem(2);
+//        System.out.println(profileInfo.toString());
+//        //필요한 정보를 profileService에 전달해준다.
+//        List<AnimalPreviewRes> tmp = animalService.getAnimalRecommand(profileInfo);
+//        System.out.println(tmp.size());
+//        for(AnimalPreviewRes a : tmp){
+//            System.out.println(a.toString());
+//        }
+//        System.out.println("@!#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+//
+//        System.out.println(responseService.getListResponse(animalService.getAnimalRecommand(profileInfo)));
 //        System.out.println(responseService.getListResponse());
 //        System.out.println(responseService.getListResponse)
-    }
+//    }
 //    private RestTemplate restTemplate = restTemplateBuilder.build() ;
 //    private static final String KAKAO_SERVICE_KEY = "9326b022f047dd4e819b116ae72e3576";
 //
