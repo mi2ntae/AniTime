@@ -42,6 +42,8 @@ public class MemberServiceImpl implements MemberService {
     private String imgPath;
     @Value("${kakao.client.id}")
     private String kakao_client_id;
+    @Value("${kakao.redirect.uri}")
+    private String kakao_redirect_uri;
 
     @Override
     public void registGeneralMember(GeneralMemberRegistReq memberRegistReq) throws ExistEmailException {
@@ -85,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
         StringBuilder sb = new StringBuilder();
         sb.append("grant_type=authorization_code");
         sb.append("&client_id=" + kakao_client_id);
-        sb.append("&redirect_uri=http://localhost:3000/kakaoLogin");
+        sb.append("&redirect_uri="+kakao_redirect_uri);
         sb.append("&code=" + code);
         bw.write(sb.toString());
         bw.flush();
