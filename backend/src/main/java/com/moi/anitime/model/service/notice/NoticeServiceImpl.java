@@ -115,7 +115,7 @@ public class NoticeServiceImpl implements NoticeService{
     }
     @Override
     public List<Notice> getNoticeList(int memberNo) throws LoadNoticeException {
-        return noticeRepo.findNoticesByMemberNoAndNoticeCheck(memberNo,false);
+        return noticeRepo.findNoticesByMemberNoOrderByNoticeTimeDesc(memberNo);
     }
 
     @Override

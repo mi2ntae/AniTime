@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface NoticeRepo extends JpaRepository<Notice,Integer> {
     Notice findNoticeByNoticeNo(int noticeNo);
-    List<Notice> findNoticesByMemberNoAndNoticeCheck(int memberNo,boolean noticeCheck);
+    List<Notice> findNoticesByMemberNoOrderByNoticeTimeDesc(int memberNo);
 
     int countByMemberNoAndNoticeCheck(int memberNo,boolean noticeCheck);
     @Transactional
