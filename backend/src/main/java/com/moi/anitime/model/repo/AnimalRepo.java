@@ -33,6 +33,6 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
             "and ST_Distance_Sphere(Point(:proLon,:proLat), POINT(lon, lat)) < 8000 " +
             "and kind like :detailKind "+
             "order by DATEDIFF(date_format(:prodate,'%Y-%m-%d'),date_format(findDate,'%Y-%m-%d')) asc",nativeQuery = true)
-    public List<Animal> findAnimalByRecommand(String prodate,String sexcd,String profileKind,String detailKind, float proweight, float proLon, float proLat);
+    public List<Animal> findAnimalByRecommand(String prodate,String sexcd,String profileKind,String detailKind, float proweight, float proLon, float proLat, Pageable pageable);
     public Optional<Animal> findAnimalByDesertionNo(@Param("desertioNo") long no);
 }
