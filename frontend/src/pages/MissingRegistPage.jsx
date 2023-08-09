@@ -441,6 +441,7 @@ export default function MissingRegistPage() {
                 fontSize: "16px",
                 fontWeight: "700",
                 border: "none",
+                fontFamily: "nanumsquare",
               }}
             >
               실종동물 등록

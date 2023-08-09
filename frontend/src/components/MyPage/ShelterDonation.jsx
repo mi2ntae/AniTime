@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
-import { Button } from "styled/styled";
+import { Button } from "@mui/material";
 
 export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,19 +57,16 @@ export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
       <TabHeader>
         <TabTitle>후원 현황</TabTitle>
         <Button
-          $background_color="#3994F0"
-          color="#FFFFFF"
           style={{
-            padding: "10px 16px",
+            padding: "8px 16px",
+            backgroundColor: "#3994f0",
+            color: "white",
             fontSize: "14px",
             fontWeight: 700,
             borderRadius: "12px",
           }}
           onClick={handleWriteBtnClick}
         >
-          {/* <Typography variant="body1" fontSize={14} fontWeight="700">
-            후원공고 등록하기
-          </Typography> */}
           후원공고 등록하기
         </Button>
       </TabHeader>
