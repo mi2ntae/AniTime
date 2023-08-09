@@ -217,7 +217,6 @@ export default function ReservationForm() {
           아래 신청서를 작성하여 제출해 주세요.
         </div>
       </div>
-      <button onClick={capture}>캡쳐</button>
       <FormContainer id="form">
         <FormTop>
           <div

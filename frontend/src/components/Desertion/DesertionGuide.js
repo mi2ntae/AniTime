@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "styled/styled";
+import { Button, MainContainer } from "styled/styled";
 import { Link } from "react-router-dom";
 
 export default function DesertionGuide() {
@@ -17,49 +17,71 @@ export default function DesertionGuide() {
     },
   ];
   return (
-    <PageContainer>
-      <div>
+    <MainContainer>
+      <PageContainer>
         <div
           style={{
-            fontSize: "30px",
-            fontWeight: "bold",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          예약 전 유의사항
-        </div>
-        <div style={{ fontSize: "16px", marginBottom: "61px" }}>
-          상담 예약 전 아래 내용을 확인하여 주세요.
-        </div>
-      </div>
-      <GuideContainer>
-        {arr.map((e, i) => (
-          <div>
-            <GuideTitle>{e.title}</GuideTitle>
-            <GuideContent>{e.content}</GuideContent>
+          <div
+            style={{
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >
+            예약 전 유의사항
           </div>
-        ))}
-      </GuideContainer>
-      <Link to="/desertion/reservation/selecttime">
-        <Button
-          style={{
-            fontSize: "16px",
-          }}
-          width={"197px"}
-          height={"50px"}
-          $background_color={"#3994F0"}
-          color={"#ffffff"}
-        >
-          화상 미팅 예약하기
-        </Button>
-      </Link>
-    </PageContainer>
+          <div style={{ fontSize: "16px", marginBottom: "61px" }}>
+            상담 예약 전 아래 내용을 확인하여 주세요.
+          </div>
+        </div>
+        <GuideContainer>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "50px",
+            }}
+          >
+            <img src={`/icons/form_warning.svg`} alt="경고"></img>
+          </div>
+          {arr.map((e, i) => (
+            <div>
+              <GuideTitle>
+                {i + 1}.&nbsp;{e.title}
+              </GuideTitle>
+              <GuideContent>{e.content}</GuideContent>
+            </div>
+          ))}
+        </GuideContainer>
+        <Link to="/desertion/reservation/selecttime">
+          <Button
+            style={{
+              fontSize: "16px",
+            }}
+            width={"197px"}
+            height={"50px"}
+            $background_color={"#3994F0"}
+            color={"#ffffff"}
+          >
+            화상 미팅 예약하기
+          </Button>
+        </Link>
+      </PageContainer>
+    </MainContainer>
   );
 }
 
 const GuideContainer = styled.div`
-  width: 840px;
-  height: 967px;
+  background-color: #ffffff;
+  padding: 57px;
+  width: 726px;
+  height: 500px;
   border-radius: 10px;
+  margin-bottom: 50px;
 `;
 
 const PageContainer = styled.div`
