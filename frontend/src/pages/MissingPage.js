@@ -16,9 +16,10 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
-  console.log(profileNo);
+  // console.log(profileNo);
 
   const fetchData = async () => {
+    console.log(profileNo, page.current);
     try {
       page.current++;
       let response = await http.get(
@@ -28,11 +29,16 @@ export default function Missing() {
       console.log("recommand result");
       console.log("newData");
       setAnimals((prev) => [...prev, ...newData]);
-      page.current++;
     } catch (error) {
       console.log("에러메시지: ", error);
     }
   };
+
+  useEffect(() => {
+    setAnimals([]);
+    page.current = -1;
+    fetchData();
+  }, [profileNo]);
 
   useEffect(() => {
     let observer;
@@ -88,11 +94,17 @@ const ListFilterContainer = styled.div`
 `;
 
 const ListContainer = styled.div`
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  justify-items: center;
+  justify-content: space-between;
+  /* display: flex; */
   flex-grow: 2;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
+  /* flex-wrap: wrap; */
+  /* justify-content: flex-start; */
+  /* align-content: flex-start; */
   height: 700px;
   overflow-y: scroll;
   text-align: center;
@@ -102,6 +114,15 @@ const ListContainer = styled.div`
       display: none;
     }
   `}
+`;
+
+const AnimalList = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  justify-items: center;
+  justify-content: space-between;
 `;
 
 const DetailViewBox = styled.div`
