@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.animal;
 
 import com.moi.anitime.api.response.animal.AnimalPreviewRes;
 import com.moi.anitime.api.response.profile.ProfileRes;
+import com.moi.anitime.exception.animal.CountAnimalsException;
 import com.moi.anitime.exception.animal.ListLoadingException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.animal.Animal;
@@ -125,5 +126,18 @@ public class AnimalServiceImpl implements AnimalService{
         return animalListres;
     }
 
+    @Override
+    public int countNewAnimals() throws CountAnimalsException {
+        return animalRepo.countNewAnimals();
+    }
 
+    @Override
+    public int countKeepingAnimals() throws CountAnimalsException{
+        return animalRepo.countKeepingAnimals();
+    }
+
+    @Override
+    public int countPostingAnimals() throws CountAnimalsException {
+        return animalRepo.countPostingAnimals();
+    }
 }

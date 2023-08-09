@@ -11,8 +11,10 @@ import http from "api/commonHttp";
 import Swal from "sweetalert2";
 
 export default function SelectTime() {
+  const generalNo = useSelector((state) => state.member.memberNo);
   const reservedDate = useSelector((state) => state.reservedDate);
-  let shelterNo = 1;
+  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
+  const shelterNo = useSelector((state) => state.detailInfo.shelterNo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());

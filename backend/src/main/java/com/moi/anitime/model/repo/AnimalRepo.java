@@ -35,4 +35,13 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
             "order by DATEDIFF(date_format(:prodate,'%Y-%m-%d'),date_format(findDate,'%Y-%m-%d')) asc",nativeQuery = true)
     public List<Animal> findAnimalByRecommand(String prodate,String sexcd,String profileKind,String detailKind, float proweight, float proLon, float proLat, Pageable pageable);
     public Optional<Animal> findAnimalByDesertionNo(@Param("desertioNo") long no);
+
+    @Query(value = "SELECT COUNT(*) FROM Animal A WHERE A.noticeSdate=CURDATE()",nativeQuery = true)
+    public int countNewAnimals();
+
+    @Query(value="SELECT COUNT(*) FROM Animal A WHERE A.noticeSdate<=CURDATE() AND A.noticeEdate>=CURDATE()",nativeQuery = true)
+    public int countPostingAnimals();
+    
+    @Query(value="SELECT COUNT(*) FROM Animal A WHERE A.noticeEdate<CURDATE()",nativeQuery = true)
+    public int countKeepingAnimals();
 }

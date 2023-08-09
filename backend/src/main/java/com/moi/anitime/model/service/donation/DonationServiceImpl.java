@@ -73,6 +73,7 @@ public class DonationServiceImpl implements DonationService {
         Optional<DonationBoard> res = donationBoardRepo.findDonationBoardByBoardNo(boardNo);
         if (res.isEmpty()) throw new NonExistDonationBoardException();
         DonationBoard board = res.get();
+        int cal = board.getAttainAmount() * 100 / board.getGoalAmount();
 
         DonationBoardRes donationBoardRes = DonationBoardRes.builder()
                 .title(board.getTitle())
@@ -81,6 +82,8 @@ public class DonationServiceImpl implements DonationService {
                 .attain(board.getAttainAmount())
                 .goal(board.getGoalAmount())
                 .detail(board.getPoster())
+                .achievement(cal)
+                .poster(board.getPoster())
                 .build();
 
         return donationBoardRes;

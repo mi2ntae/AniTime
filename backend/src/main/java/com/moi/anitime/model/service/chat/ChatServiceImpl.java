@@ -115,4 +115,9 @@ public class ChatServiceImpl implements ChatService {
 		});
 		return resChat;
 	}
+
+	@Override
+	public void resetReadCnt(int roomNo, int memberNo) {
+		chatMessageRepo.updateChatMessagesRead(roomNo, memberNo);
+	}
 }

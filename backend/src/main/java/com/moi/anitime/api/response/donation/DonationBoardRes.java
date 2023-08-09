@@ -11,5 +11,7 @@ public class DonationBoardRes {
     private String thumbnail;
     private int attain;
     private int goal;
+    private int achievement;
     private String detail;
+    private  String poster;
 }
