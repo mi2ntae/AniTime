@@ -23,7 +23,6 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
 const ItemDiv = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 16px;
 `;
 
 const KindImg = styled.img`
