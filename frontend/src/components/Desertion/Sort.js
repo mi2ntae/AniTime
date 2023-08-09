@@ -6,20 +6,23 @@ import { useSelector } from "react-redux";
 
 export default function Sort() {
   const [isOpen, setIsOpen] = useState(false);
+  const [arrowUp, setArrowUp] = useState(false);
   let descClicked = useSelector((state) => state.sortInfo.descClicked);
   let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
   let sortSelected = useSelector((state) => state.sortInfo.sortSelected);
 
-  // const openNotice = () => {
-  //   setIsOpen(true);
-  // };
-
-  const toggleOpen = () => {
-    setIsOpen((prev) => !prev);
+  const openNotice = () => {
+    setIsOpen(true);
+    setArrowUp(true);
   };
+
+  // const toggleOpen = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
 
   const closeNotice = () => {
     setIsOpen(false);
+    setArrowUp(false);
   };
 
   return (
@@ -27,12 +30,16 @@ export default function Sort() {
       <SortButton
         onClick={(event) => {
           event.stopPropagation();
-          toggleOpen();
+          openNotice();
         }}
       >
         <Span>{sortSelected}</Span>
         <Span>
-          <img src="icons/ic_arrow_bottom.svg" />
+          {arrowUp ? (
+            <img src="icons/ic_arrow_up.svg" />
+          ) : (
+            <img src="icons/ic_arrow_bottom.svg" />
+          )}
         </Span>
         {isOpen && (
           <Modal posX="49px" posY="25px" close={closeNotice}>
@@ -59,7 +66,7 @@ const SortButton = styled.button`
   justify-content: space-evenly;
 `;
 const Span = styled.span`
-  font-size: 14px;
+  font-size: 15px;
   // font-weight: bold;
   display: flex;
   align-items: center;
