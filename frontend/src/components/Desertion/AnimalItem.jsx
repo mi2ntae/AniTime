@@ -16,7 +16,7 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
             ) : (
               <EmptyHeartIcon
                 src="/icons/btn_favorite_inactive.svg"
-                alt="Bookmark"
+                alt="NotBookmark"
               />
             )}
           </BookmarkButton>

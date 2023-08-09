@@ -21,7 +21,7 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     public List<AnimalPreviewRes> getAnimalDesc(int generalNo, String kind, char sexcd, Pageable curPageNo);
 
     //    @Query("SELECT a.desertionNo, a.kind, a.sexcd, a.image1 FROM Animal a JOIN Bookmark b WHERE b.generalMember.memberNo = :generalNo ORDER BY b.bookmarkNo DESC")
-    @Query(value = "SELECT a FROM Animal a JOIN Bookmark b ON a.desertionNo = b.animal.desertionNo WHERE b.generalMember.memberNo = :generalNo ORDER BY b.bookmarkNo DESC",nativeQuery = true)
+    @Query(value = "SELECT a FROM Animal a JOIN Bookmark b ON a.desertionNo = b.animal.desertionNo WHERE b.generalMember.memberNo = :generalNo ORDER BY b.bookmarkNo DESC")
     public List<Animal> getBookmarkList(@Param("generalNo") int generalNo, Pageable curPageNo);
 
     //select * from animal where DATEDIFF(date_format(:a,"%Y-%m-%d"),date_format(animal.finddate,"%Y-%m-%d")) between 0 and 10 and abs(animal.weight-10) <2.5;
