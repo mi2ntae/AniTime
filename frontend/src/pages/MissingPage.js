@@ -61,6 +61,7 @@ export default function Missing() {
   return (
     <HorizontalContainer>
       <ListFilterContainer>
+        {animals.length === 0 && "프로필과 유사한 보호동물이 없습니다"}
         <ListContainer>
           {animals.map((animal) => (
             <AnimalItemContainer key={animal.desertionNo}>
@@ -90,7 +91,8 @@ const ListFilterContainer = styled.div`
   flex: 2;
   margin-top: 48px;
   flex-direction: column;
-  align-items: end;
+  align-items: stretch;
+  text-align: center;
 `;
 
 const ListContainer = styled.div`
