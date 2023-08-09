@@ -8,6 +8,7 @@ import "intersection-observer";
 import DesertionDetail from "components/Desertion/DesertionDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo.js";
+import AnimalItem from "components/Desertion/AnimalItem";
 
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
@@ -81,51 +82,16 @@ export default function Desertion() {
           <Sort></Sort>
         </FiltersContainer>
         <ListContainer>
-          {animals.map((animal, idx) => (
-            <AnimalImg
-              key={idx}
-              onClick={() => {
-                dispatch(setDesertionNo(animal.desertionNo));
-              }}
-            >
-              <AnimalContainer>
-                <Img src={animal.thumbnail} alt="AnimalImage" />
-                <BookmarkButton
-                  onClick={() => toggleBookmark(animal.desertionNo)}
-                >
-                  {animal.isBookmarked ? (
-                    <FilledHeartIcon
-                      src="/icons/btn_favorite_active.svg"
-                      alt="Bookmark"
-                    />
-                  ) : (
-                    <EmptyHeartIcon
-                      src="/icons/btn_favorite_inactive.svg"
-                      alt="Bookmark"
-                    />
-                  )}
-                </BookmarkButton>
-              </AnimalContainer>
-              <DivP>
-                <Div2>
-                  <Span1>
-                    <img src="/icons/Eclipse 33.svg" alt="state" />
-                    <Blank></Blank>
-                    {animal.processState}
-                  </Span1>
-                  <Span2>
-                    {animal.category}/{animal.detailKind}
-                    <span>
-                      {animal.sexcd === "F" ? (
-                        <img src="/icons/ic_female.svg" alt="female" />
-                      ) : (
-                        <img src="/icons/ic_male.svg" alt="male" />
-                      )}
-                    </span>
-                  </Span2>
-                </Div2>
-              </DivP>
-            </AnimalImg>
+          {animals.map((animal) => (
+            <AnimalItemContainer key={animal.desertionNo}>
+              <AnimalItem
+                animal={animal}
+                // AnimalImg onClick
+                handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
+                // BookmarkButton onClick
+                handleBookmark={() => toggleBookmark(animal.desertionNo)}
+              />
+            </AnimalItemContainer>
           ))}
           <Target ref={setTarget} />
         </ListContainer>
@@ -160,6 +126,7 @@ const ListContainer = styled.div`
   height: 700px;
   overflow-y: scroll;
   text-align: center;
+  column-gap: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -180,45 +147,6 @@ const DetailViewBox = styled.div`
   margin-top: 48px;
 `;
 
-const AnimalImg = styled.div`
-  width: 33.33%;
-  height: 240px;
-  margin-bottom: 28px;
-`;
-
-const Span1 = styled.span`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-const Span2 = styled.span`
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  color: gray;
-  // font-weight: bold;
-`;
-
-// const Div = styled.div`
-//   align-items: center;
-// `;
-const Div2 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-const DivP = styled.div`
-  align-items: center;
-`;
-
-const Blank = styled.span`
-  margin-right: 5px;
-`;
-
 const Target = styled.div`
   width: 100%;
   height: 35px;
@@ -226,32 +154,6 @@ const Target = styled.div`
   bottom: 5px;
 `;
 
-const Img = styled.img`
-  width: 220px;
-  height: 220px;
-  border-radius: 8px;
-`;
-const AnimalContainer = styled.div`
-  position: relative;
-`;
-
-const BookmarkButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 28px;
-  width: 35px;
-  height: 35px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  outline: none;
-`;
-const EmptyHeartIcon = styled.img`
-  width: 32px;
-  height: 32px;
-`;
-
-const FilledHeartIcon = styled.img`
-  width: 32px;
-  height: 32px;
+const AnimalItemContainer = styled.div`
+  flex: 1 0 30%;
 `;
