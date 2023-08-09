@@ -17,7 +17,9 @@ export default function Header() {
           <NavBar />
         </div>
         <HeaderRight>
-          <Img src="/icons/header/ic_help.svg" alt="help" />
+          <Link to={"/faq"}>
+            <Img src="/icons/header/ic_help.svg" alt="help" />
+          </Link>
           <Notice />
           {/* <Link to={member.token ? "/mypage" : "/login"}> */}
           <Link to={"/mypage"}>
