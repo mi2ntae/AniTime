@@ -15,14 +15,15 @@ export default function DesertionDetail({ readOnly }) {
   const [isOpen, setIsOpen] = useState(false);
   const roomNo = useSelector((state) => state.chatRoom.roomNo);
   const openNotice = async () => {
-    if(roomNo == -1) {
-      await http.post(`chat/room?generalNo=${memberNo}&desertionNo=${desertionNo}`)
-      .then((res) => {
-        dispatch(dispatch(setRoom({roomNo: res.data.roomNo, name: ""})));
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    if (roomNo == -1) {
+      await http
+        .post(`chat/room?generalNo=${memberNo}&desertionNo=${desertionNo}`)
+        .then((res) => {
+          dispatch(dispatch(setRoom({ roomNo: res.data.roomNo, name: "" })));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     setIsOpen(true);
   };
@@ -54,6 +55,13 @@ export default function DesertionDetail({ readOnly }) {
             background: animal.thumbnail
               ? `url(${animal.thumbnail}) no-repeat center/cover`
               : `url("/no_image.png") no-repeat center/cover`,
+          }}
+          onClick={(e) => {
+            window.open(
+              `${animal.thumbnail}`,
+              "Child",
+              "width=500, height=400"
+            );
           }}
         />
         <div className="animal-desc-container">
@@ -124,13 +132,14 @@ export default function DesertionDetail({ readOnly }) {
                 )}
               </button>
               <Link to="/desertion/reservation" style={{ flex: "1" }}>
-                <button className="animal-meet-btn" onClick={()=>{
-                  dispatch(
-                    setShelterNo(
-                      animal.shelterNo
-                    )
-                  );
-                }}>미팅하기</button>
+                <button
+                  className="animal-meet-btn"
+                  onClick={() => {
+                    dispatch(setShelterNo(animal.shelterNo));
+                  }}
+                >
+                  미팅하기
+                </button>
               </Link>
             </div>
           )}
