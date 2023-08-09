@@ -15,6 +15,7 @@ export default function SelectTime() {
   const reservedDate = useSelector((state) => state.reservedDate);
   const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
   const shelterNo = useSelector((state) => state.detailInfo.shelterNo);
+  const [shelter, setShelter] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
@@ -24,6 +25,16 @@ export default function SelectTime() {
     getImpossible();
     setTime("");
   }, [date]);
+  useEffect(() => {
+    http
+      .get(`shelter/${shelterNo}`)
+      .then((res) => {
+        console.log(shelterNo);
+        console.log(res.data);
+        setShelter(res.data);
+      })
+      .catch((err) => {});
+  }, [shelterNo]);
   function getImpossible() {
     http
       .get(
@@ -38,11 +49,7 @@ export default function SelectTime() {
     .map((_, index) => {
       return 9 + index + ":00";
     }); // "9:00" ~ "17:00"이 담긴 배열 생성
-  const shelter = {
-    name: "싸피 보호소",
-    phone: "010-0000-0000",
-    addr: "서울시 강남구 테헤란로 123-45",
-  };
+
   const submitTime = () => {
     if (time === "") {
       alert("시간을 선택해 주세요.");

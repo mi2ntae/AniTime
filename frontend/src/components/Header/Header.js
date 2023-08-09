@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import { styled } from "styled-components";
 import Logo from "./Logo";
 import Notice from "../Notice/Notice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // import { useSelector } from "react-redux";
 
 export default function Header() {
   // const member = useSelector((state) => state.member);
+  const location = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <StyleHeader>
       <HeaderDiv>
