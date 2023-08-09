@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import http from "api/commonHttp";
 import SelectBox from "components/Profile/SelectBox";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -27,6 +27,35 @@ export default function DonationRegist() {
   const [poster, setPoster] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
 
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef(null);
+
+  const formatNumberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    inputRef.current.type = "number";
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    inputRef.current.type = "text";
+  };
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+
+    // 입력값이 int 범위를 초과하면 setGoal을 호출하지 않습니다.
+    if (newValue <= 2147483647 && newValue >= -2147483648) {
+      setGoal(newValue);
+    }
+  };
+
+  const displayValue =
+    isFocused || !goal ? goal : formatNumberWithCommas(goal) + " 원";
+
   let shelter = useSelector((state) => state.member);
 
   const navigate = useNavigate();
@@ -49,10 +78,95 @@ export default function DonationRegist() {
     setPosterName(file.name);
   };
 
+  // 연-월-일 데이터
+  const currentYear = new Date().getFullYear();
   const yearData = [];
-  for (let i = 2023; i >= 2023 - 30; i--) {
+  for (let i = currentYear; i <= currentYear + 30; i++) {
     yearData.push(i);
   }
+  const monthData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const dayDataFor28 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28,
+  ];
+  const dayDataFor29 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29,
+  ];
+  const dayDataFor30 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30,
+  ];
+  const dayDataFor31 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  ];
+  const [sDayData, setSDayData] = useState([]);
+
+  useEffect(() => {
+    if (sDay !== "") {
+      if (
+        (sDay === 30 && sMonth === 2) ||
+        (sDay === 29 && sMonth === 2 && sYear % 4 !== 0)
+      )
+        setSDay("");
+      if (
+        sDay === 31 &&
+        (sMonth === 2 ||
+          sMonth === 4 ||
+          sMonth === 6 ||
+          sMonth === 9 ||
+          sMonth === 11)
+      )
+        setSDay("");
+    }
+    if (sMonth === 2 && sYear % 4 === 0) setSDayData(dayDataFor29);
+    else if (sMonth === 2) setSDayData(dayDataFor28);
+    else if (
+      sMonth === 1 ||
+      sMonth === 3 ||
+      sMonth === 5 ||
+      sMonth === 7 ||
+      sMonth === 8 ||
+      sMonth === 10 ||
+      sMonth === 12
+    )
+      setSDayData(dayDataFor31);
+    else setSDayData(dayDataFor30);
+  }, [sMonth, sYear]);
+  const [eDayData, setEDayData] = useState([]);
+
+  useEffect(() => {
+    if (eDay !== "") {
+      if (
+        (eDay === 30 && eMonth === 2) ||
+        (eDay === 29 && eMonth === 2 && eYear % 4 !== 0)
+      )
+        setEDay("");
+      if (
+        eDay === 31 &&
+        (eMonth === 2 ||
+          eMonth === 4 ||
+          eMonth === 6 ||
+          eMonth === 9 ||
+          eMonth === 11)
+      )
+        setEDay("");
+    }
+    if (eMonth === 2 && eYear % 4 === 0) setEDayData(dayDataFor29);
+    else if (eMonth === 2) setEDayData(dayDataFor28);
+    else if (
+      eMonth === 1 ||
+      eMonth === 3 ||
+      eMonth === 5 ||
+      eMonth === 7 ||
+      eMonth === 8 ||
+      eMonth === 10 ||
+      eMonth === 12
+    )
+      setEDayData(dayDataFor31);
+    else setEDayData(dayDataFor30);
+  }, [eMonth, eYear]);
 
   const [thumbnailurl, setThumbnailUrl] = useState("");
   const thumbnailInputRef = useRef();
@@ -103,15 +217,25 @@ export default function DonationRegist() {
     const board = {
       shelterNo: shelter.memberNo,
       title: title,
-      startAt: sYear + "-" + sMonth + "-" + sDay,
-      endAt: eYear + "-" + eMonth + "-" + eDay,
+      syear: sYear,
+      smonth: sMonth,
+      sday: sDay,
+      eyear: eYear,
+      emonth: eMonth,
+      eday: eDay,
       goalAmount: goal,
     };
 
-    const boardReq = JSON.stringify(board);
     console.log(board);
+
+    const boardReq = board;
     const formData = new FormData();
-    formData.append("donationBoardRegistReq", boardReq);
+    formData.append(
+      `donationBoardRegistReq`,
+      new Blob([JSON.stringify(boardReq)]),
+      { type: "application/json" }
+    );
+
     formData.append("poster", poster);
     formData.append("image", thumbnail);
 
@@ -158,58 +282,43 @@ export default function DonationRegist() {
                 />
               </Row>
               <Row>
+                <InputLabel htmlFor="sDate">
+                  공고시작일<Red>*</Red>
+                </InputLabel>
                 <SelectBox
                   items={yearData}
                   placeholder="연도"
                   setValue={setSYear}
                 />
-              </Row>
-              <Row>
-                <InputLabel htmlFor="sDate">
-                  공고시작일<Red>*</Red>
-                </InputLabel>
-                <Input
-                  type="number"
-                  value={sYear}
-                  id="sDate"
-                  onChange={(e) => setSYear(e.target.value)}
-                  placeholder="연도"
-                />
-                <Input
-                  type="number"
-                  value={sMonth}
-                  onChange={(e) => setSMonth(e.target.value)}
+                <SelectBox
+                  items={monthData}
                   placeholder="월"
+                  setValue={setSMonth}
                 />
-                <Input
-                  type="number"
-                  value={sDay}
-                  onChange={(e) => setSDay(e.target.value)}
+                <SelectBox
+                  items={sDayData}
                   placeholder="일"
+                  setValue={setSDay}
                 />
               </Row>
               <Row>
                 <InputLabel htmlFor="eDate">
                   공고종료일<Red>*</Red>
                 </InputLabel>
-                <Input
-                  type="number"
-                  value={eYear}
-                  id="eDate"
-                  onChange={(e) => setEYear(e.target.value)}
+                <SelectBox
+                  items={yearData}
                   placeholder="연도"
+                  setValue={setEYear}
                 />
-                <Input
-                  type="number"
-                  value={eMonth}
-                  onChange={(e) => setEMonth(e.target.value)}
+                <SelectBox
+                  items={monthData}
                   placeholder="월"
+                  setValue={setEMonth}
                 />
-                <Input
-                  type="number"
-                  value={eDay}
-                  onChange={(e) => setEDay(e.target.value)}
+                <SelectBox
+                  items={eDayData}
                   placeholder="일"
+                  setValue={setEDay}
                 />
               </Row>
               <Row>
@@ -217,10 +326,12 @@ export default function DonationRegist() {
                   목표금액<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="number"
-                  value={goal}
+                  ref={inputRef}
+                  value={displayValue}
                   id="goal"
-                  onChange={(e) => setGoal(e.target.value)}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   placeholder="목표금액"
                 />
               </Row>
