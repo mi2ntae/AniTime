@@ -81,6 +81,7 @@ export default function Desertion() {
           <Filter></Filter>
           <Sort></Sort>
         </FiltersContainer>
+        {animals.length === 0 && "데이터가 없습니다"}
         <ListContainer>
           {animals.map((animal) => (
             <AnimalItemContainer key={animal.desertionNo}>
@@ -114,7 +115,8 @@ const ListFilterContainer = styled.div`
   margin-right: 40px;
   flex: 2;
   flex-direction: column;
-  align-items: end;
+  align-items: stretch;
+  text-align: center;
 `;
 
 const ListContainer = styled.div`
