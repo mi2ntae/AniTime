@@ -27,6 +27,8 @@ export default function Desertion() {
   let sortType = useSelector((state) => state.sortInfo.sortType);
   sort.current = sortType;
 
+  let memberNo = useSelector((state) => state.member.memberNo);
+
   const fetchData = async () => {
     try {
       page.current++;
@@ -64,7 +66,7 @@ export default function Desertion() {
     fetchData();
   }, [kindType, genderType, sortType]);
 
-  const toggleBookmark = (desertionNo) => {
+  const toggleBookmark = async (desertionNo) => {
     setAnimals((prevAnimals) =>
       prevAnimals.map((prevAnimal) =>
         prevAnimal.desertionNo === desertionNo
@@ -72,6 +74,13 @@ export default function Desertion() {
           : prevAnimal
       )
     );
+    await http
+      .post(`desertion/like`, {
+        desertionNo: desertionNo,
+        generalNo: memberNo,
+      })
+      .then()
+      .catch((err) => console.log("에러"));
   };
   function test(desertionNo){
     window.scrollTo({top: 0,
