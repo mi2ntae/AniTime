@@ -16,9 +16,6 @@ import javax.validation.constraints.NotBlank;
 @ApiModel("memberEditReq")
 public class MemberEditReq {
     @NotBlank
-    @ApiModelProperty(name="이름")
-    String name;
-    @NotBlank
     @ApiModelProperty(name="패스워드")
     String password;
 }

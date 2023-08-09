@@ -39,9 +39,17 @@ public class MemberController {
     }
 
     @PutMapping("/{memberNo}")
-    @ApiOperation(value="회원 정보 수정",notes="연습용")
-    public CommonResponse editGeneralMember(@PathVariable("memberNo") int memberNo, @RequestBody @Valid MemberEditReq memberEditReq) throws EditInfoException{
-        memberService.editGeneralMember(memberNo,memberEditReq);
+    @ApiOperation(value="회원 비밀번호 수정")
+    public CommonResponse editGeneralMemberPW(@PathVariable("memberNo") int memberNo, @RequestBody @Valid MemberEditReq memberEditReq) throws EditInfoException{
+        memberService.editGeneralMemberPW(memberNo,memberEditReq);
         return responseService.getSuccessResponse();
     }
+
+    @PutMapping("/check/{memberNo}")
+    @ApiOperation(value="회원 SNS 연동 여부 수정")
+    public CommonResponse editGeneralMemberCheck(@PathVariable("memberNo") int memberNo) throws EditInfoException{
+        memberService.editGeneralMemberCheck(memberNo);
+        return responseService.getSuccessResponse();
+    }
+
 }
