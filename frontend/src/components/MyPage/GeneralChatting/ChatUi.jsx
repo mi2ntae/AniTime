@@ -45,6 +45,11 @@ export default function ChatUi({ width, height }) {
       console.log(payload)
       return [...prev, JSON.parse(payload.body)]
     })
+    const resetReadCnt= async () =>{
+    await http.post( `chat/room?roomNo=${roomNo}&memberNo=/${memberNo}`);
+    }
+
+
   }
 
   if(socket == null && stompClient == null) {
@@ -100,7 +105,7 @@ export default function ChatUi({ width, height }) {
 
   const handleOnKeyDown = (e) => {
     if (e.key === 'Enter') {
-      handleSend(); // Enter 입력이 되면 클릭 이벤트 실행
+      handleSend(); 
     }
   };
 
