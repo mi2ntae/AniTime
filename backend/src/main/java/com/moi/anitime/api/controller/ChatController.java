@@ -2,6 +2,7 @@ package com.moi.anitime.api.controller;
 
 import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.request.chat.ChatMessageReq;
+import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.response.chat.ChatRes;
@@ -43,6 +44,11 @@ public class ChatController {
         return responseService.getListResponse(chatService.enterChatRoom(memberNo, roomNo));
     }
 
-
+    @ApiOperation(value = "채팅 읽음 처리", notes = "채팅방 들어와있는 상태에서 메시지 전부 읽음 처리")
+    @PostMapping("/room/{roomNo}/{memberNo}")
+    public CommonResponse resetReadCnt(@PathVariable("roomNo") int roomNo, @PathVariable("memberNo") int memberNo) {
+        chatService.resetReadCnt(roomNo, memberNo);
+        return responseService.getSuccessResponse();
+    }
 }
 
