@@ -14,4 +14,6 @@ public interface ChatService {
     public ChatRoomInitRes initChatRoom(int generalNo, long desertionNo) throws NonExistDesertionNoException;
     public List<ChatRes> enterChatRoom(int memberNo, int roomNo) throws NonExistDesertionNoException;
     public ChatRes sendChat(ChatMessageReq message);
+
+    void resetReadCnt(int roomNo, int memberNo);
 }
