@@ -1,8 +1,12 @@
 import Logo from "components/Header/Logo";
 import React from "react";
 import { styled } from "styled-components";
+import { useDispatch } from "react-redux";
+import http from "api/commonHttp";
+import { setRoom } from "reducer/chatRoom";
 
-export default function MeetingHeader({ tabOpen, handleTabOpen }) {
+export default function MeetingHeader({ tabOpen, handleTabOpen, meetingNo }) {
+  const dispatch = useDispatch();
   return (
     <Header>
       <Div>
@@ -27,7 +31,16 @@ export default function MeetingHeader({ tabOpen, handleTabOpen }) {
         |
         <Span
           $active={tabOpen.chatTab}
-          onClick={() => handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }))}
+          onClick={() => {
+            http.get(`chat/room/meet/${meetingNo}`)
+            .then((res) => {
+              dispatch(setRoom({roomNo: res.data, name: ""}));
+              handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }))
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+          }}
         >
           채팅 열기
         </Span>
