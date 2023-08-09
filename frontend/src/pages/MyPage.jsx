@@ -22,7 +22,9 @@ export default function MyPage() {
 
   const [boardNo, setBoardNo] = useState("");
   const [showDonationDetail, setShowDonationDetail] = useState(false);
-
+  const updateInfo = () => {
+    window.location.href = "member";
+  };
   const logout = () => {
     let logoutNo = memberNo;
     http
@@ -70,7 +72,9 @@ export default function MyPage() {
             display: "flex",
           }}
         >
-          <Button $border="#E8EBEE 1px solid">정보수정하기</Button>
+          <Button $border="#E8EBEE 1px solid" onClick={updateInfo}>
+            정보수정하기
+          </Button>
           <Button
             onClick={logout}
             $border="#E8EBEE 3px solid"

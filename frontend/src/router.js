@@ -158,6 +158,14 @@ const router = createBrowserRouter([
           };
         },
       },
+      {
+        path: "member",
+        async lazy() {
+          return {
+            Component: (await import("pages/MemberInfoUpdate")).default,
+          };
+        },
+      },
     ],
     errorElement: <ErrorPage />,
   },

@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/ws/chat/**").permitAll()
                 .antMatchers("/api/openvidu/**").permitAll()
+                .antMatchers("/api/swagger-ui/**").permitAll()
                 .antMatchers( "/v3/api-docs","/swagger*/**").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
