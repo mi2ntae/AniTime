@@ -85,6 +85,7 @@ const Blank = styled.span`
 
 const Img = styled.img`
   width: 220px;
+  min-width: 220px;
   height: 220px;
   border-radius: 8px;
 `;
@@ -94,8 +95,8 @@ const AnimalContainer = styled.div`
 
 const BookmarkButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 28px;
+  top: 12px;
+  right: 20px;
   width: 35px;
   height: 35px;
   background-color: transparent;

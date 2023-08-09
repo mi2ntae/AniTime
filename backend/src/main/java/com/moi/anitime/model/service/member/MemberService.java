@@ -24,7 +24,8 @@ public interface MemberService {
 	Member login(MemberLoginReq memberLoginReq) throws NonExistEmailException;
 	Member findGeneralMemberById(int memberNo) throws NonExistMemberNoException;
 	Member findShelterMemberById(int memberNo) throws NonExistMemberNoException;
-	void editGeneralMember(int memberNo, MemberEditReq memberEditReq) throws EditInfoException;
+	void editGeneralMemberPW(int memberNo, MemberEditReq memberEditReq) throws EditInfoException;
+	void editGeneralMemberCheck(int memberNo) throws EditInfoException;
 	List<ShelterMember> findAllShelterMember() throws NonExistMemberNoException;
 	ShelterMember findShelterMemberByName(String name) throws NonExistMemberNoException;
 	Member getMemberByKakaoAccessToken(String code) throws SnsNotConnectedMemberException, NonExistEmailException, IOException;

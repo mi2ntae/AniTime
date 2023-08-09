@@ -130,6 +130,13 @@ public class ExceptionAdvice {
         return responseService.getFailResponse(ExceptionList.FAILED_TO_COUNT_ANIMALS.getCode(), ExceptionList.FAILED_TO_COUNT_ANIMALS.getMessage());
     }
 
+    @ExceptionHandler(EditInfoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse EditInfoException() {
+        log.error("editing info exception");
+        return responseService.getFailResponse(ExceptionList.FAILED_TO_EDIT_INFO.getCode(), ExceptionList.FAILED_TO_EDIT_INFO.getMessage());
+    }
+
     // 제일 아래에 있었으면 합니다 - 민태 -
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
