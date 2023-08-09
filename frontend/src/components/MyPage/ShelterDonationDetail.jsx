@@ -3,7 +3,7 @@ import http from "api/commonHttp";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
-import { Button } from "styled/styled";
+import { Button } from "@mui/material";
 
 export default function ShelterDonationDetail({ boardNo }) {
   const [contents, setContents] = useState([]);
@@ -52,9 +52,9 @@ export default function ShelterDonationDetail({ boardNo }) {
         <TabTitle>후원 현황</TabTitle>
         <Button
           style={{
-            backgroundColor: "#3994F0",
+            padding: "8px 16px",
+            backgroundColor: "#3994f0",
             color: "white",
-            padding: "10px 16px",
             fontSize: "14px",
             fontWeight: 700,
             borderRadius: "12px",
