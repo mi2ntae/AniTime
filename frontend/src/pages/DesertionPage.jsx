@@ -118,11 +118,17 @@ const ListFilterContainer = styled.div`
 `;
 
 const ListContainer = styled.div`
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  justify-items: center;
+  justify-content: space-between;
+  /* display: flex; */
   flex-grow: 2;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
+  /* flex-wrap: wrap; */
+  /* justify-content: flex-start; */
+  /* align-content: flex-start; */
   height: 700px;
   overflow-y: scroll;
   text-align: center;
