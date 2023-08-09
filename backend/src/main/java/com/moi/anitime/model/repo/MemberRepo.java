@@ -29,8 +29,13 @@ public interface MemberRepo extends JpaRepository<Member, Integer> {
     public ShelterMember findShelterMemberByNameAndMemberKind(@Param("name")String name, @Param("memberKind") int kind );
     @Transactional
     @Modifying
-    @Query("UPDATE Member m SET m.password = :password,m.name = :name WHERE m.memberNo=:memberNo")
-    public void updateMemberByMemberNo(@Param("memberNo") int memberNo,@Param("password") String password,@Param("name") String name);
+    @Query(value = "UPDATE Member m SET m.password = :password WHERE m.memberNo=:memberNo",nativeQuery = true)
+    public void updateGeneralMemberPWByMemberNo(@Param("memberNo") int memberNo,@Param("password") String password);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Member m SET m.snsToken = 1 WHERE m.memberNo=:memberNo",nativeQuery = true)
+    public void updateGeneralMemberCheckByMemberNo(@Param("memberNo") int memberNo);
 
     @Modifying
     @Query(value = "updateSnsTokenByMemberNo", nativeQuery = true)
