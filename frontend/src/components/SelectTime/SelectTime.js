@@ -14,7 +14,7 @@ export default function SelectTime() {
   const generalNo = useSelector((state) => state.member.memberNo);
   const reservedDate = useSelector((state) => state.reservedDate);
   const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
-  const shelterNo = 1;
+  const shelterNo = useSelector((state) => state.detailInfo.shelterNo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());

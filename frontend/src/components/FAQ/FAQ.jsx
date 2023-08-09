@@ -1,5 +1,6 @@
 import styled,{keyframes} from "styled-components";
 import { useEffect, useState } from "react";
+import { MainContainer } from "styled/styled";
 export default function FAQ() {
   const faq = [
     { question: "입양 신청자 쪽 카메라를 켜야 하는 이유가 있나요?", answer: "저희는 동물을 보호할 수 있는 환경을 갖춘 보호자를 찾고 있습니다. 따라서, 입양 신청자의 자택 환경 확인을 위해 화면 상으로 확인하는 과정이 요구됩니다." },
@@ -22,8 +23,20 @@ export default function FAQ() {
     return;
   };
   return (
-    <PageContainer>
-      <div class="title"><div>자주 묻는 질문</div></div>
+    <MainContainer
+    style={{
+      display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+    }}>
+      <div class="title"
+      style={{
+        width:"1000px",
+    fontSize:"32px",
+    textAlign:"left",
+    margin:"40px 0",
+      }}><div>자주 묻는 질문</div></div>
       {faq.map((v, i) => (<ItemContainer>
           <QuestionContainer key={i}>
             <div>{i+1}&nbsp;&nbsp;{v.question}</div>
@@ -41,22 +54,11 @@ export default function FAQ() {
         </ItemContainer>)
         
       )}
-    </PageContainer>
+    </MainContainer>
   );
 }
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .title{
-    width:1000px;
-    font-size:32px;
-    text-align:left;
-    margin:40px 0;
-  }
-`;
+
 const ItemContainer = styled.div`
 font-size:14px;
 border-top:1px solid #E8EBEE;
