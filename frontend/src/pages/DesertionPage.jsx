@@ -73,7 +73,12 @@ export default function Desertion() {
       )
     );
   };
-
+  function test(desertionNo){
+    window.scrollTo({top: 0,
+      left: 0,
+      behavior: "smooth",});
+    dispatch(setDesertionNo(desertionNo));
+  }
   return (
     <HorizontalContainer>
       <ListFilterContainer>
@@ -88,7 +93,7 @@ export default function Desertion() {
               <AnimalItem
                 animal={animal}
                 // AnimalImg onClick
-                handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
+                handleClick={()=>test(animal.desertionNo)}
                 // BookmarkButton onClick
                 handleBookmark={() => toggleBookmark(animal.desertionNo)}
               />
