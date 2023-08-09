@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
-// import http from "api/commonHttp";
-// import { useRef, useState } from "react";
+import http from "api/commonHttp";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import {
   WriteContainer,
   WriteTitle,
@@ -14,18 +14,30 @@ import {
 } from "styled/styled";
 
 export default function DonationRegist() {
-  //   const [title, setTitle] = useState("");
-  //   const [sYear, setSYear] = useState("");
-  //   const [sMonth, setSMonth] = useState("");
-  //   const [sDay, setSDay] = useState("");
-  //   const [eYear, setEYear] = useState("");
-  //   const [eMonth, setEMonth] = useState("");
-  //   const [eDay, setEDay] = useState("");
-  //   const [goal, setGoal] = useState("");
-  //   //   const [poster, setPoster] = useState(null);
-  //   const [thumbnail, setThumbnail] = useState(null);
+  let generalNo = useSelector((state) => state.member.memberNo);
+  console.log(generalNo);
+  const [general, setgeneral] = useState({
+    email: "",
+    memberKind: 0,
+    memberNo: 0,
+    name: "",
+    password: "",
+    phone: "",
+    snsCheck: false,
+    snsToken: "",
+  });
+  const [password, setPassword] = useState(general.password);
+  const [passwordCheck, setPasswordCheck] = useState("");
 
-  let general = useSelector((state) => state.member);
+  const navi = useNavigate();
+  useEffect(() => {
+    http.get(`/member/${generalNo}`).then((res) => {
+      setgeneral(res.data);
+      setPassword(res.data.password);
+    });
+  }, []);
+  console.log(general);
+  // console.log(password);
 
   //   const navigate = useNavigate();
 
@@ -47,32 +59,58 @@ export default function DonationRegist() {
   //     setPosterName(file.name);
   //   };
 
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (password === "" || general.password === password) {
+      navi("/");
+      return;
+    }
+    if (password !== passwordCheck) {
+      alert("비밀번호가 다릅니다 다시 확인해주세요");
+      return;
+    }
 
-  //     if (title === "") {
-  //       alert("공고 제목은 필수 입력 사항입니다.");
-  //       return;
-  //     }
-  //     if (sYear === "" || sMonth == "" || sDay == "") {
-  //       alert("공고 시작일은 필수 입력 사항입니다.");
-  //       return;
-  //     }
-  //     if (eYear === "" || eMonth == "" || eDay == "") {
-  //       alert("공고 종료일은 필수 입력 사항입니다.");
-  //       return;
-  //     }
-  //     if (goal === "") {
-  //       alert("목표 금액은 필수 입력 사항입니다.");
-  //       return;
-  //     }
-  //     if (poster === "") {
-  //       alert("포스터 이미지는 필수 입력 사항입니다.");
-  //       return;
-  //     }
+    http
+      .put(`member/${general.memberNo}`, {
+        password: password,
+      })
+      .then((res) => {
+        navi("/");
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("회원 정보 수정에 실패 했습니다. 다시 시도해 주세요");
+      });
+  };
+
+  const handelSns = (e) => {
+    e.preventDefault();
+    http.put(`member/check/${generalNo}`).then(() => {
+      alert("SNS연동이 되었습니다!");
+      navi("/");
+      return;
+    });
+  };
+  //   if (sYear === "" || sMonth == "" || sDay == "") {
+  //     alert("공고 시작일은 필수 입력 사항입니다.");
+  //     return;
+  //   }
+  //   if (eYear === "" || eMonth == "" || eDay == "") {
+  //     alert("공고 종료일은 필수 입력 사항입니다.");
+  //     return;
+  //   }
+  //   if (goal === "") {
+  //     alert("목표 금액은 필수 입력 사항입니다.");
+  //     return;
+  //   }
+  //   if (poster === "") {
+  //     alert("포스터 이미지는 필수 입력 사항입니다.");
+  //     return;
+  //   }
 
   //     const board = {
-  //       shelterNo: general.memberNo,
+  //       shelterNo: generalNo,
   //       title: title,
   //       startAt: sYear + "-" + sMonth + "-" + sDay,
   //       endAt: eYear + "-" + eMonth + "-" + eDay,
@@ -96,11 +134,19 @@ export default function DonationRegist() {
   //         navigate("/mypage");
   //       })
   //       .catch((error) => console.log(error));
-  //   };
   return (
     <MainContainer>
       <WriteContainer>
-        <h2 style={{ textAlign: "left", margin: 0 }}>회원정보수정</h2>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h2 style={{ textAlign: "left", margin: 0 }}>회원정보수정</h2>
+          <Button
+            style={{
+              color: "red",
+            }}
+          >
+            탈퇴하기
+          </Button>
+        </div>
         <div
           style={{
             fontSize: "14px",
@@ -110,6 +156,7 @@ export default function DonationRegist() {
           }}
         >
           <Red>*</Red>
+
           <span className="darkgrey">는 필수 입력 항목입니다</span>
         </div>
         <form>
@@ -120,71 +167,66 @@ export default function DonationRegist() {
                 <InputLabel htmlFor="title">
                   이름<Red>*</Red>
                 </InputLabel>
-                <Input
-                  type="text"
-                  id="title"
-                  placeholder={general.member.name}
-                />
+                <Input type="text" id="title" value={general.name} readOnly />
               </Row>
               <Row>
                 <InputLabel htmlFor="sDate">
-                  공고시작일<Red>*</Red>
+                  이메일<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="number"
-                  //   value={sYear}
+                  type="text"
+                  value={general.email}
                   id="sDate"
                   //   onChange={(e) => setSYear(e.target.value)}
                   placeholder="연도"
                 />
+              </Row>
+              <Row>
+                <InputLabel htmlFor="goal">
+                  휴대폰 번호<Red>*</Red>
+                </InputLabel>
                 <Input
                   type="number"
-                  //   value={sMonth}
-                  //   onChange={(e) => setSMonth(e.target.value)}
-                  placeholder="월"
-                />
-                <Input
-                  type="number"
-                  //   value={sDay}
-                  //   onChange={(e) => setSDay(e.target.value)}
-                  placeholder="일"
+                  value={general.phone}
+                  id="goal"
+                  //   onChange={(e) => setGoal(e.target.value)}
+                  // placeholder=""
+                  readOnly
                 />
               </Row>
               <Row>
                 <InputLabel htmlFor="eDate">
-                  공고종료일<Red>*</Red>
+                  비밀번호<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="number"
+                  type="password"
                   //   value={eYear}
                   id="eDate"
-                  //   onChange={(e) => setEYear(e.target.value)}
-                  placeholder="연도"
-                />
-                <Input
-                  type="number"
-                  //   value={eMonth}
-                  //   onChange={(e) => setEMonth(e.target.value)}
-                  placeholder="월"
-                />
-                <Input
-                  type="number"
-                  //   value={eDay}
-                  //   onChange={(e) => setEDay(e.target.value)}
-                  placeholder="일"
+                  value={password}
+                  onFocus={(e) => setPassword("")}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Row>
               <Row>
                 <InputLabel htmlFor="goal">
-                  목표금액<Red>*</Red>
+                  비밀번호 확인<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="number"
-                  //   value={goal}
+                  type="text"
                   id="goal"
-                  //   onChange={(e) => setGoal(e.target.value)}
-                  placeholder="목표금액"
+                  value={passwordCheck}
+                  onFocus={(e) => setPasswordCheck("")}
+                  onChange={(e) => setPasswordCheck(e.target.value)}
                 />
+              </Row>
+
+              <Row>
+                <InputLabel htmlFor="goal">
+                  카카오 연동<Red>*</Red>
+                </InputLabel>
+                <Button onClick={handelSns}>
+                  <img src="kakao_login_medium_wide.png" alt="버튼X" />
+                </Button>
               </Row>
             </div>
           </div>
@@ -201,6 +243,7 @@ export default function DonationRegist() {
                 fontWeight: "700",
                 border: "none",
               }}
+              onClick={handleSubmit}
             >
               후원 공고 등록
             </Button>
