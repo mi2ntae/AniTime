@@ -239,8 +239,8 @@ const AnimalContainer = styled.div`
 
 const BookmarkButton = styled.button`
   position: absolute;
-  top: 8px;
-  right: 40px;
+  top: 12px;
+  right: 20px;
   width: 35px;
   height: 35px;
   background-color: transparent;

@@ -15,6 +15,7 @@ export default function ChattingList() {
   const memberNo = useSelector((state) => state.member.memberNo);
   
   const [chatList, setChatList] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   // const dispatch = useDispatch();
 
@@ -29,6 +30,8 @@ export default function ChattingList() {
     })
   }, []);
   
+
+
   return (
     <>
       <Box
@@ -52,15 +55,18 @@ export default function ChattingList() {
           </Text>
         </Box>
         <Box2>
-          {chatList.map((item) => (
+          {chatList.map((item, idx) => (
             <ChatPreview key={item.roomNo} onClick={() => {dispatch(setRoom({roomNo: item.roomNo, name: item.name}));
+            setActiveIndex(idx);
             const updatedChatList = chatList.map(chatRoom => {
               if (chatRoom.roomNo === item.roomNo) {
                 return { ...chatRoom, unreadCnt: 0 };
               }
               return chatRoom;
             });
-            setChatList(updatedChatList);}}>
+            setChatList(updatedChatList);}} 
+            className={activeIndex=== idx ? "active" : ""}
+            >
               <Div>
                 <ShelterName>{item.name}</ShelterName>
               </Div>
@@ -250,6 +256,17 @@ const ChatPreview = styled.div`
   border-radius: 10px;
   align-content: center;
   jusify-content: center;
+  &:hover{
+    background-color: #ccc;
+  }
+  &.active{
+    background-color: #e1f0ff;
+    border: 2px solid #3994f0;
+    &:hover{
+      background-color: #ccc;
+    }
+  }
+
 `;
 const Box2 = styled.div`
   flex: 1;
