@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import Modal from "components/Modal/Modal";
 import { setRoom } from "reducer/chatRoom";
+import { setShelterNo } from "reducer/detailInfo";
 
 export default function DesertionDetail({ readOnly }) {
   const dispatch = useDispatch();
@@ -123,7 +124,13 @@ export default function DesertionDetail({ readOnly }) {
                 )}
               </button>
               <Link to="/desertion/reservation" style={{ flex: "1" }}>
-                <button className="animal-meet-btn">미팅하기</button>
+                <button className="animal-meet-btn" onClick={()=>{
+                  dispatch(
+                    setShelterNo(
+                      animal.shelterNo
+                    )
+                  );
+                }}>미팅하기</button>
               </Link>
             </div>
           )}

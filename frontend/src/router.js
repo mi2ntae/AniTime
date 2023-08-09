@@ -65,6 +65,10 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "faq",
+        element: <FAQ />,
+      },
+      {
         path: "desertion",
         async lazy() {
           return {
@@ -166,6 +170,14 @@ const router = createBrowserRouter([
           };
         },
       },
+      {
+        path: "member",
+        async lazy() {
+          return {
+            Component: (await import("pages/MemberInfoUpdate")).default,
+          };
+        },
+      },
     ],
     errorElement: <ErrorPage />,
   },
@@ -185,15 +197,6 @@ const router = createBrowserRouter([
       };
     },
   },
-  // {
-  //   path: "/faq",
-  //   async lazy() {
-  //     return {
-  //       Component: (await import("pages/FAQ")).default,
-  //     };
-  //   },
-  // },
-  { path: "/faq", element: <FAQ /> },
 ]);
 
 export default router;
