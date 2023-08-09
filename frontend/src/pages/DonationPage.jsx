@@ -4,6 +4,7 @@ import { MainContainer } from "styled/styled";
 import http from "api/commonHttp";
 import { keyframes, styled } from "styled-components";
 import { useNavigate } from "react-router";
+import SelectSearchType from "components/Donation/SelectSearchType";
 
 export default function DonationPage() {
   const [searchType, setSearchType] = useState("title");
@@ -21,6 +22,7 @@ export default function DonationPage() {
   };
 
   // 셀렉박스 관련
+  const searchTypeData = ["제목", "보호소명"];
 
   useEffect(() => {
     http.get(`donation`).then((response) => {
@@ -61,7 +63,11 @@ export default function DonationPage() {
               : { border: "1px solid #caced3" }
           }
         >
-          셀렉박스
+          <SelectSearchType
+            items={searchTypeData}
+            placeholder="제목"
+            setValue={setSearchType}
+          />
           <img src="search_line.png" />
           <input
             type="text"
@@ -74,9 +80,17 @@ export default function DonationPage() {
               boxSizing: "border-box",
               width: "100%",
               maxWidth: "464px",
+              fontSize: "16px",
+              fontWeight: 400,
+              color: "#35383b",
+              paddingLeft: "24px",
+              "::placeholder": {
+                color: "#A7AEB4",
+              },
             }}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            placeholder="검색어를 입력해주세요."
           />
         </SearchInput>
         <SearchBtn type="submit">
@@ -233,6 +247,9 @@ const SearchBtn = styled.button`
   font-size: 16px;
   font-weight: 500;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Content = styled.div`
