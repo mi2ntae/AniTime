@@ -7,6 +7,7 @@ import com.moi.anitime.api.response.ListResponse;
 import com.moi.anitime.api.response.SingleResponse;
 import com.moi.anitime.api.response.chat.ChatRes;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
+import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.model.entity.chat.ChatMessage;
 import com.moi.anitime.model.service.chat.ChatService;
 import io.swagger.annotations.Api;
@@ -36,6 +37,12 @@ public class ChatController {
     @PostMapping("/room")
     public SingleResponse initChatRoom(@RequestParam("generalNo") int generalNo, @RequestParam("desertionNo") long desertionNo) throws NonExistDesertionNoException {
         return responseService.getSingleResponse(chatService.initChatRoom(generalNo, desertionNo));
+    }
+
+    @ApiOperation(value = "미팅에서 채팅방 생성 및 조회", notes = "미팅에서 채팅방 생성 및 조회")
+    @GetMapping("/room/meet/{meetNo}")
+    public SingleResponse getChatNoByMeeting(@PathVariable("meetNo") int meetNo) throws NonExistMeetNoException {
+        return responseService.getSingleResponse(chatService.getChatNoByMeeting(meetNo));
     }
 
     @ApiOperation(value = "채팅 내역 조회", notes = "채팅방 번호로 채팅 내역 조회")

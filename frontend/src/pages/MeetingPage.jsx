@@ -197,7 +197,7 @@ export default function MeetingPage() {
 
   return (
     <Div>
-      <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} />
+      <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} meetingNo={meetingNo}/>
       {openvidu.session ? (
         <MainDiv>
           <VideoDiv>
@@ -225,8 +225,8 @@ export default function MeetingPage() {
               <TabDiv hidden={!tabOpen.profileTab}>
                 <DesertionDetail />
               </TabDiv>
-              <TabDiv hidden={!tabOpen.chatTab}>
-                <ChatUi />
+              <TabDiv hidden={!tabOpen.chatTab} style={{overflow:"hidden"}} >
+                <ChatUi height={"100%"}/>
               </TabDiv>
             </SideDiv>
           )}

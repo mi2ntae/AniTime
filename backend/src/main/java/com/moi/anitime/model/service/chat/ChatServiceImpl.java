@@ -6,15 +6,16 @@ import com.moi.anitime.api.response.chat.ChatRoomInitRes;
 import com.moi.anitime.api.response.chat.ChatRoomListRes;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
+import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.entity.chat.ChatMessage;
 import com.moi.anitime.model.entity.chat.ChatRoom;
+import com.moi.anitime.model.entity.meeting.Meeting;
+import com.moi.anitime.model.entity.member.GeneralMember;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.MemberKind;
-import com.moi.anitime.model.repo.AnimalRepo;
-import com.moi.anitime.model.repo.ChatMessageRepo;
-import com.moi.anitime.model.repo.ChatRoomRepo;
-import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.model.entity.member.ShelterMember;
+import com.moi.anitime.model.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class ChatServiceImpl implements ChatService {
 	private final ChatMessageRepo chatMessageRepo;
 	private final AnimalRepo animalRepo;
 	private final MemberRepo memberRepo;
+	private final MeetingRepo meetingRepo;
 
 	private final String FIRST_MESSAGE = "유기번호 :  ";
 	private final String LAST_MESSAGE = " 의 채팅이 시작되었습니다.";
@@ -120,5 +122,26 @@ public class ChatServiceImpl implements ChatService {
 	@Transactional
 	public void resetReadCnt(int roomNo, int memberNo) {
 		chatMessageRepo.updateChatMessagesRead(roomNo, memberNo);
+	}
+
+	@Override
+	public int getChatNoByMeeting(int meetNo) throws NonExistMeetNoException{
+		Optional<Meeting> tmpMeet = meetingRepo.findById(meetNo);
+		if(!tmpMeet.isPresent()) throw new NonExistMeetNoException();
+		Meeting meet = tmpMeet.get();
+		int generalNo = meet.getMember().getMemberNo();
+		int shelterNo = meet.getAnimal().getShelterNo();
+		Optional<ChatRoom> tmpRoom = chatRoomRepo.findChatRoomByGeneralMember_MemberNoAndShelterMember_MemberNo(generalNo, shelterNo);
+		ChatRoom room = null;
+		if(!tmpRoom.isPresent()) {
+			Member generalMember = memberRepo.getReferenceById(generalNo);
+			Member shelterMember = memberRepo.getReferenceById(shelterNo);
+			ChatRoom newRoom = ChatRoom.builder()
+					.generalMember(generalMember)
+					.shelterMember(shelterMember)
+					.build();
+			room = chatRoomRepo.save(newRoom);
+		} else room = tmpRoom.get();
+		return room.getRoomNo();
 	}
 }
