@@ -57,6 +57,12 @@ export default function DonationRegist() {
     isFocused || !goal ? goal : formatNumberWithCommas(goal) + " 원";
 
   let shelter = useSelector((state) => state.member);
+  useEffect(() => {
+    if (shelter.memberKind === 0) {
+      alert("잘못된 접근입니다.");
+      navigate("/donation");
+    }
+  }, []);
 
   const navigate = useNavigate();
 

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export default function ProfileDetail() {
   const [modal, setModal] = useState(false);
@@ -71,11 +72,11 @@ export default function ProfileDetail() {
           ))}
           <div className="profile-btn-container">
             <Link to="/missing/update" style={{ flex: "1" }}>
-              <button className="profile-edit-btn">수정</button>
+              <Button className="profile-edit-btn">수정</Button>
             </Link>
-            <button className="profile-del-btn" onClick={() => setModal(true)}>
+            <Button className="profile-del-btn" onClick={() => setModal(true)}>
               삭제
-            </button>
+            </Button>
           </div>
         </div>
         {modal && <Modal setModal={setModal} handleDelClick={handleDelClick} />}
@@ -170,6 +171,10 @@ export default function ProfileDetail() {
 
           height: 50px;
           flex: 1;
+
+          &:hover {
+            background-color: #fff9f9; /* 호버 시 배경색 변경 */
+          }
         }
         .overlay {
           position: fixed;
