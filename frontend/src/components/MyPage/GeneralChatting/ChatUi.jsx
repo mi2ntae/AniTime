@@ -39,17 +39,24 @@ export default function ChatUi({ width, height }) {
     console.log("stomp error")
   }
   
+  const resetReadCnt = async () => {
+    await http.post(`chat/room/${roomNo}/${memberNo}`)
+    .then((res) => {
+      console.log("Reset UnreadCnt When ChatRoom Activated");
+    })
+    .catch((err) => {
+      console.log("resetErr");
+    })
+  }
+  
+
   const onMessageReceived = (payload) => {
     console.log("messageReceive")
     setMessages((prev) => {
       console.log(payload)
       return [...prev, JSON.parse(payload.body)]
-    })
-    const resetReadCnt= async () =>{
-    await http.post( `chat/room?roomNo=${roomNo}&memberNo=/${memberNo}`);
-    }
-
-
+    });
+    resetReadCnt();
   }
 
   if(socket == null && stompClient == null) {
