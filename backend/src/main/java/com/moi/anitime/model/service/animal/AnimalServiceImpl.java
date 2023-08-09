@@ -93,7 +93,7 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
     @Override
-    public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile) throws ListLoadingException {
+    public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile, int curPageNo) throws ListLoadingException {
         // 프로필에서 가져와야하는 정보는?
         System.out.println(profile);
         String data = profile.getDate(); // lost date
@@ -104,7 +104,7 @@ public class AnimalServiceImpl implements AnimalService{
         float lon = profile.getLon();
         float lat = profile.getLat();
         //List<Animal> findAnimalByRecommand(String ,String ,String profileKind,String detailKind, float proweight, float proLon, float proLat);
-        List<Animal> animalList = animalRepo.findAnimalByRecommand(data, gender,profileKind,detailKind,weight,lon,lat);
+        List<Animal> animalList = animalRepo.findAnimalByRecommand(data, gender,profileKind,detailKind,weight,lon,lat, PageRequest.of(curPageNo, 9));
 
         List<AnimalPreviewRes> animalListres = animalList.stream()
                 .map(animal -> {

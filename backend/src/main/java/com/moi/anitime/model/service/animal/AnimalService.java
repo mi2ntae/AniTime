@@ -19,6 +19,6 @@ public interface AnimalService {
 
     public void dataUpdate(List<Animal> animalList);
 
-    public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile)throws ListLoadingException;
+    public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile, int curPageNo)throws ListLoadingException;
 
 }

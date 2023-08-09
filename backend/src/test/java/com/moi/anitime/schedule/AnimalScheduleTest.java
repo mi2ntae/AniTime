@@ -47,14 +47,14 @@ class AnimalScheduleTest {
         ProfileRes profileInfo = profileService.findProfileByIdSystem(2);
         System.out.println(profileInfo.toString());
         //필요한 정보를 profileService에 전달해준다.
-        List<AnimalPreviewRes> tmp = animalService.getAnimalRecommand(profileInfo);
+        List<AnimalPreviewRes> tmp = animalService.getAnimalRecommand(profileInfo, 0);
         System.out.println(tmp.size());
         for(AnimalPreviewRes a : tmp){
             System.out.println(a.toString());
         }
         System.out.println("@!#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
-        System.out.println(responseService.getListResponse(animalService.getAnimalRecommand(profileInfo)));
+        System.out.println(responseService.getListResponse(animalService.getAnimalRecommand(profileInfo, 0)));
 //        System.out.println(responseService.getListResponse());
 //        System.out.println(responseService.getListResponse)
     }
