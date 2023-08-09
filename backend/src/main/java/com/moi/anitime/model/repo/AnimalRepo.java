@@ -27,12 +27,12 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     //select * from animal where DATEDIFF(date_format(:a,"%Y-%m-%d"),date_format(animal.finddate,"%Y-%m-%d")) between 0 and 10 and abs(animal.weight-10) <2.5;
     //select * from animal where DATEDIFF(date_format("2023-07-25","%Y-%m-%d"),date_format(animal.finddate,"%Y-%m-%d")) between 0 and 10;
 
-    @Query(value = "select * from animal where DATEDIFF(date_format(:prodate,'%Y-%m-%d'),date_format(findDate,'%Y-%m-%d')) " +
+    @Query(value = "select * from animal where DATEDIFF(date_format(findDate,'%Y-%m-%d'),date_format(:prodate,'%Y-%m-%d')) " +
             "between 0 and 30 and abs(:proweight-weight) <2.5 " +
-            "and sexcd not like :sexcd and kind not like :profileKind and processState not like '종료%' " +
-            "and ST_Distance_Sphere(POint(:proLon,:proLat), POINT(longitude, latitude) < 8000 " +
+            "and sexcd not like :sexcd and kind like :profileKind and processState not like '종료%' " +
+            "and ST_Distance_Sphere(Point(:proLon,:proLat), POINT(lon, lat)) < 8000 " +
             "and kind like :detailKind "+
-            "order by DATEDIFF(date_format(:date,'%Y-%m-%d'),date_format(findDate,'%Y-%m-%d')) asc",nativeQuery = true)
+            "order by DATEDIFF(date_format(:prodate,'%Y-%m-%d'),date_format(findDate,'%Y-%m-%d')) asc",nativeQuery = true)
     public List<Animal> findAnimalByRecommand(String prodate,String sexcd,String profileKind,String detailKind, float proweight, float proLon, float proLat);
     public Optional<Animal> findAnimalByDesertionNo(@Param("desertioNo") long no);
 }

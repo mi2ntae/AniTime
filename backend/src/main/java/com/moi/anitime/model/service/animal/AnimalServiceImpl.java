@@ -95,6 +95,7 @@ public class AnimalServiceImpl implements AnimalService{
     @Override
     public List<AnimalPreviewRes> getAnimalRecommand(ProfileRes profile) throws ListLoadingException {
         // 프로필에서 가져와야하는 정보는?
+        System.out.println(profile);
         String data = profile.getDate(); // lost date
         String gender = profile.getGender().equals("F") ? "M" : "F";
         String profileKind = "[" + profile.getProfileKind() + "]%";
