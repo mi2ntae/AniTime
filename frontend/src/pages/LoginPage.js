@@ -41,7 +41,9 @@ export default function LoginPage() {
         dispatch(setMember(res));
         navi("/");
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const kakaoLogin = async () => {
