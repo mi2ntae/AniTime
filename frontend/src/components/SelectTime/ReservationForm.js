@@ -17,7 +17,7 @@ export default function ReservationForm() {
   const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
   //객체를 그냥 name:"asdf",phone:"000" 형태로 할까?
-  const inquiryTop = ["이름", "전화번호", "이메일", "주소"];
+  const inquiryTop = ["이름", "전화번호", "이메일", "주소", "가족 구성원"];
   const inquiryBottom = ["1. 질문1", "2. 질문2", "3. 질문3"];
   const [inputTop, setInputTop] = useState({});
   const [inputBottom, setInputBottom] = useState({});
