@@ -11,10 +11,10 @@ import {
   Row,
   InputLabel,
   Input,
-  Poster,
   Red,
   MainContainer,
 } from "styled/styled";
+import SelectBox from "components/Profile/SelectBox";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
@@ -36,27 +36,29 @@ export default function MissingRegistPage() {
   const [imageurl, setImageurl] = useState(null);
 
   // select box 클릭시 border 생기는 처리
-  const [kindBoxClicked, setKindBoxClicked] = useState(false);
-  const [yearBoxClicked, setYearBoxClicked] = useState(false);
-  const [monthBoxClicked, setMonthBoxClicked] = useState(false);
-  const [dayBoxClicked, setDayBoxClicked] = useState(false);
-  // select box 이외의 영역 클릭시 닫히는 처리
-  const kindBoxClose = useRef();
-  const yearBoxClose = useRef();
-  const monthBoxClose = useRef();
-  const dayBoxClose = useRef();
-  const selectBoxCloseHandler = ({ target }) => {
-    if (!kindBoxClose.current.contains(target)) setKindBoxClicked(false);
-    if (!yearBoxClose.current.contains(target)) setYearBoxClicked(false);
-    if (!monthBoxClose.current.contains(target)) setMonthBoxClicked(false);
-    if (!dayBoxClose.current.contains(target)) setDayBoxClicked(false);
-  };
-  useEffect(() => {
-    window.addEventListener("click", selectBoxCloseHandler);
-    return () => {
-      window.removeEventListener("click", selectBoxCloseHandler);
-    };
-  });
+  // const [kindBoxClicked, setKindBoxClicked] = useState(false);
+  // const [yearBoxClicked, setYearBoxClicked] = useState(false);
+  // const [monthBoxClicked, setMonthBoxClicked] = useState(false);
+  // const [dayBoxClicked, setDayBoxClicked] = useState(false);
+  // // select box 이외의 영역 클릭시 닫히는 처리
+  // const kindBoxClose = useRef();
+  // const yearBoxClose = useRef();
+  // const monthBoxClose = useRef();
+  // const dayBoxClose = useRef();
+  // const selectBoxCloseHandler = ({ target }) => {
+  //   if (!kindBoxClose.current.contains(target)) setKindBoxClicked(false);
+  //   if (!yearBoxClose.current.contains(target)) setYearBoxClicked(false);
+  //   if (!monthBoxClose.current.contains(target)) setMonthBoxClicked(false);
+  //   if (!dayBoxClose.current.contains(target)) setDayBoxClicked(false);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("click", selectBoxCloseHandler);
+  //   return () => {
+  //     window.removeEventListener("click", selectBoxCloseHandler);
+  //   };
+  // });
+
+  const kindData = ["개", "고양이"];
 
   // 연-월-일 데이터
   const currentYear = new Date().getFullYear();
@@ -112,7 +114,7 @@ export default function MissingRegistPage() {
       month === 12
     )
       setDayData(dayDataFor31);
-    else setDayData(dayDataFor31);
+    else setDayData(dayDataFor30);
   }, [month, year]);
 
   // 위치검색 모달 띄우는 여부
@@ -290,39 +292,10 @@ export default function MissingRegistPage() {
                   품종<Red>*</Red>
                 </InputLabel>
                 <SelectBox
-                  onClick={() => setKindBoxClicked(!kindBoxClicked)}
-                  style={
-                    kindBoxClicked
-                      ? { border: "1px solid var(--primary, #3994f0)" }
-                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
-                  }
-                  ref={kindBoxClose}
-                >
-                  <Selected>
-                    <SelectedValue
-                      style={
-                        category === ""
-                          ? { color: "var(--grey-2, #A7AEB4)" }
-                          : { color: "color: var(--blackgrey, #35383B)" }
-                      }
-                    >
-                      {category === "" ? "축종" : category}
-                    </SelectedValue>
-                    <div style={{ marginRight: 16 }}>
-                      <img src="/icons/ic_arrow_select.svg" />
-                    </div>
-                  </Selected>
-                  {kindBoxClicked && (
-                    <OptionBox>
-                      <OptionElement onClick={() => setCategory("개")}>
-                        개
-                      </OptionElement>
-                      <OptionElement onClick={() => setCategory("고양이")}>
-                        고양이
-                      </OptionElement>
-                    </OptionBox>
-                  )}
-                </SelectBox>
+                  items={kindData}
+                  placeholder="품종"
+                  setValue={setCategory}
+                />
                 <Input
                   type="text"
                   value={kind}
@@ -340,8 +313,8 @@ export default function MissingRegistPage() {
                     id="F"
                     name="gender"
                     value="F"
-                    onChange={(e) => setGender(e.target.value)}
-                    checked="checked"
+                    onChange={(e) => setGender((prev) => e.target.value)}
+                    checked={gender === "F"}
                   />
                   <label htmlFor="F">암컷</label>
                   <input
@@ -349,7 +322,8 @@ export default function MissingRegistPage() {
                     id="M"
                     name="gender"
                     value="M"
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={(e) => setGender((prev) => e.target.value)}
+                    checked={gender === "M"}
                   />
                   <label htmlFor="M">수컷</label>
                 </RadioBox>
@@ -391,104 +365,16 @@ export default function MissingRegistPage() {
                   실종일<Red>*</Red>
                 </InputLabel>
                 <SelectBox
-                  onClick={() => setYearBoxClicked(!yearBoxClicked)}
-                  style={
-                    yearBoxClicked
-                      ? { border: "1px solid var(--primary, #3994f0)" }
-                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
-                  }
-                  ref={yearBoxClose}
-                >
-                  <Selected>
-                    <SelectedValue
-                      style={
-                        year === ""
-                          ? { color: "var(--grey-2, #A7AEB4)" }
-                          : { color: "color: var(--blackgrey, #35383B)" }
-                      }
-                    >
-                      {year === "" ? "연도" : year}
-                    </SelectedValue>
-                    <div style={{ marginRight: 16 }}>
-                      <img src="/icons/ic_arrow_select.svg" />
-                    </div>
-                  </Selected>
-                  {yearBoxClicked && (
-                    <OptionBox>
-                      {yearData.map((data, i) => (
-                        <OptionElement onClick={() => setYear(data)} key={i}>
-                          {data}
-                        </OptionElement>
-                      ))}
-                    </OptionBox>
-                  )}
-                </SelectBox>
+                  items={yearData}
+                  placeholder="연도"
+                  setValue={setYear}
+                />
                 <SelectBox
-                  onClick={() => setMonthBoxClicked(!monthBoxClicked)}
-                  style={
-                    monthBoxClicked
-                      ? { border: "1px solid var(--primary, #3994f0)" }
-                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
-                  }
-                  ref={monthBoxClose}
-                >
-                  <Selected>
-                    <SelectedValue
-                      style={
-                        month === ""
-                          ? { color: "var(--grey-2, #A7AEB4)" }
-                          : { color: "color: var(--blackgrey, #35383B)" }
-                      }
-                    >
-                      {month === "" ? "월" : month}
-                    </SelectedValue>
-                    <div style={{ marginRight: 16 }}>
-                      <img src="/icons/ic_arrow_select.svg" />
-                    </div>
-                  </Selected>
-                  {monthBoxClicked && (
-                    <OptionBox>
-                      {monthData.map((data, i) => (
-                        <OptionElement onClick={() => setMonth(data)} key={i}>
-                          {data}
-                        </OptionElement>
-                      ))}
-                    </OptionBox>
-                  )}
-                </SelectBox>
-                <SelectBox
-                  onClick={() => setDayBoxClicked(!dayBoxClicked)}
-                  style={
-                    dayBoxClicked
-                      ? { border: "1px solid var(--primary, #3994f0)" }
-                      : { border: "0.77px solid var(--lightgrey, #e8ebee)" }
-                  }
-                  ref={dayBoxClose}
-                >
-                  <Selected>
-                    <SelectedValue
-                      style={
-                        day === ""
-                          ? { color: "var(--grey-2, #A7AEB4)" }
-                          : { color: "color: var(--blackgrey, #35383B)" }
-                      }
-                    >
-                      {day === "" ? "일" : day}
-                    </SelectedValue>
-                    <div style={{ marginRight: 16 }}>
-                      <img src="/icons/ic_arrow_select.svg" />
-                    </div>
-                  </Selected>
-                  {dayBoxClicked && month !== "" && (
-                    <OptionBox>
-                      {dayData.map((data, i) => (
-                        <OptionElement onClick={() => setDay(data)} key={i}>
-                          {data}
-                        </OptionElement>
-                      ))}
-                    </OptionBox>
-                  )}
-                </SelectBox>
+                  items={monthData}
+                  placeholder="월"
+                  setValue={setMonth}
+                />
+                <SelectBox items={dayData} placeholder="일" setValue={setDay} />
               </Row>
               <Row>
                 <InputLabel htmlFor="profileLocation">
@@ -557,7 +443,7 @@ export default function MissingRegistPage() {
                 border: "none",
               }}
             >
-              후원 공고 등록
+              실종동물 등록
             </Button>
           </div>
         </form>
@@ -573,87 +459,6 @@ export default function MissingRegistPage() {
     </MainContainer>
   );
 }
-
-const SelectBox = styled.div`
-  flex: 1;
-  background-color: var(--lightestgrey, #f7f8fa);
-  border-radius: 12px;
-  height: 50px;
-  box-sizing: border-box;
-  display: flex;
-  position: relative;
-  max-width: 50%;
-  flex-shrink: 0;
-`;
-
-const Selected = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const SelectedValue = styled.div`
-  color: var(--grey-2, #a7aeb4);
-  font-size: 14px;
-  font-weight: 400;
-  flex: 1;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-left: 24px;
-`;
-const OptionBox = styled.ul`
-  list-style-type: none;
-  margin: 0px;
-
-  background-color: var(--lightestgrey, #f7f8fa);
-  border: 0.77px solid var(--lightgrey, #e8ebee);
-  border-radius: 12px;
-  box-sizing: border-box;
-  // padding: 0px 8px 0px 8px;
-  padding: 0;
-  position: absolute;
-  cursor: pointer;
-  top: 58px;
-  left: 0px;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  max-height: 300px;
-  overflow-y: auto;
-  z-index: 555;
-  animation: ${keyframes`
-    from {
-            clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
-            opacity: 0.5;
-          }
-          to {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            opacity: 1;
-          }
-  `} 0.5s forwards;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const OptionElement = styled.li`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  height: 45px;
-  padding: 0px 24px 0px 24px;
-  box-sizing: border-box;
-  overflow-y: auto;
-
-  &:hover {
-    background-color: #e8ebee;
-  }
-`;
 
 const RadioBox = styled.div`
   width: 86%;
