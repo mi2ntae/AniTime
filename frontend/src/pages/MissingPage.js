@@ -8,6 +8,7 @@ import http from "api/commonHttp";
 import "intersection-observer";
 import ProfileTab from "components/Profile/ProfileTab";
 import { ConstructionOutlined } from "@mui/icons-material";
+import AnimalItem from "components/Desertion/AnimalItem";
 
 export default function Missing() {
   const [animals, setAnimals] = useState([]);
@@ -15,21 +16,29 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
-  console.log(profileNo);
+  // console.log(profileNo);
+
   const fetchData = async () => {
+    console.log(profileNo, page.current);
     try {
-      const response = await http.get(
+      page.current++;
+      let response = await http.get(
         `recommand/${profileNo}?curPageNo=${page.current}`
       );
-      const newData = await response.data;
+      let newData = await response.data;
       console.log("recommand result");
       console.log("newData");
       setAnimals((prev) => [...prev, ...newData]);
-      page.current++;
     } catch (error) {
       console.log("에러메시지: ", error);
     }
   };
+
+  useEffect(() => {
+    setAnimals([]);
+    page.current = -1;
+    fetchData();
+  }, [profileNo]);
 
   useEffect(() => {
     let observer;
@@ -52,38 +61,16 @@ export default function Missing() {
   return (
     <HorizontalContainer>
       <ListFilterContainer>
+        {animals.length === 0 && "프로필과 유사한 보호동물이 없습니다"}
         <ListContainer>
-          {animals.map((animal, idx) => (
-            <AnimalImg
-              key={idx}
-              onClick={() => {
-                console.log(animal.desertionNo);
-                dispatch(setDesertionNo(animal.desertionNo));
-              }}
-            >
-              <DivP>
-                <Div>
-                  <Img src={animal.thumbnail} alt="AnimalImage" />
-                </Div>
-                <Div2>
-                  <Span1>
-                    <img src="/icons/Eclipse 33.svg" alt="state" />
-                    <Blank></Blank>
-                    {animal.processState}
-                  </Span1>
-                  <Span2>
-                    {animal.category}/{animal.detailKind}
-                    <span>
-                      {animal.sexcd === "F" ? (
-                        <img src="/icons/ic_female.svg" alt="female" />
-                      ) : (
-                        <img src="/icons/ic_male.svg" alt="male" />
-                      )}
-                    </span>
-                  </Span2>
-                </Div2>
-              </DivP>
-            </AnimalImg>
+          {animals.map((animal) => (
+            <AnimalItemContainer key={animal.desertionNo}>
+              <AnimalItem
+                animal={animal}
+                // AnimalImg onClick
+                handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
+              />
+            </AnimalItemContainer>
           ))}
           <Target ref={setTarget} />
         </ListContainer>
@@ -103,17 +90,27 @@ const ListFilterContainer = styled.div`
   margin-right: 40px;
   flex: 2;
   margin-top: 48px;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
 `;
 
 const ListContainer = styled.div`
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  justify-items: center;
+  justify-content: space-between;
+  /* display: flex; */
   flex-grow: 2;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
+  /* flex-wrap: wrap; */
+  /* justify-content: flex-start; */
+  /* align-content: flex-start; */
   height: 700px;
   overflow-y: scroll;
   text-align: center;
+  column-gap: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -121,59 +118,25 @@ const ListContainer = styled.div`
   `}
 `;
 
+const AnimalList = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  justify-items: center;
+  justify-content: space-between;
+`;
+
 const DetailViewBox = styled.div`
   flex: 1;
   margin-top: 48px;
 `;
 
-const AnimalImg = styled.div`
-  width: 33.33%;
-  height: 240px;
-  margin-bottom: 28px;
-`;
-
-const Span1 = styled.span`
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: bold;
-`;
-
-const Span2 = styled.span`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: gray;
-  // font-weight: bold;
-`;
-
-const Div = styled.div`
-  align-items: center;
-`;
-const Div2 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
-`;
-const DivP = styled.div`
-  align-items: center;
-`;
-
-const Blank = styled.span`
-  margin-right: 5px;
-`;
 const Target = styled.div`
   width: 100%;
   height: 35px;
   position: relative;
   bottom: 5px;
-`;
-const Img = styled.img`
-  width: 220px;
-  height: 220px;
-  border-radius: 8px;
 `;
 
 const RegistBtn = styled.div`
@@ -188,4 +151,8 @@ const RegistBtn = styled.div`
   background-image: url("/plus_regist_btn.svg");
   background-repeat: no-repeat;
   background-position: center;
+`;
+
+const AnimalItemContainer = styled.div`
+  flex: 1 0 30%;
 `;
