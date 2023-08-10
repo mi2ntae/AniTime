@@ -23,9 +23,6 @@ export default function LoginPage() {
   const login = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data.get("email"));
-    console.log(data.get("password"));
-    console.log(tabNo);
     http
       .post(`auth`, {
         email: data.get("email"),
@@ -58,7 +55,7 @@ export default function LoginPage() {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh !important" }}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
       <Grid
         item
