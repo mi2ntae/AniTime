@@ -1,20 +1,16 @@
 import { useDispatch } from "react-redux";
-import { setMember } from "../reducer/member";
 import http from "../api/commonHttp";
-// import { Link } from "react-router-dom";
-import Logo from "../components/Header/Logo";
-import { Tab, Tabs } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { createTheme } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoginTab from "../components/Login/LoginTab.jsx";
+import { styled } from "styled-components";
 
-const defaultTheme = createTheme();
 export default function LoginPage() {
   // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
   // const redirect_uri = "http://localhost:8000/api/auth/oauth2/kakao";
@@ -46,8 +42,6 @@ export default function LoginPage() {
   };
   //-------보호소 정보 저장 변수, onChange, Reset()---------
   const [shelterInfo, setShelterInfo] = useState({
-    bisNo: "",
-    bisNoCheck: false,
     filedata: null,
   });
   const handleShelterValueimage = (e) => {
@@ -65,21 +59,9 @@ export default function LoginPage() {
     });
   };
 
-  const handleShelterValueReset = () => {
-    // setInfo({
-    //   bisNo: "",
-    //   bisNoCheck: false,
-    //   filedata: null,
-    // });
-  };
-  //----------------------------------------------
   const join = (event) => {
     event.preventDefault();
 
-    if (tabNo === "1" && !shelterInfo.bisNoCheck) {
-      alert("사업자 조회 번호를 인증해 주세요");
-      return;
-    }
     const data = tabNo === "0" ? { ...commoninfo } : new FormData();
 
     if (tabNo !== "0") {
@@ -118,28 +100,11 @@ export default function LoginPage() {
       .catch((err) => {});
   };
 
-  const bisNoCehck = (e) => {
-    e.preventDefault();
-    // bisNocheck event
-    // axios({
-    //   url: '/test',
-    //   method: 'post',
-    //   data: {
-    //     name: 'veneas'
-    //   }
-    // })
-    // .then(function a(response) {
-    //   console.log(response)
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-
-    setShelterInfo((input) => {
-      return { ...input, bisNoCheck: true };
-    });
-    console.log("사업자 번호 조회하는 이벤트입니다.");
-  };
+  //   setShelterInfo((input) => {
+  //     return { ...input, bisNoCheck: true };
+  //   });
+  //   console.log("사업자 번호 조회하는 이벤트입니다.");
+  // };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -167,253 +132,363 @@ export default function LoginPage() {
 
   const tabChange = (event, newValue) => {
     setTabNo(newValue);
-    handleShelterValueReset();
     console.log(commoninfo);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const openPostcode = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setShelterInfo((input) => {
+          return { ...input, ["addr"]: data.address };
+        });
+      },
+    }).open();
+  };
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={6}
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={5}
+        sx={{
+          backgroundImage: "url(/loginPageImg.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={7}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
           sx={{
-            backgroundImage: "url(/loginPageImg.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
           }}
-        />
-        <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 0,
-              mx: 4,
+        >
+          <Link
+            to="/"
+            style={{
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
+              flex: 1,
+              gap: "20px",
+              textDecoration: "none",
+              marginBottom: "40px",
             }}
           >
-            <Logo />
-            <Tabs
-              value={tabNo}
-              onChange={tabChange}
-              // textColor="secondary"
-              // indicatorColor="secondary"
-              aria-label="secondary tabs example"
+            <img
+              src="/icons/logo.svg"
+              alt="애니타임"
+              style={{ width: "40px" }}
+            />
+            <p
               style={{
-                marginTop: 10,
+                color: "#35383B",
+                fontSize: "1.8rem",
+                fontWeight: "900",
               }}
             >
-              <Tab
-                value="0"
-                label="일반 회원"
-                sx={{
-                  fontWeight: "bold",
-                }}
-              />
-              <Tab
-                value="1"
-                label="보호소 회원"
-                sx={{
-                  fontWeight: "bold",
-                }}
-              />
-            </Tabs>
-            <Box
-              component="form"
-              noValidate
-              // onSubmit={login}
-              sx={{ mt: 1, maxWidth: 500 }}
+              애니타임
+            </p>
+          </Link>
+          <LoginTab value={tabNo} setValue={setTabNo} onChange={tabChange} />
+          <Box
+            component="form"
+            noValidate
+            sx={{
+              mt: 1,
+              maxWidth: 500,
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+              width: "100%",
+              marginTop: "48px",
+            }}
+          >
+            <Input
+              placeholder={tabNo === "0" ? "이름" : "보호소 명"}
+              required
+              id="name"
+              name="name"
+              autoFocus
+              value={commoninfo["name"]}
+              onChange={handleTextValueChangeTop}
+              autoComplete="name"
+            />
+            <Input
+              placeholder="이메일"
+              required
+              id="email"
+              type="email"
+              label="Email"
+              name="email"
+              autoFocus
+              value={commoninfo["email"]}
+              onChange={handleTextValueChangeTop}
+              autoComplete="email"
+            />
+            <Input
+              placeholder={tabNo === "0" ? "전화번호" : "대표번호"}
+              required
+              id="phone"
+              name="phone"
+              autoFocus
+              value={commoninfo["phone"]}
+              onChange={handleTextValueChangeTop}
+              autoComplete="phone"
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                flex: 1,
+              }}
             >
-              <TextField
-                size="small"
-                margin="dense"
-                required
-                fullWidth
-                id="name"
-                label={tabNo === "0" ? "이름" : "보호소 명"}
-                name="name"
-                autoComplete="name"
-                autoFocus
-                backgroundcolor="Black"
-                value={commoninfo["name"]}
-                onChange={handleTextValueChangeTop}
-              />
-
-              <TextField
-                size="small"
-                margin="dense"
-                required
-                fullWidth
-                id="email"
-                type="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                backgroundcolor="Black"
-                value={commoninfo["email"]}
-                onChange={handleTextValueChangeTop}
-              />
-              <TextField
-                size="small"
-                margin="dense"
-                required
-                fullWidth
-                id="phone"
-                type="email"
-                label={tabNo === "0" ? "전화번호" : "대표번호"}
-                name="phone"
-                autoComplete="phone"
-                autoFocus
-                backgroundcolor="Black"
-                value={commoninfo["phone"]}
-                onChange={handleTextValueChangeTop}
-              />
-              <TextField
-                size="small"
-                margin="dense"
+              <PasswordInput
+                placeholder="비밀번호"
+                type={showPassword ? "text" : "password"}
                 required
                 fullWidth
                 name="password"
-                label="비밀번호"
-                type="password"
+                label="Password"
                 id="password"
                 autoComplete="current-password"
-                value={commoninfo["passwordCheck"]}
                 onChange={handleTextValueChangeTop}
               />
-              <TextField
-                margin="dense"
-                size="small"
-                required
-                fullWidth
-                name="passwordCheck"
-                label="비밀번호 확인"
-                type="password"
-                id="passwordCheck"
-                autoComplete="current-password"
-                value={passwordCheck.passwordCheck}
-                onChange={handlePassWordCheck}
-              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                style={{
+                  height: "50px",
+                  backgroundColor: "#f7f8fa",
+                  borderWidth: "0.77px 0.77px 0.77px 0px",
+                  borderStyle: "solid",
+                  borderColor: "#e8ebee",
+                  borderRadius: "0px 12px 12px 0px",
+                  paddingRight: "24px",
+                }}
+              >
+                <img
+                  src={
+                    showPassword ? "/icons/ic_eye_.svg" : "/icons/ic_eye.svg"
+                  }
+                />
+              </button>
+            </div>
+            <Input
+              placeholder="비밀번호 확인"
+              required
+              id="passwordCheck"
+              name="passwordCheck"
+              type="password"
+              autoFocus
+              value={passwordCheck.passwordCheck}
+              onChange={handlePassWordCheck}
+            />
 
-              {tabNo !== "0" && (
-                <>
-                  <TextField
-                    size="small"
-                    margin="dense"
+            {tabNo !== "0" && (
+              <>
+                {/* <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Input
                     required
-                    fullWidth
-                    name="addr"
-                    label="주소"
+                    name="address"
                     type="text"
-                    id="addr"
+                    id="address"
                     autoComplete="current-addr"
                     value={shelterInfo["addr"]}
                     onChange={handleShelterValueChange}
+                    placeholder="주소"
                   />
-                  <TextField
-                    size="small"
-                    marginTop="10"
+                  <AddressSearchBtn />
+                </div> */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Input
                     required
-                    name="passwordCheck"
-                    label="사업자 번호"
+                    name="address"
                     type="text"
-                    id="passwordCheck"
-                    onChange={handleShelterValueChange}
-                    autoComplete="current-password"
-                    sx={{
-                      width: "70%",
-                    }}
+                    id="address"
+                    autoComplete="current-addr"
+                    value={shelterInfo["addr"]}
+                    readOnly
+                    placeholder="주소"
                   />
                   <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      height: "40px",
-                      width: "25%",
-                      marginLeft: "5%",
-                      fontWeight: "fontWeightBold",
-                      fontSize: 13,
+                    style={{
+                      backgroundColor: "#3994F0",
+                      color: "#FFFFFF",
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      borderRadius: "12px",
+                      height: "50px",
+                      marginBottom: 1,
+                      boxShadow: "none",
+                      width: "40%",
                     }}
-                    onClick={bisNoCehck}
+                    onClick={openPostcode}
                   >
-                    업종 조회 하기
+                    검색
                   </Button>
-
-                  <input
-                    name="filedata"
-                    type="file"
-                    id="filedata"
-                    autoComplete="filedata"
-                    onChange={handleShelterValueimage}
-                    style={{ display: "none" }}
-                  />
-                  <TextField
-                    size="small"
-                    margin="dense"
+                </div>
+                <input
+                  name="filedata"
+                  type="file"
+                  id="filedata"
+                  autoComplete="filedata"
+                  onChange={handleShelterValueimage}
+                  style={{ display: "none" }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Input
                     required
-                    fullWidth
-                    name="passwordCheck"
-                    label="사업자 등록증"
+                    name="evidency"
                     type="text"
-                    id="passwordCheck"
-                    autoComplete="current-password"
-                    readOnly="true"
+                    id="evidency"
+                    onChange={handleShelterValueChange}
+                    placeholder="증빙서류"
+                    autoComplete="evidency"
                     value={
                       shelterInfo["filedata"] === null
                         ? ""
                         : shelterInfo["filedata"].name
                     }
+                    readOnly="true"
+                  />
+                  <Button
+                    style={{
+                      backgroundColor: "#3994F0",
+                      color: "#FFFFFF",
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      borderRadius: "12px",
+                      height: "50px",
+                      marginBottom: 1,
+                      boxShadow: "none",
+                      width: "40%",
+                    }}
                     onClick={(e) => {
                       e.preventDefault();
                       document.getElementById("filedata").click();
                     }}
-                  />
-                </>
-              )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 0.5,
-                  mb: 2,
-                  width: 400,
-                  fontWeight: "fontWeightBold",
-                  fontSize: 18,
-                }}
-                style={{
-                  marginLeft: 50,
-                }}
-                onClick={join}
-              >
-                로그인
-              </Button>
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid> */}
-            </Box>
+                  >
+                    첨부하기
+                  </Button>
+                </div>
+              </>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              style={{
+                backgroundColor: "#A7AEB4",
+                color: "#FFFFFF",
+                fontSize: "16px",
+                fontWeight: 700,
+                marginTop: "48px",
+                borderRadius: "12px",
+                height: "50px",
+                marginBottom: 1,
+                boxShadow: "none",
+              }}
+              onClick={join}
+            >
+              회원가입
+            </Button>
           </Box>
-        </Grid>
+        </Box>
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
 }
+const Input = styled.input`
+  width: 100%;
+  height: 50px;
+  background-color: #f7f8fa;
+  border-radius: 12px;
+  border: 0.77px solid var(--lightgrey, #e8ebee);
+  padding-left: 24px;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+
+  &::placeholder {
+    color: var(--gray-scale-gray-1, #c1c1c1);
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #f7f8fa inset;
+    background-image: url("/icons/ic_lock.svg");
+    background-repeat: no-repeat;
+    background-position: 24px center;
+  }
+`;
+
+const PasswordInput = styled.input`
+  width: 100%;
+  height: 50px;
+  background-color: #f7f8fa;
+  border-radius: 12px 0px 0px 12px;
+  border-width: 0.77px 0px 0.77px 0.77px;
+  border-style: solid;
+  border-color: #e8ebee;
+  padding-left: 24px;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+
+  &::placeholder {
+    color: var(--gray-scale-gray-1, #c1c1c1);
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #f7f8fa inset;
+    background-image: url("/icons/ic_lock.svg");
+    background-repeat: no-repeat;
+    background-position: 24px center;
+  }
+`;
