@@ -17,7 +17,9 @@ export default function Desertion() {
   const kind = useRef(0);
   const gender = useRef(0);
   const sort = useRef(0);
+
   let dispatch = useDispatch();
+
   let kindType = useSelector((state) => state.filterInfo.kindType);
   kind.current = kindType;
 
@@ -33,7 +35,7 @@ export default function Desertion() {
     try {
       page.current++;
       let response = await http.get(
-        `desertion?generalNo=0&kindType=${kind.current}&genderType=${gender.current}&sortType=${sort.current}&curPageNo=${page.current}`
+        `desertion?generalNo=${memberNo}&kindType=${kind.current}&genderType=${gender.current}&sortType=${sort.current}&curPageNo=${page.current}`
       );
       let newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
@@ -67,13 +69,6 @@ export default function Desertion() {
   }, [kindType, genderType, sortType]);
 
   const toggleBookmark = async (desertionNo) => {
-    setAnimals((prevAnimals) =>
-      prevAnimals.map((prevAnimal) =>
-        prevAnimal.desertionNo === desertionNo
-          ? { ...prevAnimal, isBookmarked: !prevAnimal.isBookmarked }
-          : prevAnimal
-      )
-    );
     await http
       .post(`desertion/like`, {
         desertionNo: desertionNo,
@@ -82,10 +77,8 @@ export default function Desertion() {
       .then()
       .catch((err) => console.log("에러"));
   };
-  function test(desertionNo){
-    window.scrollTo({top: 0,
-      left: 0,
-      behavior: "smooth",});
+  function test(desertionNo) {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     dispatch(setDesertionNo(desertionNo));
   }
   return (
@@ -102,7 +95,7 @@ export default function Desertion() {
               <AnimalItem
                 animal={animal}
                 // AnimalImg onClick
-                handleClick={()=>test(animal.desertionNo)}
+                handleClick={() => test(animal.desertionNo)}
                 // BookmarkButton onClick
                 handleBookmark={() => toggleBookmark(animal.desertionNo)}
               />

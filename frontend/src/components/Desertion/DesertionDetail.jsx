@@ -6,6 +6,7 @@ import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import Modal from "components/Modal/Modal";
 import { setRoom } from "reducer/chatRoom";
 import { setShelterNo } from "reducer/detailInfo";
+import { Fullscreen } from "@mui/icons-material";
 
 export default function DesertionDetail({ readOnly }) {
   const dispatch = useDispatch();
@@ -56,14 +57,25 @@ export default function DesertionDetail({ readOnly }) {
               ? `url(${animal.thumbnail}) no-repeat center/cover`
               : `url("/no_image.png") no-repeat center/cover`,
           }}
-          onClick={(e) => {
-            window.open(
-              `${animal.thumbnail}`,
-              "Child",
-              "width=500, height=400"
-            );
-          }}
-        />
+        >
+          <Fullscreen
+            sx={{
+              boxSizing: "content-box",
+              padding: "4px",
+              backgroundColor: "#FFF8",
+              borderRadius: "50%",
+              margin: "8px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              window.open(
+                `${animal.thumbnail}`,
+                "Child",
+                "width=500, height=400"
+              );
+            }}
+          />
+        </div>
         <div className="animal-desc-container">
           <div className="animal-title-area">대상동물 정보</div>
           <div className="animal-desc-area">
@@ -154,6 +166,10 @@ export default function DesertionDetail({ readOnly }) {
           box-sizing: border-box;
         }
         .animal-image {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
           width: 100%;
           height: 200px;
           border-radius: 8px 8px 0px 0px;
