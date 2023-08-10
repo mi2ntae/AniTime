@@ -9,6 +9,8 @@ export default function App() {
   const token = useSelector((state) => state.member.token);
   const pathname = useLocation().pathname;
 
+  const blackList = ["/mypage", "/donation/write", "/profile/write"];
+
   const theme = createTheme({
     typography: {
       fontFamily: "nanumsquare",
@@ -18,7 +20,12 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      {pathname === "/" || token ? <Outlet /> : <Navigate to="/login" />}
+      {console.log(pathname)}
+      {!token && blackList.some((item) => item === pathname) ? (
+        <Navigate to="/login" />
+      ) : (
+        <Outlet />
+      )}
       <Footer />
     </ThemeProvider>
   );
