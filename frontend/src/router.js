@@ -1,11 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import MyPage from "pages/MyPage";
-import SelectTime from "components/SelectTime/SelectTime";
-import ReservationForm from "components/SelectTime/ReservationForm";
-import DesertionGuide from "components/Desertion/DesertionGuide";
 import ErrorPage from "pages/ErrorPage";
-// import FAQ from "pages/FAQ";
-import FAQ from "components/FAQ/FAQ";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +43,14 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "meeting/:meetingNo",
+    async lazy() {
+      return {
+        Component: (await import("pages/MeetingPage")).default,
+      };
+    },
+  },
+  {
     path: "",
     async lazy() {
       return {
@@ -66,7 +68,11 @@ const router = createBrowserRouter([
       },
       {
         path: "faq",
-        element: <FAQ />,
+        async lazy() {
+          return {
+            Component: (await import("components/FAQ/FAQ")).default,
+          };
+        },
       },
       {
         path: "desertion",
@@ -79,9 +85,34 @@ const router = createBrowserRouter([
       {
         path: "desertion/reservation",
         children: [
-          { path: "selecttime", element: <SelectTime /> },
-          { path: "form", element: <ReservationForm /> },
-          { path: "", element: <DesertionGuide /> },
+          {
+            path: "selecttime",
+            async lazy() {
+              return {
+                Component: (await import("components/SelectTime/SelectTime"))
+                  .default,
+              };
+            },
+          },
+          {
+            path: "form",
+            async lazy() {
+              return {
+                Component: (
+                  await import("components/SelectTime/ReservationForm")
+                ).default,
+              };
+            },
+          },
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("components/Desertion/DesertionGuide"))
+                  .default,
+              };
+            },
+          },
         ],
         async lazy() {
           return {
@@ -151,22 +182,9 @@ const router = createBrowserRouter([
       },
       {
         path: "mypage",
-        element: <MyPage />,
-      },
-      {
-        path: "path", // 경로
         async lazy() {
           return {
-            // 컴포넌트 import
-            Component: (await import("pages/RouterTestPage")).default,
-          };
-        },
-      },
-      {
-        path: "openvidutest",
-        async lazy() {
-          return {
-            Component: (await import("pages/Openvidutest")).default,
+            Component: (await import("pages/MyPage")).default,
           };
         },
       },
@@ -180,22 +198,6 @@ const router = createBrowserRouter([
       },
     ],
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "meeting/:meetingNo",
-    async lazy() {
-      return {
-        Component: (await import("pages/MeetingPage")).default,
-      };
-    },
-  },
-  {
-    path: "openvidutest",
-    async lazy() {
-      return {
-        Component: (await import("pages/Openvidutest")).default,
-      };
-    },
   },
 ]);
 
