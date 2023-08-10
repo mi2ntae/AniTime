@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 export default function AnimalItem({ animal, handleClick, handleBookmark }) {
   const [isbookmarked, setIsbookmarked] = useState(animal.bookmarked);
+  const navigate = useNavigate();
+
+  let memberNo = useSelector((state) => state.member.memberNo);
 
   console.log(animal.bookmarked);
   return (
@@ -11,9 +15,19 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
         <Img src={animal.thumbnail} alt="AnimalImage" />
         <BookmarkButton
           onClick={(e) => {
-            e.stopPropagation();
-            handleBookmark();
-            setIsbookmarked((p) => !p);
+            if (memberNo === -1) {
+              if (
+                window.confirm(
+                  "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
+                )
+              ) {
+                navigate("/login");
+              }
+            } else {
+              e.stopPropagation();
+              handleBookmark();
+              setIsbookmarked((p) => !p);
+            }
           }}
         >
           {isbookmarked ? (

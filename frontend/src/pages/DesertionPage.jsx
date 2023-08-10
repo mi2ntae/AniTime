@@ -9,6 +9,8 @@ import DesertionDetail from "components/Desertion/DesertionDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { setDesertionNo } from "reducer/detailInfo.js";
 import AnimalItem from "components/Desertion/AnimalItem";
+import { setKindType } from "reducer/filterInfo";
+import { setSortType } from "reducer/sortInfo";
 
 export default function Desertion() {
   const [animals, setAnimals] = useState([]);
