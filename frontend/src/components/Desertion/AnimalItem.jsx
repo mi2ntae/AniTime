@@ -9,25 +9,27 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
     <AnimalImg onClick={handleClick}>
       <AnimalContainer>
         <Img src={animal.thumbnail} alt="AnimalImage" />
-        <BookmarkButton
-          onClick={(e) => {
-            e.stopPropagation();
-            handleBookmark();
-            setIsbookmarked((p) => !p);
-          }}
-        >
-          {isbookmarked ? (
-            <FilledHeartIcon
-              src="/icons/btn_favorite_active.svg"
-              alt="Bookmark"
-            />
-          ) : (
-            <EmptyHeartIcon
-              src="/icons/btn_favorite_inactive.svg"
-              alt="NotBookmark"
-            />
-          )}
-        </BookmarkButton>
+        {handleBookmark && (
+          <BookmarkButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBookmark();
+              setIsbookmarked((p) => !p);
+            }}
+          >
+            {isbookmarked ? (
+              <FilledHeartIcon
+                src="/icons/btn_favorite_active.svg"
+                alt="Bookmark"
+              />
+            ) : (
+              <EmptyHeartIcon
+                src="/icons/btn_favorite_inactive.svg"
+                alt="NotBookmark"
+              />
+            )}
+          </BookmarkButton>
+        )}
       </AnimalContainer>
       <DivP>
         <Div2>
