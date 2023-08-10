@@ -1,26 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 
 export default function AnimalItem({ animal, handleClick, handleBookmark }) {
+  const [isbookmarked, setIsbookmarked] = useState(animal.bookmarked);
+
+  console.log(animal.bookmarked);
   return (
     <AnimalImg onClick={handleClick}>
       <AnimalContainer>
         <Img src={animal.thumbnail} alt="AnimalImage" />
-        {handleBookmark && (
-          <BookmarkButton onClick={handleBookmark}>
-            {animal.isBookmarked ? (
-              <FilledHeartIcon
-                src="/icons/btn_favorite_active.svg"
-                alt="Bookmark"
-              />
-            ) : (
-              <EmptyHeartIcon
-                src="/icons/btn_favorite_inactive.svg"
-                alt="NotBookmark"
-              />
-            )}
-          </BookmarkButton>
-        )}
+        <BookmarkButton
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBookmark();
+            setIsbookmarked((p) => !p);
+          }}
+        >
+          {isbookmarked ? (
+            <FilledHeartIcon
+              src="/icons/btn_favorite_active.svg"
+              alt="Bookmark"
+            />
+          ) : (
+            <EmptyHeartIcon
+              src="/icons/btn_favorite_inactive.svg"
+              alt="NotBookmark"
+            />
+          )}
+        </BookmarkButton>
       </AnimalContainer>
       <DivP>
         <Div2>
@@ -88,7 +95,7 @@ const Img = styled.img`
   min-width: 220px;
   height: 220px;
   border-radius: 8px;
-  object-fit:cover;
+  object-fit: cover;
   object-position: center center;
 `;
 const AnimalContainer = styled.div`
