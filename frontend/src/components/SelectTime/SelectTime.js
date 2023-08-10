@@ -38,7 +38,7 @@ export default function SelectTime() {
   function getImpossible() {
     http
       .get(
-        `http://localhost:8000/api/meet/reservation/${shelterNo}?month=${
+        `meet/reservation/${shelterNo}?month=${
           date.getMonth() + 1
         }&day=${date.getDate()}`
       )

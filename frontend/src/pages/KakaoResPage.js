@@ -29,5 +29,5 @@ export default function KakaoResPage() {
       });
     console.log(code);
   }, []);
-  return <div>asd</div>;
+  return <div></div>;
 }
