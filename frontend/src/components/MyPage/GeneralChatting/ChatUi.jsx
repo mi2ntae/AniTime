@@ -20,78 +20,81 @@ export default function ChatUi({ width, height }) {
   const roomName = useSelector((state) => state.chatRoom.name);
   const memberNo = useSelector((state) => state.member.memberNo);
   const [messages, setMessages] = useState([]);
-
   var messageArea = null;
 
   useEffect(() => {
     messageArea = document.querySelector("#messageArea");
     messageArea.scrollTop = messageArea.scrollHeight;
-  })
-
+  });
 
   const onConnected = () => {
-    console.log("stomp connected")
+    console.log("stomp connected");
     stompClient.unsubscribe("curRoom");
-    stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {id : "curRoom"});
-  }
-  
-  const onError = () => {
-    console.log("stomp error")
-  }
-  
-  const resetReadCnt = async () => {
-    await http.post(`chat/room/${roomNo}/${memberNo}`)
-    .then((res) => {
-      console.log("Reset UnreadCnt When ChatRoom Activated");
-    })
-    .catch((err) => {
-      console.log("resetErr");
-    })
-  }
-  
-
-  const onMessageReceived = (payload) => {
-    console.log("messageReceive")
-    setMessages((prev) => {
-      console.log(payload)
-      return [...prev, JSON.parse(payload.body)]
+    stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {
+      id: "curRoom",
     });
-    resetReadCnt();
-  }
+  };
 
-  if(socket == null && stompClient == null) {
-    let sock = new SockJs("http://localhost:8000/ws/chat");
-    let client = Stomp.over(sock);
-    dispatch(setStomp({socket: sock, client: client}));
-  }
+  const onError = () => {
+    console.log("stomp error");
+  };
 
-  useEffect(() => {
-    if(stompClient != null) stompClient.connect({}, onConnected, onError);
-    return () => {
-      if(stompClient != null) {
-        stompClient.disconnect();
-        dispatch(setRoom({roomNo: -1, name: ""}));
-        dispatch(setStomp({socket: null, client: null}));
-      }
-    }
-  }, [socket])
-
-  useEffect(() => {
-    if(roomNo != -1) {
-      http.get(`chat/room/${roomNo}?memberNo=${memberNo}`)
+  const resetReadCnt = async () => {
+    await http
+      .post(`chat/room/${roomNo}/${memberNo}`)
       .then((res) => {
-        console.log(res);
-        setMessages(res.data);
+        console.log("Reset UnreadCnt When ChatRoom Activated");
       })
       .catch((err) => {
-        console.log(err);
-      })
+        console.log("resetErr");
+      });
+  };
+
+  const onMessageReceived = (payload) => {
+    console.log("messageReceive");
+    setMessages((prev) => {
+      console.log(payload);
+      return [...prev, JSON.parse(payload.body)];
+    });
+    resetReadCnt();
+  };
+
+  if (socket == null && stompClient == null) {
+    let sock = new SockJs("http://localhost:8000/ws/chat");
+    let client = Stomp.over(sock);
+    dispatch(setStomp({ socket: sock, client: client }));
+  }
+
+  useEffect(() => {
+    if (stompClient != null) stompClient.connect({}, onConnected, onError);
+    return () => {
+      if (stompClient != null) {
+        stompClient.disconnect();
+        dispatch(setRoom({ roomNo: -1, name: "" }));
+        dispatch(setStomp({ socket: null, client: null }));
+      }
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    if (roomNo != -1) {
+      http
+        .get(`chat/room/${roomNo}?memberNo=${memberNo}`)
+        .then((res) => {
+          console.log(res);
+          setMessages(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    if(socket != null && stompClient != null) {
+    if (socket != null && stompClient != null) {
       stompClient.unsubscribe("curRoom");
-      stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {id : "curRoom"});
+      stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {
+        id: "curRoom",
+      });
     }
-  }, [roomNo])
+  }, [roomNo]);
 
   const handleSend = () => {
     if (input.trim() !== "") {
@@ -100,7 +103,7 @@ export default function ChatUi({ width, height }) {
         roomNo: roomNo,
         sendNo: memberNo,
         content: input,
-      }
+      };
       stompClient.send("/pub/message", JSON.stringify(message));
       setInput("");
     } else console.log("메시지를 입력해주세요!");
@@ -111,14 +114,19 @@ export default function ChatUi({ width, height }) {
   };
 
   const handleOnKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSend(); 
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
+
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // 기본 동작 방지
+      handleSend(e);
     }
   };
 
   const Message = ({ message }) => {
     const isMe = memberNo === message.sendNo ? true : false;
-  
+
     return (
       <Box
         sx={{
@@ -140,6 +148,9 @@ export default function ChatUi({ width, height }) {
                   : "16px 16px 0px 16px",
                 maxWidth: "60%",
                 padding: "16px",
+                wordWrap: "break-word",
+                textAlign: "start",
+                whiteSpace: "pre-line",
               }}
             >
               <Typography
@@ -161,9 +172,6 @@ export default function ChatUi({ width, height }) {
     );
   };
 
-
-
-
   return (
     <ChatBox
       $width={width}
@@ -179,13 +187,13 @@ export default function ChatUi({ width, height }) {
           <Font2></Font2>
         </Text>
       </ChatHeader>
-        <Box2 id="messageArea">
-          {messages.map((message) => (
-            <li>
+      <Box2 id="messageArea">
+        {messages.map((message) => (
+          <li>
             <Message key={message.chatNo} message={message} />
-            </li>
-          ))}
-        </Box2>
+          </li>
+        ))}
+      </Box2>
       <Box
         sx={{
           p: 2,
@@ -196,7 +204,12 @@ export default function ChatUi({ width, height }) {
           padding: "0",
         }}
       >
-        <InputText type="text" value={input} onChange={handleInputChange} onKeyDown={handleOnKeyDown}/>
+        <InputText
+          type="text"
+          value={input}
+          onChange={handleInputChange}
+          onKeyDown={handleOnKeyDown}
+        />
         <button
           onClick={handleSend}
           style={{ padding: "16px", backgroundColor: "white", border: "0px" }}
@@ -241,15 +254,16 @@ const Box2 = styled.ul`
     }
   `}
 `;
-const InputText = styled.input`
+const InputText = styled.textarea`
   outline: none;
   border: none;
-  padding-left: 16px;
+  padding: 16px;
   flex-grow: 1;
   margin-right: 10px;
   color: var(--blackgrey, #35383b);
   font-size: 14px;
-  font-weight: 400;
+  // font-weight: bold;
+  resize: none;
 `;
 
 const ChatBox = styled(Box)`
