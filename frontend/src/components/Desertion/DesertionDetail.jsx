@@ -115,7 +115,7 @@ export default function DesertionDetail({ readOnly }) {
             <div className="animal-desc-content">{animal.tel}</div>
           </div>
 
-          {!readOnly && (
+          {!readOnly && desertionNo !== 0 && (
             <div className="animal-btn-container">
               <button
                 className="animal-chat-btn"
