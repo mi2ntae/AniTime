@@ -13,8 +13,10 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
     <ItemDiv>
       <KindImg src={kindIcon[noticeKind]} />
       <ContentDiv>
-        <span>{noticeContent}</span>
-        <span>{noticeTime}</span>
+        {noticeContent.split("\\n").map((item, index) => (
+          <span key={index}>{item}</span>
+        ))}
+        <span style={{ color: "gray" }}>{noticeTime}</span>
       </ContentDiv>
     </ItemDiv>
   );
@@ -33,5 +35,7 @@ const ContentDiv = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   text-align: left;
+  font-size: 0.85rem;
 `;

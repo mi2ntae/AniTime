@@ -1,4 +1,3 @@
-import { ThemeProvider, createTheme } from "@mui/material";
 import Footer from "components/Footer/Footer";
 import Header from "components/Header/Header";
 import React from "react";
@@ -11,14 +10,8 @@ export default function App() {
 
   const whiteList = ["/", "/donation", "/desertion", "/faq", "/missing"];
 
-  const theme = createTheme({
-    typography: {
-      fontFamily: "nanumsquare",
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Header />
       {token || whiteList.some((item) => item === pathname) ? (
         <Outlet />
@@ -26,6 +19,6 @@ export default function App() {
         <Navigate to="/login" />
       )}
       <Footer />
-    </ThemeProvider>
+    </>
   );
 }

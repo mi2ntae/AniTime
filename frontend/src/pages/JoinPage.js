@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoginTab from "../components/Login/LoginTab.jsx";
 import { styled } from "styled-components";
+import { fontSize } from "@mui/system";
 
 export default function LoginPage() {
   // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
@@ -32,10 +33,36 @@ export default function LoginPage() {
     phone: "",
     password: "",
   });
+  const formatPhoneNumber = (value) => {
+    // 숫자만 가져오기
+    const cleaned = ("" + value).replace(/\D/g, "");
+
+    // 길이 검사
+    if (cleaned.length > 11) return value; // 현재 값을 반환하여 변경을 방지
+
+    // "02"로 시작하는 전화번호 형식 체크
+    const matchSeoul = cleaned.match(/^(\d{2})(\d{4})(\d{4})$/);
+    if (matchSeoul) {
+      return [matchSeoul[1], matchSeoul[2], matchSeoul[3]].join("-");
+    }
+
+    // 일반 전화번호 형식 체크
+    const match = cleaned.match(/^(\d{2,3})(\d{3,4})(\d{4})$/);
+    if (match) {
+      return [match[1], match[2], match[3]].join("-");
+    }
+
+    return value;
+  };
+
   const handleTextValueChangeTop = (e) => {
     const { name, value } = e.target;
+
+    // 이름이 phone일 때만 포맷팅 적용
+    const formattedValue = name === "phone" ? formatPhoneNumber(value) : value;
+
     setInfo((input) => {
-      return { ...input, [name]: value };
+      return { ...input, [name]: formattedValue };
     });
   };
   useEffect(() => {
@@ -99,6 +126,7 @@ export default function LoginPage() {
   }, [commoninfo.phone]);
   //-------보호소 정보 저장 변수, onChange, Reset()---------
   const [shelterInfo, setShelterInfo] = useState({
+    addr: "",
     filedata: null,
   });
   const handleShelterValueimage = (e) => {
@@ -118,6 +146,25 @@ export default function LoginPage() {
 
   const join = (event) => {
     event.preventDefault();
+
+    // if (!emailValid) {
+    //   alert("이메일 형식을 확인해주세요");
+    //   return;
+    // }
+    // if (!phoneValid) {
+    //   alert("전화번호 형식을 확인해주세요");
+    //   return;
+    // }
+    // if (!pwValid) {
+    //   alert(
+    //     "비밀번호는 영어 소문자, 숫자, 특수문자를 포함한 8~16자리만 가능합니다."
+    //   );
+    //   return;
+    // }
+    // if (!pwValid) {
+    //   alert("비밀번호 확인이 일치하지 않습니다");
+    //   return;
+    // }
 
     const data = tabNo === "0" ? { ...commoninfo } : new FormData();
 
@@ -294,82 +341,151 @@ export default function LoginPage() {
               value={commoninfo["name"]}
               onChange={handleTextValueChangeTop}
               autoComplete="name"
-            />
-            <Input
-              style={emailValid ? {} : { backgroundColor: "red" }}
-              placeholder="이메일"
-              required
-              id="email"
-              type="email"
-              label="Email"
-              name="email"
-              autoFocus
-              value={commoninfo["email"]}
-              onChange={handleTextValueChangeTop}
-              autoComplete="email"
-            />
-            <Input
-              style={phoneValid ? {} : { backgroundColor: "red" }}
-              placeholder={tabNo === "0" ? "전화번호" : "대표번호"}
-              required
-              id="phone"
-              name="phone"
-              autoFocus
-              value={commoninfo["phone"]}
-              onChange={handleTextValueChangeTop}
-              autoComplete="phone"
+              show={commoninfo["name"].length > 0}
+              valid={true}
             />
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
-                width: "100%",
                 flex: 1,
+                flexDirection: "column",
+                gap: "4px",
               }}
             >
-              <PasswordInput
-                style={pwValid ? {} : { backgroundColor: "red" }}
-                placeholder="비밀번호"
-                type={showPassword ? "text" : "password"}
+              <Input
+                placeholder="이메일"
                 required
-                fullWidth
-                name="password"
-                label="Password"
-                id="password"
-                autoComplete="current-password"
+                id="email"
+                type="email"
+                label="Email"
+                name="email"
+                autoFocus
+                value={commoninfo["email"]}
                 onChange={handleTextValueChangeTop}
+                autoComplete="email"
+                show={commoninfo["email"].length > 0}
+                valid={emailValid}
               />
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
+              {!emailValid && (
+                <span style={{ color: "#FF7676", fontSize: "11px" }}>
+                  유효하지 않은 이메일입니다.
+                </span>
+              )}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                flexDirection: "column",
+                gap: "4px",
+              }}
+            >
+              <Input
+                placeholder={tabNo === "0" ? "전화번호" : "대표번호"}
+                required
+                id="phone"
+                name="phone"
+                autoFocus
+                value={commoninfo["phone"]}
+                onChange={handleTextValueChangeTop}
+                autoComplete="phone"
+                maxLength={13}
+                show={commoninfo["phone"].length > 0}
+                valid={phoneValid}
+              />
+              {!phoneValid && (
+                <span style={{ color: "#FF7676", fontSize: "11px" }}>
+                  유효하지 않은 전화번호입니다.
+                </span>
+              )}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                flexDirection: "column",
+                gap: "4px",
+              }}
+            >
+              <div
                 style={{
-                  height: "50px",
-                  backgroundColor: "#f7f8fa",
-                  borderWidth: "0.77px 0.77px 0.77px 0px",
-                  borderStyle: "solid",
-                  borderColor: "#e8ebee",
-                  borderRadius: "0px 12px 12px 0px",
-                  paddingRight: "24px",
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  flex: 1,
                 }}
               >
-                <img
-                  src={
-                    showPassword ? "/icons/ic_eye_.svg" : "/icons/ic_eye.svg"
-                  }
+                <PasswordInput
+                  placeholder="비밀번호"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleTextValueChangeTop}
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  style={{
+                    height: "50px",
+                    backgroundColor: "#f7f8fa",
+                    borderWidth: "0.77px 0.77px 0.77px 0px",
+                    borderStyle: "solid",
+                    borderColor: "#e8ebee",
+                    borderRadius: "0px 12px 12px 0px",
+                    paddingRight: "24px",
+                    outline: "none",
+                  }}
+                >
+                  <img
+                    src={
+                      showPassword ? "/icons/ic_eye_.svg" : "/icons/ic_eye.svg"
+                    }
+                  />
+                </button>
+              </div>
+              {!pwValid && (
+                <span
+                  style={{
+                    color: "#FF7676",
+                    fontSize: "11px",
+                  }}
+                >
+                  비밀번호는 영문 소문자, 숫자, 특수문자를 포함시켜 8~16자로
+                  작성해주세요.
+                </span>
+              )}
             </div>
-            <Input
-              style={pwCheck ? {} : { backgroundColor: "red" }}
-              placeholder="비밀번호 확인"
-              required
-              id="passwordCheck"
-              name="passwordCheck"
-              type="password"
-              autoFocus
-              value={passwordCheck.passwordCheck}
-              onChange={handlePassWordCheck}
-            />
+
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                flexDirection: "column",
+                gap: "4px",
+              }}
+            >
+              <Input
+                placeholder="비밀번호 확인"
+                required
+                id="passwordCheck"
+                name="passwordCheck"
+                type="password"
+                autoFocus
+                value={passwordCheck.passwordCheck}
+                onChange={handlePassWordCheck}
+                show={passwordCheck.passwordCheck.length > 0}
+                valid={pwCheck}
+              />
+              {!pwCheck && (
+                <span style={{ color: "#FF7676", fontSize: "11px" }}>
+                  비밀번호가 일치하지 않습니다.
+                </span>
+              )}
+            </div>
 
             {tabNo !== "0" && (
               <>
@@ -486,7 +602,21 @@ export default function LoginPage() {
               fullWidth
               variant="contained"
               style={{
-                backgroundColor: "#A7AEB4",
+                backgroundColor:
+                  commoninfo["name"].length > 0 &&
+                  commoninfo["email"].length > 0 &&
+                  emailValid &&
+                  commoninfo["phone"].length > 0 &&
+                  phoneValid &&
+                  commoninfo["password"].length > 0 &&
+                  pwValid &&
+                  passwordCheck.passwordCheck.length > 0 &&
+                  pwCheck &&
+                  (tabNo === 0 ||
+                    (shelterInfo["addr"].length > 0 &&
+                      shelterInfo["filedata"] !== null))
+                    ? "#3994F0"
+                    : "#A7AEB4",
                 color: "#FFFFFF",
                 fontSize: "16px",
                 fontWeight: 700,
@@ -495,7 +625,38 @@ export default function LoginPage() {
                 height: "50px",
                 marginBottom: 1,
                 boxShadow: "none",
+                cursor:
+                  commoninfo["name"].length > 0 &&
+                  commoninfo["email"].length > 0 &&
+                  emailValid &&
+                  commoninfo["phone"].length > 0 &&
+                  phoneValid &&
+                  commoninfo["password"].length > 0 &&
+                  pwValid &&
+                  passwordCheck.passwordCheck.length > 0 &&
+                  pwCheck &&
+                  (tabNo === 0 ||
+                    (shelterInfo["addr"].length > 0 &&
+                      shelterInfo["filedata"] !== null))
+                    ? "pointer"
+                    : "not-allowed",
               }}
+              disabled={
+                !(
+                  commoninfo["name"].length > 0 &&
+                  commoninfo["email"].length > 0 &&
+                  emailValid &&
+                  commoninfo["phone"].length > 0 &&
+                  phoneValid &&
+                  commoninfo["password"].length > 0 &&
+                  pwValid &&
+                  passwordCheck.passwordCheck.length > 0 &&
+                  pwCheck &&
+                  (tabNo === 0 ||
+                    (shelterInfo["addr"].length > 0 &&
+                      shelterInfo["filedata"] !== null))
+                )
+              }
               onClick={join}
             >
               회원가입
@@ -527,6 +688,11 @@ const Input = styled.input`
     background-repeat: no-repeat;
     background-position: 24px center;
   }
+
+  background-image: ${(props) =>
+    props.show && props.valid ? 'url("/icons/ic_check.svg")' : ""};
+  background-repeat: no-repeat;
+  background-position: calc(100% - 24px) center;
 `;
 
 const PasswordInput = styled.input`

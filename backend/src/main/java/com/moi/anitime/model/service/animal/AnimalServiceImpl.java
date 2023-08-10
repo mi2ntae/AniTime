@@ -74,6 +74,7 @@ public class AnimalServiceImpl implements AnimalService{
                             .thumbnail(animal.getImage2())
                             .category(temp.substring(1, temp.length()-1))
                             .detailKind(token.nextToken())
+                            .processState(animal.getProcessState())
                             .isBookmarked(true)
                             .build();
                     return animalPreviewRes;
