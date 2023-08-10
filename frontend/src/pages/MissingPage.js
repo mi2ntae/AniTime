@@ -7,7 +7,6 @@ import { setDesertionNo } from "reducer/detailInfo.js";
 import http from "api/commonHttp";
 import "intersection-observer";
 import ProfileTab from "components/Profile/ProfileTab";
-import { ConstructionOutlined } from "@mui/icons-material";
 import AnimalItem from "components/Desertion/AnimalItem";
 
 export default function Missing() {
@@ -27,8 +26,8 @@ export default function Missing() {
         `recommand/${profileNo}?curPageNo=${page.current}`
       );
       let newData = await response.data;
-      console.log("recommand result");
-      console.log("newData");
+      // console.log("recommand result");
+      // console.log("newData");
       setAnimals((prev) => [...prev, ...newData]);
     } catch (error) {
       console.log("에러메시지: ", error);

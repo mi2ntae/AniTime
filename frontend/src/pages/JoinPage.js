@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { createTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginTab from "../components/Login/LoginTab.jsx";
 import { styled } from "styled-components";
 
@@ -18,6 +18,12 @@ export default function LoginPage() {
 
   const dispatch = useDispatch();
   const navi = useNavigate();
+
+  //입력 값이 없을 때는 true (제출 시 빈칸 여부 따로 따져야 함)
+  const [emailValid, setEmailValid] = useState(true);
+  const [phoneValid, setPhoneValid] = useState(true);
+  const [pwValid, setPwValid] = useState(true);
+  const [pwCheck, setPwCheck] = useState(true); //비밀번호 확인
 
   //-----------공통 정보 저장 ------------------------
   const [commoninfo, setInfo] = useState({
@@ -32,7 +38,18 @@ export default function LoginPage() {
       return { ...input, [name]: value };
     });
   };
-  const [passwordCheck, setpPass] = useState({});
+  useEffect(() => {
+    const validateEmail =
+      /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+    if (validateEmail.test(commoninfo.email) || !commoninfo.email) {
+      setEmailValid(true);
+      return;
+    }
+    setEmailValid(false);
+    return;
+  }, [commoninfo.email]);
+
+  const [passwordCheck, setpPass] = useState({ passwordCheck: "" });
 
   const handlePassWordCheck = (e) => {
     const { name, value } = e.target;
@@ -40,6 +57,46 @@ export default function LoginPage() {
       return { ...input, [name]: value };
     });
   };
+
+  useEffect(() => {
+    const validatePassword =
+      /^(?=.*[a-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+
+    if (validatePassword.test(commoninfo.password) || !commoninfo.password) {
+      setPwValid(true);
+      return;
+    }
+    setPwValid(false);
+    return;
+  }, [passwordCheck.passwordCheck, commoninfo.password]);
+
+  useEffect(() => {
+    console.log(passwordCheck.passwordCheck);
+    if (
+      (commoninfo.password.length &&
+        passwordCheck.passwordCheck.length &&
+        commoninfo.password === passwordCheck.passwordCheck) ||
+      !passwordCheck.passwordCheck
+    ) {
+      setPwCheck(true);
+      return;
+    }
+    setPwCheck(false);
+    return;
+  }, [passwordCheck.passwordCheck, commoninfo.password]);
+
+  useEffect(() => {
+    if (
+      (/^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(commoninfo.phone) &&
+        commoninfo.phone[0] == "0") ||
+      !commoninfo.phone
+    ) {
+      setPhoneValid(true);
+      return;
+    }
+    setPhoneValid(false);
+    return;
+  }, [commoninfo.phone]);
   //-------보호소 정보 저장 변수, onChange, Reset()---------
   const [shelterInfo, setShelterInfo] = useState({
     filedata: null,
@@ -239,6 +296,7 @@ export default function LoginPage() {
               autoComplete="name"
             />
             <Input
+              style={emailValid ? {} : { backgroundColor: "red" }}
               placeholder="이메일"
               required
               id="email"
@@ -251,6 +309,7 @@ export default function LoginPage() {
               autoComplete="email"
             />
             <Input
+              style={phoneValid ? {} : { backgroundColor: "red" }}
               placeholder={tabNo === "0" ? "전화번호" : "대표번호"}
               required
               id="phone"
@@ -269,6 +328,7 @@ export default function LoginPage() {
               }}
             >
               <PasswordInput
+                style={pwValid ? {} : { backgroundColor: "red" }}
                 placeholder="비밀번호"
                 type={showPassword ? "text" : "password"}
                 required
@@ -300,6 +360,7 @@ export default function LoginPage() {
               </button>
             </div>
             <Input
+              style={pwCheck ? {} : { backgroundColor: "red" }}
               placeholder="비밀번호 확인"
               required
               id="passwordCheck"

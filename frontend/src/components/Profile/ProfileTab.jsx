@@ -29,7 +29,11 @@ export default function ProfileTab() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!general) return;
+    if (!general.token) {
+      alert("실종 동물 찾기는 회원 가입 후에 이용하실 수 있습니다.");
+      window.history.go(-1);
+      return;
+    }
     http
       .get(`profile/${general.memberNo}`)
       .then((data) => {
