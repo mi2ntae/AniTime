@@ -23,7 +23,7 @@ export default function Desertion() {
 
   let genderType = useSelector((state) => state.filterInfo.genderType);
   gender.current = genderType;
-
+  let jwttoken = useSelector((state) => state.member.token);
   let sortType = useSelector((state) => state.sortInfo.sortType);
   sort.current = sortType;
 
@@ -112,7 +112,7 @@ export default function Desertion() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <DesertionDetail />
+        <DesertionDetail readOnly={!jwttoken} />
       </DetailViewBox>
     </HorizontalContainer>
   );

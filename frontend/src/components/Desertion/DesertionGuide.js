@@ -19,10 +19,6 @@ export default function DesertionGuide() {
       title: "보호소에서 집안 상태에 대한 확인 요청이 있을 예정입니다.",
       content: "입양인 집안 상태 확인은 심사 과정의 일부입니다.",
     },
-    {
-      title: "반려인 본인만 상담을 신청해 주세요.",
-      content: "대리인 입양 신청은 불가능합니다.",
-    },
   ];
   return (
     <MainContainer>
