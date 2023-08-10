@@ -55,7 +55,8 @@ export default function ChattingList() {
           </Text>
         </Box>
         <Box2>
-          {chatList.map((item, idx) => (
+          {chatList.length === 0 ? <NoListMsg>진행중인 채팅이 없습니다.</NoListMsg> : 
+          chatList.map((item, idx) => (
             <ChatPreview key={item.roomNo} onClick={() => {dispatch(setRoom({roomNo: item.roomNo, name: item.name}));
             setActiveIndex(idx);
             const updatedChatList = chatList.map(chatRoom => {
@@ -109,6 +110,14 @@ const LastMsg = styled.span`
   color: var(--darkgrey, #7d848a);
   font-size: 14px;
 `;
+
+const NoListMsg = styled.span`
+  color: "#35383B",
+  fontSize: "36px",
+  fontWeight: 100,
+  textAlign: "center",
+  
+`
 // const LastDate = styled.span`
 //   color: var(--grey-2, #a7aeb4);
 //   text-align: right;
