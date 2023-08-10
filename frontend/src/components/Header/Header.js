@@ -3,29 +3,36 @@ import NavBar from "./NavBar";
 import { styled } from "styled-components";
 import Logo from "./Logo";
 import Notice from "../Notice/Notice";
-import { Link, useLocation } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
-  // const member = useSelector((state) => state.member);
+  const member = useSelector((state) => state.member);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (
+      location.pathname !== "/mypage" &&
+      member.token &&
+      member.memberKind === 1
+    ) {
+      navigate("/mypage");
+    }
   }, [location]);
   return (
     <StyleHeader>
       <HeaderDiv>
         <Logo />
         <div style={{ flexGrow: 1 }}>
-          <NavBar />
+          {(!member.token || member.memberKind === 0) && <NavBar />}
         </div>
         <HeaderRight>
           <Link to={"/faq"}>
             <Img src="/icons/header/ic_help.svg" alt="help" />
           </Link>
           <Notice />
-          {/* <Link to={member.token ? "/mypage" : "/login"}> */}
           <Link to={"/mypage"}>
             <Img src="/icons/header/ic_account.svg" alt="account" />
           </Link>
