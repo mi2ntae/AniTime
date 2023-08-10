@@ -72,9 +72,11 @@ export default function MyPage() {
             display: "flex",
           }}
         >
-          <Button $border="#E8EBEE 1px solid" onClick={updateInfo}>
-            정보수정하기
-          </Button>
+          {member.memberKind === 0 && (
+            <Button $border="#E8EBEE 1px solid" onClick={updateInfo}>
+              정보수정하기
+            </Button>
+          )}
           <Button
             onClick={logout}
             $border="#E8EBEE 3px solid"
