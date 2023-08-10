@@ -18,7 +18,8 @@ export default function Missing() {
   // console.log(profileNo);
 
   const fetchData = async () => {
-    // console.log(profileNo, page.current);
+    console.log(profileNo, page.current);
+    if (profileNo === 0) return;
     try {
       page.current++;
       let response = await http.get(
