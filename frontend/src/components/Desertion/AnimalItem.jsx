@@ -13,35 +13,37 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
     <AnimalImg onClick={handleClick}>
       <AnimalContainer>
         <Img src={animal.thumbnail} alt="AnimalImage" />
-        <BookmarkButton
-          onClick={(e) => {
-            if (memberNo === -1) {
-              if (
-                window.confirm(
-                  "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
-                )
-              ) {
-                navigate("/login");
+        {handleBookmark && (
+          <BookmarkButton
+            onClick={(e) => {
+              if (memberNo === -1) {
+                if (
+                  window.confirm(
+                    "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
+                  )
+                ) {
+                  navigate("/login");
+                }
+              } else {
+                e.stopPropagation();
+                handleBookmark();
+                setIsbookmarked((p) => !p);
               }
-            } else {
-              e.stopPropagation();
-              handleBookmark();
-              setIsbookmarked((p) => !p);
-            }
-          }}
-        >
-          {isbookmarked ? (
-            <FilledHeartIcon
-              src="/icons/btn_favorite_active.svg"
-              alt="Bookmark"
-            />
-          ) : (
-            <EmptyHeartIcon
-              src="/icons/btn_favorite_inactive.svg"
-              alt="NotBookmark"
-            />
-          )}
-        </BookmarkButton>
+            }}
+          >
+            {isbookmarked ? (
+              <FilledHeartIcon
+                src="/icons/btn_favorite_active.svg"
+                alt="Bookmark"
+              />
+            ) : (
+              <EmptyHeartIcon
+                src="/icons/btn_favorite_inactive.svg"
+                alt="NotBookmark"
+              />
+            )}
+          </BookmarkButton>
+        )}
       </AnimalContainer>
       <DivP>
         <Div2>
