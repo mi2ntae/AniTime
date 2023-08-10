@@ -1,5 +1,6 @@
 import http from "api/commonHttp";
 import { getToken } from "api/openvidu";
+import AdoptionForm from "components/AdoptionForm/AdoptionForm";
 import DesertionDetail from "components/Desertion/DesertionDetail";
 import MeetingFooter from "components/Meeting/MeetingFooter";
 import MeetingHeader from "components/Meeting/MeetingHeader";
@@ -197,7 +198,11 @@ export default function MeetingPage() {
 
   return (
     <Div>
-      <MeetingHeader tabOpen={tabOpen} handleTabOpen={setTabOpen} meetingNo={meetingNo}/>
+      <MeetingHeader
+        tabOpen={tabOpen}
+        handleTabOpen={setTabOpen}
+        meetingNo={meetingNo}
+      />
       {openvidu.session ? (
         <MainDiv>
           <VideoDiv>
@@ -221,12 +226,14 @@ export default function MeetingPage() {
           </VideoDiv>
           {(tabOpen.formTab || tabOpen.profileTab || tabOpen.chatTab) && (
             <SideDiv>
-              <TabDiv hidden={!tabOpen.formTab}>{meeting.adoptionForm}</TabDiv>
-              <TabDiv hidden={!tabOpen.profileTab}>
-                <DesertionDetail />
+              <TabDiv hidden={!tabOpen.formTab}>
+                <AdoptionForm url={meeting.adoptionForm} />
               </TabDiv>
-              <TabDiv hidden={!tabOpen.chatTab} style={{overflow:"hidden"}} >
-                <ChatUi height={"100%"}/>
+              <TabDiv hidden={!tabOpen.profileTab}>
+                <DesertionDetail readOnly={true} />
+              </TabDiv>
+              <TabDiv hidden={!tabOpen.chatTab} style={{ overflow: "hidden" }}>
+                <ChatUi height={"100%"} />
               </TabDiv>
             </SideDiv>
           )}

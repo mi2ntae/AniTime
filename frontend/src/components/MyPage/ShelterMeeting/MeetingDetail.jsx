@@ -8,6 +8,7 @@ import { processState } from "./processState";
 import { Button } from "@mui/material";
 import { Input, Row } from "styled/styled";
 import { useNavigate } from "react-router";
+import AdoptionForm from "components/AdoptionForm/AdoptionForm";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
@@ -105,7 +106,8 @@ export default function MeetingDetail() {
         <>
           <Content>
             <DesertionDetail readOnly={true} />
-            {adoptionForm}
+            {/* {adoptionForm} */}
+            <AdoptionForm url={adoptionForm} />
           </Content>
           <Footer>
             <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>

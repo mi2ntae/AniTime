@@ -58,23 +58,25 @@ export default function DesertionDetail({ readOnly }) {
               : `url("/no_image.png") no-repeat center/cover`,
           }}
         >
-          <Fullscreen
-            sx={{
-              boxSizing: "content-box",
-              padding: "4px",
-              backgroundColor: "#FFF8",
-              borderRadius: "50%",
-              margin: "8px",
-              cursor: "pointer",
-            }}
-            onClick={(e) => {
-              window.open(
-                `${animal.thumbnail}`,
-                "Child",
-                "width=500, height=400"
-              );
-            }}
-          />
+          {desertionNo !== 0 && (
+            <Fullscreen
+              sx={{
+                boxSizing: "content-box",
+                padding: "4px",
+                backgroundColor: "#FFF8",
+                borderRadius: "50%",
+                margin: "8px",
+                cursor: "pointer",
+              }}
+              onClick={(e) => {
+                window.open(
+                  `${animal.thumbnail}`,
+                  "Child",
+                  "width=500, height=400"
+                );
+              }}
+            />
+          )}
         </div>
         <div className="animal-desc-container">
           <div className="animal-title-area">대상동물 정보</div>
