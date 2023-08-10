@@ -20,7 +20,6 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      {console.log(pathname)}
       {!token && blackList.some((item) => item === pathname) ? (
         <Navigate to="/login" />
       ) : (
