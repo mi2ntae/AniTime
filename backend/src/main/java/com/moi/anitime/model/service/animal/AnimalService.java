@@ -5,6 +5,7 @@ import com.moi.anitime.api.response.profile.ProfileRes;
 import com.moi.anitime.exception.animal.CountAnimalsException;
 import com.moi.anitime.exception.animal.ListLoadingException;
 import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.animal.AnimalCount;
 import com.moi.anitime.model.entity.profile.Profile;
 import org.springframework.data.domain.Pageable;
 
@@ -29,6 +30,8 @@ public interface AnimalService {
 
     public int countPostingAnimals() throws CountAnimalsException;
 
+    public List<AnimalCount> getAnimalCount();
+    public void cntDataUpdate(List<AnimalCount> animalCountls);
     public Map<String, Integer> countReport() throws CountAnimalsException;
 
 }

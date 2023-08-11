@@ -6,7 +6,9 @@ import com.moi.anitime.exception.animal.CountAnimalsException;
 import com.moi.anitime.exception.animal.ListLoadingException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.animal.Animal;
+import com.moi.anitime.model.entity.animal.AnimalCount;
 import com.moi.anitime.model.entity.profile.Profile;
+import com.moi.anitime.model.repo.AnimalCountRepo;
 import com.moi.anitime.model.repo.AnimalRepo;
 import com.moi.anitime.model.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class AnimalServiceImpl implements AnimalService{
     private final AnimalRepo animalRepo;
     private final MemberRepo memberRepo;
+    private final AnimalCountRepo animalCountRepo;
     @Override
     public List<AnimalPreviewRes> getAllAnimal(int generalNo, int kindType, int genderType, int sortType, int curPageNo) throws ListLoadingException {
         String kind="";
@@ -90,7 +93,6 @@ public class AnimalServiceImpl implements AnimalService{
 
     @Override
     public void dataUpdate(List<Animal> animalList) {
-        System.out.println(animalList.size());
         animalRepo.saveAll(animalList);
     }
 
@@ -143,6 +145,16 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
     @Override
+    public List<AnimalCount> getAnimalCount() {
+        return animalCountRepo.findAll() == null ? null : animalCountRepo.findAll();
+    }
+
+    @Override
+    public void cntDataUpdate(List<AnimalCount> animalCountls) {
+        animalCountRepo.saveAll(animalCountls);
+    }
+
+
     public Map<String, Integer> countReport() throws CountAnimalsException {
         int newAnimals = animalRepo.countNewAnimals();
         int keeping = animalRepo.countKeepingAnimals();
