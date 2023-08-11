@@ -138,6 +138,15 @@ LOCK TABLES `sheltermember` WRITE;
 INSERT INTO `sheltermember` VALUES (1,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/1dd1b051-f5c1-4a57-bc62-b04249269a28.png'),(2,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/0a64c8fa-6e87-4fac-bc6d-41b121fe9f7e.png'),(3,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/8d70ee47-701a-437a-8a36-7f6ee136a570.png'),(4,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/18679453-c117-42bb-8043-77794b0e7e20.png'),(5,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/6827384f-98c6-470a-959a-ae2066d82aa1.png'),(6,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/f3d0682f-e159-4d1e-a907-584808daf591.png'),(7,'경기도 수원시 팔달구청','https://anitime.s3.ap-northeast-2.amazonaws.com/evidence/1b73d10f-83c2-414c-8603-fa23f1e00912.png');
 /*!40000 ALTER TABLE `sheltermember` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+
+LOCK TABLES `visualizermap` WRITE;
+/*!40000 ALTER TABLE `visualizermap` DISABLE KEYS */;
+INSERT INTO `visualizermap` VALUES (5690000,'세종특별자치시',312),(6110000,'서울특별시',2825),(6260000,'부산광역시',3091),(6270000,'대구광역시',2683),(6280000,'인천광역시',2873),(6290000,'광주광역시',1762),(6300000,'대전광역시',972),(6310000,'울산광역시',1649),(6410000,'경기도',11852),(6430000,'충청북도',2360),(6440000,'충청남도',4593),(6450000,'전라북도',5029),(6460000,'전라남도',4961),(6470000,'경상북도',4539),(6480000,'경상남도',6123),(6500000,'제주특별자치도',2456),(6530000,'강원특별자치도',3080);
+/*!40000 ALTER TABLE `visualizermap` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
