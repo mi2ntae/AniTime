@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "pages/ErrorPage";
+import ProfileReservation from "components/Profile/ProfileReservation";
 
 const router = createBrowserRouter([
   {
@@ -132,6 +133,38 @@ const router = createBrowserRouter([
                 Component: (await import("pages/MissingPage")).default,
               };
             },
+          },
+          {
+            path: "reservation/:shelterNo/:desertionNo",
+            async lazy() {
+              return {
+                Component: (
+                  await import("components/Desertion/DesertionReservation")
+                ).default,
+              };
+            },
+            children: [
+              {
+                path: "",
+                async lazy() {
+                  return {
+                    Component: (
+                      await import("components/Desertion/DesertionGuide")
+                    ).default,
+                  };
+                },
+              },
+              {
+                path: "selecttime",
+                async lazy() {
+                  return {
+                    Component: (
+                      await import("components/SelectTime/SelectTime")
+                    ).default,
+                  };
+                },
+              },
+            ],
           },
           {
             path: "write",

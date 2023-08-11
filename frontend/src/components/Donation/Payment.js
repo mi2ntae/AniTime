@@ -5,7 +5,7 @@ import { keyframes, styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 
-export default function Payment({ boardNo, price }) {
+export default function Payment({ boardNo, price, agree }) {
   const selector = "#payment-widget";
   const member = useSelector((state) => state.member);
   const clientKey = "test_ck_7DLJOpm5QrlKM42ZEqeVPNdxbWnY";
@@ -58,15 +58,17 @@ export default function Payment({ boardNo, price }) {
           }
         }}
         style={{
-          backgroundColor: "#3994F0",
+          backgroundColor: price >= 1000 && agree ? "#3994F0" : "#A7AEB4",
           width: "100%",
           height: "50px",
           borderRadius: "12px",
           color: "white",
           fontSize: "16px",
           fontWeight: 700,
-          marginTop: "24px",
+          margin: "24px 0px 0px 0px",
+          cursor: price >= 1000 && agree ? "pointer" : "not-allowed",
         }}
+        disabled={price < 1000 || !agree}
       >
         후원하기
       </Button>
@@ -78,12 +80,6 @@ const Div = styled.div`
   margin: auto;
   width: 100%;
   height: 100%;
-  animation: ${keyframes`
-    0% {
-      height: 0;
-    }
-    100% {
-      height: 100%;
-    }
-  `} 5s ease-out forwards;
+  background-color: white;
+  border-radius: 12px;
 `;
