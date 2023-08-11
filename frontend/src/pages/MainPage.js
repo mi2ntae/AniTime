@@ -39,7 +39,7 @@ export default function MainPage() {
       });
   }, []);
   return (
-    <MainContainer $vertical>
+    <MainContainer style={{ maxWidth: "100%", padding: "0" }}>
       <MainImg>
         <MainText>
           비대면 입양 문화의 시작
@@ -138,18 +138,20 @@ const MainImg = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  position: absolute;
   left: 0;
   box-sizing: border-box;
   width: 100%;
-  min-width: 1200px;
+  min-width: 800px;
   height: calc(100vh - 220px);
-  padding-right: 20vw;
 `;
 
 const MainText = styled.h1`
   color: white;
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
   margin-top: 100px;
+  padding-right: 24px;
   text-align: right;
 `;
 
@@ -158,9 +160,10 @@ const ReportDiv = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  max-width: 1240px;
   height: 136px;
-  margin: 0;
-  margin-top: calc(100vh - 220px);
+  margin: 0 auto;
   padding: 0;
 `;
 
@@ -176,13 +179,17 @@ const ReportNumber = styled.span`
 `;
 
 const SliderTitle = styled.h1`
+  margin: auto;
   margin-top: 56px;
   margin-bottom: 24px;
+  max-width: 1240px;
   text-align: center;
 `;
 
 const HowDiv = styled.div`
+  margin: auto;
   margin-top: 80px;
+  max-width: 1240px;
   text-align: left;
 `;
 
