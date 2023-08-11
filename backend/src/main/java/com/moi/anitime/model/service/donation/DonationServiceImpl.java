@@ -1,5 +1,6 @@
 package com.moi.anitime.model.service.donation;
 
+import com.moi.anitime.api.request.notice.NoticeReq;
 import com.moi.anitime.api.response.donation.DonationBoardListRes;
 import com.moi.anitime.api.response.donation.DonationBoardRes;
 import com.moi.anitime.api.response.donation.DonationBoardsListForShelterRes;
@@ -16,6 +17,7 @@ import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.repo.DonationBoardRepo;
 import com.moi.anitime.model.repo.DonationRepo;
 import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.model.service.notice.NoticeService;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +49,7 @@ public class DonationServiceImpl implements DonationService {
     private final DonationBoardRepo donationBoardRepo;
     private final MemberRepo memberRepo;
     private final S3Uploader s3Uploader;
+    private final NoticeService noticeService;
 
     @Value("${donationBoard.image.path}")
     private String imagePath;
@@ -242,5 +245,13 @@ public class DonationServiceImpl implements DonationService {
                 .donateDate(LocalDateTime.now()).build();
         donationRepo.save(donation);
         donationBoardRepo.updateAmount(boardNo, amount);
+        DonationBoard board=donationBoardRepo.findDonationBoardByBoardNo(boardNo).get();
+        NoticeReq noticeReq=new NoticeReq();
+        noticeReq.setNoticeKind(3);
+        noticeReq.setAmount(amount);
+        noticeReq.setGeneralNo(memberNo);
+        noticeReq.setShelterNo(board.getShelterNo());
+        noticeService.generateNotice(noticeReq);
+
     }
 }
