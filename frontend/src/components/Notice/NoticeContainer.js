@@ -62,6 +62,7 @@ const Body = styled.div`
   padding: 16px;
   text-align: center;
   row-gap: 16px;
+  font-size: 0.85rem;
 `;
 
 const Footer = styled.div`
@@ -70,6 +71,8 @@ const Footer = styled.div`
   align-items: center;
   height: 50px;
   box-sizing: border-box;
-  border-top: grey 1px solid;
+  border-top: #e8ebee 1px solid;
   cursor: pointer;
+  color: #7d848a;
+  font-size: 0.85rem;
 `;

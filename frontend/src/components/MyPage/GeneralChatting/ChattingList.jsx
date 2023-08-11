@@ -13,24 +13,23 @@ export default function ChattingList() {
 
   const memberKind = useSelector((state) => state.member.memberKind);
   const memberNo = useSelector((state) => state.member.memberNo);
-  
+
   const [chatList, setChatList] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
 
   // const dispatch = useDispatch();
 
   useEffect(() => {
-    http.get(`chat/room/${memberKind}/${memberNo}`)
-    .then((res) => {
-      console.log(res.data)
-      setChatList(res.data);
-    })
-    .catch((err) => {
-      console.log("ddd");
-    })
+    http
+      .get(`chat/room/${memberKind}/${memberNo}`)
+      .then((res) => {
+        console.log(res.data);
+        setChatList(res.data);
+      })
+      .catch((err) => {
+        console.log("ddd");
+      });
   }, []);
-  
-
 
   return (
     <>
@@ -55,34 +54,53 @@ export default function ChattingList() {
           </Text>
         </Box>
         <Box2>
-          {chatList.length === 0 ? <NoListMsg>진행중인 채팅이 없습니다.</NoListMsg> : 
-          chatList.map((item, idx) => (
-            <ChatPreview key={item.roomNo} onClick={() => {dispatch(setRoom({roomNo: item.roomNo, name: item.name}));
-            setActiveIndex(idx);
-            const updatedChatList = chatList.map(chatRoom => {
-              if (chatRoom.roomNo === item.roomNo) {
-                return { ...chatRoom, unreadCnt: 0 };
-              }
-              return chatRoom;
-            });
-            setChatList(updatedChatList);}} 
-            className={activeIndex=== idx ? "active" : ""}
-            >
-              <Div>
-                <ShelterName>{item.name}</ShelterName>
-              </Div>
-              <Div>
-                <LastMsg>{item.lastMsg.length > 25 ? item.lastMsg.substr(0, 25)+"..." : item.lastMsg}</LastMsg>
-                {item.unreadCnt !== 0 ? 
-                  item.unreadCnt >9 ? item.unreadCnt>99? item.unreadCnt>300 ?  
-                 <Cnt4>300+</Cnt4>
-                 :<Cnt3>{item.unreadCnt}</Cnt3>
-                 :<Cnt2>{item.unreadCnt}</Cnt2>
-                 : <Cnt>{item.unreadCnt}</Cnt>
-                 : null}
-              </Div>
-            </ChatPreview>
-          ))}
+          {chatList.length === 0 ? (
+            <NoListMsg>진행중인 채팅이 없습니다.</NoListMsg>
+          ) : (
+            chatList.map((item, idx) => (
+              <ChatPreview
+                key={item.roomNo}
+                onClick={() => {
+                  dispatch(setRoom({ roomNo: item.roomNo, name: item.name }));
+                  setActiveIndex(idx);
+                  const updatedChatList = chatList.map((chatRoom) => {
+                    if (chatRoom.roomNo === item.roomNo) {
+                      return { ...chatRoom, unreadCnt: 0 };
+                    }
+                    return chatRoom;
+                  });
+                  setChatList(updatedChatList);
+                }}
+                className={activeIndex === idx ? "active" : ""}
+              >
+                <Div>
+                  <ShelterName>{item.name}</ShelterName>
+                </Div>
+                <Div>
+                  <LastMsg>
+                    {item.lastMsg.length > 25
+                      ? item.lastMsg.substr(0, 25) + "..."
+                      : item.lastMsg}
+                  </LastMsg>
+                  {item.unreadCnt !== 0 ? (
+                    item.unreadCnt > 9 ? (
+                      item.unreadCnt > 99 ? (
+                        item.unreadCnt > 300 ? (
+                          <Cnt4>300+</Cnt4>
+                        ) : (
+                          <Cnt3>{item.unreadCnt}</Cnt3>
+                        )
+                      ) : (
+                        <Cnt2>{item.unreadCnt}</Cnt2>
+                      )
+                    ) : (
+                      <Cnt>{item.unreadCnt}</Cnt>
+                    )
+                  ) : null}
+                </Div>
+              </ChatPreview>
+            ))
+          )}
         </Box2>
       </Box>
     </>
@@ -117,7 +135,7 @@ const NoListMsg = styled.span`
   fontWeight: 100,
   textAlign: "center",
   
-`
+`;
 // const LastDate = styled.span`
 //   color: var(--grey-2, #a7aeb4);
 //   text-align: right;
@@ -261,21 +279,19 @@ const ChatPreview = styled.div`
   display: flex;
   gap: 7px;
   flex-direction: column;
-  background-color: var(--lightestgrey, #f7f8fa);
+  background-color: white;
   border-radius: 10px;
   align-content: center;
   jusify-content: center;
-  &:hover{
-    background-color: #ccc;
+  &:hover {
+    background-color: #e8ebee;
   }
-  &.active{
-    background-color: #e1f0ff;
-    border: 2px solid #3994f0;
-    &:hover{
-      background-color: #ccc;
+  &.active {
+    background-color: var(--lightestgrey, #f7f8fa);
+    &:hover {
+      background-color: #e8ebee;
     }
   }
-
 `;
 const Box2 = styled.div`
   flex: 1;

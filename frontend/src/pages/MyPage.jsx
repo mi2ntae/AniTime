@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
+import { styled, createGlobalStyle } from "styled-components";
 import { MainContainer, Button } from "styled/styled";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs } from "@mui/material";
@@ -12,6 +12,12 @@ import ShelterDonationDetail from "components/MyPage/ShelterDonationDetail.jsx";
 import http from "../api/commonHttp.js";
 import { useNavigate } from "react-router-dom";
 import { initMember } from "../reducer/member";
+
+const GlobalStyles = createGlobalStyle`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export default function MyPage() {
   const member = useSelector((state) => state.member);
@@ -62,6 +68,7 @@ export default function MyPage() {
 
   return (
     <MainContainer>
+      <GlobalStyles />
       <MyPageHeader>
         <MemberNameDiv>
           <MemberName>{member.name}</MemberName>
