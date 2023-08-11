@@ -86,7 +86,6 @@ export default function MyPage() {
           )}
           <Button
             onClick={logout}
-            $border="#E8EBEE 3px solid"
             $background_color="#FF7676"
             color="white"
             style={{
