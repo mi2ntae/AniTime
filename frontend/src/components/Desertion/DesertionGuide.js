@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Button, MainContainer } from "styled/styled";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function DesertionGuide() {
+  const location = useLocation();
+
   const arr = [
     { title: "꼭 사실만을 작성해 주세요.", content: "" },
     { title: "가족 구성원과의 합의 후 상담을 신청해 주세요.", content: "" },
@@ -61,7 +63,7 @@ export default function DesertionGuide() {
             </div>
           ))}
         </GuideContainer>
-        <Link to="/desertion/reservation/selecttime">
+        <Link to={`${location.pathname}/selecttime`}>
           <Button
             style={{
               fontSize: "16px",
