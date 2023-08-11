@@ -6,36 +6,21 @@ import http from "api/commonHttp";
 import CountUp from "react-countup";
 
 export default function MainPage() {
-  const [newAnimals, setNewAnimals] = useState(-1);
-  const [posting, setPosting] = useState(-1);
-  const [keeping, setKeeping] = useState(-1);
+  const [report, setReport] = useState({
+    newAnimals: -1,
+    keeping: -1,
+    posting: -1,
+  });
 
   useEffect(() => {
     // 서버와 통신하여 데이터 가져오기
-    const data = [-1, -1, -1];
     http
-      .get(`desertion/new`)
-      .then((res) => {
-        setNewAnimals(res.data);
+      .get(`desertion/count`)
+      .then(({ data }) => {
+        setReport((p) => ({ ...p, ...data }));
       })
       .catch((err) => {
-        window.alert(err);
-      });
-    http
-      .get(`desertion/count/posting`)
-      .then((res) => {
-        setPosting(res.data);
-      })
-      .catch((err) => {
-        window.alert(err);
-      });
-    http
-      .get(`desertion/count/keeping`)
-      .then((res) => {
-        setKeeping(res.data);
-      })
-      .catch((err) => {
-        window.alert(err);
+        console.error(err);
       });
   }, []);
   return (
@@ -52,21 +37,21 @@ export default function MainPage() {
         <ReportText>
           오늘 구조된 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={newAnimals} delay={2} />
+            <CountUp start={0} end={report.newAnimals} delay={2} />
           </ReportNumber>
           마리
         </ReportText>
         <ReportText>
           현재 공고 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={posting} delay={2} />
+            <CountUp start={0} end={report.posting} delay={2} />
           </ReportNumber>
           마리
         </ReportText>
         <ReportText>
           보호 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={keeping} delay={2} />
+            <CountUp start={0} end={report.keeping} delay={2} />
           </ReportNumber>
           마리
         </ReportText>

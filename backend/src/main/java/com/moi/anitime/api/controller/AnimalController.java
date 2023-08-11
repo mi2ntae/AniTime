@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.StringTokenizer;
 
@@ -110,5 +111,10 @@ public class AnimalController {
     @GetMapping("/count/keeping")
     SingleResponse<Integer> countKeepingAnimals(){
         return responseService.getSingleResponse(animalService.countKeepingAnimals());
+    }
+
+    @GetMapping("/count")
+    SingleResponse<Map<String, Integer>> countReport() {
+        return responseService.getSingleResponse(animalService.countReport());
     }
 }
