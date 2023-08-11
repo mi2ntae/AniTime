@@ -16,7 +16,7 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
         {noticeContent.split("\\n").map((item, index) => (
           <span key={index}>{item}</span>
         ))}
-        <span style={{ color: "gray" }}>{noticeTime}</span>
+        <span style={{ color: "#7D848A", fontSize: "12px" }}>{noticeTime}</span>
       </ContentDiv>
     </ItemDiv>
   );
