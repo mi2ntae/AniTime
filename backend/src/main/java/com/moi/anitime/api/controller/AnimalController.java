@@ -111,4 +111,5 @@ public class AnimalController {
     SingleResponse<Integer> countKeepingAnimals(){
         return responseService.getSingleResponse(animalService.countKeepingAnimals());
     }
+
 }
