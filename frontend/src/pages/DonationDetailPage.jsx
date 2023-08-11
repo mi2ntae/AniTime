@@ -2,16 +2,24 @@ import { Button } from "@mui/material";
 import { width } from "@mui/system";
 import http from "api/commonHttp";
 import Payment from "components/Donation/Payment";
+import ToSModal from "components/Donation/ToSModal";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { keyframes, styled } from "styled-components";
 import { MainContainer } from "styled/styled";
+import { useSpring, animated, config } from "@react-spring/web";
 
 export default function DonationDetailPage() {
   const boardNo = useLocation().pathname.split("/").pop();
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
   const [clickPayment, setClickPayment] = useState(false);
+
+  const [agree, setAgree] = useState(false);
+
+  const handleAgreeChange = (e) => {
+    setAgree(e.target.checked);
+  };
 
   useEffect(() => {
     http
@@ -23,6 +31,39 @@ export default function DonationDetailPage() {
         console.log(error);
       });
   }, []);
+
+  const handleChange = (e) => {
+    const value = e.target.value.replace(/,/g, ""); // 쉼표 제거
+
+    if (!isNaN(value) && value >= 0) {
+      if (value > 100000000) {
+        alert("최대 1억원까지 후원 가능합니다.");
+        e.target.value = formatNumber(100000000); // 최대값인 1억으로 설정
+        setPrice(100000000);
+      } else {
+        e.target.value = formatNumber(value); // 쉼표 추가
+        setPrice(value); // 쉼표가 없는 숫자로 상태 업데이트
+      }
+    } else {
+      e.target.value = "";
+      alert("유효한 값을 입력해주세요.");
+      setPrice("");
+    }
+  };
+
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const paymentAnimation = useSpring({
+    from: { maxHeight: "0px", opacity: 0 },
+    to: {
+      maxHeight: clickPayment ? "1000px" : "0px", // 예상되는 최대 높이값을 설정해주세요.
+      opacity: clickPayment ? 1 : 0,
+    },
+    config: { duration: 1000 },
+  });
+
   return (
     <MainContainer>
       <div
@@ -173,12 +214,10 @@ export default function DonationDetailPage() {
                 }}
               >
                 <NumInput
-                  type="number"
+                  type="text"
                   placeholder="최소 1,000원"
-                  value={price}
-                  onChange={(e) => {
-                    setPrice(e.target.value);
-                  }}
+                  value={formatNumber(price)}
+                  onChange={handleChange}
                 />
                 <div style={{ textAlign: "right", flex: 1 }}>원</div>
               </div>
@@ -199,9 +238,10 @@ export default function DonationDetailPage() {
                       border: "1.5px solid #E8EBEE",
                       borderRadius: "2px",
                     }}
+                    onChange={handleAgreeChange}
                   />
                   <label
-                    for="agree"
+                    htmlFor="agree"
                     style={{
                       color: "#535A61",
                       fontSize: "14px",
@@ -212,40 +252,35 @@ export default function DonationDetailPage() {
                     약관에 동의합니다
                   </label>
                 </div>
-                <div
-                  style={{
-                    color: "#535A61",
-                    fontSize: "14px",
-                    fontWeight: 400,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  약관 확인하기
-                  <img src="/icons/arrow_right.svg" />
-                </div>
+                <ToSModal />
               </div>
             </div>
-            {clickPayment ? (
-              <Payment boardNo={boardNo} price={price} />
-            ) : (
+            {clickPayment ? null : (
               <Button
                 style={{
                   backgroundColor: "white",
                   width: "100%",
                   height: "50px",
                   borderRadius: "12px",
-                  color: "#3994F0",
+                  color: price >= 1000 && agree ? "#3994F0" : "#A7AEB4",
                   fontSize: "16px",
                   fontWeight: 700,
                   marginTop: "24px",
-                  border: "1px solid #3994F0",
+                  border:
+                    price >= 1000 && agree
+                      ? "1px solid #3994F0"
+                      : "1px solid #A7AEB4",
+                  cursor: price >= 1000 && agree ? "pointer" : "not-allowed",
                 }}
                 onClick={() => setClickPayment(true)}
+                disabled={price < 1000 || !agree}
               >
                 후원하기
               </Button>
             )}
+            <animated.div style={{ ...paymentAnimation, overflow: "hidden" }}>
+              <Payment boardNo={boardNo} price={price} agree={agree} />
+            </animated.div>
           </div>
         </div>
         <img
