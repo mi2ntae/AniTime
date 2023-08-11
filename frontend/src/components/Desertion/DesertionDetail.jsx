@@ -145,12 +145,15 @@ export default function DesertionDetail({ readOnly }) {
                   </Modal>
                 )}
               </button>
-              <Link to="/desertion/reservation" style={{ flex: "1" }}>
+              <Link
+                to={`/desertion/reservation/${animal.shelterNo}/${desertionNo}`}
+                style={{ flex: "1" }}
+              >
                 <button
                   className="animal-meet-btn"
-                  onClick={() => {
-                    dispatch(setShelterNo(animal.shelterNo));
-                  }}
+                  // onClick={() => {
+                  //   dispatch(setShelterNo(animal.shelterNo));
+                  // }}
                 >
                   미팅하기
                 </button>
