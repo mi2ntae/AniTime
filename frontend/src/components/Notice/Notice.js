@@ -32,7 +32,7 @@ export default function Notice() {
       .then(({ data }) => {
         setNoticeNum(data);
       })
-      .catch((error) => console.console.error(error));
+      .catch((error) => console.error(error));
   }, [member]);
 
   useEffect(() => {
