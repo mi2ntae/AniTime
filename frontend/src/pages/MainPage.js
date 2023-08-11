@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
 import http from "api/commonHttp";
 import CountUp from "react-countup";
+import DesertionMap from "components/Main/DesertionMap";
 
 export default function MainPage() {
   const [report, setReport] = useState({
@@ -56,6 +57,9 @@ export default function MainPage() {
           마리
         </ReportText>
       </ReportDiv>
+
+      <SliderTitle>전국의 입양을 기다리는 아이들</SliderTitle>
+      <DesertionMap />
 
       <SliderTitle>입양을 기다리는 아이들이에요</SliderTitle>
       <Slider />

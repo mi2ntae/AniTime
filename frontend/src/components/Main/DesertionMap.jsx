@@ -1,8 +1,8 @@
-import { SimpleSouthKoreaMapChart } from "components/SimpleSouthKoreaMapChart";
+import { SimpleSouthKoreaMapChart } from "components/Map/SimpleSouthKoreaMapChart";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 
-export default function LoginPage() {
+export default function DesertionMap() {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (data.length == 0) fetchData();
@@ -35,8 +35,7 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        width: "80%",
-        height: "400px",
+        margin: "auto",
         padding: "20px",
         background: "white",
       }}
