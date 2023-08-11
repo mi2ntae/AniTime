@@ -71,15 +71,16 @@ public class ChatServiceImpl implements ChatService {
 					.shelterMember(shelterMember)
 					.build();
 			room = chatRoomRepo.save(newRoom);
+
+//		System.out.println(room);
+			ChatMessage message = ChatMessage.builder()
+					.chatRoom(room)
+					.sender(generalMember)
+					.type(0)
+					.content(FIRST_MESSAGE + animal.get().getDesertionNo() + LAST_MESSAGE)
+					.isread(false).build();
+			chatMessageRepo.save(message);
 		}
-		System.out.println(room);
-		ChatMessage message = ChatMessage.builder()
-				.chatRoom(room)
-				.sender(generalMember)
-				.type(0)
-				.content(FIRST_MESSAGE+animal.get().getDesertionNo()+LAST_MESSAGE)
-				.isread(false).build();
-		chatMessageRepo.save(message);
 		resBuilder
 				.roomNo(room.getRoomNo())
 				.chatMessage(this.getChats(room.getRoomNo()));

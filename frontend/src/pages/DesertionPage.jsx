@@ -135,7 +135,6 @@ const ListContainer = styled.div`
   /* display: flex; */
   flex-grow: 2;
   /* flex-wrap: wrap; */
-  margin-top: 10px;
   /* justify-content: flex-start; */
   /* align-content: flex-start; */
   height: 700px;
@@ -159,7 +158,7 @@ const FiltersContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  margin-top: 48px;
+  margin-top: 65px;
 `;
 
 const Target = styled.div`
