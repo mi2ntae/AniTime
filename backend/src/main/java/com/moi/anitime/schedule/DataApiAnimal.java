@@ -277,7 +277,7 @@ public class DataApiAnimal {
         animalService.dataUpdate(animalList);
     }
 
-    public long getPageCnt() throws InterruptedException {
+    public long getPageCnt(String code) throws InterruptedException {
         LocalDate now = LocalDate.now();
         // 연도, 월(문자열, 숫자), 일, 일(year 기준), 요일(문자열, 숫자)
         int year = now.getYear();
@@ -288,12 +288,11 @@ public class DataApiAnimal {
         }
 
         int dayOfMonth = 1;
-        String endDate = Integer.toString(year) + (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
         String startDate = Integer.toString(year) +  (monthValue<10 ? "0" :"")+Integer.toString(monthValue) +  (dayOfMonth<10 ? "0" :"")+Integer.toString(dayOfMonth);
 
 
 //        System.out.println(SERVICE_KEY);
-        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1000" +"&pageNo=1&bgnde="+startDate;
+        String url = API_URL + "?serviceKey=" + SERVICE_KEY + "&_type=json&numOfRows=1" +"&pageNo=1&bgnde="+startDate+ (code.equals("")? code : "&upr_cd="+code) ;
         String data = restTemplate.getForObject(url, String.class);
 
         long cnt = -1;
