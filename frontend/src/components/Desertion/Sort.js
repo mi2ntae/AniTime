@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "components/Modal/Modal";
 import { styled } from "styled-components";
 import SortItem from "./SortItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAscClicked,
+  setDescClicked,
+  setSortSelected,
+  setSortType,
+} from "reducer/sortInfo";
 
 export default function Sort() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +16,7 @@ export default function Sort() {
   let descClicked = useSelector((state) => state.sortInfo.descClicked);
   let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
   let sortSelected = useSelector((state) => state.sortInfo.sortSelected);
-
+  let dispatch = useDispatch();
   const openNotice = () => {
     setIsOpen(true);
     setArrowUp(true);
@@ -24,7 +30,14 @@ export default function Sort() {
     setIsOpen(false);
     setArrowUp(false);
   };
-
+  useEffect(() => {
+    return () => {
+      dispatch(setSortType(0));
+      dispatch(setAscClicked(false));
+      dispatch(setDescClicked(false));
+      dispatch(setSortSelected("정렬"));
+    };
+  }, []);
   return (
     <>
       <SortButton
@@ -32,6 +45,7 @@ export default function Sort() {
           event.stopPropagation();
           openNotice();
         }}
+        className={isOpen ? "active" : ""}
       >
         <Span>{sortSelected}</Span>
         <Span>
@@ -64,6 +78,10 @@ const SortButton = styled.button`
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  &.active {
+    background-color: #e1f0ff;
+    border: 2px solid #3994f0;
+  }
 `;
 const Span = styled.span`
   font-size: 15px;
