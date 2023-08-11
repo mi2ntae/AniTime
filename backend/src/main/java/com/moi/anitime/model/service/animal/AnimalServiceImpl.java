@@ -15,9 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -141,5 +140,19 @@ public class AnimalServiceImpl implements AnimalService{
     @Override
     public int countPostingAnimals() throws CountAnimalsException {
         return animalRepo.countPostingAnimals();
+    }
+
+    @Override
+    public Map<String, Integer> countReport() throws CountAnimalsException {
+        int newAnimals = animalRepo.countNewAnimals();
+        int keeping = animalRepo.countKeepingAnimals();
+        int posting = animalRepo.countPostingAnimals();
+
+        Map<String, Integer> res = new HashMap<>();
+        res.put("newAnimals", newAnimals);
+        res.put("keeping", keeping);
+        res.put("posting", posting);
+
+        return res;
     }
 }
