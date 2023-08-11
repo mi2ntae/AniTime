@@ -1,19 +1,25 @@
-import { SimpleSouthKoreaMapChart } from "components/SimpleSouthKoreaMapChart";
+import { SimpleSouthKoreaMapChart } from "components/Map/SimpleSouthKoreaMapChart";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 
-export default function LoginPage() {
+export default function DesertionMap() {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (data.length == 0) fetchData();
   }, [data]);
+
+  const processName = (name) => (name === "강원특별자치도" ? "강원도" : name);
+
   const fetchData = async () => {
     try {
       let response = await http.get(`count`);
       let newdata = await response.data;
       newdata.reduce((acc, cur) => {
         console.log(cur);
-        setData((p) => [...p, { locale: cur.mapName, count: cur.entryNumber }]);
+        setData((p) => [
+          ...p,
+          { locale: processName(cur.mapName), count: cur.entryNumber },
+        ]);
       });
       console.log(data);
     } catch (error) {
@@ -35,8 +41,7 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        width: "80%",
-        height: "400px",
+        margin: "auto",
         padding: "20px",
         background: "white",
       }}

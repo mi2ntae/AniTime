@@ -24,7 +24,7 @@ export default function App() {
       ) : (
         <Navigate to="/login" />
       )}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
