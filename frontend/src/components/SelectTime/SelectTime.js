@@ -4,23 +4,21 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import { ProgressBar } from "styled/styled";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 import { setReservedDate } from "reducer/reservation";
 import http from "api/commonHttp";
 import Swal from "sweetalert2";
 
 export default function SelectTime() {
-  const generalNo = useSelector((state) => state.member.memberNo);
-  const reservedDate = useSelector((state) => state.reservedDate);
-  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
-  const shelterNo = useSelector((state) => state.detailInfo.shelterNo);
+  const { shelterNo, desertionNo } = useParams();
   const [shelter, setShelter] = useState({});
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [possible, setPossible] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     getImpossible();
     setTime("");
@@ -73,7 +71,7 @@ export default function SelectTime() {
         time: tempTime,
       })
     );
-    navigate("/desertion/reservation/form");
+    navigate(`/desertion/reservation/${shelterNo}/${desertionNo}/form`);
   };
   function setReservationDate(value) {
     const temp = new Date();
