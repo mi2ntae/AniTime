@@ -9,10 +9,10 @@ import { setShelterNo } from "reducer/detailInfo";
 import { Fullscreen } from "@mui/icons-material";
 import { setDesertionNo } from "reducer/detailInfo";
 
-export default function DesertionDetail({ readOnly,category  }) {
-  useEffect(()=>{
-    console.log("category:"+category)
-  },[])
+export default function DesertionDetail({ readOnly, category }) {
+  useEffect(() => {
+    console.log("category:" + category);
+  }, []);
   const dispatch = useDispatch();
   const memberNo = useSelector((state) => state.member.memberNo);
   const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
@@ -60,132 +60,154 @@ export default function DesertionDetail({ readOnly,category  }) {
   return (
     <>
       <div className="animal-container">
-        <div
-          className="animal-image"
-          style={{
-            background: animal.thumbnail
-              ? `url(${animal.thumbnail}) no-repeat center/cover`
-              : `url("/no_image.png") no-repeat center/cover`,
-          }}
-        >
-          {desertionNo !== 0 && (
-            <Fullscreen
-              sx={{
-                boxSizing: "content-box",
-                padding: "4px",
-                backgroundColor: "#FFF8",
-                borderRadius: "50%",
-                margin: "8px",
-                cursor: "pointer",
+        {desertionNo === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#A7AEB4",
+              fontSize: "14px",
+              height: "80vh",
+              flexDirection: "column",
+            }}
+          >
+            <img src="/logo_grey.svg" />
+            대상동물을 선택해주세요.
+          </div>
+        ) : (
+          <>
+            <div
+              className="animal-image"
+              style={{
+                background: animal.thumbnail
+                  ? `url(${animal.thumbnail}) no-repeat center/cover`
+                  : `url("/no_image.png") no-repeat center/cover`,
               }}
-              onClick={(e) => {
-                window.open(
-                  `${animal.thumbnail}`,
-                  "Child",
-                  "width=500, height=400"
-                );
-              }}
-            />
-          )}
-        </div>
-        <div className="animal-desc-container">
-          <div className="animal-title-area">대상동물 정보</div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">종류</div>
-            <div className="animal-desc-content">{animal.kind}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">추정나이</div>
-            <div className="animal-desc-content">{animal.birth}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">몸무게</div>
-            <div className="animal-desc-content">{animal.weight}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">털색</div>
-            <div className="animal-desc-content">{animal.color}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">성별</div>
-            <div className="animal-desc-content">{animal.gender}</div>
-          </div>
-
-          <div className="animal-title-area" style={{ marginTop: "32px" }}>
-            공고 정보
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">공고번호</div>
-            <div className="animal-desc-content">{animal.noticeNo}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">공고기간</div>
-            <div className="animal-desc-content">{animal.noticeDate}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">발견장소</div>
-            <div className="animal-desc-content">{animal.location}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">특이사항</div>
-            <div className="animal-desc-content">{animal.specialMark}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">보호센터</div>
-            <div className="animal-desc-content">{animal.shelter}</div>
-          </div>
-          <div className="animal-desc-area">
-            <div className="animal-desc-title">연락처</div>
-            <div className="animal-desc-content">{animal.tel}</div>
-          </div>
-
-          {!readOnly && desertionNo !== 0 && (
-            <div className="animal-btn-container">
-              <button
-                className="animal-chat-btn"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  openNotice();
-                }}
-              >
-                채팅하기{" "}
-              </button>
-              {isOpen && (
-                <Modal posX="-250px" posY="-900px" close={closeNotice}>
-                  <ChatUi width="400px" height="600px" />
-                </Modal>
+            >
+              {desertionNo !== 0 && (
+                <Fullscreen
+                  sx={{
+                    boxSizing: "content-box",
+                    padding: "4px",
+                    backgroundColor: "#FFF8",
+                    borderRadius: "50%",
+                    margin: "8px",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => {
+                    window.open(
+                      `${animal.thumbnail}`,
+                      "Child",
+                      "width=500, height=400"
+                    );
+                  }}
+                />
               )}
-               {category===0?<Link
-                to={`/desertion/reservation/${animal.shelterNo}/${desertionNo}`}
-                style={{ flex: "1" }}
-                state={{category:0}}
-              >
-                <button
-                  className="animal-meet-btn"
-                  // onClick={() => {
-                  //   dispatch(setShelterNo(animal.shelterNo));
-                  // }}
-                >
-                  미팅하기
-                </button>
-              </Link>:<Link
-                to={`/missing/reservation/${animal.shelterNo}/${desertionNo}`}
-                style={{ flex: "1" }}
-                state={{category:1}}
-              >
-                <button
-                  className="animal-meet-btn"
-                  // onClick={() => {
-                  //   dispatch(setShelterNo(animal.shelterNo));
-                  // }}
-                >
-                  미팅하기
-                </button>
-              </Link>}
-              
             </div>
-          )}
-        </div>
+            <div className="animal-desc-container">
+              <div className="animal-title-area">대상동물 정보</div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">종류</div>
+                <div className="animal-desc-content">{animal.kind}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">추정나이</div>
+                <div className="animal-desc-content">{animal.birth}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">몸무게</div>
+                <div className="animal-desc-content">{animal.weight}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">털색</div>
+                <div className="animal-desc-content">{animal.color}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">성별</div>
+                <div className="animal-desc-content">{animal.gender}</div>
+              </div>
+
+              <div className="animal-title-area" style={{ marginTop: "32px" }}>
+                공고 정보
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">공고번호</div>
+                <div className="animal-desc-content">{animal.noticeNo}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">공고기간</div>
+                <div className="animal-desc-content">{animal.noticeDate}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">발견장소</div>
+                <div className="animal-desc-content">{animal.location}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">특이사항</div>
+                <div className="animal-desc-content">{animal.specialMark}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">보호센터</div>
+                <div className="animal-desc-content">{animal.shelter}</div>
+              </div>
+              <div className="animal-desc-area">
+                <div className="animal-desc-title">연락처</div>
+                <div className="animal-desc-content">{animal.tel}</div>
+              </div>
+
+              {!readOnly && desertionNo !== 0 && (
+                <div className="animal-btn-container">
+                  <button
+                    className="animal-chat-btn"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openNotice();
+                    }}
+                  >
+                    채팅하기{" "}
+                  </button>
+                  {isOpen && (
+                    <Modal posX="-250px" posY="-900px" close={closeNotice}>
+                      <ChatUi width="400px" height="600px" />
+                    </Modal>
+                  )}
+                  {category === 0 ? (
+                    <Link
+                      to={`/desertion/reservation/${animal.shelterNo}/${desertionNo}`}
+                      style={{ flex: "1" }}
+                      state={{ category: 0 }}
+                    >
+                      <button
+                        className="animal-meet-btn"
+                        // onClick={() => {
+                        //   dispatch(setShelterNo(animal.shelterNo));
+                        // }}
+                      >
+                        미팅하기
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/missing/reservation/${animal.shelterNo}/${desertionNo}`}
+                      style={{ flex: "1" }}
+                      state={{ category: 1 }}
+                    >
+                      <button
+                        className="animal-meet-btn"
+                        // onClick={() => {
+                        //   dispatch(setShelterNo(animal.shelterNo));
+                        // }}
+                      >
+                        미팅하기
+                      </button>
+                    </Link>
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       <style jsx="true">{`
@@ -193,6 +215,7 @@ export default function DesertionDetail({ readOnly,category  }) {
           border-radius: 8px;
           border: 1px solid var(--lightgrey, #e8ebee);
           width: 100%;
+          height: 80vh;
           box-sizing: border-box;
         }
         .animal-image {
