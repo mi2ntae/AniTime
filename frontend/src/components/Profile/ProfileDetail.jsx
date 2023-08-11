@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import http from "api/commonHttp";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import { setProfileNo } from "reducer/detailInfo";
 
 export default function ProfileDetail() {
+  const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   let title = {
     name: "이름",
@@ -35,6 +37,7 @@ export default function ProfileDetail() {
     http
       .delete(`profile/${profileNo}`)
       .then(() => {
+        dispatch(setProfileNo(0));
         window.location.reload();
       })
       .catch((error) => {
