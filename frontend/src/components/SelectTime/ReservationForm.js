@@ -1,18 +1,17 @@
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import { Button } from "styled/styled";
 import { ProgressBar } from "styled/styled";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import http from "api/commonHttp";
 import html2canvas from "html2canvas";
 
 export default function ReservationForm() {
   const generalNo = useSelector((state) => state.member.memberNo);
   const reservedDate = useSelector((state) => state.reservedDate);
-  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
+  const { desertionNo } = useParams();
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
@@ -26,7 +25,7 @@ export default function ReservationForm() {
     setInputTop((input) => {
       return { ...input, [name]: value };
     });
-    console.log(inputTop);
+    // console.log(inputTop);
   };
   const handleTextValueChangeBottom = (e) => {
     const { name, value } = e.target;
