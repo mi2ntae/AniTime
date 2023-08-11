@@ -17,7 +17,6 @@ export default function Desertion() {
   const kind = useRef(0);
   const gender = useRef(0);
   const sort = useRef(0);
-
   let dispatch = useDispatch();
 
   let kindType = useSelector((state) => state.filterInfo.kindType);
@@ -105,7 +104,7 @@ export default function Desertion() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <DesertionDetail readOnly={!jwttoken} />
+        <DesertionDetail readOnly={!jwttoken} category={0} />
       </DetailViewBox>
     </HorizontalContainer>
   );
