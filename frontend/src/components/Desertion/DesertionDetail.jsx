@@ -30,7 +30,7 @@ export default function DesertionDetail({ readOnly,category  }) {
           console.log(err);
         });
     }
-    setIsOpen(true);
+    setIsOpen((p) => !p);
   };
   const closeNotice = () => {
     setIsOpen(false);
@@ -54,7 +54,7 @@ export default function DesertionDetail({ readOnly,category  }) {
   useEffect(() => {
     return () => {
       dispatch(setDesertionNo(0));
-    }
+    };
   }, []);
 
   return (
@@ -149,13 +149,13 @@ export default function DesertionDetail({ readOnly,category  }) {
                 }}
               >
                 채팅하기{" "}
-                {isOpen && (
-                  <Modal posX="-250px" posY="-900px" close={closeNotice}>
-                    <ChatUi width="400px" height="600px" />
-                  </Modal>
-                )}
               </button>
-              {category===0?<Link
+              {isOpen && (
+                <Modal posX="-250px" posY="-900px" close={closeNotice}>
+                  <ChatUi width="400px" height="600px" />
+                </Modal>
+              )}
+               {category===0?<Link
                 to={`/desertion/reservation/${animal.shelterNo}/${desertionNo}`}
                 style={{ flex: "1" }}
                 state={{category:0}}
