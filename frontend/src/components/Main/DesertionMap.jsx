@@ -7,13 +7,19 @@ export default function DesertionMap() {
   useEffect(() => {
     if (data.length == 0) fetchData();
   }, [data]);
+
+  const processName = (name) => (name === "강원특별자치도" ? "강원도" : name);
+
   const fetchData = async () => {
     try {
       let response = await http.get(`count`);
       let newdata = await response.data;
       newdata.reduce((acc, cur) => {
         console.log(cur);
-        setData((p) => [...p, { locale: cur.mapName, count: cur.entryNumber }]);
+        setData((p) => [
+          ...p,
+          { locale: processName(cur.mapName), count: cur.entryNumber },
+        ]);
       });
       console.log(data);
     } catch (error) {
