@@ -17,7 +17,11 @@ export default function ReservationForm() {
   const [address, setAddress] = useState("");
   //객체를 그냥 name:"asdf",phone:"000" 형태로 할까?
   const inquiryTop = ["이름", "전화번호", "이메일", "주소", "가족 구성원"];
-  const inquiryBottom = ["1. 질문1", "2. 질문2", "3. 질문3"];
+  const inquiryBottom = [
+    "1. 반려동물을 입양하시는 이유가 무엇입니까?",
+    "2. 입양을 고민하고 결정하는데 어느 정도의 기간이 걸렸고 무엇이 가장 크게 작용했습니까?",
+    "3. 반려동물을 키울 수 있는 환경을 충분히 인지하고 준비하고 있습니까? 어떤 준비를 하고 있는지 말씀해주세요.",
+  ];
   const [inputTop, setInputTop] = useState({});
   const [inputBottom, setInputBottom] = useState({});
   const handleTextValueChangeTop = (e) => {
