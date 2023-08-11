@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import { useDispatch } from "react-redux/";
-import { setKindType, setGenderType } from "reducer/filterInfo";
+import { useDispatch, useSelector } from "react-redux/";
+import {
+  setKindType,
+  setGenderType,
+  setInputAnimal,
+  setInputGender,
+} from "reducer/filterInfo";
+
 export default function FilterItem() {
-  const dispatch = useDispatch();
-  const [inputAnimal, setInputAnimal] = useState("animal");
-  const [inputGender, setInputGender] = useState("gender");
+  let dispatch = useDispatch();
+
+  let inputAnimal = useSelector((state) => state.filterInfo.inputAnimal);
+  let inputGender = useSelector((state) => state.filterInfo.inputGender);
 
   const handleClickRadioButtonAnimal = (radioBtnName) => {
-    setInputAnimal(radioBtnName);
+    dispatch(setInputAnimal(radioBtnName));
     let kindType = 0;
     if (radioBtnName === "dog") {
       kindType = 1;
@@ -20,7 +27,7 @@ export default function FilterItem() {
     dispatch(setKindType(kindType));
   };
   const handleClickRadioButtonGender = (radioBtnName) => {
-    setInputGender(radioBtnName);
+    dispatch(setInputGender(radioBtnName));
     let genderType = 0;
     if (radioBtnName === "female") {
       genderType = 2;
@@ -31,6 +38,7 @@ export default function FilterItem() {
     }
     dispatch(setGenderType(genderType));
   };
+
   return (
     <ItemDiv>
       <Font>축종</Font>
