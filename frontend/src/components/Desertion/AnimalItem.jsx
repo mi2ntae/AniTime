@@ -7,8 +7,6 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
   const navigate = useNavigate();
 
   let memberNo = useSelector((state) => state.member.memberNo);
-
-  console.log(animal.bookmarked);
   return (
     <AnimalImg onClick={handleClick}>
       <AnimalContainer>
