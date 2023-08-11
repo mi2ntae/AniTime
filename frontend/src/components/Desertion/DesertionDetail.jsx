@@ -7,6 +7,7 @@ import Modal from "components/Modal/Modal";
 import { setRoom } from "reducer/chatRoom";
 import { setShelterNo } from "reducer/detailInfo";
 import { Fullscreen } from "@mui/icons-material";
+import { setDesertionNo } from "reducer/detailInfo";
 
 export default function DesertionDetail({ readOnly }) {
   const dispatch = useDispatch();
@@ -46,6 +47,12 @@ export default function DesertionDetail({ readOnly }) {
         console.log("유기동물 세부정보 조회 실패");
       });
   }, [desertionNo]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setDesertionNo(0));
+    }
+  }, []);
 
   return (
     <>
