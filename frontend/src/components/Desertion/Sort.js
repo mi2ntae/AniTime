@@ -12,23 +12,12 @@ import {
 
 export default function Sort() {
   const [isOpen, setIsOpen] = useState(false);
-  const [arrowUp, setArrowUp] = useState(false);
-  let descClicked = useSelector((state) => state.sortInfo.descClicked);
-  let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
+
   let sortSelected = useSelector((state) => state.sortInfo.sortSelected);
   let dispatch = useDispatch();
-  const openNotice = () => {
-    setIsOpen(true);
-    setArrowUp(true);
-  };
-
-  // const toggleOpen = () => {
-  //   setIsOpen((prev) => !prev);
-  // };
 
   const closeNotice = () => {
     setIsOpen(false);
-    setArrowUp(false);
   };
   useEffect(() => {
     return () => {
@@ -43,24 +32,24 @@ export default function Sort() {
       <SortButton
         onClick={(event) => {
           event.stopPropagation();
-          openNotice();
+          setIsOpen((p) => !p);
         }}
         className={isOpen ? "active" : ""}
       >
         <Span>{sortSelected}</Span>
         <Span>
-          {arrowUp ? (
+          {isOpen ? (
             <img src="icons/ic_arrow_up.svg" />
           ) : (
             <img src="icons/ic_arrow_bottom.svg" />
           )}
         </Span>
-        {isOpen && (
-          <Modal posX="49px" posY="25px" close={closeNotice}>
-            <SortItem descClicked={descClicked} ascClicked={ascClicked} />
-          </Modal>
-        )}
       </SortButton>
+      {isOpen && (
+        <Modal posX="42px" posY="5px" close={closeNotice}>
+          <SortItem />
+        </Modal>
+      )}
     </>
   );
 }

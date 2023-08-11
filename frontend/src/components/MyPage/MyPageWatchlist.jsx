@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { css, styled } from "styled-components";
-import { HorizontalContainer } from "styled/styled";
 import http from "api/commonHttp";
 import "intersection-observer";
 import DesertionDetail from "components/Desertion/DesertionDetail";
@@ -66,9 +65,8 @@ export default function MyPageWatchlist() {
     dispatch(setDesertionNo(desertionNo));
   }
   return (
-    <HorizontalContainer>
+    <WatchListContainer>
       <ListFilterContainer>
-        <FiltersContainer></FiltersContainer>
         {bookmarkedAnimals.length === 0 && "데이터가 없습니다"}
         <ListContainer>
           {bookmarkedAnimals.map((animal) => (
@@ -88,9 +86,34 @@ export default function MyPageWatchlist() {
       <DetailViewBox>
         <DesertionDetail />
       </DetailViewBox>
-    </HorizontalContainer>
+    </WatchListContainer>
   );
 }
+
+const WatchListContainer = styled.div`
+  // display: flex;
+  // justify-content: center;
+  // margin: auto;
+  // margin-top: 64px;
+  // padding: 20px;
+  // box-sizing: border-box;
+  // // width: 100%;
+  // max-width: 80%;
+  // min-width: 800px;
+  // min-height: calc(100vh - 160px);
+
+  display: flex;
+  justify-content: space-between;
+  /* width: 70%; */
+  margin: 20px auto 32px auto;
+  //
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1240px;
+  min-width: 800px;
+  min-height: calc(100vh - 160px);
+  padding: 0 20px;
+`;
 
 const ListFilterContainer = styled.div`
   // flex: 1;
@@ -131,17 +154,9 @@ const ListContainer = styled.div`
   `}
 `;
 
-const FiltersContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: right;
-`;
-
 const DetailViewBox = styled.div`
   flex: 1;
-  margin-top: 48px;
+  margin-top: 10px;
 `;
 
 const Target = styled.div`
