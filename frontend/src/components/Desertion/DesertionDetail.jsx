@@ -9,7 +9,10 @@ import { setShelterNo } from "reducer/detailInfo";
 import { Fullscreen } from "@mui/icons-material";
 import { setDesertionNo } from "reducer/detailInfo";
 
-export default function DesertionDetail({ readOnly }) {
+export default function DesertionDetail({ readOnly,category  }) {
+  useEffect(()=>{
+    console.log("category:"+category)
+  },[])
   const dispatch = useDispatch();
   const memberNo = useSelector((state) => state.member.memberNo);
   const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
@@ -152,9 +155,10 @@ export default function DesertionDetail({ readOnly }) {
                   </Modal>
                 )}
               </button>
-              <Link
+              {category===0?<Link
                 to={`/desertion/reservation/${animal.shelterNo}/${desertionNo}`}
                 style={{ flex: "1" }}
+                state={{category:0}}
               >
                 <button
                   className="animal-meet-btn"
@@ -164,7 +168,21 @@ export default function DesertionDetail({ readOnly }) {
                 >
                   미팅하기
                 </button>
-              </Link>
+              </Link>:<Link
+                to={`/missing/reservation/${animal.shelterNo}/${desertionNo}`}
+                style={{ flex: "1" }}
+                state={{category:1}}
+              >
+                <button
+                  className="animal-meet-btn"
+                  // onClick={() => {
+                  //   dispatch(setShelterNo(animal.shelterNo));
+                  // }}
+                >
+                  미팅하기
+                </button>
+              </Link>}
+              
             </div>
           )}
         </div>

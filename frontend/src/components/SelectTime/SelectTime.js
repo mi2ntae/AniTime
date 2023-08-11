@@ -4,21 +4,22 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import { ProgressBar } from "styled/styled";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams, useLocation } from "react-router";
 import { setReservedDate } from "reducer/reservation";
 import http from "api/commonHttp";
 import Swal from "sweetalert2";
 
 export default function SelectTime() {
+  const location = useLocation();
   const { shelterNo, desertionNo } = useParams();
+  const generalNo = useSelector((state) => state.member.memberNo);
   const [shelter, setShelter] = useState({});
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
   const [possible, setPossible] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   useEffect(() => {
     getImpossible();
     setTime("");
@@ -73,6 +74,81 @@ export default function SelectTime() {
     );
     navigate(`/desertion/reservation/${shelterNo}/${desertionNo}/form`);
   };
+  const reserveTime = () => {
+    if (time === "") {
+      alert("시간을 선택해 주세요.");
+      return;
+    }
+    Swal.fire({
+      position: "center",
+      // icon: "success",
+      title: "미팅을 예약하시겠어요?",
+      showCancelButton: true,
+      confirmButtonColor: "#3994F0",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const rdate =
+          "2023-" +
+          (date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1) +
+          "-" +
+          (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
+        let tempTime;
+        if (time.length === 4) {
+          tempTime = "0" + time;
+        } else {
+          tempTime = time;
+        }
+        const data = new FormData();
+        data.append(
+          `meetReservation`,
+          new Blob([
+            JSON.stringify({
+              desertionNo: desertionNo,
+              generalNo: generalNo,
+              reservedDate: rdate + "T" + tempTime,
+            }),
+          ]),
+          {
+            type: "application/json",
+          }
+        );
+        http
+          .post(`meet/reservation`, data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            if (res.code === 200) {
+              Swal.fire({
+                position: "center",
+                // icon: "success",
+                imageUrl: "/icons/img_complete.svg",
+                title: "성공적으로 예약되었습니다.",
+                showConfirmButton: false,
+                timer: 1000,
+              }).then((res) => {
+                navigate("/");
+              });
+            }
+          })
+          .catch(() => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              // imageUrl: "/icons/img_complete.svg",
+              title: "오류가 발생했습니다.",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          });
+      } else return;
+    });
+  };
   function setReservationDate(value) {
     const temp = new Date();
     const year = temp.getFullYear();
@@ -96,34 +172,42 @@ export default function SelectTime() {
   }
   return (
     <PageContainer>
-      <ProgressBar>
-        <div>
-          <img src={`/icons/Component 24.svg`} />
-        </div>
+      {location.state.category === 0 ? (
+        <ProgressBar>
+          <div>
+            <img src={`/icons/Component 24.svg`} />
+          </div>
+          <div
+            style={{
+              width: "312px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                color: "#35383B",
+                fontWeight: "bold",
+              }}
+            >
+              미팅일자 선택
+            </div>
+            <div
+              style={{
+                color: "#7D848A",
+              }}
+            >
+              신청서 작성
+            </div>
+          </div>
+        </ProgressBar>
+      ) : (
         <div
           style={{
-            width: "312px",
-            display: "flex",
-            justifyContent: "space-between",
+            marginTop: "39px",
           }}
-        >
-          <div
-            style={{
-              color: "#35383B",
-              fontWeight: "bold",
-            }}
-          >
-            미팅일자 선택
-          </div>
-          <div
-            style={{
-              color: "#7D848A",
-            }}
-          >
-            신청서 작성
-          </div>
-        </div>
-      </ProgressBar>
+        ></div>
+      )}
       <ShelterContainer>
         <div>{shelter.name}</div>
         <div>
@@ -217,9 +301,15 @@ export default function SelectTime() {
           >
             미팅 일자: {date.getMonth() + 1}월 {date.getDate()}일 {time}
           </div>
-          <button id="nextButton" onClick={submitTime}>
-            다음
-          </button>
+          {location.state.category === 0 ? (
+            <button id="nextButton" onClick={submitTime}>
+              다음
+            </button>
+          ) : (
+            <button id="nextButton" onClick={reserveTime}>
+              미팅 예약하기
+            </button>
+          )}
         </TimePicker>
       </PickerContainer>
     </PageContainer>
@@ -305,6 +395,8 @@ const PickerContainer = styled.div`
     }
     .react-calendar__tile--now:enabled:hover,
     .react-calendar__tile--now:enabled:focus {
+      background-color: #ffffff;
+      border-radius: 40px;
       color: #535a61;
     }
   }

@@ -87,7 +87,7 @@ public class MeetingServiceImpl implements MeetingService {
         int memberKind = member.get().getMemberKind();
 
         Page<Meeting> meetList;
-        if(memberKind == MemberKind.GENERAL.getCode()) meetList = meetingRepo.findMeetingsByMember_MemberNoOrderByReservedDateDesc(memberno, PageRequest.of(page, 8));
+        if(memberKind == MemberKind.GENERAL.getCode()) meetList = meetingRepo.findMeetingsByMember_MemberNoOrderByMeetNoDesc(memberno, PageRequest.of(page, 8));
         else meetList = meetingRepo.findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(memberno, PageRequest.of(page, 8));
 
         List<MeetingListRes> meets = new ArrayList<>();
@@ -168,9 +168,19 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public Map<Integer, Boolean> getPossibleTime(int shelterNo, int month, int day) {
         Map<Integer, Boolean> map = new HashMap<>();
+        LocalDate today=LocalDate.now();
+        LocalDateTime currentTime=LocalDateTime.now();
         LocalDate getDate = LocalDate.of(2023, month, day);
         List<Meeting> meets = meetingRepo.findMeetingsByAnimal_ShelterNoAndMonthAndDay(shelterNo, getDate);
-        for(int i = 0; i < 24; i++) map.put(i, true);
+        for(int i = 0; i < 18; i++){
+            if(today.equals(getDate)){
+                if(i<=currentTime.getHour()){
+                    map.put(i,false);
+                }
+            }
+            else map.put(i, true);
+        }
+
         for(Meeting meet : meets) {
             int hour = meet.getReservedDate().getHour();
             map.put(hour, false);
