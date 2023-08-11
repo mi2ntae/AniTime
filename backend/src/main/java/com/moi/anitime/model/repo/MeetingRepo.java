@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 public interface MeetingRepo extends JpaRepository<Meeting, Integer> {
-    public Page<Meeting> findMeetingsByMember_MemberNoOrderByReservedDateDesc(@Param("generalno") int generalno, Pageable page);
+    public Page<Meeting> findMeetingsByMember_MemberNoOrderByMeetNoDesc(@Param("generalno") int generalno, Pageable page);
     public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(@Param("shelterno") int shelterno, Pageable page);
     public int countMeetingByReservedDateBetweenAndMember_MemberNo(LocalDateTime start, LocalDateTime end, @Param("generalno") int generalNo);
 

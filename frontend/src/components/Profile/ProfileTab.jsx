@@ -19,7 +19,7 @@ export default function ProfileTab() {
   // const generalNo = 2;
 
   useEffect(() => {
-    setWhichComponent(<DesertionDetail />);
+    setWhichComponent(<DesertionDetail category={1}/>);
   }, [desertionNo]);
 
   useEffect(() => {
@@ -75,9 +75,18 @@ export default function ProfileTab() {
           margin-bottom: 8px;
         }
         button {
+          padding:0px 10px;
+          color:#7D848A;
           background-color: white;
           border: 0;
           font-weight: 600;
+          border-right:2px solid #7D848A;
+        }
+        button:last-child{
+          border-right:none;
+        }
+        button:focus{
+          color:#3994F0;
         }
       `}</style>
     </>
