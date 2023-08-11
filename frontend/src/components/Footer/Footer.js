@@ -47,7 +47,7 @@ const FooterDiv = styled.div`
   position: relative;
   top: 16px;
   height: 80px;
-  min-width: 480px;
+  min-width: 800px;
   max-width: 1240px;
   margin: auto;
 `;

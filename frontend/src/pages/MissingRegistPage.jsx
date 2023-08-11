@@ -121,8 +121,6 @@ export default function MissingRegistPage() {
   const [modal, setModal] = useState(false);
 
   // 지도검색 관련
-  const [y, setY] = useState("");
-  const [x, setX] = useState("");
 
   const getPosition = (y, x) => {
     setLat(y);
@@ -151,29 +149,6 @@ export default function MissingRegistPage() {
 
     getAddressFromLatLng(lat, lon);
   }, [lat, lon]);
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          setY(position.coords.latitude);
-          setX(position.coords.longitude);
-        },
-        function (error) {
-          setY(37.5012860931305);
-          setX(127.039604663862);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 0,
-          timeout: Infinity,
-        }
-      );
-    } else {
-      setY(37.5012860931305);
-      setX(127.039604663862);
-    }
-  }, [modal]);
 
   const imageInputRef = useRef();
   const handleimageClick = () => {
@@ -449,14 +424,7 @@ export default function MissingRegistPage() {
           </div>
         </form>
       </WriteContainer>
-      {modal && (
-        <MapComponent
-          y={y}
-          x={x}
-          setModal={setModal}
-          getPosition={getPosition}
-        />
-      )}
+      {modal && <MapComponent setModal={setModal} getPosition={getPosition} />}
     </MainContainer>
   );
 }

@@ -3,6 +3,7 @@ package com.moi.anitime.api.controller;
 import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.api.request.donation.DonationBoardRegistReq;
 import com.moi.anitime.api.request.donation.DonationRegistReq;
+import com.moi.anitime.api.request.notice.NoticeReq;
 import com.moi.anitime.api.response.CommonResponse;
 import com.moi.anitime.api.response.PageResponse;
 import com.moi.anitime.api.response.SingleResponse;
@@ -16,6 +17,7 @@ import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.donation.Donation;
 import com.moi.anitime.model.entity.donation.DonationBoard;
 import com.moi.anitime.model.service.donation.DonationService;
+import com.moi.anitime.model.service.notice.NoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -35,6 +37,7 @@ import java.io.IOException;
 public class DonationController {
     private final ResponseService responseService;
     private final DonationService donationService;
+    private final NoticeService noticeService;
 
     @PostMapping("/shelter/board")
     @ApiOperation(value = "후원 공고 등록")

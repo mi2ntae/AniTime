@@ -83,8 +83,17 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "desertion/reservation",
+        path: "desertion/reservation/:shelterNo/:desertionNo",
         children: [
+          {
+            path: "",
+            async lazy() {
+              return {
+                Component: (await import("components/Desertion/DesertionGuide"))
+                  .default,
+              };
+            },
+          },
           {
             path: "selecttime",
             async lazy() {
@@ -101,15 +110,6 @@ const router = createBrowserRouter([
                 Component: (
                   await import("components/SelectTime/ReservationForm")
                 ).default,
-              };
-            },
-          },
-          {
-            path: "",
-            async lazy() {
-              return {
-                Component: (await import("components/Desertion/DesertionGuide"))
-                  .default,
               };
             },
           },

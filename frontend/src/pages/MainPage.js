@@ -6,40 +6,25 @@ import http from "api/commonHttp";
 import CountUp from "react-countup";
 
 export default function MainPage() {
-  const [newAnimals, setNewAnimals] = useState(-1);
-  const [posting, setPosting] = useState(-1);
-  const [keeping, setKeeping] = useState(-1);
+  const [report, setReport] = useState({
+    newAnimals: -1,
+    keeping: -1,
+    posting: -1,
+  });
 
   useEffect(() => {
     // 서버와 통신하여 데이터 가져오기
-    const data = [-1, -1, -1];
     http
-      .get(`desertion/new`)
-      .then((res) => {
-        setNewAnimals(res.data);
+      .get(`desertion/count`)
+      .then(({ data }) => {
+        setReport((p) => ({ ...p, ...data }));
       })
       .catch((err) => {
-        window.alert(err);
-      });
-    http
-      .get(`desertion/count/posting`)
-      .then((res) => {
-        setPosting(res.data);
-      })
-      .catch((err) => {
-        window.alert(err);
-      });
-    http
-      .get(`desertion/count/keeping`)
-      .then((res) => {
-        setKeeping(res.data);
-      })
-      .catch((err) => {
-        window.alert(err);
+        console.error(err);
       });
   }, []);
   return (
-    <MainContainer $vertical>
+    <MainContainer style={{ maxWidth: "100%", padding: "0" }}>
       <MainImg>
         <MainText>
           비대면 입양 문화의 시작
@@ -52,21 +37,21 @@ export default function MainPage() {
         <ReportText>
           오늘 구조된 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={newAnimals} delay={2} />
+            <CountUp start={0} end={report.newAnimals} delay={2} />
           </ReportNumber>
           마리
         </ReportText>
         <ReportText>
           현재 공고 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={posting} delay={2} />
+            <CountUp start={0} end={report.posting} delay={2} />
           </ReportNumber>
           마리
         </ReportText>
         <ReportText>
           보호 동물{" "}
           <ReportNumber>
-            <CountUp start={0} end={keeping} delay={2} />
+            <CountUp start={0} end={report.keeping} delay={2} />
           </ReportNumber>
           마리
         </ReportText>
@@ -138,18 +123,20 @@ const MainImg = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  position: absolute;
   left: 0;
   box-sizing: border-box;
   width: 100%;
-  min-width: 1200px;
+  min-width: 800px;
   height: calc(100vh - 220px);
-  padding-right: 20vw;
 `;
 
 const MainText = styled.h1`
   color: white;
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
   margin-top: 100px;
+  padding-right: 24px;
   text-align: right;
 `;
 
@@ -158,9 +145,10 @@ const ReportDiv = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  max-width: 1240px;
   height: 136px;
-  margin: 0;
-  margin-top: calc(100vh - 220px);
+  margin: 0 auto;
   padding: 0;
 `;
 
@@ -176,13 +164,17 @@ const ReportNumber = styled.span`
 `;
 
 const SliderTitle = styled.h1`
+  margin: auto;
   margin-top: 56px;
   margin-bottom: 24px;
+  max-width: 1240px;
   text-align: center;
 `;
 
 const HowDiv = styled.div`
+  margin: auto;
   margin-top: 80px;
+  max-width: 1240px;
   text-align: left;
 `;
 

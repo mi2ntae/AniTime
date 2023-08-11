@@ -1,8 +1,9 @@
+import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
-export default function MapComponent({ y, x, setModal, getPosition }) {
-  const [curLat, setCurLat] = useState(y);
-  const [curLon, setCurLon] = useState(x);
+export default function MapComponent({ setModal, getPosition }) {
+  const [curLat, setCurLat] = useState(35.5012860931305);
+  const [curLon, setCurLon] = useState(127.039604663862);
   const [inputText, setInputText] = useState("");
   const [search, setSearch] = useState("");
 
@@ -12,6 +13,27 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
   const [marker, setMarker] = useState(null);
 
   const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          setCurLat(position.coords.latitude);
+          setCurLon(position.coords.longitude);
+        },
+        function (error) {
+          setCurLat(37.5012860931305);
+          setCurLon(127.039604663862);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity,
+        }
+      );
+    } else {
+    }
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -41,7 +63,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
     const kakao = window.kakao;
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new kakao.maps.LatLng(y, x),
+      center: new kakao.maps.LatLng(curLat, curLon),
       level: 3,
     };
 
@@ -59,7 +81,6 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       const latlng = mouseEvent.latLng;
       marker.setPosition(latlng);
-      //   getPosition(latlng.getLat(), latlng.getLng());
       setCurLat(latlng.getLat());
       setCurLon(latlng.getLng());
     });
@@ -79,7 +100,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
         setSearchRes(data);
       }
     }
-  }, [search]);
+  }, [search, curLat, curLon]);
 
   // 리스트 클릭했을때 이벤트
   const handlePlaceClick = (place) => {
@@ -102,7 +123,25 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
 
   return (
     <>
-      <div className="map-search-modal" ref={modalRef}>
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.28)", // 검은색 배경
+          zIndex: 534, // 다른 요소 위에 보이게 설정
+          animation: "fadeIn 0.3s ease-in-out",
+        }}
+      />
+      <div
+        className="map-search-modal"
+        ref={modalRef}
+        style={{
+          animation: "fadeIn 0.3s ease-in-out",
+        }}
+      >
         <h4 style={{ margin: "0px 0px 20px 0px" }}>실종위치 검색</h4>
         <div className="map-container">
           <div className="map-area">
@@ -142,24 +181,25 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
               ))}
             </div>
             <div className="button-area">
-              <button
+              <Button
                 className="cancel-btn"
                 onClick={() => handleCancelClick()}
               >
                 취소
-              </button>
-              <button
+              </Button>
+              <Button
                 className="confirm-btn"
                 onClick={() => handleSubmitClick()}
               >
                 완료
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style jsx="true">
+        {`
       .map-search-modal {
         padding: 24px;
         width: 70%;
@@ -202,7 +242,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
         height: 8%;
     }
     .search-input {
-        height: 6vh;
+        height: 50px;
         border-radius: 8px 0px 0px 8px;
         background-color: white;
         border: 1px solid var(--grey-1, #CACED3);
@@ -218,7 +258,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
       }
     .search-btn {
         width: 80px;
-        height: 6vh;
+        height: 50px;
         border-radius: 0px 8px 8px 0px;
         background-color: var(--primary, #3994F0);
         border: 0px;
@@ -274,7 +314,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
     }
     .cancel-btn {
         width: 88px;
-        height: 6vh;
+        height: 50px;
         border-radius: 8px;
         border: 1px solid var(--primary, #3994F0);
         color: var(--primary, #3994F0);
@@ -286,7 +326,7 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
     }
     .confirm-btn {
         width: 88px;
-        height: 6vh;
+        height: 50px;
         border-radius: 8px;
         background-color: var(--primary, #3994F0);
         border: 0px;
@@ -296,7 +336,16 @@ export default function MapComponent({ y, x, setModal, getPosition }) {
         font-style: normal;
         font-weight: 700;
     }
-    `}</style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    `}
+      </style>
     </>
   );
 }
