@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { Button } from "@mui/material";
+import PosterModal from "./PosterModal";
 
 export default function ShelterDonationDetail({ boardNo }) {
   const [contents, setContents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
+  const [poster, setPoster] = useState("");
 
   const navigate = useNavigate();
 
@@ -27,6 +30,18 @@ export default function ShelterDonationDetail({ boardNo }) {
         console.log(error);
       });
   }, [currentPage]);
+
+  useEffect(() => {
+    http
+      .get(`donation/${boardNo}`)
+      .then((data) => {
+        setBoardTitle(data.data.title);
+        setPoster(data.data.poster);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handlePageChange = (event) => {
     const nowPageInt = parseInt(event.target.outerText);
@@ -49,20 +64,8 @@ export default function ShelterDonationDetail({ boardNo }) {
       }}
     >
       <TabHeader>
-        <TabTitle>후원 현황</TabTitle>
-        <Button
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#3994f0",
-            color: "white",
-            fontSize: "14px",
-            fontWeight: 700,
-            borderRadius: "12px",
-          }}
-          onClick={handleWriteBtnClick}
-        >
-          후원공고 등록하기
-        </Button>
+        <TabTitle>{boardTitle}</TabTitle>
+        <PosterModal image={poster} />
         {/* <Button>후원공고 등록하기</Button> */}
       </TabHeader>
       <Table>

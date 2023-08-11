@@ -1,36 +1,67 @@
+import { Button } from "@mui/material";
 import http from "api/commonHttp";
+import MapComponent from "components/Profile/MapComponent";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import MapComponent from "../components/Profile/MapComponent.jsx";
+import { useNavigate } from "react-router";
+import { keyframes, styled } from "styled-components";
+import {
+  WriteContainer,
+  WriteTitle,
+  Row,
+  InputLabel,
+  Input,
+  Red,
+  MainContainer,
+} from "styled/styled";
+import SelectBox from "components/Profile/SelectBox";
 
-export default function MissingUpdate() {
-  const [modal, setModal] = useState(false);
-
-  const getPosition = (y, x) => {
-    setLat(y);
-    setLon(x);
-  };
+export default function MissingRegistPage() {
+  const general = useSelector((state) => state.member);
+  let profileNo = useSelector((state) => state.detailInfo.profileNo);
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [kind, setKind] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("F");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [specialMark, setSpecialMark] = useState("");
-  const [year, setYear] = useState("2023");
-  const [month, setMonth] = useState("01");
-  const [day, setDay] = useState("01");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
   const [location, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [image, setImage] = useState(null);
   const [imageurl, setImageurl] = useState(null);
 
-  const fileInputRef = useRef(null);
+  const kindData = ["개", "고양이"];
 
-  let general = useSelector((state) => state.member);
-  let profileNo = useSelector((state) => state.detailInfo.profileNo);
+  // 연-월-일 데이터
+  const currentYear = new Date().getFullYear();
+  const yearData = [];
+  for (let i = currentYear; i >= currentYear - 30; i--) {
+    yearData.push(i);
+  }
+  const monthData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const dayDataFor28 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28,
+  ];
+  const dayDataFor29 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29,
+  ];
+  const dayDataFor30 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30,
+  ];
+  const dayDataFor31 = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  ];
+  const [dayData, setDayData] = useState([]);
 
   useEffect(() => {
     if (profileNo === 0) return;
@@ -44,7 +75,8 @@ export default function MissingUpdate() {
         setKind(kindSplit[1]);
         if (profile.gender === "암컷") setGender("F");
         else if (profile.gender === "수컷") setGender("M");
-        setAge(parseInt(profile.age, 10));
+        setAge(parseInt(profile.birth.match(/\d+/)[0]));
+        console.log(profile.weight);
         setWeight(parseFloat(profile.weight));
         setSpecialMark(profile.specialMark);
 
@@ -75,11 +107,51 @@ export default function MissingUpdate() {
         alert("프로필 세부정보 조회 실패");
         window.location.reload();
       });
-  }, []);
+
+    if (day !== "") {
+      if (
+        (day === 30 && month === 2) ||
+        (day === 29 && month === 2 && year % 4 !== 0)
+      )
+        setDay("");
+      if (
+        day === 31 &&
+        (month === 2 ||
+          month === 4 ||
+          month === 6 ||
+          month === 9 ||
+          month === 11)
+      )
+        setDay("");
+    }
+    if (month === 2 && year % 4 === 0) setDayData(dayDataFor29);
+    else if (month === 2) setDayData(dayDataFor28);
+    else if (
+      month === 1 ||
+      month === 3 ||
+      month === 5 ||
+      month === 7 ||
+      month === 8 ||
+      month === 10 ||
+      month === 12
+    )
+      setDayData(dayDataFor31);
+    else setDayData(dayDataFor30);
+  }, [month, year]);
+
+  // 위치검색 모달 띄우는 여부
+  const [modal, setModal] = useState(false);
+
+  // 지도검색 관련
+
+  const getPosition = (y, x) => {
+    setLat(y);
+    setLon(x);
+  };
 
   useEffect(() => {
+    if (lat === "" || lon === "") return;
     const getAddressFromLatLng = (lat, lng) => {
-      if (lat === "" || lon === "") return;
       const geocoder = new window.kakao.maps.services.Geocoder();
       const latlng = new window.kakao.maps.LatLng(lat, lng);
 
@@ -100,27 +172,50 @@ export default function MissingUpdate() {
     getAddressFromLatLng(lat, lon);
   }, [lat, lon]);
 
-  const handleImageClick = () => {
-    fileInputRef.current.click();
+  const imageInputRef = useRef();
+  const handleimageClick = () => {
+    imageInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 형식의 파일만 등록 가능합니다.");
+      return;
+    }
     setImage(file);
-
     const reader = new FileReader();
-
     reader.onloadend = () => {
       setImageurl(reader.result);
     };
-
     reader.readAsDataURL(file);
   };
 
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (name === "") {
+      alert("이름은 필수 입력 항목입니다.");
+      return;
+    }
+    if (category === "" || kind === "") {
+      alert("품종은 필수 입력 항목입니다.");
+      return;
+    }
+    if (gender === "") {
+      alert("성별은 필수 입력 항목입니다.");
+      return;
+    }
+    if (year === "" || month === "" || day === "") {
+      alert("실종일은 필수 입력 항목입니다.");
+      return;
+    }
+    if (location === "") {
+      alert("실종위치는 필수 입력 항목입니다.");
+      return;
+    }
 
     const profile = {
       generalNo: general.memberNo,
@@ -136,6 +231,7 @@ export default function MissingUpdate() {
       profileLocation: location,
       lat: lat,
       lon: lon,
+      weight: weight,
     };
     console.log(profile);
     const profileJSON = JSON.stringify(profile);
@@ -150,7 +246,8 @@ export default function MissingUpdate() {
         },
       })
       .then((response) => {
-        console.log("success");
+        alert("수정이 완료되었습니다");
+        navigate("/missing");
       })
       .catch((error) => {
         console.error(error);
@@ -158,79 +255,65 @@ export default function MissingUpdate() {
   };
 
   return (
-    <div className="wrap">
-      {modal && <div className="overlay" />}
-      {/* display: block --- 가로행 전부 차지
-            float는 붕 띄워서 왼쪽정렬, clear:both로 그 다음에 주면 정렬
-            position: relative 후 top bottom left right로 좌표 이동
-            부모에 position:relative 후 자식에 position:absolute하면 부모태그 기준으로 앋ㅎㅇ
-            반응형 만드려면 width %와 max-width(=실제 content의 영역, 패딩 미포함) 설정
-            패딩 보더 포함시키려면 box-sizing: border-box
-            normalize.css
-            343 패딩 16씩 */}
-      <div className="container">
-        <h2 className="title">실종동물수정</h2>
-        <div className="essential-field">
-          <span className="red">*</span>
+    <MainContainer>
+      <WriteContainer>
+        <h2 style={{ textAlign: "left", margin: 0 }}>실종동물등록</h2>
+        <div
+          style={{
+            fontSize: "14px",
+            textAlign: "right",
+            marginBottom: "60px",
+            color: "var(--darkgrey, #7d848a)",
+          }}
+        >
+          <Red>*</Red>
           <span className="darkgrey">는 필수 입력 항목입니다</span>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <div className="profile-info">
-              <div className="small-title">실종동물 정보</div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="name">
-                  이름<span className="red">*</span>
-                </label>
-                <input
-                  className="input-area"
+          <div style={{ margin: 0, display: "flex", gap: "56px" }}>
+            <div style={{ flex: 4, alignItems: "center", maxWidth: "100%" }}>
+              <WriteTitle>동물정보 수정</WriteTitle>
+              <Row>
+                <InputLabel htmlFor="title">
+                  이름<Red>*</Red>
+                </InputLabel>
+                <Input
                   type="text"
                   value={name}
                   id="name"
                   onChange={(e) => setName(e.target.value)}
                   placeholder="이름"
                 />
-              </div>
-
-              <div className="input-field">
-                <label className="label-area" htmlFor="profileKind">
-                  축종<span className="red">*</span>
-                </label>
-                <div className="select-field">
-                  <select
-                    className="select-area"
-                    value={category}
-                    id="profileKind"
-                    onChange={(e) => setCategory(e.target.value)}
-                    placeholder="축종"
-                  >
-                    <option>개</option>
-                    <option>고양이</option>
-                  </select>
-                  <div className="blank-area" />
-                  <select
-                    className="select-area"
-                    value={kind}
-                    placeholder="품종"
-                    onChange={(e) => setKind(e.target.value)}
-                  >
-                    <option>개</option>
-                    <option>고양이</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="input-field">
-                <label className="label-area" htmlFor="gender">
-                  성별<span className="red">*</span>
-                </label>
-                <div className="radio-field">
+              </Row>
+              <Row>
+                <InputLabel htmlFor="category">
+                  품종<Red>*</Red>
+                </InputLabel>
+                <SelectBox
+                  items={kindData}
+                  placeholder="축종"
+                  setValue={setCategory}
+                  initialSelectedItem={category}
+                />
+                <Input
+                  type="text"
+                  value={kind}
+                  onChange={(e) => setKind(e.target.value)}
+                  placeholder="품종"
+                />
+              </Row>
+              <Row>
+                <InputLabel>
+                  성별<Red>*</Red>
+                </InputLabel>
+                <RadioBox>
                   <input
                     type="radio"
                     id="F"
                     name="gender"
                     value="F"
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={(e) => setGender((prev) => e.target.value)}
+                    checked={gender === "F"}
                   />
                   <label htmlFor="F">암컷</label>
                   <input
@@ -238,99 +321,72 @@ export default function MissingUpdate() {
                     id="M"
                     name="gender"
                     value="M"
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={(e) => setGender((prev) => e.target.value)}
+                    checked={gender === "M"}
                   />
                   <label htmlFor="M">수컷</label>
-                </div>
-              </div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="profileAge">
-                  만 나이
-                </label>
-                <input
-                  className="input-area"
+                </RadioBox>
+              </Row>
+              <Row>
+                <InputLabel htmlFor="age">
+                  출생연도<Red>*</Red>
+                </InputLabel>
+                <Input
                   type="number"
                   value={age}
-                  id="profileAge"
+                  id="age"
                   onChange={(e) => setAge(e.target.value)}
-                  placeholder="만 나이"
+                  placeholder="출생연도"
                 />
-              </div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="weight">
-                  몸무게(kg)
-                </label>
-                <input
-                  className="input-area"
+              </Row>
+              <Row>
+                <InputLabel htmlFor="weight">몸무게</InputLabel>
+                <Input
                   type="number"
                   value={weight}
                   id="weight"
                   onChange={(e) => setWeight(e.target.value)}
                   placeholder="몸무게(kg)"
                 />
-              </div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="specialMark">
-                  성격 및 기타
-                </label>
-                <input
-                  className="input-area"
+              </Row>
+              <Row>
+                <InputLabel htmlFor="specialMark">성격 및 기타</InputLabel>
+                <Input
                   type="text"
                   value={specialMark}
                   id="specialMark"
                   onChange={(e) => setSpecialMark(e.target.value)}
                   placeholder="성격 및 기타"
                 />
-              </div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="dateAt">
-                  실종일<span className="red">*</span>
-                </label>
-                <div className="select-field">
-                  <select
-                    className="select-area"
-                    value={year}
-                    id="dateAt"
-                    onChange={(e) => setYear(e.target.value)}
-                    placeholder="연도"
-                  >
-                    <option></option>
-                  </select>
-                  <div className="blank-area" />
-                  <select
-                    className="select-area"
-                    value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                    placeholder="월"
-                  >
-                    <option></option>
-                  </select>
-                  <div className="blank-area" />
-                  <select
-                    className="select-area"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                    placeholder="일"
-                  >
-                    <option></option>
-                  </select>
-                </div>
-              </div>
-              <div className="input-field">
-                <label className="label-area" htmlFor="profileLocation">
-                  실종위치
-                  <span className="red">*</span>
-                </label>
-                {/* <input
-                  className="input-area"
-                  type="text"
-                  value={location}
-                  id="profileLocation"
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="실종위치"
-                /> */}
-                <div
-                  className="location-area"
+              </Row>
+              <Row>
+                <InputLabel htmlFor="year">
+                  실종일<Red>*</Red>
+                </InputLabel>
+                <SelectBox
+                  items={yearData}
+                  placeholder="연도"
+                  setValue={setYear}
+                  initialSelectedItem={year}
+                />
+                <SelectBox
+                  items={monthData}
+                  placeholder="월"
+                  setValue={setMonth}
+                  initialSelectedItem={month}
+                />
+                <SelectBox
+                  items={dayData}
+                  placeholder="일"
+                  setValue={setDay}
+                  initialSelectedItem={day}
+                />
+              </Row>
+              <Row>
+                <InputLabel htmlFor="profileLocation">
+                  실종위치<Red>*</Red>
+                </InputLabel>
+                <LocationInput
                   onClick={() => {
                     setModal(true);
                   }}
@@ -340,259 +396,133 @@ export default function MissingUpdate() {
                       : "0.77px solid var(--lightgrey, #e8ebee)",
                   }}
                 >
-                  <span>{location}</span>
-                </div>
-              </div>
+                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
+                    {location ? location : "실종위치"}
+                  </span>
+                </LocationInput>
+              </Row>
             </div>
-            <div className="profile-img">
-              <div className="small-title">사진</div>
+            <div style={{ flex: 1, maxWidth: "100%" }}>
+              <WriteTitle>사진</WriteTitle>
               <input
-                ref={fileInputRef}
+                ref={imageInputRef}
                 type="file"
                 style={{ display: "none" }}
-                onChange={handleFileChange}
+                onChange={handleImageChange}
               />
               <div
-                className="image"
-                onClick={handleImageClick}
+                onClick={handleimageClick}
                 style={{
                   background: imageurl
                     ? `url(${imageurl}) no-repeat center/cover`
                     : `url("/img_non_selected.png") no-repeat center/cover`,
+                  aspectRatio: "1/1",
+                  backgroundColor: "var(--lightestgrey, #f7f8fa)",
+                  borderRadius: "12px",
+                  border: "0.77px solid var(--lightgrey, #e8ebee)",
+                  backgroundSize: "cover",
                 }}
               />
-              <div className="image-desc">사진 사이즈는 어쩌고</div>
+              <div
+                style={{
+                  color: "var(--grey-2, #a7aeb4)",
+                  fontSize: "12px",
+                  textAlign: "left",
+                  marginTop: "10px",
+                }}
+              >
+                사진 사이즈는 어쩌고
+              </div>
             </div>
           </div>
-
-          <div className="btn-field">
-            <button className="submit-btn" type="submit">
-              실종 정보 수정
-            </button>
+          <div style={{ marginTop: "64px", textAlign: "center" }}>
+            <Button
+              type="submit"
+              style={{
+                width: "280px",
+                height: "50px",
+                borderRadius: "12px",
+                backgroundColor: "#3994f0",
+                color: "white",
+                fontSize: "16px",
+                fontWeight: "700",
+                border: "none",
+                fontFamily: "nanumsquare",
+              }}
+            >
+              정보 수정하기
+            </Button>
           </div>
         </form>
-        {/* <form className="inputForm" onSubmit={handleSearch}>
-          <input
-            placeholder="검색어를 입력하세요"
-            onChange={onChange}
-            value={inputText}
-          />
-          <button type="submit">검색</button>
-        </form> */}
-        {modal && (
-          <MapComponent
-            y={lat}
-            x={lon}
-            setModal={setModal}
-            getPosition={getPosition}
-          />
-        )}
-        {/* <MapComponent
-          lat={lat}
-          lon={lon}
-          getPosition={getPosition}
-          style={{ display: modal ? "block" : "none" }}
-        /> */}
-      </div>
-
-      <style jsx="true">{`
-        .wrap {
-          display: flex;
-          justify-content: center;
-          margin-top: 96px;
-          margin-bottom: 40px;
-        }
-        .container {
-          width: 68%;
-          min-width: 343px;
-          border-radius: 8px;
-          border: 1px solid var(--lightgrey, #e8ebee);
-          position: relative;
-          padding: 80px;
-        }
-        .title {
-          text-align: left;
-          margin: 0;
-        }
-        .essential-field {
-          font-size: 14px;
-          text-align: right;
-          margin-bottom: 60px;
-        }
-        .input-container {
-          margin: 0;
-          display: flex;
-          font-size: 14px;
-        }
-        .profile-info {
-          flex-grow: 4;
-          align-items: center;
-        }
-        .profile-img {
-          flex-grow: 1;
-        }
-        .input-field {
-          display: flex;
-          margin-top: 16px;
-          flex-direction: row;
-          align-items: center;
-        }
-        .label-area {
-          //   flex-grow: 1;
-          width: 100px;
-          text-align: left;
-          font-size: 14px;
-          color: var(--grey-2, #a7aeb4);
-          height: 50px;
-          line-height: 50px;
-        }
-        .input-area {
-          width: 86%;
-          //   flex-grow: 7;
-          background-color: var(--lightestgrey, #f7f8fa);
-          border: 0.77px solid var(--lightgrey, #e8ebee);
-          border-radius: 12px;
-          height: 50px;
-          box-sizing: border-box;
-          padding-left: 24px;
-          margin-right: 6%;
-          color: #35383b;
-        }
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        input::placeholder {
-          color: #a7aeb4;
-        }
-        .location-area {
-          width: 86%;
-          //   flex-grow: 7;
-          background-color: var(--lightestgrey, #f7f8fa);
-          border: 0.77px solid var(--lightgrey, #e8ebee);
-          border-radius: 12px;
-          height: 50px;
-          box-sizing: border-box;
-          padding-left: 24px;
-          margin-right: 6%;
-          vertical-align: middle;
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          color: #35383b;
-        }
-        .select-field {
-          width: 86%;
-          //   flex-grow: 7;
-          display: flex;
-          margin: 0px 6% 0px 0px;
-          cursor: pointer;
-          text-align: left;
-          /* 말줄임 */
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-        .radio-field {
-          width: 86%;
-          margin: 0px 6% 0px 0px;
-          line-height: 50px;
-        }
-        [type="radio"] {
-          vertical-align: middle;
-          appearance: none;
-          border: 1px solid var(--lightgrey, #e8ebee);
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-        }
-        [type="radio"]:checked {
-          border: 1px solid var(--lightgrey, #e8ebee);
-          border: 3px solid white;
-          background: var(--primary, #3994f0);
-        }
-        .select-area {
-          flex-grow: 1;
-          background-color: var(--lightestgrey, #f7f8fa);
-          border: 0.77px solid var(--lightgrey, #e8ebee);
-          border-radius: 12px;
-          height: 50px;
-          box-sizing: border-box;
-          padding-left: 24px;
-        }
-        .input-area:focus {
-          border: 1px solid var(--primary, #3994f0);
-          outline: none;
-        }
-        .red {
-          color: var(--red, #ff7676);
-        }
-        .darkgrey {
-          color: var(--darkgrey, #7d848a);
-        }
-        .small-title {
-          text-align: left;
-          font-size: 16px;
-          color: var(--blackgrey, #35383b);
-          font-weight: 700;
-          margin-bottom: 24px;
-        }
-        .image {
-          // height: 186px;
-          aspect-ratio: 1/1;
-          background-color: var(--lightestgrey, #f7f8fa);
-          border-radius: 12px;
-          border: 0.77px solid var(--lightgrey, #e8ebee);
-          //   background-image: url("/img_add_photo.png");
-          background-size: 50%;
-          background-repeat: no-repeat;
-          background-position: center;
-        }
-        .image-desc {
-          color: var(--grey-2, #a7aeb4);
-          font-size: 12px;
-          text-align: left;
-          margin-top: 10px;
-        }
-        .btn-field {
-          margin-top: 64px;
-          text-align: center;
-        }
-        .submit-btn {
-          margin: auto;
-          width: 280px;
-          height: 50px;
-          border-radius: 12px;
-          background-color: var(--primary, #3994f0);
-          color: white;
-          font-size: 16px;
-          font-weight: 700;
-          border: none;
-        }
-        .blank-area {
-          margin-left: 8px;
-        }
-        MapComponent {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.28);
-          pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
-        }
-        .overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.28);
-          pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
-          z-index: 998;
-        }
-      `}</style>
-    </div>
+      </WriteContainer>
+      {modal && <MapComponent setModal={setModal} getPosition={getPosition} />}
+    </MainContainer>
   );
 }
+
+const RadioBox = styled.div`
+  width: 86%;
+  margin: 0px 6% 0px 0px;
+  line-height: 50px;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    position: relative;
+    padding-left: 28px;
+    margin-right: 40px;
+    cursor: pointer;
+    color: var(--darkgrey, #7d848a);
+    font-size: 14px;
+  }
+
+  label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e8ebee;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--darkgrey, #7d848a);
+    font-size: 14px;
+  }
+
+  input[type="radio"]:checked + label:after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 14px;
+    height: 14px;
+    background-color: #3994f0;
+    border-radius: 50%;
+    animation: ${keyframes`
+    to {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  `} 0.3s forwards;
+  }
+
+  input[type="radio"]:checked + label {
+    color: var(--darkestgrey, #535a61);
+  }
+`;
+const LocationInput = styled.div`
+  flex: 1;
+  background-color: var(--lightestgrey, #f7f8fa);
+  border-radius: 12px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 24px;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+`;

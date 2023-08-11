@@ -144,8 +144,8 @@ export default function ChatUi({ width, height }) {
                 p: 1,
                 backgroundColor: isMe ? "#F7F8FA" : "#E1F0FF",
                 borderRadius: isMe
-                  ? "16px 16px 16px 0px"
-                  : "16px 16px 0px 16px",
+                  ? "16px 16px 0px 16px"
+                  : "16px 16px 16px 0px",
                 maxWidth: "60%",
                 padding: "16px",
                 wordWrap: "break-word",
