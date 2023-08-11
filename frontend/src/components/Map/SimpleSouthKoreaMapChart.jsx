@@ -26,7 +26,7 @@ const DefaultTooltip = ({ darkMode, tooltipStyle, children }) => {
 export const SimpleSouthKoreaMapChart = ({
   darkMode = false,
   data,
-  unit = "개",
+  unit = "마리",
   setColorByCount,
   customTooltip,
 }) => {
