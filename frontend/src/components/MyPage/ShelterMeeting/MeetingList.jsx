@@ -11,7 +11,7 @@ import http from "api/commonHttp";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMeetingNo, setReload } from "reducer/shelterMeeting";
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { processState } from "./processState";
 
 export default function MeetingList() {
