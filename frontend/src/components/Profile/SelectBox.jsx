@@ -1,7 +1,12 @@
 import { useCombobox } from "downshift";
 import { keyframes, styled, css } from "styled-components";
 
-export default function SelectBox({ items, placeholder, setValue }) {
+export default function SelectBox({
+  items,
+  placeholder,
+  setValue,
+  initialSelectedItem,
+}) {
   const {
     isOpen,
     highlightedIndex,
@@ -13,6 +18,7 @@ export default function SelectBox({ items, placeholder, setValue }) {
     onSelectedItemChange: ({ selectedItem }) => {
       setValue(selectedItem);
     },
+    selectedItem: initialSelectedItem,
   });
 
   return (

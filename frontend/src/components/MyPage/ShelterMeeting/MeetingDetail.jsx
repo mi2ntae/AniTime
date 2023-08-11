@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { Input, Row } from "styled/styled";
 import { useNavigate } from "react-router";
 import AdoptionForm from "components/AdoptionForm/AdoptionForm";
+import { setReload } from "reducer/shelterMeeting";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
@@ -68,8 +69,8 @@ export default function MeetingDetail() {
         reason: subData.reason,
       })
       .then(() => {
-        // fetchData();
-        window.history.go();
+        fetchData();
+        dispatch(setReload(true));
       })
       .catch((error) => alert(error));
   };

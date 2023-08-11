@@ -1,24 +1,31 @@
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import { Button } from "styled/styled";
 import { ProgressBar } from "styled/styled";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import http from "api/commonHttp";
 import html2canvas from "html2canvas";
 
 export default function ReservationForm() {
   const generalNo = useSelector((state) => state.member.memberNo);
   const reservedDate = useSelector((state) => state.reservedDate);
-  const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
+  const { desertionNo } = useParams();
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
   const [address, setAddress] = useState("");
   //객체를 그냥 name:"asdf",phone:"000" 형태로 할까?
   const inquiryTop = ["이름", "전화번호", "이메일", "주소", "가족 구성원"];
-  const inquiryBottom = ["1. 질문1", "2. 질문2", "3. 질문3"];
+  const inquiryBottom = [
+    "1. 반려동물을 입양하시는 이유가 무엇입니까?",
+    "2. 입양을 고민하고 결정하는데 어느 정도의 기간이 걸렸고 무엇이 가장 크게 작용했습니까?",
+    "3. 반려동물을 키울 수 있는 환경을 충분히 인지하고 준비하고 있습니까? 어떤 준비를 하고 있는지 말씀해주세요.",
+    // "4. 만약의 경우 입양 동물을 키우다가 더이상 양육할 여건이 되지 못할 시, 제3자에게 양도하지 않고 본 단체로 돌려보내 주실 것에 동의하십니까?",
+    "5. 저희 단체에서 귀하의 가정을 방문하는 것에 대해서는 어떻게 생각하시나요?",
+    "6. 귀하와 가족의 부재시(여행,명절,휴가 등) 반려동물을 어떻게 관리하실 예정이신가요?",
+    "7. 그 외에 입양 신청에 관해 덧붙이고자 하시는 말씀이 있으시면 적어주시기 바랍니다.",
+  ];
   const [inputTop, setInputTop] = useState({});
   const [inputBottom, setInputBottom] = useState({});
   const handleTextValueChangeTop = (e) => {
@@ -26,7 +33,7 @@ export default function ReservationForm() {
     setInputTop((input) => {
       return { ...input, [name]: value };
     });
-    console.log(inputTop);
+    // console.log(inputTop);
   };
   const handleTextValueChangeBottom = (e) => {
     const { name, value } = e.target;
@@ -195,7 +202,7 @@ export default function ReservationForm() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: "47px",
+          marginBottom: "20px",
         }}
       >
         <div
@@ -221,6 +228,7 @@ export default function ReservationForm() {
         <FormTop>
           <div
             style={{
+              marginTop: "30px",
               marginBottom: "24px",
               textAlign: "left",
               textSize: "16px",
@@ -286,6 +294,7 @@ export default function ReservationForm() {
         <FormBottom>
           <div
             style={{
+              marginTop: "15px",
               marginBottom: "24px",
               textAlign: "left",
               textSize: "16px",
@@ -298,7 +307,7 @@ export default function ReservationForm() {
             <div>
               <div
                 style={{
-                  height: "22px",
+                  height: "30px",
                   textAlign: "left",
                   textSize: "14px",
                   color: "#A7AEB4",
@@ -320,7 +329,8 @@ export default function ReservationForm() {
         <div
           style={{
             display: "flex",
-            marginTop: "97px",
+            marginTop: "20px",
+            marginBottom: "30px",
           }}
         >
           <input
@@ -337,6 +347,7 @@ export default function ReservationForm() {
         style={{
           fontSize: "16px",
           fontWeight: "bold",
+          marginTop: "20px",
         }}
         width="280px"
         height="50px"
@@ -353,10 +364,12 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
 `;
 const FormContainer = styled.div`
   width: 881px;
   height: 937px;
+  height: 100%;
   border: 0.77px solid #e8ebee;
   border-radius: 8px;
   background-color: #ffffff;

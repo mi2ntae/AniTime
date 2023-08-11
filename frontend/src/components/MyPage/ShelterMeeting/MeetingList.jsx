@@ -8,32 +8,51 @@ import {
   TableRow,
 } from "@mui/material";
 import http from "api/commonHttp";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setMeetingNo } from "reducer/shelterMeeting";
-import { css, styled } from "styled-components";
+import { setMeetingNo, setReload } from "reducer/shelterMeeting";
+import { styled } from "styled-components";
 import { processState } from "./processState";
 
 export default function MeetingList() {
   const member = useSelector((state) => state.member);
+  const reload = useSelector((state) => state.shelterMeeting.reload);
   const dispatch = useDispatch();
+
+  const mounted = useRef(false);
 
   const [meetings, setMeetings] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [maxPage, setMaxPage] = useState(0);
 
-  useEffect(() => {
-    // api 통신
+  /**
+   * api 통신
+   */
+  const fetchData = useCallback(() => {
     http
       .get(`meet/${member.memberNo}?page=${pageNo - 1}`)
       .then(({ data: { content, totalPages } }) => {
         setMeetings(content);
         setMaxPage(totalPages);
+        if (!mounted.current) {
+          mounted.current = true;
+        }
       })
       .catch(() => {
-        console.log("미팅 목록 조회 실패");
+        console.console.error("미팅 목록 조회 실패");
       });
-  }, [pageNo, member.memberNo]);
+  }, [member.memberNo, pageNo]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (mounted.current && reload) {
+      fetchData();
+      dispatch(setReload(false));
+    }
+  }, [reload, fetchData]);
 
   return (
     <>

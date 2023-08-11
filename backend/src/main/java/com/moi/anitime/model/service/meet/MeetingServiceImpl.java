@@ -4,6 +4,7 @@ import com.moi.anitime.api.request.meeting.MeetingReq;
 import com.moi.anitime.api.request.meeting.MeetingStatusReq;
 import com.moi.anitime.api.response.meeting.MeetingListRes;
 import com.moi.anitime.api.response.meeting.MeetingRes;
+import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.adoptionForm.AdoptionForm;
@@ -11,10 +12,8 @@ import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.entity.meeting.Meeting;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.MemberKind;
-import com.moi.anitime.model.repo.AdoptionFormRepo;
-import com.moi.anitime.model.repo.AnimalRepo;
-import com.moi.anitime.model.repo.MeetingRepo;
-import com.moi.anitime.model.repo.MemberRepo;
+import com.moi.anitime.model.entity.notice.Notice;
+import com.moi.anitime.model.repo.*;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,15 +39,20 @@ public class MeetingServiceImpl implements MeetingService {
     private final AnimalRepo animalRepo;
     private final AdoptionFormRepo adoptionFormRepo;
     private final S3Uploader s3Uploader;
+    private final NoticeRepo noticeRepo;
 
     @Value("${adoptionForm.path}")
     private String imgPath;
 
     @Transactional
     @Override
-    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException {
-        Member member = memberRepo.getReferenceById(meetingReq.getGeneralNo());
-        Animal animal = animalRepo.getReferenceById(meetingReq.getDesertionNo());
+    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException, NonExistMemberNoException, NonExistDesertionNoException{
+        Optional<Member> tmpMember = memberRepo.findById(meetingReq.getGeneralNo());
+        Optional<Animal> tmpAnimal = animalRepo.findById(meetingReq.getDesertionNo());
+        if(!tmpMember.isPresent()) throw new NonExistMemberNoException();
+        if(!tmpAnimal.isPresent()) throw new NonExistDesertionNoException();
+        Member member = tmpMember.get();
+        Animal animal = tmpAnimal.get();
         Meeting meeting = meetingReq.toEntity(animal, member);
         meeting = meetingRepo.save(meeting);
         if(img != null){
@@ -59,7 +63,21 @@ public class MeetingServiceImpl implements MeetingService {
                     .build();
             adoptionFormRepo.save(form);
         }
-
+        StringBuilder sb = new StringBuilder();
+        LocalDateTime reservedDateTime = LocalDateTime.parse(meetingReq.getReservedDate());
+        int year = reservedDateTime.getYear();
+        int month = reservedDateTime.getMonthValue();
+        int day = reservedDateTime.getDayOfMonth();
+        int hour = reservedDateTime.getHour();
+        sb.append(member.getName()).append("님이 ").append(year+"-").append(month+"-").append(day+" ").append(hour+":00").append("에\\n")
+                .append("공고번호 : ").append(animal.getDesertionNo()).append(" 의 미팅을 신청하셨습니다.");
+        Notice notice = Notice.builder()
+                        .memberNo(animal.getShelterNo())
+                        .noticeKind(1)
+                        .noticeContent(sb.toString())
+                        .noticeCheck(false)
+                        .noticeTime(LocalDateTime.now()).build();
+        noticeRepo.save(notice);
     }
 
     @Override
@@ -110,13 +128,30 @@ public class MeetingServiceImpl implements MeetingService {
         if(!tmpMeet.isPresent()) throw new NonExistMeetNoException();
         Meeting meet = tmpMeet.get();
         meet.setStatus(meetingStatusReq.isStatus() ? 1 : 2);
-        StringBuilder sb = new StringBuilder();
-        sb.append(meet.getReservedDate().toString()).append("_").append(meet.getAnimal().getShelterNo()).append("_").append(meet.getMember().getMemberNo());
-        if(!meetingStatusReq.isStatus()) meet.setReason(meetingStatusReq.getReason());
-        else meet.setUrl(sb.toString().replace(":", "_").replace("T", "_").replace("-", "_"));
-        System.out.println(sb);
 
+        Optional<Member> tmpMember = memberRepo.findById(meet.getAnimal().getShelterNo());
+        if(!tmpMember.isPresent()) throw new NonExistMemberNoException();
+        Member member = tmpMember.get();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(member.getName()).append("에 신청한 미팅이 ");
+        if(!meetingStatusReq.isStatus()) {
+            meet.setReason(meetingStatusReq.getReason());
+            sb.append("\"반려\"되었습니다.\\n").append("사유 : ").append(meet.getReason());
+        } else {
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append(meet.getReservedDate().toString()).append("_").append(meet.getAnimal().getShelterNo()).append("_").append(meet.getMember().getMemberNo());
+            meet.setUrl(sb2.toString().replace(":", "_").replace("T", "_").replace("-", "_"));
+            sb.append("\"승인\"되었습니다.");
+        }
         meetingRepo.save(meet);
+        Notice notice = Notice.builder()
+                .memberNo(meet.getMember().getMemberNo())
+                .noticeKind(1)
+                .noticeContent(sb.toString())
+                .noticeCheck(false)
+                .noticeTime(LocalDateTime.now()).build();
+        noticeRepo.save(notice);
     }
 
     @Override

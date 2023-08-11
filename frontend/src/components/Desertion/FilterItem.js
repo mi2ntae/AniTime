@@ -1,76 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
-import { useDispatch, useSelector } from "react-redux/";
-import {
-  setDogChecked,
-  setCatChecked,
-  setKindType,
-  setMaleChecked,
-  setFemaleChecked,
-  setGenderType,
-  // setCheckedCnt,
-} from "reducer/filterInfo";
+import { useDispatch } from "react-redux/";
+import { setKindType, setGenderType } from "reducer/filterInfo";
 export default function FilterItem() {
   const dispatch = useDispatch();
-  let dogChecked = useSelector((state) => state.filterInfo.dogChecked);
-  let catChecked = useSelector((state) => state.filterInfo.catChecked);
-  let femaleChecked = useSelector((state) => state.filterInfo.femaleChecked);
-  let maleChecked = useSelector((state) => state.filterInfo.maleChecked);
+  const [inputAnimal, setInputAnimal] = useState("animal");
+  const [inputGender, setInputGender] = useState("gender");
 
-  const handleCheckboxChange = (event) => {
-    const value = event.target.value;
-
-    if (value === "dog") {
-      dogChecked = !dogChecked;
-      dispatch(setDogChecked(dogChecked));
-    } else if (value === "cat") {
-      catChecked = !catChecked;
-      dispatch(setCatChecked(catChecked));
-    }
+  const handleClickRadioButtonAnimal = (radioBtnName) => {
+    setInputAnimal(radioBtnName);
     let kindType = 0;
-
-    // 개만 체크되어 있을 때
-    if (dogChecked && !catChecked) {
+    if (radioBtnName === "dog") {
       kindType = 1;
-    }
-    // 고양이만 체크되어 있을 때
-    else if (!dogChecked && catChecked) {
+    } else if (radioBtnName === "cat") {
       kindType = 2;
-    }
-    // 둘 다 체크 해제 되어있을 때
-    else if (!dogChecked && !catChecked) {
-      kindType = 3;
-    }
-    // 둘 다 체크되어 있을 때, 기본값
-    else {
+    } else if (radioBtnName === "animal") {
       kindType = 0;
     }
     dispatch(setKindType(kindType));
-
-    if (value === "female") {
-      femaleChecked = !femaleChecked;
-      dispatch(setFemaleChecked(femaleChecked));
-    } else if (value === "male") {
-      maleChecked = !maleChecked;
-      dispatch(setMaleChecked(maleChecked));
-    }
-
+  };
+  const handleClickRadioButtonGender = (radioBtnName) => {
+    setInputGender(radioBtnName);
     let genderType = 0;
-
-    // 수컷만 체크되어 있을 때
-    if (maleChecked && !femaleChecked) {
-      genderType = 1;
-    }
-    // 암컷만 체크되어 있을 때
-    else if (!maleChecked && femaleChecked) {
+    if (radioBtnName === "female") {
       genderType = 2;
-    }
-    // 둘 다 체크 해제 되어있을 때
-    else if (!maleChecked && !femaleChecked) {
-      genderType = 3;
-    }
-    // 둘 다 체크되어 있을 때, 기본값
-    else {
+    } else if (radioBtnName === "male") {
+      genderType = 1;
+    } else if (radioBtnName === "gender") {
       genderType = 0;
     }
     dispatch(setGenderType(genderType));
@@ -82,20 +38,33 @@ export default function FilterItem() {
         <Label>
           <StyledCheckbox
             name="animal"
-            value="dog"
-            checked={dogChecked}
-            onChange={handleCheckboxChange}
+            value="allAnimal"
+            checked={inputAnimal === "animal"}
+            onClick={() => handleClickRadioButtonAnimal("animal")}
           />
-          <Font2>개</Font2>
+          <Font2 onClick={() => handleClickRadioButtonAnimal("animal")}>
+            전체
+          </Font2>
+        </Label>
+        <Label>
+          <StyledCheckbox
+            name="animal"
+            value="dog"
+            checked={inputAnimal === "dog"}
+            onClick={() => handleClickRadioButtonAnimal("dog")}
+          />
+          <Font2 onClick={() => handleClickRadioButtonAnimal("dog")}>개</Font2>
         </Label>
         <Label>
           <StyledCheckbox
             name="animal"
             value="cat"
-            checked={catChecked}
-            onChange={handleCheckboxChange}
+            checked={inputAnimal === "cat"}
+            onClick={() => handleClickRadioButtonAnimal("cat")}
           />
-          <Font2>고양이</Font2>
+          <Font2 onClick={() => handleClickRadioButtonAnimal("cat")}>
+            고양이
+          </Font2>
         </Label>
       </ContentDiv>
       <DivisionLine />
@@ -104,20 +73,35 @@ export default function FilterItem() {
         <Label>
           <StyledCheckbox
             name="gender"
-            value="male"
-            checked={maleChecked}
-            onChange={handleCheckboxChange}
+            value="allGender"
+            checked={inputGender === "gender"}
+            onClick={() => handleClickRadioButtonGender("gender")}
           />
-          <Font2>수컷</Font2>
+          <Font2 onClick={() => handleClickRadioButtonGender("gender")}>
+            전체
+          </Font2>
+        </Label>
+        <Label>
+          <StyledCheckbox
+            name="gender"
+            value="male"
+            checked={inputGender === "male"}
+            onClick={() => handleClickRadioButtonGender("male")}
+          />
+          <Font2 onClick={() => handleClickRadioButtonGender("male")}>
+            수컷
+          </Font2>
         </Label>
         <Label>
           <StyledCheckbox
             name="gender"
             value="female"
-            checked={femaleChecked}
-            onChange={handleCheckboxChange}
+            checked={inputGender === "female"}
+            onClick={() => handleClickRadioButtonGender("female")}
           />
-          <Font2>암컷</Font2>
+          <Font2 onClick={() => handleClickRadioButtonGender("female")}>
+            암컷
+          </Font2>
         </Label>
       </ContentDiv>
     </ItemDiv>
@@ -140,7 +124,7 @@ const ContentDiv = styled.div`
 const Label = styled.span`
   display: flex;
   margin: 10px 20px 10px 0px;
-  padding-left: 20px;
+  padding-left: 8px;
   font-size: 15px;
   align-items: center;
 `;
@@ -150,7 +134,8 @@ const DivisionLine = styled.div`
 const Font = styled.div`
   padding-left: 35px;
   text-align: left;
-  margin-top: 25px;
+  padding-top: 25px;
+  // margin-top: 25px;
   font-size: 15px;
   font-weight: bold;
 `;
@@ -160,7 +145,7 @@ const Font2 = styled.span`
   font-size: 15px;
   // font-weight: bold;
 `;
-const StyledCheckbox = styled.input.attrs({ type: "checkbox" })`
+const StyledCheckbox = styled.input.attrs({ type: "radio" })`
   -webkit-appearance: none;
   position: relative;
   width: 20px;
