@@ -2,24 +2,27 @@ import React, { useState, useEffect } from "react";
 import Modal from "components/Modal/Modal";
 import { styled } from "styled-components";
 import FilterItem from "./FilterItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setInputAnimal, setInputGender } from "reducer/filterInfo";
 
 export default function Filter() {
+  let dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const openNotice = () => {
-    setIsOpen(true);
-  };
-
   const closeNotice = () => {
     setIsOpen(false);
   };
-
+  useEffect(() => {
+    return () => {
+      dispatch(setInputAnimal("animal"));
+      dispatch(setInputGender("gender"));
+    };
+  }, []);
   return (
     <>
       <FilterButton
         onClick={(event) => {
           event.stopPropagation();
-          openNotice();
+          setIsOpen((p) => !p);
         }}
         className={isOpen ? "active" : ""}
       >
@@ -27,18 +30,18 @@ export default function Filter() {
           <img src="icons/ic_filter.svg" />
         </Span>
         <Span>필터</Span>
-        {isOpen && (
-          <Modal
-            posX="50px"
-            posY="30px"
-            width="280px"
-            height="180px"
-            close={closeNotice}
-          >
-            <FilterItem />
-          </Modal>
-        )}
       </FilterButton>
+      {isOpen && (
+        <Modal
+          posX="20px"
+          posY="-35px"
+          width="280px"
+          height="180px"
+          close={closeNotice}
+        >
+          <FilterItem />
+        </Modal>
+      )}
     </>
   );
 }
