@@ -44,7 +44,7 @@ export default function Modal({
 }
 
 const ModalContainer = styled.div`
-  box-shadow: 0 0 10px gray;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
   z-index: 10;
   position: absolute;
