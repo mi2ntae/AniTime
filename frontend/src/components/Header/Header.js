@@ -13,10 +13,10 @@ export default function Header() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const shleterWhiteList = ["/mypage", "/donation/write"];
     if (
-      location.pathname !== "/mypage" &&
-      member.token &&
-      member.memberKind === 1
+      member.memberKind === 1 &&
+      !shleterWhiteList.some((element) => element === location.pathname)
     ) {
       navigate("/mypage");
     }
