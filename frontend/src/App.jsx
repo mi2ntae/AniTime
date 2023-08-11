@@ -8,12 +8,18 @@ export default function App() {
   const token = useSelector((state) => state.member.token);
   const pathname = useLocation().pathname;
 
-  const whiteList = ["/", "/donation", "/desertion", "/faq", "/missing"];
+  const whiteList = [
+    /^\/$/,
+    /^\/donation(\/\d+)?$/,
+    /^\/desertion$/,
+    /^\/faq$/,
+    /^\/missing$/,
+  ];
 
   return (
     <>
       <Header />
-      {token || whiteList.some((item) => item === pathname) ? (
+      {token || whiteList.some((item) => item.test(pathname)) ? (
         <Outlet />
       ) : (
         <Navigate to="/login" />
