@@ -9,6 +9,7 @@ import com.moi.anitime.model.entity.profile.Profile;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface AnimalService {
@@ -27,5 +28,7 @@ public interface AnimalService {
     public int countKeepingAnimals() throws CountAnimalsException;
 
     public int countPostingAnimals() throws CountAnimalsException;
+
+    public Map<String, Integer> countReport() throws CountAnimalsException;
 
 }
