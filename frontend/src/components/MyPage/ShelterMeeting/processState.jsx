@@ -35,15 +35,18 @@ const StateText = styled.div`
   align-items: center;
   box-sizing: border-box;
   border-radius: 8px;
-  width: 100px;
-  padding: 8px;
+  width: 64px;
+  height: 25px;
+  padding: 0px;
   margin: 8px;
+  font-size: 14px;
   ${({ $state }) => {
     switch ($state) {
       case 0:
         return css`
           background-color: #ff7676;
           color: #ffffff;
+          font-weight: 800;
         `;
       case 1:
         return css`
