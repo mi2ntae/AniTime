@@ -70,96 +70,117 @@ export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
           후원공고 등록하기
         </Button>
       </TabHeader>
-      <Table>
-        <TableHeader>
-          <ContentTitle style={{ justifyContent: "center" }}>제목</ContentTitle>
-          <ContentDuration>공고기간</ContentDuration>
-          <ContentAttained>후원금액 / 목표금액</ContentAttained>
-        </TableHeader>
-        {contents.map((content, index) => (
-          <TableContent
-            key={index}
-            onClick={() => {
-              setBoardNo(content.boardNo);
-              setShowDonationDetail(true);
+      {contents.length === 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#A7AEB4",
+            fontSize: "14px",
+            height: "100%",
+            flexDirection: "column",
+          }}
+        >
+          <img src="/logo_grey.svg" />
+          등록된 후원 공고가 없습니다.
+        </div>
+      ) : (
+        <>
+          <Table>
+            <TableHeader>
+              <ContentTitle style={{ justifyContent: "center" }}>
+                제목
+              </ContentTitle>
+              <ContentDuration>공고기간</ContentDuration>
+              <ContentAttained>후원금액 / 목표금액</ContentAttained>
+            </TableHeader>
+            {contents.map((content, index) => (
+              <TableContent
+                key={index}
+                onClick={() => {
+                  setBoardNo(content.boardNo);
+                  setShowDonationDetail(true);
+                }}
+              >
+                <ContentTitle>
+                  <div
+                    style={{
+                      backgroundColor: statusColor[content.status],
+                      border: "1px solid " + statusBorderColor[content.status],
+                      color: statusBorderColor[content.status],
+                      borderRadius: "8px",
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      width: "64px",
+                      height: "24px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginLeft: "40px",
+                    }}
+                  >
+                    {statusMessage[content.status]}
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "left",
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "nowrap", //텍스트 줄 바꿈 방지
+                      textOverflow: "ellipsis", // 말줄임(...)
+                      overflow: "hidden",
+                      color: "var(--blackgrey, #35383b)",
+                      fontSize: "16px",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {content.title}
+                  </div>
+                </ContentTitle>
+                <ContentDuration
+                  style={{
+                    color: "var(--darkestgrey, #535a61)",
+                    fontSize: "14px",
+                    fontWeight: 400,
+                  }}
+                >
+                  {content.date}
+                </ContentDuration>
+                <ContentAttained>
+                  <span
+                    style={{
+                      color: "var(--blackgrey, #35383B)",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {content.attained}
+                  </span>
+                  <span
+                    style={{
+                      color: "var(--darkgrey, #7d848a)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    / {content.goal}
+                  </span>
+                </ContentAttained>
+              </TableContent>
+            ))}
+          </Table>
+          <div style={{ flex: "1" }} />
+          <Pagination
+            count={totalPage}
+            page={currentPage}
+            onChange={handlePageChange}
+            style={{
+              display: "flex",
+              justifyContent: "center",
             }}
-          >
-            <ContentTitle>
-              <div
-                style={{
-                  backgroundColor: statusColor[content.status],
-                  border: "1px solid " + statusBorderColor[content.status],
-                  color: statusBorderColor[content.status],
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                  fontWeight: "400",
-                  width: "64px",
-                  height: "24px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "40px",
-                }}
-              >
-                {statusMessage[content.status]}
-              </div>
-              <div
-                style={{
-                  textAlign: "left",
-                  display: "flex",
-                  alignItems: "center",
-                  whiteSpace: "nowrap", //텍스트 줄 바꿈 방지
-                  textOverflow: "ellipsis", // 말줄임(...)
-                  overflow: "hidden",
-                  color: "var(--blackgrey, #35383b)",
-                  fontSize: "16px",
-                  fontWeight: 400,
-                }}
-              >
-                {content.title}
-              </div>
-            </ContentTitle>
-            <ContentDuration
-              style={{
-                color: "var(--darkestgrey, #535a61)",
-                fontSize: "14px",
-                fontWeight: 400,
-              }}
-            >
-              {content.date}
-            </ContentDuration>
-            <ContentAttained>
-              <span
-                style={{
-                  color: "var(--blackgrey, #35383B)",
-                  fontSize: "16px",
-                }}
-              >
-                {content.attained}
-              </span>
-              <span
-                style={{
-                  color: "var(--darkgrey, #7d848a)",
-                  fontSize: "14px",
-                }}
-              >
-                / {content.goal}
-              </span>
-            </ContentAttained>
-          </TableContent>
-        ))}
-      </Table>
-      <div style={{ flex: "1" }} />
-      <Pagination
-        count={totalPage}
-        page={currentPage}
-        onChange={handlePageChange}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        defaultPage={1}
-      />
+            defaultPage={1}
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -91,28 +91,15 @@ export default function MyPageWatchlist() {
 }
 
 const WatchListContainer = styled.div`
-  // display: flex;
-  // justify-content: center;
-  // margin: auto;
-  // margin-top: 64px;
-  // padding: 20px;
-  // box-sizing: border-box;
-  // // width: 100%;
-  // max-width: 80%;
-  // min-width: 800px;
-  // min-height: calc(100vh - 160px);
-
   display: flex;
   justify-content: space-between;
-  /* width: 70%; */
-  margin: 20px auto 32px auto;
   //
   box-sizing: border-box;
   width: 100%;
   max-width: 1240px;
   min-width: 800px;
-  min-height: calc(100vh - 160px);
-  padding: 0 20px;
+  height: 100%;
+  padding: 32px 20px 0px 20px;
 `;
 
 const ListFilterContainer = styled.div`
@@ -124,6 +111,7 @@ const ListFilterContainer = styled.div`
 
   display: flex;
   margin-right: 40px;
+  height: 100%;
   flex: 2;
   flex-direction: column;
   align-items: stretch;
@@ -143,7 +131,7 @@ const ListContainer = styled.div`
   margin-top: 10px;
   /* justify-content: flex-start; */
   /* align-content: flex-start; */
-  height: 700px;
+  height: 300px;
   overflow-y: scroll;
   text-align: center;
   column-gap: 8px;

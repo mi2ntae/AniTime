@@ -68,7 +68,7 @@ export default function DesertionDetail({ readOnly, category }) {
               alignItems: "center",
               color: "#A7AEB4",
               fontSize: "14px",
-              height: "80vh",
+              height: "100%",
               flexDirection: "column",
             }}
           >
@@ -215,7 +215,7 @@ export default function DesertionDetail({ readOnly, category }) {
           border-radius: 8px;
           border: 1px solid var(--lightgrey, #e8ebee);
           width: 100%;
-          height: 80vh;
+          height: 100%;
           box-sizing: border-box;
         }
         .animal-image {

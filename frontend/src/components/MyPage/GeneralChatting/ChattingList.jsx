@@ -36,7 +36,7 @@ export default function ChattingList() {
       <Box
         sx={{
           width: "100%",
-          height: "600px",
+          height: "100%",
           display: "flex",
           flexDirection: "column",
           border: "1px solid #E8EBEE",
@@ -130,11 +130,12 @@ const LastMsg = styled.span`
 `;
 
 const NoListMsg = styled.span`
-  color: "#35383B",
-  fontSize: "36px",
-  fontWeight: 100,
-  textAlign: "center",
-  
+  color: #35383b;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 `;
 // const LastDate = styled.span`
 //   color: var(--grey-2, #a7aeb4);
