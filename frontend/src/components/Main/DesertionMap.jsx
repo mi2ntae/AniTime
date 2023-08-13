@@ -27,15 +27,15 @@ export default function DesertionMap() {
     }
   };
   const setColorByCount = (count) => {
-    if (count === 0) return "#F1F1F1";
-    if (count > 5000) return "#79D3C4";
-    if (count > 3000) return "#43cdb6";
-    if (count > 1000) return "#61CDBB";
-    if (count > 200) return "#91D9CD";
+    if (count === 0) return "#000000";
+    if (count > 8000) return "#3994F0";
+    if (count > 4000) return "#80BFFF";
+    if (count > 2000) return "#C1E0FF";
+    if (count > 400) return "#E9F4FF";
     if (count > 100) return "#A9DFD6";
     if (count > 50) return "#C1E5DF";
     if (count > 5) return "#D9EBE8";
-    else return "#ebfffd";
+    else return "#000000";
   };
 
   return (
