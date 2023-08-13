@@ -1,6 +1,6 @@
 import * as React from "react";
 import { css, styled } from "styled-components";
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import http from "../../../api/commonHttp";
@@ -210,12 +210,12 @@ export default function ChatUi({ width, height }) {
           onChange={handleInputChange}
           onKeyDown={handleOnKeyDown}
         />
-        <button
+        <Button
           onClick={handleSend}
           style={{ padding: "16px", backgroundColor: "white", border: "0px" }}
         >
           <img src="/icons/ic_send.svg" />
-        </button>
+        </Button>
       </Box>
     </ChatBox>
   );

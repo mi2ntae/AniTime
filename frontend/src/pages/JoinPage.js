@@ -1,16 +1,15 @@
 import { useDispatch } from "react-redux";
+import { setMember } from "../reducer/member";
 import http from "../api/commonHttp";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { createTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoginTab from "../components/Login/LoginTab.jsx";
 import { styled } from "styled-components";
-import { fontSize } from "@mui/system";
 
 export default function LoginPage() {
   // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
@@ -196,12 +195,25 @@ export default function LoginPage() {
         // password: data.get("password"),
         // memberKind: parseInt(tabNo),
       )
-      .then((res) => {
-        console.log(
-          "보호소 회원 가입이 완료되었습니다.\n 추후 승인 후 이용 가능하십니다. "
-        );
-      })
+      .then((res) => setLogin())
       .catch((err) => {});
+  };
+
+  const setLogin = () => {
+    alert("회원가입이 완료되었습니다");
+    http
+      .post(`auth`, {
+        email: commoninfo["email"],
+        password: commoninfo["password"],
+        memberKind: parseInt(tabNo),
+      })
+      .then((res) => {
+        dispatch(setMember(res));
+        navi("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   //   setShelterInfo((input) => {
@@ -612,7 +624,7 @@ export default function LoginPage() {
                   pwValid &&
                   passwordCheck.passwordCheck.length > 0 &&
                   pwCheck &&
-                  (tabNo === 0 ||
+                  (tabNo === "0" ||
                     (shelterInfo["addr"].length > 0 &&
                       shelterInfo["filedata"] !== null))
                     ? "#3994F0"
@@ -635,7 +647,7 @@ export default function LoginPage() {
                   pwValid &&
                   passwordCheck.passwordCheck.length > 0 &&
                   pwCheck &&
-                  (tabNo === 0 ||
+                  (tabNo === "0" ||
                     (shelterInfo["addr"].length > 0 &&
                       shelterInfo["filedata"] !== null))
                     ? "pointer"
@@ -652,7 +664,7 @@ export default function LoginPage() {
                   pwValid &&
                   passwordCheck.passwordCheck.length > 0 &&
                   pwCheck &&
-                  (tabNo === 0 ||
+                  (tabNo === "0" ||
                     (shelterInfo["addr"].length > 0 &&
                       shelterInfo["filedata"] !== null))
                 )

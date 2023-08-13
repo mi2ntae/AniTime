@@ -1,11 +1,11 @@
 import {
   Pagination,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  // Table,
+  // TableBody,
+  // TableCell,
+  // TableContainer,
+  // TableHead,
+  // TableRow,
 } from "@mui/material";
 import http from "api/commonHttp";
 import React, { useEffect, useState } from "react";
@@ -75,7 +75,40 @@ export default function MyPageMeeting() {
 
   return (
     <MainDiv>
-      <TableContainer>
+      <div
+        style={{
+          borderRadius: "8px",
+          border: "1px solid #e8ebee",
+          width: "100%",
+          marginTop: "48px",
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableCell>보호소명</TableCell>
+            <TableCell>미팅내용</TableCell>
+            <TableCell>공고번호</TableCell>
+            <TableCell>일시</TableCell>
+            <TableCell>미팅상태</TableCell>
+          </TableHead>
+          {meetings.map((item) => (
+            <Content key={item.meetNo}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.meetContent}</TableCell>
+              <TableCell>{item.desertionNo}</TableCell>
+              <TableCell>{item.reservedDate}</TableCell>
+              <TableCell>{processState(item)}</TableCell>
+            </Content>
+          ))}
+        </Table>
+      </div>
+      <Pagination
+        count={maxPage}
+        page={pageNo}
+        onChange={(event, value) => setPageNo(value)}
+        style={{ marginBottom: "64px" }}
+      />
+      {/* <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -99,11 +132,7 @@ export default function MyPageMeeting() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Pagination
-        count={maxPage}
-        page={pageNo}
-        onChange={(event, value) => setPageNo(value)}
-      />
+       */}
     </MainDiv>
   );
 }
@@ -119,4 +148,44 @@ const MainDiv = styled.div`
 const StateText = styled.span`
   font-weight: bold;
   color: ${({ color }) => color || "black"};
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse; // 변경된 부분
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--lightgrey, #e8ebee);
+`;
+
+const TableHead = styled.tr`
+  background-color: var(--lightestgrey, #f7f8fa);
+  height: 64px;
+  color: var(--darkgrey, #7d848a);
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+const Content = styled.tr`
+  & td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  & td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  border-bottom: 1px solid var(--lightgrey, #e8ebee);
+  height: 64px;
+  color: var(--darkestgrey, #535a61);
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+const TableCell = styled.td`
+  padding: 10px;
+  border: none;
+  text-align: center;
+  border-top: 1px solid var(--lightgrey, #e8ebee);
 `;
