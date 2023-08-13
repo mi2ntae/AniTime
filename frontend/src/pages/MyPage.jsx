@@ -16,7 +16,7 @@ import { initMember } from "../reducer/member";
 const GlobalStyles = createGlobalStyle`
   ::-webkit-scrollbar {
     display: none;
-  }
+  }ㅎ
 `;
 
 export default function MyPage() {
@@ -67,7 +67,7 @@ export default function MyPage() {
   ];
 
   return (
-    <MainContainer>
+    <MainContainer style={{ height: `calc(100vh - 60px)`, paddingBottom: 0 }}>
       <GlobalStyles />
       <MyPageHeader>
         <MemberNameDiv>
@@ -109,7 +109,11 @@ export default function MyPage() {
       </Tabs>
       <TabPanel>
         {tabs[member.memberKind].map((item, index) => (
-          <div hidden={index !== tabNo} key={index} style={{ width: "100%" }}>
+          <div
+            hidden={index !== tabNo}
+            key={index}
+            style={{ width: "100%", height: "100%" }}
+          >
             {index === 2 && showDonationDetail ? (
               <ShelterDonationDetail boardNo={boardNo} />
             ) : (
@@ -125,7 +129,7 @@ export default function MyPage() {
 const MyPageHeader = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100px;
+  min-height: 100px;
   align-items: center;
   justify-content: space-between;
 `;

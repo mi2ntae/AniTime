@@ -103,6 +103,22 @@ export default function MeetingDetail() {
           </HeaderLayer>
         )}
       </Header>
+      {!meeting && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#A7AEB4",
+            fontSize: "14px",
+            height: "100%",
+            flexDirection: "column",
+          }}
+        >
+          <img src="/logo_grey.svg" />
+          미팅 정보를 선택해주세요.
+        </div>
+      )}
       {meeting && (
         <>
           <Content>
@@ -136,6 +152,7 @@ export default function MeetingDetail() {
                 <label htmlFor="denie">반려</label>
               </RadioBox>
               <Input
+                style={{ height: "32px", paddingLeft: "12px" }}
                 type="text"
                 value={subData.reason}
                 id="reason"
@@ -151,10 +168,13 @@ export default function MeetingDetail() {
                 fontWeight: "bold",
                 backgroundColor: "#3994f0",
                 color: "#ffffff",
-                width: "144px",
+                width: "120px",
+                height: "50px",
+                borderRadius: "12px",
                 "&:hover": {
                   backgroundColor: "#3994f0",
                 },
+                boxShadow: 0,
               }}
               variant="contained"
               onClick={meetingState == 3 ? handleEnterMeeting : handleSubmit}
@@ -177,7 +197,7 @@ const Header = styled.div`
   color: #ffffff;
   position: relative;
   width: 100%;
-  height: 56px;
+  height: 64px;
 `;
 const HeaderLayer = styled.div`
   display: flex;
@@ -185,7 +205,7 @@ const HeaderLayer = styled.div`
   align-items: center;
   box-sizing: border-box;
   position: absolute;
-  right: 25%;
+  right: 8%;
   transform: translateX(50%);
 `;
 
@@ -200,7 +220,11 @@ const DateDiv = styled.div`
   align-items: center;
   width: 100%;
   height: 40px;
-  background-color: #e8ebee;
+  background-color: #f7f8fa;
+  border: 1px solid #e8ebee;
+  color: var(--blackgrey, #35383b);
+  font-size: 14px;
+  font-weight: 500;
 `;
 const Footer = styled.div`
   display: flex;
