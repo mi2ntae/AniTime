@@ -21,7 +21,7 @@ export default function ProfileDetail() {
   let [profile, setProfile] = useState([]);
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
   useEffect(() => {
-    console.log(profileNo);
+    // console.log(profileNo);
     if (profileNo === 0) return;
     http
       .get(`profile/detail/${profileNo}`)
@@ -31,9 +31,6 @@ export default function ProfileDetail() {
       .catch(() => {
         console.log("프로필 세부정보 조회 실패");
       });
-    return () => {
-      dispatch(setProfileNo(0));
-    };
   }, [profileNo]);
 
   const handleDelClick = () => {

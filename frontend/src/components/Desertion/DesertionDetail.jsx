@@ -40,18 +40,12 @@ export default function DesertionDetail({ readOnly, category }) {
       .get(`desertion/${desertionNo}`)
       .then((res) => {
         setAnimal(res.data);
-        console.log(animal);
+        // console.log(animal);
       })
       .catch(() => {
         console.log("유기동물 세부정보 조회 실패");
       });
   }, [desertionNo]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(setDesertionNo(0));
-    };
-  }, []);
 
   return (
     <>
