@@ -67,7 +67,7 @@ export default function MyPageWatchlist() {
   return (
     <WatchListContainer>
       <ListFilterContainer>
-        {bookmarkedAnimals.length === 0 && "데이터가 없습니다"}
+        {bookmarkedAnimals.length === 0 && "즐겨찾기한 동물이 없습니다"}
         <ListContainer>
           {bookmarkedAnimals.map((animal) => (
             <AnimalItemContainer key={animal.desertionNo}>
