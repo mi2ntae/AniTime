@@ -15,7 +15,7 @@ import {
 
 export default function UserUpdate() {
   let generalNo = useSelector((state) => state.member.memberNo);
-  console.log(generalNo);
+  // console.log(generalNo);
   const [general, setgeneral] = useState({
     email: "",
     memberKind: 0,
@@ -36,8 +36,8 @@ export default function UserUpdate() {
       setPassword(res.data.password);
     });
   }, []);
-  console.log(general);
-  // console.log(password);
+  // console.log(general);
+  // // console.log(password);
 
   //   const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ export default function UserUpdate() {
         return;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         alert("회원 정보 수정에 실패 했습니다. 다시 시도해 주세요");
       });
   };
@@ -118,7 +118,7 @@ export default function UserUpdate() {
   //     };
 
   //     const boardReq = JSON.stringify(board);
-  //     console.log(board);
+  //     // console.log(board);
   //     const formData = new FormData();
   //     formData.append("donationBoardRegistReq", boardReq);
   //     // formData.append("poster", poster);
@@ -133,7 +133,7 @@ export default function UserUpdate() {
   //       .then(() => {
   //         navigate("/mypage");
   //       })
-  //       .catch((error) => console.log(error));
+  //       .catch((error) => // console.log(error));
   return (
     <MainContainer>
       <WriteContainer>

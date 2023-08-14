@@ -232,7 +232,7 @@ export default function DonationRegist() {
       goalAmount: goal,
     };
 
-    console.log(board);
+    // console.log(board);
 
     const boardReq = board;
     const formData = new FormData();
@@ -253,8 +253,8 @@ export default function DonationRegist() {
       })
       .then(() => {
         navigate("/mypage");
-      })
-      .catch((error) => console.log(error));
+      });
+    // .catch((error) => console.log(error));
   };
   return (
     <MainContainer>

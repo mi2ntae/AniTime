@@ -34,7 +34,7 @@ export default function LoginPage() {
         navi("/");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

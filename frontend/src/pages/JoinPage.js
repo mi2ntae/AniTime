@@ -97,7 +97,7 @@ export default function LoginPage() {
   }, [passwordCheck.passwordCheck, commoninfo.password]);
 
   useEffect(() => {
-    console.log(passwordCheck.passwordCheck);
+    // // console.log(passwordCheck.passwordCheck);
     if (
       (commoninfo.password.length &&
         passwordCheck.passwordCheck.length &&
@@ -129,14 +129,14 @@ export default function LoginPage() {
     filedata: null,
   });
   const handleShelterValueimage = (e) => {
-    console.log(e);
+    // console.log(e);
     const { name, files } = e.target;
     setShelterInfo((input) => {
       return { ...input, [name]: files.length > 0 ? files[0] : "" };
     });
   };
   const handleShelterValueChange = (e) => {
-    console.log(e);
+    // console.log(e);
     const { name, value } = e.target;
     setShelterInfo((input) => {
       return { ...input, [name]: value };
@@ -175,7 +175,7 @@ export default function LoginPage() {
       );
       data.append(`image`, shelterInfo.filedata);
     }
-    console.log(data);
+    // console.log(data);
 
     http
       .post(
@@ -212,7 +212,7 @@ export default function LoginPage() {
         navi("/");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -248,7 +248,7 @@ export default function LoginPage() {
 
   const tabChange = (event, newValue) => {
     setTabNo(newValue);
-    console.log(commoninfo);
+    // // console.log(commoninfo);
   };
 
   const [showPassword, setShowPassword] = useState(false);

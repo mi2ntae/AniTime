@@ -76,7 +76,7 @@ export default function MissingRegistPage() {
         if (profile.gender === "암컷") setGender("F");
         else if (profile.gender === "수컷") setGender("M");
         setAge(parseInt(profile.birth.match(/\d+/)[0]));
-        console.log(profile.weight);
+        // console.log(profile.weight);
         setWeight(parseFloat(profile.weight));
         setSpecialMark(profile.specialMark);
 
@@ -163,7 +163,7 @@ export default function MissingRegistPage() {
             const address = result[0].address.address_name;
             setLocation(address);
           } else {
-            console.log("주소 변환 실패");
+            // console.log("주소 변환 실패");
           }
         }
       );
@@ -233,7 +233,7 @@ export default function MissingRegistPage() {
       lon: lon,
       weight: weight,
     };
-    console.log(profile);
+    // console.log(profile);
     const profileJSON = JSON.stringify(profile);
     const formData = new FormData();
     formData.append("profile", profileJSON);
