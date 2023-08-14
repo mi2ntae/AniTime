@@ -3,7 +3,7 @@ import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setDesertionNo } from "reducer/detailInfo.js";
+import { setDesertionNo, setProfileNo } from "reducer/detailInfo.js";
 import http from "api/commonHttp";
 import "intersection-observer";
 import ProfileTab from "components/Profile/ProfileTab";
@@ -32,6 +32,13 @@ export default function Missing() {
       console.log("에러메시지: ", error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setProfileNo(0));
+      dispatch(setDesertionNo(0));
+    };
+  }, []);
 
   useEffect(() => {
     setAnimals([]);

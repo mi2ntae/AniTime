@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import http from "../../api/commonHttp.js";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileDetail from "./ProfileDetail.jsx";
@@ -51,9 +51,8 @@ export default function ProfileTab() {
       <div className="profile-tab-container">
         <div className="button-area">
           {profiles.map((data) => (
-            <>
+            <Fragment key={data.profileNo}>
               <button
-                key={data.profileNo}
                 onClick={() => {
                   dispatch(setProfileNo(data.profileNo));
                   setCurProfileNo(data.profileNo);
@@ -69,7 +68,7 @@ export default function ProfileTab() {
               {data !== profiles[profiles.length - 1] && (
                 <span className="divider">|</span>
               )}
-            </>
+            </Fragment>
           ))}
         </div>
         {whichComponent}

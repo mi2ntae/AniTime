@@ -44,6 +44,12 @@ export default function Desertion() {
   };
 
   useEffect(() => {
+    return () => {
+      dispatch(setDesertionNo(0));
+    };
+  }, []);
+
+  useEffect(() => {
     let observer;
     const handleIntersect = (entries) => {
       entries.forEach((entry) => {
