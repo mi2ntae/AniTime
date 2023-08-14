@@ -27,9 +27,9 @@ export default function MissingRegistPage() {
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [specialMark, setSpecialMark] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [year, setYear] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [day, setDay] = useState(0);
   const [location, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
@@ -62,7 +62,6 @@ export default function MissingRegistPage() {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
   const [dayData, setDayData] = useState([]);
-
   useEffect(() => {
     if (profileNo === 0) return;
     http
@@ -107,7 +106,8 @@ export default function MissingRegistPage() {
         alert("프로필 세부정보 조회 실패");
         window.location.reload();
       });
-
+  }, []);
+  useEffect(() => {
     if (day !== "") {
       if (
         (day === 30 && month === 2) ||
@@ -216,7 +216,6 @@ export default function MissingRegistPage() {
       alert("실종위치는 필수 입력 항목입니다.");
       return;
     }
-
     const profile = {
       generalNo: general.memberNo,
       profileName: name,
@@ -246,7 +245,7 @@ export default function MissingRegistPage() {
         },
       })
       .then((response) => {
-        alert("수정이 완료되었습니다");
+        alert("수정이 완료되었습니다.");
         navigate("/missing");
       })
       .catch((error) => {
@@ -292,6 +291,7 @@ export default function MissingRegistPage() {
                 <SelectBox
                   items={kindData}
                   placeholder="축종"
+                  value={category}
                   setValue={setCategory}
                   initialSelectedItem={category}
                 />
@@ -367,18 +367,21 @@ export default function MissingRegistPage() {
                   items={yearData}
                   placeholder="연도"
                   setValue={setYear}
+                  value={year}
                   initialSelectedItem={year}
                 />
                 <SelectBox
                   items={monthData}
                   placeholder="월"
                   setValue={setMonth}
+                  value={month}
                   initialSelectedItem={month}
                 />
                 <SelectBox
                   items={dayData}
                   placeholder="일"
                   setValue={setDay}
+                  value={day}
                   initialSelectedItem={day}
                 />
               </Row>
