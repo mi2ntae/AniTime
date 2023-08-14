@@ -87,7 +87,7 @@ const ListFilterContainer = styled.div`
   display: flex;
   margin-right: 40px;
   flex: 2;
-  margin-top: 65px;
+  margin-top: 55px;
   flex-direction: column;
   align-items: stretch;
   text-align: center;
@@ -123,7 +123,7 @@ const AnimalList = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  margin-top: 48px;
+  /* margin-top: 48px; */
 `;
 
 const Target = styled.div`
