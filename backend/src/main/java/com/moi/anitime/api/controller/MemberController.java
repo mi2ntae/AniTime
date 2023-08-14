@@ -51,5 +51,9 @@ public class MemberController {
         memberService.editGeneralMemberCheck(memberNo);
         return responseService.getSuccessResponse();
     }
-
+    @PostMapping("/delete/{memberNo}")
+    public CommonResponse deleteMember(@PathVariable("memberNo") int memberNo) throws EditInfoException{
+        memberService.deleteMember(memberNo);
+        return responseService.getSuccessResponse();
+    }
 }
