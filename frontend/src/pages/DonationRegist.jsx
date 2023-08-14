@@ -182,6 +182,13 @@ export default function DonationRegist() {
   const handleThumbnailChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+    var maxSize = 5 * 1024 * 1024;
+    var fileSize = file.size;
+
+    if (fileSize > maxSize) {
+      alert("파일 사이즈는 5MB 이내로 등록 가능합니다.");
+      return;
+    }
     if (!file.type.startsWith("image/")) {
       alert("썸네일은 이미지 형식의 파일만 등록할 수 있습니다.");
       return;
@@ -409,7 +416,7 @@ export default function DonationRegist() {
                   marginTop: "10px",
                 }}
               >
-                사진 사이즈는 어쩌고
+                사진은 5MB 이내의 jpg, png, gif 파일만 등록 가능합니다.
               </div>
             </div>
           </div>
