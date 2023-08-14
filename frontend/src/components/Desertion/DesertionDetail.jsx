@@ -23,7 +23,7 @@ export default function DesertionDetail({ readOnly, category }) {
           dispatch(dispatch(setRoom({ roomNo: res.data.roomNo, name: "" })));
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
     setIsOpen((p) => !p);
@@ -43,7 +43,7 @@ export default function DesertionDetail({ readOnly, category }) {
         // console.log(animal);
       })
       .catch(() => {
-        console.log("유기동물 세부정보 조회 실패");
+        // console.log("유기동물 세부정보 조회 실패");
       });
   }, [desertionNo]);
 

@@ -39,7 +39,7 @@ export default function Desertion() {
       let newData = await response.data;
       setAnimals((prev) => [...prev, ...newData]);
     } catch (error) {
-      console.log("에러메시지: ", error);
+      // console.log("에러메시지: ", error);
     }
   };
 
@@ -79,8 +79,8 @@ export default function Desertion() {
         desertionNo: desertionNo,
         generalNo: memberNo,
       })
-      .then()
-      .catch((err) => console.log("에러"));
+      .then();
+    // .catch((err) => console.log("에러"));
   };
   function test(desertionNo) {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
