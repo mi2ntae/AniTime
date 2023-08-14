@@ -29,12 +29,12 @@ export default function MeetingList() {
 
   /**
    * api 통신
-   */
+  //  */
   const fetchData = useCallback(() => {
     http
       .get(`meet/${member.memberNo}?page=${pageNo - 1}`)
       .then(({ data: { content, totalPages } }) => {
-        setMeetings((prevMeetings) => [...prevMeetings, ...content]); // 기존 데이터에 새 데이터를 추가
+        setMeetings(content);
         setMaxPage(totalPages);
         if (!mounted.current) {
           mounted.current = true;
@@ -56,29 +56,6 @@ export default function MeetingList() {
     }
   }, [reload, fetchData]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // 스크롤이 페이지 하단에 가까운지 확인
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 500
-      ) {
-        // 아직 모든 페이지를 불러오지 않았다면
-        if (pageNo < maxPage) {
-          setPageNo((prev) => prev + 1);
-        }
-      }
-    };
-
-    // 스크롤 이벤트 리스너를 추가
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      // 컴포넌트 unmount 시 리스너 제거
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [pageNo, maxPage]);
-
   return (
     <>
       <Table style={{ height: "64px" }}>
@@ -88,54 +65,44 @@ export default function MeetingList() {
           <TableCell>일시</TableCell>
           <TableCell>미팅상태</TableCell>
         </TableHead>
+        {meetings.map((item) => (
+          <Content
+            key={item.meetNo}
+            onClick={() => dispatch(setMeetingNo(item.meetNo))}
+            style={
+              item.meetNo === meetingNo
+                ? { backgroundColor: "#F7F8FA" }
+                : item.state === 0
+                ? { backgroundColor: "#FFFAFA" }
+                : null
+            }
+          >
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.meetContent}</TableCell>
+            <TableCell>{item.reservedDate}</TableCell>
+            <TableCell>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  weight: "100%",
+                }}
+              >
+                {processState(item)}
+              </div>
+            </TableCell>
+          </Content>
+        ))}
       </Table>
-      <div
-        style={{
-          maxHeight: `calc(100vh - 294px)`,
-          overflow: "auto",
-          boxSizing: "border-box",
-          minWidth: "100%",
-        }}
-      >
-        <Table
-          style={{
-            maxHeight: `calc(100vh - 295px)`,
-            overflow: "auto",
-            boxSizing: "border-box",
-            minWidth: "100%",
-          }}
-        >
-          {meetings.map((item) => (
-            <Content
-              key={item.meetNo}
-              onClick={() => dispatch(setMeetingNo(item.meetNo))}
-              style={
-                item.meetNo === meetingNo
-                  ? { backgroundColor: "#F7F8FA" }
-                  : item.state === 0
-                  ? { backgroundColor: "#FFFAFA" }
-                  : null
-              }
-            >
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.meetContent}</TableCell>
-              <TableCell>{item.reservedDate}</TableCell>
-              <TableCell>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    weight: "100%",
-                  }}
-                >
-                  {processState(item)}
-                </div>
-              </TableCell>
-            </Content>
-          ))}
-        </Table>
-      </div>
       {maxPage == 0 && <Text>미팅 내역이 없습니다</Text>}
+      {maxPage != 0 && (
+        <Pagination
+          count={maxPage}
+          page={pageNo}
+          onChange={(event, value) => setPageNo(value)}
+          style={{ marginBottom: "16px" }}
+        />
+      )}
     </>
   );
 }
