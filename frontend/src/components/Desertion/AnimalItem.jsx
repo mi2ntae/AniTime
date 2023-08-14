@@ -67,8 +67,9 @@ export default function AnimalItem({ animal, handleClick, handleBookmark }) {
 }
 
 const AnimalImg = styled.div`
-  height: 240px;
-  margin-bottom: 28px;
+  width: 100%;
+  /* height: 30vmin; */
+  /* margin-bottom: 28px; */
 `;
 
 const Span1 = styled.span`
@@ -105,15 +106,25 @@ const Blank = styled.span`
 `;
 
 const Img = styled.img`
-  width: 220px;
-  min-width: 220px;
-  height: 220px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 120px;
+  min-height: 120px;
   border-radius: 8px;
   object-fit: cover;
   object-position: center center;
 `;
 const AnimalContainer = styled.div`
   position: relative;
+  width: 100%;
+  &:after {
+    display: block;
+    content: "";
+    padding-bottom: 100%;
+  }
 `;
 
 const BookmarkButton = styled.button`

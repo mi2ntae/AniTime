@@ -41,9 +41,10 @@ export default function DesertionMap() {
   return (
     <div
       style={{
-        margin: "auto",
-        padding: "20px",
+        margin: "0 auto",
+        padding: "32px",
         background: "white",
+        height: "100%",
       }}
     >
       <SimpleSouthKoreaMapChart setColorByCount={setColorByCount} data={data} />

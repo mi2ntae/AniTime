@@ -68,7 +68,16 @@ export default function MainPage() {
 
       <ScrollArea>
         <SliderTitle>입양을 기다리는 아이들이에요</SliderTitle>
-        <Slider />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <Slider />
+        </div>
       </ScrollArea>
 
       <ScrollArea style={{ justifyContent: "space-between" }}>
@@ -198,7 +207,7 @@ const ReportNumber = styled.span`
 
 const SliderTitle = styled.h1`
   margin: auto;
-  margin-top: 56px;
+  margin-top: 24px;
   margin-bottom: 24px;
   max-width: 1240px;
   text-align: center;
