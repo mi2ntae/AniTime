@@ -8,7 +8,7 @@ import { useState } from "react";
 import SockJs from "sockjs-client";
 import Stomp from "webstomp-client";
 import { setStomp } from "reducer/stomp";
-import { setRoom } from "reducer/chatRoom";
+import { setRoom, setSub } from "reducer/chatRoom";
 
 export default function ChatUi({ width, height }) {
   const dispatch = useDispatch();
@@ -20,6 +20,8 @@ export default function ChatUi({ width, height }) {
   const roomName = useSelector((state) => state.chatRoom.name);
   const memberNo = useSelector((state) => state.member.memberNo);
   const [messages, setMessages] = useState([]);
+  const sub = useSelector((state) => state.chatRoom.sub);
+
   var messageArea = null;
 
   useEffect(() => {
@@ -28,11 +30,17 @@ export default function ChatUi({ width, height }) {
   });
 
   const onConnected = () => {
-    // console.log("stomp connected");
-    stompClient.unsubscribe("curRoom");
-    stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {
-      id: "curRoom",
-    });
+    if(sub) {
+      stompClient.unsubscribe("curRoom");
+      
+    }
+    setTimeout(() => stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
+      'id': "curRoom",
+      'auto-delete':true, 
+      'durable':false, 
+      'exclusive':false
+    }), 100);
+    dispatch(setSub(true));
   };
 
   const onError = () => {
@@ -69,9 +77,11 @@ export default function ChatUi({ width, height }) {
     if (stompClient != null) stompClient.connect({}, onConnected, onError);
     return () => {
       if (stompClient != null) {
+        stompClient.unsubscribe("curRoom");
         stompClient.disconnect();
         dispatch(setRoom({ roomNo: -1, name: "" }));
         dispatch(setStomp({ socket: null, client: null }));
+        dispatch(setSub(false));
       }
     };
   }, [socket]);
@@ -89,10 +99,17 @@ export default function ChatUi({ width, height }) {
         });
     }
     if (socket != null && stompClient != null) {
-      stompClient.unsubscribe("curRoom");
-      stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {
-        id: "curRoom",
-      });
+      if(sub) {
+        stompClient.unsubscribe("curRoom");
+        console.log("unsub!!")
+        dispatch(setSub(true));
+      }
+      setTimeout(() => stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
+        'id': "curRoom",
+        'auto-delete':true, 
+        'durable':false, 
+        'exclusive':false
+      }), 100);
     }
   }, [roomNo]);
 
@@ -104,7 +121,7 @@ export default function ChatUi({ width, height }) {
         sendNo: memberNo,
         content: input,
       };
-      stompClient.send("/pub/message", JSON.stringify(message));
+      stompClient.send("/pub/chat.message", JSON.stringify(message));
       setInput("");
     } // else console.log("메시지를 입력해주세요!");
   };
