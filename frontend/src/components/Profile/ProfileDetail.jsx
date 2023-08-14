@@ -31,9 +31,6 @@ export default function ProfileDetail() {
       .catch(() => {
         // console.log("프로필 세부정보 조회 실패");
       });
-    return () => {
-      dispatch(setProfileNo(0));
-    };
   }, [profileNo]);
 
   const handleDelClick = () => {
