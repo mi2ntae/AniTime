@@ -74,14 +74,14 @@ public class AnimalController {
             throw new NonExistDesertionNoException();
         }
         Animal animal = res.get();
-        StringTokenizer token = new StringTokenizer(animal.getKind(), " ");
+        StringTokenizer token = new StringTokenizer(animal.getKind(), "]");
         String category = token.nextToken();
 
         Member shelterMember = memberService.findShelterMemberById(animal.getShelterNo());
 
         AnimalDetailRes animalDetailRes = AnimalDetailRes.builder()
                 .thumbnail(animal.getImage2())
-                .kind(category.substring(1, category.length()-1) + " / " + token.nextToken())//
+                .kind(category.substring(1, category.length()) + " / " + token.nextToken().trim())//
                 .birth(animal.getAge() + "년생")
                 .weight(animal.getWeight() + "kg")
                 .color(animal.getColor())
