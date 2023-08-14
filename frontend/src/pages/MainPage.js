@@ -22,9 +22,10 @@ export default function MainPage() {
       setIsTop(scrollPosition == 0);
     }
     scrollRef.current.addEventListener("scroll", handleScroll);
-    return () => {
-      scrollRef.current.removeEventListener("scroll", handleScroll);
-    };
+    // return () => {
+    //   console.log(scrollRef.current);
+    //   scrollRef.current.removeEventListener("scroll", handleScroll);
+    // };
   }, []);
   const moveTop = () => {
     scrollRef.current.scrollTo({
