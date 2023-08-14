@@ -45,13 +45,13 @@ const HorizontalContainer = styled.div`
   display: flex;
   justify-content: space-between;
   /* width: 70%; */
-  margin: 96px auto 32px auto;
+  margin: 96px auto 8px auto;
   //
   box-sizing: border-box;
   width: 100%;
   max-width: 1240px;
   min-width: 800px;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 104px);
   padding: 0 20px;
 `;
 
