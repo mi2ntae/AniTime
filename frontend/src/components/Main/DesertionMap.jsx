@@ -15,15 +15,15 @@ export default function DesertionMap() {
       let response = await http.get(`count`);
       let newdata = await response.data;
       newdata.reduce((acc, cur) => {
-        console.log(cur);
+        // console.log(cur);
         setData((p) => [
           ...p,
           { locale: processName(cur.mapName), count: cur.entryNumber },
         ]);
       });
-      console.log(data);
+      // console.log(data);
     } catch (error) {
-      console.log("에러메시지: ", error);
+      // console.log("에러메시지: ", error);
     }
   };
   const setColorByCount = (count) => {

@@ -32,14 +32,15 @@ export default function MeetingHeader({ tabOpen, handleTabOpen, meetingNo }) {
         <Span
           $active={tabOpen.chatTab}
           onClick={() => {
-            http.get(`chat/room/meet/${meetingNo}`)
-            .then((res) => {
-              dispatch(setRoom({roomNo: res.data, name: ""}));
-              handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }))
-            })
-            .catch((err) => {
-              console.log(err);
-            })
+            http
+              .get(`chat/room/meet/${meetingNo}`)
+              .then((res) => {
+                dispatch(setRoom({ roomNo: res.data, name: "" }));
+                handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }));
+              })
+              .catch((err) => {
+                // console.log(err);
+              });
           }}
         >
           채팅 열기
