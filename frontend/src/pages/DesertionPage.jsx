@@ -145,7 +145,7 @@ const ListContainer = styled.div`
 
 const FiltersContainer = styled.div`
   display: flex;
-  flex: 0 0 65px;
+  flex: 0 0 55px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: right;
