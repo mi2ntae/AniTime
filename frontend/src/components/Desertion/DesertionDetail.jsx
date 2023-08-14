@@ -10,9 +10,6 @@ import { Fullscreen } from "@mui/icons-material";
 import { setDesertionNo } from "reducer/detailInfo";
 
 export default function DesertionDetail({ readOnly, category }) {
-  useEffect(() => {
-    console.log("category:" + category);
-  }, []);
   const dispatch = useDispatch();
   const memberNo = useSelector((state) => state.member.memberNo);
   const desertionNo = useSelector((state) => state.detailInfo.desertionNo);
