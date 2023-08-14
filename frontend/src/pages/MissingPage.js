@@ -15,10 +15,10 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
-  // console.log(profileNo);
+  // // console.log(profileNo);
 
   const fetchData = async () => {
-    console.log(profileNo, page.current);
+    // console.log(profileNo, page.current);
     if (profileNo === 0) return;
     try {
       page.current++;
@@ -26,11 +26,11 @@ export default function Missing() {
         `recommand/${profileNo}?curPageNo=${page.current}`
       );
       let newData = await response.data;
-      // console.log("recommand result");
-      // console.log("newData");
+      // // console.log("recommand result");
+      // // console.log("newData");
       setAnimals((prev) => [...prev, ...newData]);
     } catch (error) {
-      console.log("에러메시지: ", error);
+      // console.log("에러메시지: ", error);
     }
   };
 

@@ -54,7 +54,7 @@ export default function Payment({ boardNo, price, agree }) {
               failUrl: `${window.location.origin}/donation/fail`,
             });
           } catch (error) {
-            console.log(error);
+            // console.log(error);
           }
         }}
         style={{

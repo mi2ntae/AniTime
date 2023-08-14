@@ -19,15 +19,15 @@ export default function KakaoResPage() {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         dispatch(setMember(res));
         navi("/");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         navi("/login");
       });
-    console.log(code);
+    // console.log(code);
   }, []);
   return <div></div>;
 }
