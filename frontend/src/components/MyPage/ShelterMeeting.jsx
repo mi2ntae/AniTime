@@ -24,7 +24,7 @@ const MainDiv = styled.div`
 const ListDiv = styled.div`
   flex: 1 0 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
   border-right: 1px solid var(--lightgrey, #e8ebee);

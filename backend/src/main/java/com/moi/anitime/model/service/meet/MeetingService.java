@@ -4,6 +4,7 @@ import com.moi.anitime.api.request.meeting.MeetingReq;
 import com.moi.anitime.api.request.meeting.MeetingStatusReq;
 import com.moi.anitime.api.response.meeting.MeetingListRes;
 import com.moi.anitime.api.response.meeting.MeetingRes;
+import com.moi.anitime.exception.meeting.ExistReservationException;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.meeting.Meeting;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MeetingService {
-    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException;
+    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException, ExistReservationException;
 
     public Page<MeetingListRes> findMeetsByMemberNo(int memberNo, int page);
 

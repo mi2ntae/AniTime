@@ -14,11 +14,11 @@ export default function SortItem() {
   let ascClicked = useSelector((state) => state.sortInfo.ascClicked);
   const handleSortButtonClick = (sortType) => {
     dispatch(setSortType(sortType));
-    if (sortType == 0) {
+    if (sortType === 0) {
       sortSelected = "최신순";
       descClicked = true;
       ascClicked = false;
-    } else if (sortType == 1) {
+    } else if (sortType === 1) {
       sortSelected = "오래된순";
       descClicked = false;
       ascClicked = true;

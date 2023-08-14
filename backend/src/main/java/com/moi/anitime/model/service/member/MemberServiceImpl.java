@@ -145,6 +145,11 @@ public class MemberServiceImpl implements MemberService {
         
     }
 
+    @Override
+    public void deleteMember(int memberNo) {
+        memberRepo.deleteById(memberNo);
+    }
+
     private Member getMemberByKaKaoEmail(String accessToken) throws SnsNotConnectedMemberException, NonExistEmailException, IOException {
         String email = "";
         String postURL = "https://kapi.kakao.com/v2/user/me";

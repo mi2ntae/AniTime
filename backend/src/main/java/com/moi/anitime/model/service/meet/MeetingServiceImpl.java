@@ -5,6 +5,7 @@ import com.moi.anitime.api.request.meeting.MeetingStatusReq;
 import com.moi.anitime.api.response.meeting.MeetingListRes;
 import com.moi.anitime.api.response.meeting.MeetingRes;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
+import com.moi.anitime.exception.meeting.ExistReservationException;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.adoptionForm.AdoptionForm;
@@ -46,7 +47,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Transactional
     @Override
-    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException, NonExistMemberNoException, NonExistDesertionNoException{
+    public void reserveMeet(MeetingReq meetingReq, MultipartFile img) throws IOException, NonExistMemberNoException, NonExistDesertionNoException, ExistReservationException{
         Optional<Member> tmpMember = memberRepo.findById(meetingReq.getGeneralNo());
         Optional<Animal> tmpAnimal = animalRepo.findById(meetingReq.getDesertionNo());
         if(!tmpMember.isPresent()) throw new NonExistMemberNoException();
@@ -54,7 +55,11 @@ public class MeetingServiceImpl implements MeetingService {
         Member member = tmpMember.get();
         Animal animal = tmpAnimal.get();
         Meeting meeting = meetingReq.toEntity(animal, member);
+
+        Optional<Meeting> isReserved = meetingRepo.findMeetingByAnimal_ShelterNoAndReservedDate(animal.getShelterNo(), meeting.getReservedDate());
+        if(isReserved.isPresent()) throw new ExistReservationException();
         meeting = meetingRepo.save(meeting);
+
         if(img != null){
             String storedPath = s3Uploader.upload(img, imgPath);
             AdoptionForm form = AdoptionForm.builder()
@@ -88,7 +93,7 @@ public class MeetingServiceImpl implements MeetingService {
 
         Page<Meeting> meetList;
         if(memberKind == MemberKind.GENERAL.getCode()) meetList = meetingRepo.findMeetingsByMember_MemberNoOrderByMeetNoDesc(memberno, PageRequest.of(page, 8));
-        else meetList = meetingRepo.findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(memberno, PageRequest.of(page, 12));
+        else meetList = meetingRepo.findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(memberno, PageRequest.of(page, 8));
 
         List<MeetingListRes> meets = new ArrayList<>();
         for(Meeting meet : meetList) {
