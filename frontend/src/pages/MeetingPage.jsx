@@ -330,7 +330,9 @@ const SideDiv = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  flex: 0 0 400px;
+  max-width: 30%;
+  min-width: 400px;
+  flex: 0 0 30%;
   background-color: #ffffff;
 `;
 
