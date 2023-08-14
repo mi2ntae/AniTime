@@ -90,15 +90,14 @@ export default function Desertion() {
         {animals.length === 0 && "데이터가 없습니다"}
         <ListContainer>
           {animals.map((animal) => (
-            <AnimalItemContainer key={animal.desertionNo}>
-              <AnimalItem
-                animal={animal}
-                // AnimalImg onClick
-                handleClick={() => test(animal.desertionNo)}
-                // BookmarkButton onClick
-                handleBookmark={() => toggleBookmark(animal.desertionNo)}
-              />
-            </AnimalItemContainer>
+            <AnimalItem
+              key={animal.desertionNo}
+              animal={animal}
+              // AnimalImg onClick
+              handleClick={() => test(animal.desertionNo)}
+              // BookmarkButton onClick
+              handleBookmark={() => toggleBookmark(animal.desertionNo)}
+            />
           ))}
           <Target ref={setTarget} />
         </ListContainer>
@@ -133,10 +132,10 @@ const ListContainer = styled.div`
   justify-items: center;
   justify-content: space-between;
   flex-grow: 2;
-  max-height: 795px;
+  height: 700px;
   overflow-y: scroll;
   text-align: center;
-  column-gap: 8px;
+  gap: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -146,7 +145,7 @@ const ListContainer = styled.div`
 
 const FiltersContainer = styled.div`
   display: flex;
-  flex: 1;
+  flex: 0 0 65px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: right;
@@ -162,8 +161,4 @@ const Target = styled.div`
   height: 35px;
   position: relative;
   bottom: 5px;
-`;
-
-const AnimalItemContainer = styled.div`
-  flex: 1 0 30%;
 `;
