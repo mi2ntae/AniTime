@@ -5,7 +5,7 @@ import ChattingList from "components/MyPage/GeneralChatting/ChattingList";
 
 export default function MyPageChatting() {
   return (
-    <MainDiv style={{ height: `calc(100vh - 231px)`, paddingBottom: 0 }}>
+    <MainDiv>
       <Div>
         <ChattingList />
       </Div>
