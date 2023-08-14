@@ -13,6 +13,7 @@ import com.moi.anitime.model.repo.ProfileRepo;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+//import org.joda.time.LocalDate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +68,8 @@ public class ProfileServiceImpl implements ProfileService{
                 .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 존재하지 않습니다. id=" + profileNo));
         String temp = profile.getImage();
         BeanUtils.copyProperties(profileModifyReq, profile);
+        LocalDate newDate= LocalDate.of(profileModifyReq.getYear(),profileModifyReq.getMonth(),profileModifyReq.getDay());
+        profile.setDateAt(newDate);
         if (image != null) {
             if (profile.getImage() != null)s3Uploader.deleteFileFromS3Bucket(profile.getImage());
             String contentType = image.getContentType();

@@ -30,12 +30,12 @@ export default function UserUpdate() {
   });
   const dispatch = useDispatch();
   //지훈
-  const [originPW,setOriginPW]=useState("");
+  const [originPW, setOriginPW] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [pwValid, setPwValid] = useState(true);
   const [pwCheck, setPwCheck] = useState(true); //비밀번호 확인
-  //정현 
+  //정현
 
   const navi = useNavigate();
   useEffect(() => {
@@ -54,14 +54,12 @@ export default function UserUpdate() {
     }
     setPwValid(false);
     return;
-  }, [passwordCheck,password]);
+  }, [passwordCheck, password]);
 
   useEffect(() => {
     // // console.log(passwordCheck.passwordCheck);
     if (
-      (password.length &&
-        passwordCheck.length &&
-        password === passwordCheck) ||
+      (password.length && passwordCheck.length && password === passwordCheck) ||
       !passwordCheck
     ) {
       setPwCheck(true);
@@ -69,7 +67,7 @@ export default function UserUpdate() {
     }
     setPwCheck(false);
     return;
-  }, [passwordCheck,password]);
+  }, [passwordCheck, password]);
   // console.log(general);
   // // console.log(password);
 
@@ -95,17 +93,24 @@ export default function UserUpdate() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(!pwValid){
-      alert("비밀번호는 8~16자의 영문 소문자로 이루어져야 하며 숫자와 특수문자를 하나 이상씩 포함하여야 합니다.")
+    if (!pwValid) {
+      alert(
+        "비밀번호는 8~16자의 영문 소문자로 이루어져야 하며 숫자와 특수문자를 하나 이상씩 포함하여야 합니다."
+      );
       return;
     }
-    if(!pwCheck){
+    if (!pwCheck) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    if (password === ""||!password||passwordCheck===""||!passwordCheck){
+    if (
+      password === "" ||
+      !password ||
+      passwordCheck === "" ||
+      !passwordCheck
+    ) {
       // navi("/");
-      alert("비밀번호를 입력해 주세요.")
+      alert("비밀번호를 입력해 주세요.");
       return;
     }
     // if(originPW===password){
@@ -116,7 +121,7 @@ export default function UserUpdate() {
       alert("비밀번호가 다릅니다. 다시 확인해주세요.");
       return;
     }
-    
+
     http
       .put(`member/${general.memberNo}`, {
         password: password,
@@ -129,10 +134,10 @@ export default function UserUpdate() {
           title: "성공적으로 변경되었습니다.",
           showConfirmButton: false,
           timer: 1000,
-        }).then(()=>{
+        }).then(() => {
           navi("/");
           return;
-        })
+        });
       })
       .catch((err) => {
         // console.log(err);
@@ -140,7 +145,7 @@ export default function UserUpdate() {
       });
   };
 
-  const handelSns = (e) => {
+  const handleSns = (e) => {
     e.preventDefault();
     http.put(`member/check/${generalNo}`).then(() => {
       alert("SNS연동이 되었습니다!");
@@ -148,14 +153,36 @@ export default function UserUpdate() {
       return;
     });
   };
-  const handelDelete = (e) => {
+  const handleDelete = (e) => {
     e.preventDefault();
-
-    http.post(`member/delete/${generalNo}`).then((e) => {
-      dispatch(initMember());
-      alert("회원탈퇴가 성공적으로 진행되었습니다.");
-      navi("/");
-      return;
+    Swal.fire({
+      position: "center",
+      // icon: "success",
+      imageUrl: "/icons/img_delete.svg",
+      title: "정말로 탈퇴하시겠어요?",
+      html: `삭제한 계정은 복구가 불가능해요!<br/>신중하게 검토한 후 탈퇴해 주세요.`,
+      showCancelButton: true,
+      confirmButtonColor: "#FF7676",
+      confirmButtonText: "탈퇴하기",
+      cancelButtonText: "취소",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        http.post(`member/delete/${generalNo}`).then((e) => {
+          dispatch(initMember());
+          Swal.fire({
+            position: "center",
+            // icon: "success",
+            imageUrl: "/icons/img_complete.svg",
+            title: "회원 탈퇴가 완료되었습니다.",
+            showConfirmButton: false,
+            timer: 1000,
+          }).then(() => {
+            navi("/");
+            return;
+          });
+          return;
+        });
+      }
     });
   };
   //   if (sYear === "" || sMonth == "" || sDay == "") {
@@ -209,7 +236,7 @@ export default function UserUpdate() {
             style={{
               color: "red",
             }}
-            onClick={handelDelete}
+            onClick={handleDelete}
           >
             탈퇴하기
           </Button>
@@ -273,9 +300,17 @@ export default function UserUpdate() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Row>
-              <Row style={pwValid?{display:"none"}:{display:"block"}}>
-                <div style={{marginLeft:"120px", color: "#FF7676", fontSize: "11px" }}>비밀번호는 영문 소문자, 숫자, 특수문자를 포함시켜 8~16자로
-                  작성해주세요.</div>
+              <Row style={pwValid ? { display: "none" } : { display: "block" }}>
+                <div
+                  style={{
+                    marginLeft: "120px",
+                    color: "#FF7676",
+                    fontSize: "11px",
+                  }}
+                >
+                  비밀번호는 영문 소문자, 숫자, 특수문자를 포함시켜 8~16자로
+                  작성해주세요.
+                </div>
               </Row>
               <Row>
                 <InputLabel htmlFor="pwCheck">
@@ -284,20 +319,27 @@ export default function UserUpdate() {
                 <Input
                   type="password"
                   id="pwCheck"
-
                   value={passwordCheck}
                   onChange={(e) => setPasswordCheck(e.target.value)}
                 />
               </Row>
-              <Row style={pwCheck?{display:"none"}:{display:"block"}}>
-                <div style={{ marginLeft:"120px",color: "#FF7676", fontSize: "11px" }}>비밀번호가 일치하지 않습니다.</div>
+              <Row style={pwCheck ? { display: "none" } : { display: "block" }}>
+                <div
+                  style={{
+                    marginLeft: "120px",
+                    color: "#FF7676",
+                    fontSize: "11px",
+                  }}
+                >
+                  비밀번호가 일치하지 않습니다.
+                </div>
               </Row>
               <Row>
                 <InputLabel>
                   카카오 연동<Red>*</Red>
                 </InputLabel>
                 {!general.snsCheck ? (
-                  <Button onClick={handelSns}>
+                  <Button onClick={handleSns}>
                     <img src="kakao_login_medium_wide.png" alt="버튼X" />
                   </Button>
                 ) : (
