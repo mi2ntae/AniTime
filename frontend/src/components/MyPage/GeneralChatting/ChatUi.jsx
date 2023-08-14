@@ -28,7 +28,7 @@ export default function ChatUi({ width, height }) {
   });
 
   const onConnected = () => {
-    console.log("stomp connected");
+    // console.log("stomp connected");
     stompClient.unsubscribe("curRoom");
     stompClient.subscribe(`/sub/message/${roomNo}`, onMessageReceived, {
       id: "curRoom",
@@ -36,24 +36,24 @@ export default function ChatUi({ width, height }) {
   };
 
   const onError = () => {
-    console.log("stomp error");
+    // console.log("stomp error");
   };
 
   const resetReadCnt = async () => {
     await http
       .post(`chat/room/${roomNo}/${memberNo}`)
       .then((res) => {
-        console.log("Reset UnreadCnt When ChatRoom Activated");
+        // console.log("Reset UnreadCnt When ChatRoom Activated");
       })
       .catch((err) => {
-        console.log("resetErr");
+        // console.log("resetErr");
       });
   };
 
   const onMessageReceived = (payload) => {
-    console.log("messageReceive");
+    // console.log("messageReceive");
     setMessages((prev) => {
-      console.log(payload);
+      // console.log(payload);
       return [...prev, JSON.parse(payload.body)];
     });
     resetReadCnt();
@@ -81,11 +81,11 @@ export default function ChatUi({ width, height }) {
       http
         .get(`chat/room/${roomNo}?memberNo=${memberNo}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setMessages(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
     if (socket != null && stompClient != null) {
@@ -98,7 +98,7 @@ export default function ChatUi({ width, height }) {
 
   const handleSend = () => {
     if (input.trim() !== "") {
-      console.log(input);
+      // console.log(input);
       const message = {
         roomNo: roomNo,
         sendNo: memberNo,
@@ -106,7 +106,7 @@ export default function ChatUi({ width, height }) {
       };
       stompClient.send("/pub/message", JSON.stringify(message));
       setInput("");
-    } else console.log("메시지를 입력해주세요!");
+    } // else console.log("메시지를 입력해주세요!");
   };
 
   const handleInputChange = (event) => {

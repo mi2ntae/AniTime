@@ -28,7 +28,7 @@ export default function DonationDetailPage() {
         setContent(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
 

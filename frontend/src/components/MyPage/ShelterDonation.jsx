@@ -32,10 +32,10 @@ export default function ShelterDonation({ setBoardNo, setShowDonationDetail }) {
       .then((data) => {
         setContents(data.data.content);
         setTotalPage(data.data.totalPages);
-        console.log(contents);
+        // console.log(contents);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, [currentPage]);
 

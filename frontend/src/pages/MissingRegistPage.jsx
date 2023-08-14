@@ -142,7 +142,7 @@ export default function MissingRegistPage() {
             const address = result[0].address.address_name;
             setLocation(address);
           } else {
-            console.log("주소 변환 실패");
+            // console.log("주소 변환 실패");
           }
         }
       );
@@ -159,6 +159,14 @@ export default function MissingRegistPage() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    var maxSize = 5 * 1024 * 1024;
+    var fileSize = file.size;
+
+    if (fileSize > maxSize) {
+      alert("파일 사이즈는 5MB 이내로 등록 가능합니다.");
+      return;
+    }
     if (!file.type.startsWith("image/")) {
       alert("이미지 형식의 파일만 등록 가능합니다.");
       return;
@@ -224,7 +232,7 @@ export default function MissingRegistPage() {
         },
       })
       .then((response) => {
-        console.log("success");
+        // console.log("success");
         navigate("/missing");
       })
       .catch((error) => {
@@ -401,7 +409,7 @@ export default function MissingRegistPage() {
                   marginTop: "10px",
                 }}
               >
-                사진 사이즈는 어쩌고
+                사진은 5MB 이내의 jpg, png, gif 파일만 등록 가능합니다.
               </div>
             </div>
           </div>

@@ -23,11 +23,11 @@ export default function ChattingList() {
     http
       .get(`chat/room/${memberKind}/${memberNo}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setChatList(res.data);
       })
       .catch((err) => {
-        console.log("ddd");
+        // console.log("ddd");
       });
   }, []);
 
