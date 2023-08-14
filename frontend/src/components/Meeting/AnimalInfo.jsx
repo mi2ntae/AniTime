@@ -37,10 +37,10 @@ export default function AnimalInfo() {
       .get(`desertion/${desertionNo}`)
       .then((res) => {
         setInfo(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(() => {
-        console.log("유기동물 세부정보 조회 실패");
+        // console.log("유기동물 세부정보 조회 실패");
       });
   }, []);
   useEffect(() => {

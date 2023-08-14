@@ -18,14 +18,14 @@ export default function DonationSuccessPage() {
         params: {
           paymentKey: paymentKey,
           orderId: orderId,
-          amount: amount
+          amount: amount,
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         navi("/donation/fail");
       });
   }, []);
@@ -35,9 +35,14 @@ export default function DonationSuccessPage() {
       <Div>
         <img src="../icons/img_complete.svg" alt="Error" />
         <Text>후원이 완료되었습니다.</Text>
-        <Link to={"/donation"} style={{
-          textDecoration: "none"
-        }}>공고 목록 돌아가기</Link>
+        <Link
+          to={"/donation"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          공고 목록 돌아가기
+        </Link>
       </Div>
     </>
   );

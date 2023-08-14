@@ -57,8 +57,8 @@ export default function MeetingDetail() {
   };
 
   const handleSubmit = () => {
-    console.log("submit " + meetingNo);
-    console.log(subData);
+    // console.log("submit " + meetingNo);
+    // console.log(subData);
     if (subData.status != 1 && subData.status != 2) {
       alert("승인 또는 반려를 선택해주세요");
       return;
@@ -76,7 +76,7 @@ export default function MeetingDetail() {
   };
 
   const handleEnterMeeting = () => {
-    console.log("enter " + meetingNo);
+    // console.log("enter " + meetingNo);
     navigate(`/meeting/${meetingNo}`);
   };
 

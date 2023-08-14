@@ -26,21 +26,21 @@ export default function DonationPage() {
 
   useEffect(() => {
     http.get(`donation`).then((response) => {
-      console.log(response.data.content);
+      // console.log(response.data.content);
       setContents(response.data.content);
     });
   }, []);
 
   const handleSearch = (event) => {
-    console.log(searchType);
-    console.log(searchInput);
+    // console.log(searchType);
+    // console.log(searchInput);
     event.preventDefault();
     http
       .get(
         `donation?searchType=${searchType}&keyword=${searchInput}&pageNo=${curPage}`
       )
       .then((response) => {
-        console.log(response.data.content);
+        // console.log(response.data.content);
         setContents(response.data.content);
       });
   };

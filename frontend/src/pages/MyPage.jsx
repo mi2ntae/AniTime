@@ -39,7 +39,7 @@ export default function MyPage() {
         alert("로그아웃 하였습니다.");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     dispatch(initMember());
   };

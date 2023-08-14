@@ -35,11 +35,11 @@ export default function FAQ() {
     setVisible(initial);
   }, []);
   function toggle(index) {
-    console.log(index);
+    // console.log(index);
     let copy = [...visible];
     copy[index] = !copy[index];
     setVisible(copy);
-    console.log(copy);
+    // console.log(copy);
     return;
   }
   return (
