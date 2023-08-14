@@ -38,6 +38,6 @@ const RoomDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 48px;
-  box-sixing: border-box;
+  box-sizing: border-box;
   border-right: 1px solid #e8ebee;
 `;
