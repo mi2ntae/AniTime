@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useSpring, animated } from "@react-spring/web";
+import { useSelector } from "react-redux";
+import http from "api/commonHttp";
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -52,63 +55,31 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: 500,
-  width: 700,
-  maxHeight: "80vh",
+  width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 4,
-  display: "block",
+  p: 6,
+  borderRadius: "12px",
 };
 
-const scrollStyle = {
-  maxWidth: "100%",
-  maxHeight: "70vh",
-  overflowY: "auto",
-  "&::-webkit-scrollbar": {
-    width: "8px",
-    backgroundColor: "transparent", // 스크롤바의 전체 배경
-  },
-  "&::-webkit-scrollbar-thumb": {
-    borderRadius: "10px",
-    // boxShadow: " 0 0 6px rgba(0,0,0,.3)",
-    backgroundColor: "#E8EBEE", // 스크롤바 핸들의 색상
-  },
-  "&::-webkit-scrollbar-track": {
-    borderRadius: "10px",
-    // boxShadow: "inset 0 0 6px rgba(0,0,0,.3)",
-    backgroundColor: "white", // 스크롤바의 트랙 배경
-  },
-};
-
-export default function ToSModal() {
+export default function DescModal(desc) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [termsContent, setTermsContent] = React.useState("");
 
+  const general = useSelector((state) => state.member);
   React.useEffect(() => {
-    fetch("/terms.txt")
-      .then((response) => response.text())
-      .then((data) => setTermsContent(data))
-      .catch((error) => console.error("Error loading terms:", error));
+    http.get(`profile/${general.memberNo}`).then((data) => {
+      const input = data.data;
+      if (input.length === 0 || input === null) {
+        setOpen(true);
+        return;
+      }
+    });
   }, []);
 
   return (
     <div>
-      <div
-        style={{
-          color: "#535A61",
-          fontSize: "14px",
-          fontWeight: 400,
-          display: "flex",
-          alignItems: "center",
-        }}
-        onClick={handleOpen}
-      >
-        약관 확인하기
-        <img src="/icons/arrow_right.svg" />
-      </div>
       <Modal
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
@@ -124,16 +95,35 @@ export default function ToSModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Box sx={scrollStyle}>
-              <Box sx={{ maxWidth: "100%", overflowY: "auto" }}>
-                <Typography id="spring-modal-title" variant="h6" component="h2">
-                  애니타임 이용약관
-                </Typography>
-                <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-                  <pre style={{ whiteSpace: "pre-wrap" }}>{termsContent}</pre>
-                </Typography>
-              </Box>
-            </Box>
+            <Typography id="spring-modal-title" variant="h6" component="h2">
+              잃어버린 나의 반려동물을 찾아보세요
+            </Typography>
+            <Typography id="spring-modal-description" sx={{ mt: 2 }}>
+              실종된 동물의 정보를 입력하면, 애니타임이 보호소에 등록된 동물 중
+              유사도가 높은 아이들을 찾아드려요.
+            </Typography>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 16,
+              }}
+            >
+              <Button
+                onClick={() => setOpen(false)}
+                style={{
+                  width: "140px",
+                  height: "50px",
+                  borderRadius: "12px",
+                  border: "none",
+                  color: "#3994f0",
+                  fontSize: "16px",
+                  fontWeight: "700",
+                }}
+              >
+                시작하기
+              </Button>
+            </div>
           </Box>
         </Fade>
       </Modal>
