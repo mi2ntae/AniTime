@@ -177,6 +177,7 @@ public class MeetingServiceImpl implements MeetingService {
                 if(i<=currentTime.getHour()){
                     map.put(i,false);
                 }
+                else map.put(i, true);
             }
             else map.put(i, true);
         }
