@@ -4,9 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 export default function DesertionGuide() {
   const location = useLocation();
-  useEffect(() => {
-    console.log("category:" + location.state.category);
-  }, []);
   const arr = [
     { title: "꼭 사실만을 작성해 주세요.", content: "" },
     { title: "가족 구성원과의 합의 후 상담을 신청해 주세요.", content: "" },
