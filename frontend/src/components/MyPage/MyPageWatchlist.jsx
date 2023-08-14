@@ -23,7 +23,7 @@ export default function MyPageWatchlist() {
       setBookmarkedAnimals((prev) => [...prev, ...newData]);
       page.current++;
     } catch (error) {
-      console.log("에러메시지: ", error);
+      // console.log("에러메시지: ", error);
     }
   };
 
@@ -57,8 +57,8 @@ export default function MyPageWatchlist() {
         desertionNo: desertionNo,
         generalNo: memberNo,
       })
-      .then()
-      .catch((err) => console.log("에러"));
+      .then();
+    // .catch((err) => console.log("에러"));
   };
   function test(desertionNo) {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });

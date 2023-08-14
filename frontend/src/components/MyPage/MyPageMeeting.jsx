@@ -24,7 +24,7 @@ export default function MyPageMeeting() {
   const [maxPage, setMaxPage] = useState(1);
 
   const enterMeeting = (meetingNo) => {
-    console.log("enter: " + meetingNo);
+    // console.log("enter: " + meetingNo);
     navigate(`/meeting/${meetingNo}`);
   };
 
@@ -69,7 +69,7 @@ export default function MyPageMeeting() {
         setMaxPage(totalPages);
       })
       .catch(() => {
-        console.log("미팅 목록 조회 실패");
+        // console.log("미팅 목록 조회 실패");
       });
   }, [pageNo, member.memberNo]);
 

@@ -23,7 +23,7 @@ export default function MainPage() {
     }
     scrollRef.current.addEventListener("scroll", handleScroll);
     // return () => {
-    //   console.log(scrollRef.current);
+    //   // console.log(scrollRef.current);
     //   scrollRef.current.removeEventListener("scroll", handleScroll);
     // };
   }, []);

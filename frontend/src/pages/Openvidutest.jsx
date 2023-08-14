@@ -31,7 +31,7 @@ export default function Openvidutest() {
 
   useEffect(() => {
     // sessionId 받아오기
-    console.log("effect");
+    // console.log("effect");
     setUser((p) => ({ ...p, sessionId: "sessionA" }));
     return () => {
       leaveSession();
@@ -39,7 +39,7 @@ export default function Openvidutest() {
   }, []);
 
   useEffect(() => {
-    // console.log(user);
+    // // console.log(user);
   }, [user]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function Openvidutest() {
     });
     session.on("streamDestroyed", (event) => {
       // event.preventDefault();
-      console.log("delete");
+      // console.log("delete");
       setOpenvidu((p) => {
         const streamManager = event.stream.streamManager;
         return {
@@ -120,11 +120,11 @@ export default function Openvidutest() {
         }));
       })
       .catch((error) => {
-        console.log(
-          "There was an error connecting to the session:",
-          error.code,
-          error.message
-        );
+        // console.log(
+        //   "There was an error connecting to the session:",
+        //   error.code,
+        //   error.message
+        // );
       });
   };
 

@@ -27,7 +27,7 @@ export default function ShelterDonationDetail({ boardNo }) {
         setTotalPage(data.data.totalPages);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, [currentPage]);
 
@@ -39,7 +39,7 @@ export default function ShelterDonationDetail({ boardNo }) {
         setPoster(data.data.poster);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
 
