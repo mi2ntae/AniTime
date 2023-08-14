@@ -195,7 +195,9 @@ export default function LoginPage() {
         // password: data.get("password"),
         // memberKind: parseInt(tabNo),
       )
-      .then((res) => setLogin())
+      .then((res) => {
+        if (res.success) setLogin();
+      })
       .catch((err) => {});
   };
 
