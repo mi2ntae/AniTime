@@ -153,7 +153,7 @@ const FiltersContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  margin-top: 65px;
+  margin-top: 55px;
 `;
 
 const Target = styled.div`
