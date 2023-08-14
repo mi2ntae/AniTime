@@ -1,5 +1,5 @@
 import Slider from "components/Main/Slider";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { MainContainer } from "styled/styled";
 import http from "api/commonHttp";
@@ -8,12 +8,30 @@ import DesertionMap from "components/Main/DesertionMap";
 import Footer from "components/Footer/Footer";
 
 export default function MainPage() {
+  const scrollRef = useRef(null);
+
+  const [isTop, setIsTop] = useState(true);
   const [report, setReport] = useState({
     newAnimals: -1,
     keeping: -1,
     posting: -1,
   });
-
+  useEffect(() => {
+    function handleScroll() {
+      const scrollPosition = scrollRef.current.scrollTop;
+      setIsTop(scrollPosition == 0);
+    }
+    scrollRef.current.addEventListener("scroll", handleScroll);
+    return () => {
+      scrollRef.current.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const moveTop = () => {
+    scrollRef.current.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   useEffect(() => {
     // 서버와 통신하여 데이터 가져오기
     http
@@ -26,7 +44,7 @@ export default function MainPage() {
       });
   }, []);
   return (
-    <ScrollContanier>
+    <ScrollContanier ref={scrollRef}>
       <ScrollArea>
         <MainImg>
           <MainText>
@@ -123,6 +141,19 @@ export default function MainPage() {
             </HowCard>
           </HowBody>
         </HowDiv>
+        <TopButton
+          onClick={moveTop}
+          style={
+            isTop
+              ? {
+                  display: "none",
+                  transition: "background-color 0.3s ease-in-out;",
+                }
+              : { display: "block" }
+          }
+        >
+          <img src={`/icons/top_button.svg`} alt="맨 위로 이동" />
+        </TopButton>
         <Footer />
       </ScrollArea>
     </ScrollContanier>
@@ -258,4 +289,17 @@ const HowCartContent = styled.p`
   font-size: 12px;
   font-weight: 400;
   margin: 0;
+`;
+
+const TopButton = styled.button`
+  width: 80px;
+  img {
+    width: inherit;
+  }
+  border: none;
+  background-color: transparent;
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+  cursor: pointer;
 `;
