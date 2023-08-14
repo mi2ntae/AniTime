@@ -18,13 +18,15 @@ export default function Slider() {
   const moveIndex = useCallback((offset) => {
     const prev = index.current;
     index.current += offset;
-    const sliderWidth = sliderRef.current.offsetWidth / 3;
-    const itemWidth = sliderWidth / animalLen.current;
+    const sliderWidth = sliderRef.current.offsetWidth;
+    const itemWidth = sliderWidth / 10;
     sliderRef.current.animate(
       {
         transform: [
-          `translateX(${-sliderWidth - prev * itemWidth}px)`,
-          `translateX(${-sliderWidth - index.current * itemWidth}px)`,
+          // `translateX(${-sliderWidth - prev * itemWidth}px)`,
+          // `translateX(${-sliderWidth - index.current * itemWidth}px)`,
+          `translateX(${-(9 + prev) * 40}vmin)`,
+          `translateX(${-(9 + index.current) * 40}vmin)`,
         ],
       },
       {
@@ -106,16 +108,15 @@ const Div = styled.div`
   justify-content: flex-start;
   align-items: center;
   box-sizing: border-box;
+  /* width: 400vmin; */
   width: 100%;
-  /* min-width: 1200px; */
+  min-width: 1200px;
   overflow: hidden;
 `;
 
 const SliderDiv = styled.div`
   display: flex;
   overflow: visible;
-  padding: 0 8px;
-  gap: 16px;
 `;
 
 const Button = styled.button`

@@ -25,7 +25,9 @@ export default function SliderItem({ animal }) {
 
 const Div = styled.div`
   box-sizing: border-box;
-  width: fit-content;
+  /* width: 10%; */
+  width: 40vmin;
   height: fit-content;
   flex-shrink: 0;
+  padding: 8px;
 `;
