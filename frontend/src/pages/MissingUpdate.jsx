@@ -3,7 +3,7 @@ import http from "api/commonHttp";
 import MapComponent from "components/Profile/MapComponent";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { keyframes, styled } from "styled-components";
 import {
   WriteContainer,
@@ -18,7 +18,7 @@ import SelectBox from "components/Profile/SelectBox";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
-  let profileNo = useSelector((state) => state.detailInfo.profileNo);
+  let { profileNo } = useParams();
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -220,8 +220,8 @@ export default function MissingRegistPage() {
     const profile = {
       generalNo: general.memberNo,
       profileName: name,
-      profileKind: "개",
-      detailKind: "말티즈",
+      profileKind: category,
+      detailKind: kind,
       sexCode: gender,
       profileAge: age,
       specialMark: specialMark,
