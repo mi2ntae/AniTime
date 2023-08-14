@@ -197,7 +197,7 @@ const Header = styled.div`
   color: #ffffff;
   position: relative;
   width: 100%;
-  height: 64px;
+  height: 72px;
 `;
 const HeaderLayer = styled.div`
   display: flex;
