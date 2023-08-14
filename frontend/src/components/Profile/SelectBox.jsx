@@ -13,6 +13,7 @@ export default function SelectBox({
     getInputProps,
     getMenuProps,
     getItemProps,
+    selectedItem,
   } = useCombobox({
     items,
     onSelectedItemChange: ({ selectedItem }) => {
