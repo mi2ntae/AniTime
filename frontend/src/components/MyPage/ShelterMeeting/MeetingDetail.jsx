@@ -69,8 +69,8 @@ export default function MeetingDetail() {
         reason: subData.reason,
       })
       .then(() => {
-        fetchData();
         dispatch(setReload(true));
+        fetchData();
       })
       .catch((error) => alert(error));
   };

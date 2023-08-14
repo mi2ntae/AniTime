@@ -2,7 +2,7 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   meetingNo: -1,
-  reload: true,
+  reload: false,
 };
 
 const shelterMeetingSlice = createSlice({
