@@ -15,6 +15,7 @@ import {
   MainContainer,
 } from "styled/styled";
 import SelectBox from "components/Profile/SelectBox";
+import DescModal from "components/Profile/DescModal";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
@@ -425,6 +426,7 @@ export default function MissingRegistPage() {
         </form>
       </WriteContainer>
       {modal && <MapComponent setModal={setModal} getPosition={getPosition} />}
+      <DescModal />
     </MainContainer>
   );
 }
