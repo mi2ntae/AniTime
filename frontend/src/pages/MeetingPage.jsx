@@ -90,11 +90,11 @@ export default function MeetingPage() {
         didMount.current = true;
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         navigate("/");
       });
     return () => {
-      console.log("return");
+      // console.log("return");
       leaveSession();
     };
   }, []);
@@ -111,7 +111,7 @@ export default function MeetingPage() {
         alert("당신의 미팅이 아닙니다");
         navigate("/");
       } else {
-        console.log("joinSession");
+        // console.log("joinSession");
         joinSession();
       }
     }
@@ -152,7 +152,7 @@ export default function MeetingPage() {
     });
     session.on("streamDestroyed", (event) => {
       // event.preventDefault();
-      // console.log("delete");
+      // // console.log("delete");
       setOpenvidu((p) => {
         const streamManager = event.stream.streamManager;
         return {
@@ -188,11 +188,11 @@ export default function MeetingPage() {
         }));
       })
       .catch((error) => {
-        console.log(
-          "There was an error connecting to the session:",
-          error.code,
-          error.message
-        );
+        // // console.log(
+        //   "There was an error connecting to the session:",
+        //   error.code,
+        //   error.message
+        // );
       });
   };
 

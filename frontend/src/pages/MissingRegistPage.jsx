@@ -142,7 +142,7 @@ export default function MissingRegistPage() {
             const address = result[0].address.address_name;
             setLocation(address);
           } else {
-            console.log("주소 변환 실패");
+            // console.log("주소 변환 실패");
           }
         }
       );
@@ -224,7 +224,7 @@ export default function MissingRegistPage() {
         },
       })
       .then((response) => {
-        console.log("success");
+        // console.log("success");
         navigate("/missing");
       })
       .catch((error) => {

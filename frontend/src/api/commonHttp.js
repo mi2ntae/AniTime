@@ -7,7 +7,6 @@ const http = axios.create({
   // process.env 파일로 url저장해서 쓰면 더 좋음! (누가 적용 해주셈)
 });
 
-
 const Interceptor = ({ children }) => {
   useEffect(() => {
     http.interceptors.request.use(
@@ -27,15 +26,14 @@ const Interceptor = ({ children }) => {
         return res;
       },
       (err) => {
-        console.log(err);
-        console.log(err.response.data.message);
+        // console.log(err);
+        // console.log(err.response.data.message);
         alert(err.response.data.message);
       }
     );
   }, []);
   return children;
 };
-
 
 export { Interceptor };
 export default http;
