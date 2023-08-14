@@ -75,39 +75,58 @@ export default function MyPageMeeting() {
 
   return (
     <MainDiv>
-      <div
-        style={{
-          borderRadius: "8px",
-          border: "1px solid #e8ebee",
-          width: "100%",
-          marginTop: "48px",
-        }}
-      >
-        <Table>
-          <TableHead>
-            <TableCell>보호소명</TableCell>
-            <TableCell>미팅내용</TableCell>
-            <TableCell>공고번호</TableCell>
-            <TableCell>일시</TableCell>
-            <TableCell>미팅상태</TableCell>
-          </TableHead>
-          {meetings.map((item) => (
-            <Content key={item.meetNo}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.meetContent}</TableCell>
-              <TableCell>{item.desertionNo}</TableCell>
-              <TableCell>{item.reservedDate}</TableCell>
-              <TableCell>{processState(item)}</TableCell>
-            </Content>
-          ))}
-        </Table>
-      </div>
-      <Pagination
-        count={maxPage}
-        page={pageNo}
-        onChange={(event, value) => setPageNo(value)}
-        style={{ marginBottom: "64px" }}
-      />
+      {meetings.length === 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#A7AEB4",
+            fontSize: "14px",
+            height: "100%",
+            flexDirection: "column",
+          }}
+        >
+          <img src="/logo_grey.svg" />
+          미팅 정보가 없습니다.
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              borderRadius: "8px",
+              border: "1px solid #e8ebee",
+              width: "100%",
+              marginTop: "48px",
+            }}
+          >
+            <Table>
+              <TableHead>
+                <TableCell>보호소명</TableCell>
+                <TableCell>미팅내용</TableCell>
+                <TableCell>공고번호</TableCell>
+                <TableCell>일시</TableCell>
+                <TableCell>미팅상태</TableCell>
+              </TableHead>
+              {meetings.map((item) => (
+                <Content key={item.meetNo}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.meetContent}</TableCell>
+                  <TableCell>{item.desertionNo}</TableCell>
+                  <TableCell>{item.reservedDate}</TableCell>
+                  <TableCell>{processState(item)}</TableCell>
+                </Content>
+              ))}
+            </Table>
+          </div>
+          <Pagination
+            count={maxPage}
+            page={pageNo}
+            onChange={(event, value) => setPageNo(value)}
+            style={{ marginBottom: "64px" }}
+          />
+        </>
+      )}
       {/* <TableContainer>
         <Table>
           <TableHead>
