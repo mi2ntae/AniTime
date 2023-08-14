@@ -127,7 +127,7 @@ export default function ToSModal() {
             <Box sx={scrollStyle}>
               <Box sx={{ maxWidth: "100%", overflowY: "auto" }}>
                 <Typography id="spring-modal-title" variant="h6" component="h2">
-                  애니타임 이용약관
+                  모아이 이용약관
                 </Typography>
                 <Typography id="spring-modal-description" sx={{ mt: 2 }}>
                   <pre style={{ whiteSpace: "pre-wrap" }}>{termsContent}</pre>

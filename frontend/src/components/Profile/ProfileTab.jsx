@@ -9,14 +9,17 @@ import { useNavigate } from "react-router";
 export default function ProfileTab() {
   const [profiles, setProfiles] = useState([]);
   const [whichComponent, setWhichComponent] = useState(<ProfileDetail />);
+  // const profileNo = useSelector((state) => state.detailInfo.profileNo);
+  // const detailNo = useSelector((state) => state.detailInfo.detailNo);
   const { profileNo, desertionNo } = useSelector((state) => state.detailInfo);
-  const [curProfileNo, setCurProfileNo] = useState(0);
 
   const general = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
+  // const generalNo = 2;
+
   useEffect(() => {
-    setWhichComponent(<DesertionDetail category={1} />);
+    setWhichComponent(<DesertionDetail category={1}/>);
   }, [desertionNo]);
 
   useEffect(() => {
@@ -35,15 +38,15 @@ export default function ProfileTab() {
       .get(`profile/${general.memberNo}`)
       .then((data) => {
         const input = data.data;
+        setProfiles(input);
         if (input.length === 0 || input === null) {
           navigate("/missing/write");
-          return;
         }
-        setProfiles(input);
-        setCurProfileNo(input[0].profileNo);
         dispatch(setProfileNo(input[0].profileNo));
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -51,25 +54,14 @@ export default function ProfileTab() {
       <div className="profile-tab-container">
         <div className="button-area">
           {profiles.map((data) => (
-            <>
-              <button
-                key={data.profileNo}
-                onClick={() => {
-                  dispatch(setProfileNo(data.profileNo));
-                  setCurProfileNo(data.profileNo);
-                }}
-                style={
-                  curProfileNo === data.profileNo
-                    ? { color: "#3994f0" }
-                    : { color: "#7d848a" }
-                }
-              >
-                {data.profileName}
-              </button>
-              {data !== profiles[profiles.length - 1] && (
-                <span className="divider">|</span>
-              )}
-            </>
+            <button
+              key={data.profileNo}
+              onClick={() => {
+                dispatch(setProfileNo(data.profileNo));
+              }}
+            >
+              {data.profileName}
+            </button>
           ))}
         </div>
         {whichComponent}
@@ -81,19 +73,20 @@ export default function ProfileTab() {
         .button-area {
           width: 100%;
           margin-bottom: 8px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
         }
         button {
-          padding: 0px 10px;
+          padding:0px 10px;
+          color:#7D848A;
           background-color: white;
           border: 0;
           font-weight: 600;
+          border-right:2px solid #7D848A;
         }
-        .divider {
-          color: #7d848a;
-          padding: 0 5px;
+        button:last-child{
+          border-right:none;
+        }
+        button:focus{
+          color:#3994F0;
         }
       `}</style>
     </>
