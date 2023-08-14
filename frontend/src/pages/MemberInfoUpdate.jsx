@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import http from "api/commonHttp";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   WriteContainer,
@@ -12,6 +12,7 @@ import {
   Red,
   MainContainer,
 } from "styled/styled";
+import { initMember } from "../reducer/member";
 import Swal from "sweetalert2";
 
 export default function UserUpdate() {
@@ -27,18 +28,19 @@ export default function UserUpdate() {
     snsCheck: false,
     snsToken: "",
   });
+  const dispatch = useDispatch();
+  //지훈
   const [originPW,setOriginPW]=useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [pwValid, setPwValid] = useState(true);
   const [pwCheck, setPwCheck] = useState(true); //비밀번호 확인
-  
+  //정현 
 
   const navi = useNavigate();
   useEffect(() => {
     http.get(`/member/${generalNo}`).then((res) => {
       setgeneral(res.data);
-      setOriginPW(res.data.password);
     });
   }, []);
 
@@ -146,6 +148,16 @@ export default function UserUpdate() {
       return;
     });
   };
+  const handelDelete = (e) => {
+    e.preventDefault();
+
+    http.post(`member/delete/${generalNo}`).then((e) => {
+      dispatch(initMember());
+      alert("회원탈퇴가 성공적으로 진행되었습니다.");
+      navi("/");
+      return;
+    });
+  };
   //   if (sYear === "" || sMonth == "" || sDay == "") {
   //     alert("공고 시작일은 필수 입력 사항입니다.");
   //     return;
@@ -197,6 +209,7 @@ export default function UserUpdate() {
             style={{
               color: "red",
             }}
+            onClick={handelDelete}
           >
             탈퇴하기
           </Button>
@@ -216,7 +229,7 @@ export default function UserUpdate() {
         <form>
           <div style={{ margin: 0, display: "flex", gap: "56px" }}>
             <div style={{ flex: 4, alignItems: "center", maxWidth: "100%" }}>
-              <WriteTitle>후원 정보</WriteTitle>
+              <WriteTitle>회원 정보</WriteTitle>
               <Row>
                 <InputLabel htmlFor="title">
                   이름<Red>*</Red>
@@ -232,17 +245,17 @@ export default function UserUpdate() {
                   value={general.email}
                   id="sDate"
                   //   onChange={(e) => setSYear(e.target.value)}
-                  placeholder="연도"
+                  placeholder="이메일"
                 />
               </Row>
               <Row>
-                <InputLabel htmlFor="goal">
+                <InputLabel htmlFor="phone">
                   휴대폰 번호<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="number"
+                  type="text"
                   value={general.phone}
-                  id="goal"
+                  id="phone"
                   //   onChange={(e) => setGoal(e.target.value)}
                   // placeholder=""
                   readOnly
@@ -265,12 +278,13 @@ export default function UserUpdate() {
                   작성해주세요.</div>
               </Row>
               <Row>
-                <InputLabel htmlFor="goal">
+                <InputLabel htmlFor="pwCheck">
                   비밀번호 확인<Red>*</Red>
                 </InputLabel>
                 <Input
                   type="password"
-                  id="goal"
+                  id="pwCheck"
+
                   value={passwordCheck}
                   onChange={(e) => setPasswordCheck(e.target.value)}
                 />
@@ -279,12 +293,22 @@ export default function UserUpdate() {
                 <div style={{ marginLeft:"120px",color: "#FF7676", fontSize: "11px" }}>비밀번호가 일치하지 않습니다.</div>
               </Row>
               <Row>
-                <InputLabel htmlFor="goal">
+                <InputLabel>
                   카카오 연동<Red>*</Red>
                 </InputLabel>
-                <Button onClick={handelSns}>
-                  <img src="kakao_login_medium_wide.png" alt="버튼X" />
-                </Button>
+                {!general.snsCheck ? (
+                  <Button onClick={handelSns}>
+                    <img src="kakao_login_medium_wide.png" alt="버튼X" />
+                  </Button>
+                ) : (
+                  <Input
+                    type="text"
+                    value={general.email}
+                    id="sDate"
+                    //   onChange={(e) => setSYear(e.target.value)}
+                    placeholder="KaKao계정"
+                  />
+                )}
               </Row>
             </div>
           </div>
