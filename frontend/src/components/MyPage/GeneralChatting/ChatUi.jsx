@@ -184,7 +184,6 @@ export default function ChatUi({ width, height }) {
       <ChatHeader>
         <Text>
           <Font1>{roomName}</Font1>
-          <Font2></Font2>
         </Text>
       </ChatHeader>
       <Box2 id="messageArea">
@@ -222,17 +221,15 @@ export default function ChatUi({ width, height }) {
 }
 
 const Font1 = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 `;
-const Font2 = styled.div`
-  font-size: 13px;
-  font-weight: 500;
-`;
+
 const Text = styled.div`
-  padding: 16px 32px 16px 32px;
+  padding: 24px 32px 16px 32px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 `;
 const Time = styled.span`

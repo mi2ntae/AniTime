@@ -132,12 +132,8 @@ const ListContainer = styled.div`
   grid-auto-rows: min-content;
   justify-items: center;
   justify-content: space-between;
-  /* display: flex; */
   flex-grow: 2;
-  /* flex-wrap: wrap; */
-  /* justify-content: flex-start; */
-  /* align-content: flex-start; */
-  height: 700px;
+  max-height: 795px;
   overflow-y: scroll;
   text-align: center;
   column-gap: 8px;
@@ -158,7 +154,7 @@ const FiltersContainer = styled.div`
 
 const DetailViewBox = styled.div`
   flex: 1;
-  margin-top: 65px;
+  margin-top: 55px;
 `;
 
 const Target = styled.div`
