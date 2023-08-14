@@ -28,8 +28,6 @@ export default function SelectTime() {
     http
       .get(`shelter/${shelterNo}`)
       .then((res) => {
-        console.log(shelterNo);
-        console.log(res.data);
         setShelter(res.data);
       })
       .catch((err) => {});
