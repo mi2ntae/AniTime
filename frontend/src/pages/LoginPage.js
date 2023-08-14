@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 export default function LoginPage() {
   // 나중에 .env로 실행 or 빌드 중에 받아오게 해야함
   const api_key = "2ac7d3d2bff68cb6f3ed6501ef44f2ae";
-  const redirect_uri = "http://localhost:3000/kakaoLogin";
+  const redirect_uri = "https://i9a208.p.ssafy.io/kakaoLogin";
   const dispatch = useDispatch();
   const navi = useNavigate();
 
