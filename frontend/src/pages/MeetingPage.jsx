@@ -95,6 +95,7 @@ export default function MeetingPage() {
       });
     return () => {
       // console.log("return");
+      dispatch(setDesertionNo(0));
       leaveSession();
     };
   }, []);

@@ -47,12 +47,6 @@ export default function DesertionDetail({ readOnly, category }) {
       });
   }, [desertionNo]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(setDesertionNo(0));
-    };
-  }, []);
-
   return (
     <>
       <div className="animal-container">
