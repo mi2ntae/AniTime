@@ -9,6 +9,7 @@ import com.moi.anitime.exception.auth.NonValidJwtTokenException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.donation.NonExistDonationBoardException;
 import com.moi.anitime.exception.donation.NonExistDonationException;
+import com.moi.anitime.exception.meeting.ExistReservationException;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
 import com.moi.anitime.exception.member.*;
 import com.moi.anitime.exception.profile.NoExistProfileNoException;
@@ -32,6 +33,14 @@ public class ExceptionAdvice {
         log.error("sns not connected member");
         return responseService.getFailResponse(ExceptionList.SNS_NOT_CONNECTED_MEMBER.getCode(), ExceptionList.SNS_NOT_CONNECTED_MEMBER.getMessage());
     }
+
+    @ExceptionHandler(ExistReservationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse existReservationException() {
+        log.error("reservation is already Exist at that time");
+        return responseService.getFailResponse(ExceptionList.EXIST_RESERVATION_EXCEPTION.getCode(), ExceptionList.EXIST_RESERVATION_EXCEPTION.getMessage());
+    }
+
     @ExceptionHandler(NonExistMeetNoException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse nonExistMeetNoException() {

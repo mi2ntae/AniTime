@@ -13,6 +13,7 @@ import {
   MainContainer,
 } from "styled/styled";
 import { initMember } from "../reducer/member";
+import Swal from "sweetalert2";
 
 export default function UserUpdate() {
   let generalNo = useSelector((state) => state.member.memberNo);
@@ -27,9 +28,14 @@ export default function UserUpdate() {
     snsCheck: false,
     snsToken: "",
   });
-  const [password, setPassword] = useState();
-  const [passwordCheck, setPasswordCheck] = useState("");
   const dispatch = useDispatch();
+  //지훈
+  const [originPW,setOriginPW]=useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [pwValid, setPwValid] = useState(true);
+  const [pwCheck, setPwCheck] = useState(true); //비밀번호 확인
+  //정현 
 
   const navi = useNavigate();
   useEffect(() => {
@@ -37,6 +43,33 @@ export default function UserUpdate() {
       setgeneral(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    const validatePassword =
+      /^(?=.*[a-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+
+    if (validatePassword.test(password) || !password) {
+      setPwValid(true);
+      return;
+    }
+    setPwValid(false);
+    return;
+  }, [passwordCheck,password]);
+
+  useEffect(() => {
+    // // console.log(passwordCheck.passwordCheck);
+    if (
+      (password.length &&
+        passwordCheck.length &&
+        password === passwordCheck) ||
+      !passwordCheck
+    ) {
+      setPwCheck(true);
+      return;
+    }
+    setPwCheck(false);
+    return;
+  }, [passwordCheck,password]);
   // console.log(general);
   // // console.log(password);
 
@@ -62,26 +95,48 @@ export default function UserUpdate() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (password === "" || general.password === password) {
-      navi("/");
+    if(!pwValid){
+      alert("비밀번호는 8~16자의 영문 소문자로 이루어져야 하며 숫자와 특수문자를 하나 이상씩 포함하여야 합니다.")
       return;
     }
+    if(!pwCheck){
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (password === ""||!password||passwordCheck===""||!passwordCheck){
+      // navi("/");
+      alert("비밀번호를 입력해 주세요.")
+      return;
+    }
+    // if(originPW===password){
+    //   alert("이전과 다른 비밀번호를 입력해 주세요.");
+    //   return;
+    // }
     if (password !== passwordCheck) {
-      alert("비밀번호가 다릅니다 다시 확인해주세요");
+      alert("비밀번호가 다릅니다. 다시 확인해주세요.");
       return;
     }
-
+    
     http
       .put(`member/${general.memberNo}`, {
         password: password,
       })
       .then((res) => {
-        navi("/");
-        return;
+        Swal.fire({
+          position: "center",
+          // icon: "success",
+          imageUrl: "/icons/img_complete.svg",
+          title: "성공적으로 변경되었습니다.",
+          showConfirmButton: false,
+          timer: 1000,
+        }).then(()=>{
+          navi("/");
+          return;
+        })
       })
       .catch((err) => {
         // console.log(err);
-        alert("회원 정보 수정에 실패 했습니다. 다시 시도해 주세요");
+        alert("회원 정보 수정에 실패했습니다. 다시 시도해 주세요.");
       });
   };
 
@@ -215,23 +270,28 @@ export default function UserUpdate() {
                   //   value={eYear}
                   id="eDate"
                   value={password}
-                  onFocus={(e) => setPassword("")}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </Row>
+              <Row style={pwValid?{display:"none"}:{display:"block"}}>
+                <div style={{marginLeft:"120px", color: "#FF7676", fontSize: "11px" }}>비밀번호는 영문 소문자, 숫자, 특수문자를 포함시켜 8~16자로
+                  작성해주세요.</div>
               </Row>
               <Row>
                 <InputLabel htmlFor="pwCheck">
                   비밀번호 확인<Red>*</Red>
                 </InputLabel>
                 <Input
-                  type="text"
+                  type="password"
                   id="pwCheck"
+
                   value={passwordCheck}
-                  onFocus={(e) => setPasswordCheck("")}
                   onChange={(e) => setPasswordCheck(e.target.value)}
                 />
               </Row>
-
+              <Row style={pwCheck?{display:"none"}:{display:"block"}}>
+                <div style={{ marginLeft:"120px",color: "#FF7676", fontSize: "11px" }}>비밀번호가 일치하지 않습니다.</div>
+              </Row>
               <Row>
                 <InputLabel>
                   카카오 연동<Red>*</Red>
