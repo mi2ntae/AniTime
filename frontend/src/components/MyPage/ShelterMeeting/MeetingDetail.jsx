@@ -124,7 +124,7 @@ export default function MeetingDetail() {
           <Content>
             <DesertionDetail readOnly={true} />
             {/* {adoptionForm} */}
-            <AdoptionForm url={adoptionForm} />
+            {adoptionForm !== "" && <AdoptionForm url={adoptionForm} />}
           </Content>
           <Footer>
             <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>
