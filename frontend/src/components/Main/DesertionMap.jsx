@@ -14,7 +14,8 @@ export default function DesertionMap() {
     try {
       let response = await http.get(`count`);
       let newdata = await response.data;
-      newdata.reduce((acc, cur) => {
+      console.log(newdata);
+      newdata.map((cur) => {
         // console.log(cur);
         setData((p) => [
           ...p,
@@ -27,15 +28,12 @@ export default function DesertionMap() {
     }
   };
   const setColorByCount = (count) => {
-    if (count === 0) return "#000000";
+    if (count === 0) return "#FFFFFF";
     if (count > 8000) return "#3994F0";
     if (count > 4000) return "#80BFFF";
     if (count > 2000) return "#C1E0FF";
     if (count > 400) return "#E9F4FF";
-    if (count > 100) return "#A9DFD6";
-    if (count > 50) return "#C1E5DF";
-    if (count > 5) return "#D9EBE8";
-    else return "#000000";
+    else return "#E9F4FF";
   };
 
   return (
