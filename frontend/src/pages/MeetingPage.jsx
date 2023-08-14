@@ -34,6 +34,7 @@ export default function MeetingPage() {
     desertionNo: undefined,
     adoptionForm: undefined,
   });
+  const openviduSession = useRef(undefined);
   const [openvidu, setOpenvidu] = useState({
     session: undefined,
     mainStreamManager: undefined,
@@ -94,7 +95,7 @@ export default function MeetingPage() {
         navigate("/");
       });
     return () => {
-      // console.log("return");
+      console.log("return");
       dispatch(setDesertionNo(0));
       leaveSession();
     };
@@ -111,7 +112,7 @@ export default function MeetingPage() {
       } else if (user.userkind === 1 && user.userno !== meeting.shelterNo) {
         alert("당신의 미팅이 아닙니다");
         navigate("/");
-      } else {
+      } else if (!openvidu.session) {
         // console.log("joinSession");
         joinSession();
       }
@@ -126,8 +127,9 @@ export default function MeetingPage() {
   }, [control, openvidu.publisher]);
 
   const leaveSession = () => {
-    if (openvidu.session) {
-      openvidu.session.disconnect();
+    // console.log(openviduSession.current);
+    if (openviduSession.current) {
+      openviduSession.current.disconnect();
       setOpenvidu((p) => ({
         ...p,
         session: undefined,
@@ -136,7 +138,8 @@ export default function MeetingPage() {
         subscribers: [],
       }));
     }
-    navigate("/");
+    // console.log(openviduSession.current);
+    // console.log(openvidu);
   };
 
   const joinSession = async () => {
@@ -168,7 +171,7 @@ export default function MeetingPage() {
 
     const token = await getToken(user.sessionId);
     session
-      .connect(token, { clientData: user.username })
+      .connect(token, { username: user.username, userno: user.userno })
       .then(async () => {
         const publisher = await OV.initPublisherAsync(undefined, {
           audioSource: "communications", // The source of audio. If undefined default microphone
@@ -181,6 +184,7 @@ export default function MeetingPage() {
           mirror: true, // Whether to mirror your local video or not
         });
         session.publish(publisher);
+        openviduSession.current = session;
         setOpenvidu((p) => ({
           ...p,
           session: session,
@@ -211,24 +215,35 @@ export default function MeetingPage() {
               <OpenViduVideoComponent
                 streamManager={openvidu.mainStreamManager}
               />
+              {console.log(openvidu.mainStreamManager)}
+              {console.log(openvidu.subscribers)}
             </UserVideo>
             <CallVideo>
               {
-                openvidu.subscribers.map((sub, i) => (
-                  <OpenViduVideoComponent
-                    key={i}
-                    streamManager={sub}
-                    muted={control.muted}
-                    volume={control.volume}
-                  />
-                ))[0]
+                openvidu.subscribers
+                  .filter((sub) => {
+                    const data = JSON.parse(sub.stream.connection.data);
+                    return data.userno !== user.userno;
+                  })
+                  .map((sub, i) => (
+                    <OpenViduVideoComponent
+                      key={i}
+                      streamManager={sub}
+                      muted={control.muted}
+                      volume={control.volume}
+                    />
+                  ))[0]
               }
             </CallVideo>
           </VideoDiv>
           {(tabOpen.formTab || tabOpen.profileTab || tabOpen.chatTab) && (
             <SideDiv>
               <TabDiv hidden={!tabOpen.formTab}>
-                <AdoptionForm url={meeting.adoptionForm} />
+                {meeting.adoptionForm ? (
+                  <AdoptionForm url={meeting.adoptionForm} />
+                ) : (
+                  "실종 동물 미팅에는 입양신청서가 없습니다"
+                )}
               </TabDiv>
               <TabDiv hidden={!tabOpen.profileTab}>
                 <DesertionDetail readOnly={true} />
@@ -249,7 +264,10 @@ export default function MeetingPage() {
       <MeetingFooter
         control={control}
         handleControl={setControl}
-        close={leaveSession}
+        close={() => {
+          leaveSession();
+          navigate("/");
+        }}
       />
     </Div>
   );
