@@ -15,7 +15,6 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
-  // console.log(profileNo);
 
   const fetchData = async () => {
     console.log(profileNo, page.current);
@@ -64,13 +63,12 @@ export default function Missing() {
         {animals.length === 0 && "프로필과 유사한 보호동물이 없습니다"}
         <ListContainer>
           {animals.map((animal) => (
-            <AnimalItemContainer key={animal.desertionNo}>
-              <AnimalItem
-                animal={animal}
-                // AnimalImg onClick
-                handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
-              />
-            </AnimalItemContainer>
+            <AnimalItem
+              key={animal.desertionNo}
+              animal={animal}
+              // AnimalImg onClick
+              handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
+            />
           ))}
           <Target ref={setTarget} />
         </ListContainer>
@@ -89,7 +87,7 @@ const ListFilterContainer = styled.div`
   display: flex;
   margin-right: 40px;
   flex: 2;
-  margin-top: 48px;
+  margin-top: 65px;
   flex-direction: column;
   align-items: stretch;
   text-align: center;
@@ -102,15 +100,11 @@ const ListContainer = styled.div`
   grid-auto-rows: min-content;
   justify-items: center;
   justify-content: space-between;
-  /* display: flex; */
   flex-grow: 2;
-  /* flex-wrap: wrap; */
-  /* justify-content: flex-start; */
-  /* align-content: flex-start; */
   height: 700px;
   overflow-y: scroll;
   text-align: center;
-  column-gap: 8px;
+  gap: 8px;
   ${css`
     &::-webkit-scrollbar {
       display: none;
@@ -151,8 +145,4 @@ const RegistBtn = styled.div`
   background-image: url("/plus_regist_btn.svg");
   background-repeat: no-repeat;
   background-position: center;
-`;
-
-const AnimalItemContainer = styled.div`
-  flex: 1 0 30%;
 `;
