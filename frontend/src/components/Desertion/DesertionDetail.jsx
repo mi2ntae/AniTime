@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import Modal from "components/Modal/Modal";
 import { setRoom } from "reducer/chatRoom";
-import { setShelterNo } from "reducer/detailInfo";
 import { Fullscreen } from "@mui/icons-material";
 import { setDesertionNo } from "reducer/detailInfo";
 
@@ -175,14 +174,7 @@ export default function DesertionDetail({ readOnly, category }) {
                       style={{ flex: "1" }}
                       state={{ category: 0 }}
                     >
-                      <button
-                        className="animal-meet-btn"
-                        // onClick={() => {
-                        //   dispatch(setShelterNo(animal.shelterNo));
-                        // }}
-                      >
-                        미팅하기
-                      </button>
+                      <button className="animal-meet-btn">미팅하기</button>
                     </Link>
                   ) : (
                     <Link
@@ -190,14 +182,7 @@ export default function DesertionDetail({ readOnly, category }) {
                       style={{ flex: "1" }}
                       state={{ category: 1 }}
                     >
-                      <button
-                        className="animal-meet-btn"
-                        // onClick={() => {
-                        //   dispatch(setShelterNo(animal.shelterNo));
-                        // }}
-                      >
-                        미팅하기
-                      </button>
+                      <button className="animal-meet-btn">미팅하기</button>
                     </Link>
                   )}
                 </div>
@@ -213,6 +198,7 @@ export default function DesertionDetail({ readOnly, category }) {
           border: 1px solid var(--lightgrey, #e8ebee);
           width: 100%;
           height: 100%;
+          // max-height: 800px;
           box-sizing: border-box;
         }
         .animal-image {
@@ -225,7 +211,7 @@ export default function DesertionDetail({ readOnly, category }) {
           border-radius: 8px 8px 0px 0px;
         }
         .animal-desc-container {
-          padding: 32px;
+          padding: 20px;
         }
         .animal-title-area {
           color: var(--blackgrey, #35383b);
@@ -265,7 +251,7 @@ export default function DesertionDetail({ readOnly, category }) {
         .animal-btn-container {
           gap: 8px;
           display: flex;
-          margin-top: 36px;
+          margin-top: 30px;
         }
         .animal-chat-btn {
           border-radius: 12px;
