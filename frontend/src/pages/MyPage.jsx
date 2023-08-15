@@ -112,7 +112,7 @@ export default function MyPage() {
           .filter((item, index) => index === tabNo)
           .map((item, index) => (
             <div key={index} style={{ width: "100%", height: "100%" }}>
-              {index === 2 && showDonationDetail ? (
+              {showDonationDetail ? (
                 <ShelterDonationDetail boardNo={boardNo} />
               ) : (
                 item.content
