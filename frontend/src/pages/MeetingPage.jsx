@@ -283,7 +283,7 @@ const Div = styled.div`
   width: 100vw;
   height: 100vh;
   min-width: 1000px;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const LoadingDiv = styled.div`
@@ -299,7 +299,8 @@ const LoadingDiv = styled.div`
 const MainDiv = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 232px);
+  min-height: 300px;
 `;
 
 const VideoDiv = styled.div`
