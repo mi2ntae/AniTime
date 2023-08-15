@@ -56,6 +56,7 @@ export default function ProfileTab() {
                 onClick={() => {
                   dispatch(setProfileNo(data.profileNo));
                   setCurProfileNo(data.profileNo);
+                  setWhichComponent(<ProfileDetail />);
                 }}
                 style={
                   curProfileNo === data.profileNo
