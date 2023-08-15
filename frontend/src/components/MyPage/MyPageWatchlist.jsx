@@ -86,7 +86,7 @@ export default function MyPageWatchlist() {
         </ListContainer>
       </ListFilterContainer>
       <DetailViewBox>
-        <DesertionDetail />
+        <DesertionDetail category={0}/>
       </DetailViewBox>
     </WatchListContainer>
   );
