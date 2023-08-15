@@ -18,9 +18,12 @@ const detailInfoSlice = createSlice({
     setShelterNo(state, action) {
       state.shelterNo = action.payload;
     },
+    setComponent(state,action){
+      state.isProfile=action.payload;
+    }
   },
 });
 
-export let { setDesertionNo, setProfileNo, setShelterNo } =
+export let { setDesertionNo, setProfileNo, setShelterNo,setComponent } =
   detailInfoSlice.actions;
 export default detailInfoSlice.reducer;
