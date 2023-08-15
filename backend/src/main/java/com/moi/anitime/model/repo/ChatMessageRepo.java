@@ -8,9 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatMessageRepo extends JpaRepository<ChatMessage, Integer> {
     List<ChatMessage> findChatMessageByChatRoom_RoomNoOrderByWrittenTimeAsc(@Param("roomNo") int roomNo);
+
+    Optional<ChatMessage> findChatMessageByContentAndChatRoom_RoomNo(@Param("content") String content, @Param("roomNo") int roomNo);
 
     @Modifying
     @Query(name = "updateChatMessagesRead", nativeQuery = true)
