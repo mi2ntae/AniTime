@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import http from "api/commonHttp";
-import MapComponent from "components/Profile/MapComponent";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -15,6 +14,7 @@ import {
   MainContainer,
 } from "styled/styled";
 import SelectBox from "components/Profile/SelectBox";
+import MapModal from "components/Profile/MapModal";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
@@ -144,9 +144,10 @@ export default function MissingRegistPage() {
 
   // 지도검색 관련
 
-  const getPosition = (y, x) => {
+  const getPosition = (y, x, address) => {
     setLat(y);
     setLon(x);
+    setLocation(address);
   };
 
   useEffect(() => {
@@ -389,20 +390,7 @@ export default function MissingRegistPage() {
                 <InputLabel htmlFor="profileLocation">
                   실종위치<Red>*</Red>
                 </InputLabel>
-                <LocationInput
-                  onClick={() => {
-                    setModal(true);
-                  }}
-                  style={{
-                    border: modal
-                      ? "1px solid var(--primary, #3994f0)"
-                      : "0.77px solid var(--lightgrey, #e8ebee)",
-                  }}
-                >
-                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
-                    {location ? location : "실종위치"}
-                  </span>
-                </LocationInput>
+                <MapModal getPosition={getPosition} />
               </Row>
             </div>
             <div style={{ flex: 1, maxWidth: "100%" }}>
@@ -434,7 +422,7 @@ export default function MissingRegistPage() {
                   marginTop: "10px",
                 }}
               >
-                사진 사이즈는 어쩌고
+                사진은 5MB 이내의 jpg, png, gif 파일만 등록 가능합니다.
               </div>
             </div>
           </div>
@@ -458,7 +446,6 @@ export default function MissingRegistPage() {
           </div>
         </form>
       </WriteContainer>
-      {modal && <MapComponent setModal={setModal} getPosition={getPosition} />}
     </MainContainer>
   );
 }
