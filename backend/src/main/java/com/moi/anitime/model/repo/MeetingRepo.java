@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public interface MeetingRepo extends JpaRepository<Meeting, Integer> {
     public Page<Meeting> findMeetingsByMember_MemberNoOrderByMeetNoDesc(@Param("generalno") int generalno, Pageable page);
-    public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(@Param("shelterno") int shelterno, Pageable page);
+    public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByMeetNoDesc(@Param("shelterno") int shelterno, Pageable page);
 
     public Optional<Meeting> findMeetingByAnimal_ShelterNoAndReservedDate(@Param("shelterno") int shelterno, @Param("reservedDate") LocalDateTime reservedDate);
 
