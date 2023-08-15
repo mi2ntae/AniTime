@@ -93,7 +93,7 @@ public class MeetingServiceImpl implements MeetingService {
 
         Page<Meeting> meetList;
         if(memberKind == MemberKind.GENERAL.getCode()) meetList = meetingRepo.findMeetingsByMember_MemberNoOrderByMeetNoDesc(memberno, PageRequest.of(page, 8));
-        else meetList = meetingRepo.findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(memberno, PageRequest.of(page, 8));
+        else meetList = meetingRepo.findMeetingsByAnimal_ShelterNoOrderByMeetNoDesc(memberno, PageRequest.of(page, 8));
 
         List<MeetingListRes> meets = new ArrayList<>();
         for(Meeting meet : meetList) {
