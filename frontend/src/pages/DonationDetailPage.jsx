@@ -4,18 +4,22 @@ import http from "api/commonHttp";
 import Payment from "components/Donation/Payment";
 import ToSModal from "components/Donation/ToSModal";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { keyframes, styled } from "styled-components";
 import { MainContainer } from "styled/styled";
 import { useSpring, animated, config } from "@react-spring/web";
+import { useSelector } from "react-redux";
 
 export default function DonationDetailPage() {
   const boardNo = useLocation().pathname.split("/").pop();
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
   const [clickPayment, setClickPayment] = useState(false);
-
+  
   const [agree, setAgree] = useState(false);
+
+  const navi = useNavigate();
+  const memberNo = useSelector((state) => state.member.memberNo);
 
   const handleAgreeChange = (e) => {
     setAgree(e.target.checked);
@@ -272,7 +276,12 @@ export default function DonationDetailPage() {
                       : "1px solid #A7AEB4",
                   cursor: price >= 1000 && agree ? "pointer" : "not-allowed",
                 }}
-                onClick={() => setClickPayment(true)}
+                onClick={() => {
+                  if(memberNo === -1) {
+                    alert("로그인 후 후원하실 수 있습니다.");
+                    navi("/login");
+                  } else setClickPayment(true);
+                }}
                 disabled={price < 1000 || !agree}
               >
                 후원하기
