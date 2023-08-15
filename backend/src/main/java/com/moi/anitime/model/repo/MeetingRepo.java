@@ -14,11 +14,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MeetingRepo extends JpaRepository<Meeting, Integer> {
     public Page<Meeting> findMeetingsByMember_MemberNoOrderByMeetNoDesc(@Param("generalno") int generalno, Pageable page);
-    public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByReservedDateDesc(@Param("shelterno") int shelterno, Pageable page);
+    public Page<Meeting> findMeetingsByAnimal_ShelterNoOrderByMeetNoDesc(@Param("shelterno") int shelterno, Pageable page);
+
+    public Optional<Meeting> findMeetingByAnimal_ShelterNoAndReservedDate(@Param("shelterno") int shelterno, @Param("reservedDate") LocalDateTime reservedDate);
+
     public int countMeetingByReservedDateBetweenAndMember_MemberNo(LocalDateTime start, LocalDateTime end, @Param("generalno") int generalNo);
 
     @Query(value = "SELECT COUNT(*) FROM Meeting WHERE generalNo=:generalNo AND DATE(reservedDate)=CURDATE()",nativeQuery = true)

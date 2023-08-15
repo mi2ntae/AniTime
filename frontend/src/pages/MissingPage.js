@@ -3,7 +3,7 @@ import { css, styled } from "styled-components";
 import { HorizontalContainer } from "styled/styled";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setDesertionNo, setProfileNo } from "reducer/detailInfo.js";
+import { setComponent, setDesertionNo, setProfileNo } from "reducer/detailInfo.js";
 import http from "api/commonHttp";
 import "intersection-observer";
 import ProfileTab from "components/Profile/ProfileTab";
@@ -15,6 +15,7 @@ export default function Missing() {
   const page = useRef(0);
   let dispatch = useDispatch();
   let profileNo = useSelector((state) => state.detailInfo.profileNo);
+  let isProfile=useSelector((state)=>state.detailInfo.isProfile);
 
   const fetchData = async () => {
     // console.log(profileNo, page.current);
@@ -74,7 +75,9 @@ export default function Missing() {
               key={animal.desertionNo}
               animal={animal}
               // AnimalImg onClick
-              handleClick={() => dispatch(setDesertionNo(animal.desertionNo))}
+              handleClick={() => {
+                dispatch(setComponent(false))
+                dispatch(setDesertionNo(animal.desertionNo))}}
             />
           ))}
           <Target ref={setTarget} />

@@ -75,7 +75,7 @@ export default function ProfileDetail() {
             </div>
           ))}
           <div className="profile-btn-container">
-            <Link to="/missing/update" style={{ flex: "1" }}>
+            <Link to={`/missing/update/${profileNo}`} style={{ flex: "1" }}>
               <Button className="profile-edit-btn">수정</Button>
             </Link>
             <Button className="profile-del-btn" onClick={() => setModal(true)}>

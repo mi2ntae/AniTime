@@ -16,7 +16,7 @@ import { initMember } from "../reducer/member";
 const GlobalStyles = createGlobalStyle`
   ::-webkit-scrollbar {
     display: none;
-  }ㅎ
+  }
 `;
 
 export default function MyPage() {
@@ -108,19 +108,17 @@ export default function MyPage() {
         })}
       </Tabs>
       <TabPanel>
-        {tabs[member.memberKind].map((item, index) => (
-          <div
-            hidden={index !== tabNo}
-            key={index}
-            style={{ width: "100%", height: "100%" }}
-          >
-            {index === 2 && showDonationDetail ? (
-              <ShelterDonationDetail boardNo={boardNo} />
-            ) : (
-              item.content
-            )}
-          </div>
-        ))}
+        {tabs[member.memberKind]
+          .filter((item, index) => index === tabNo)
+          .map((item, index) => (
+            <div key={index} style={{ width: "100%", height: "100%" }}>
+              {showDonationDetail ? (
+                <ShelterDonationDetail boardNo={boardNo} />
+              ) : (
+                item.content
+              )}
+            </div>
+          ))}
       </TabPanel>
     </MainContainer>
   );

@@ -175,7 +175,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: "update",
+            path: "update/:profileNo",
             async lazy() {
               return {
                 Component: (await import("pages/MissingUpdate")).default,

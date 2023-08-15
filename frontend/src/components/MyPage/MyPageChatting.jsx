@@ -22,6 +22,6 @@ const MainDiv = styled.div`
   flex-direction: row;
 `;
 const Div = styled.div`
-  width: 100%;
+  width: 50%;
   height: 100%;
 `;

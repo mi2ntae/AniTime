@@ -1,9 +1,8 @@
 import { Button } from "@mui/material";
 import http from "api/commonHttp";
-import MapComponent from "components/Profile/MapComponent";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { keyframes, styled } from "styled-components";
 import {
   WriteContainer,
@@ -15,10 +14,11 @@ import {
   MainContainer,
 } from "styled/styled";
 import SelectBox from "components/Profile/SelectBox";
+import MapModal from "components/Profile/MapModal";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
-  let profileNo = useSelector((state) => state.detailInfo.profileNo);
+  let { profileNo } = useParams();
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -27,9 +27,9 @@ export default function MissingRegistPage() {
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [specialMark, setSpecialMark] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [year, setYear] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [day, setDay] = useState(0);
   const [location, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
@@ -62,7 +62,6 @@ export default function MissingRegistPage() {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
   const [dayData, setDayData] = useState([]);
-
   useEffect(() => {
     if (profileNo === 0) return;
     http
@@ -107,7 +106,8 @@ export default function MissingRegistPage() {
         alert("프로필 세부정보 조회 실패");
         window.location.reload();
       });
-
+  }, []);
+  useEffect(() => {
     if (day !== "") {
       if (
         (day === 30 && month === 2) ||
@@ -144,9 +144,10 @@ export default function MissingRegistPage() {
 
   // 지도검색 관련
 
-  const getPosition = (y, x) => {
+  const getPosition = (y, x, address) => {
     setLat(y);
     setLon(x);
+    setLocation(address);
   };
 
   useEffect(() => {
@@ -216,12 +217,11 @@ export default function MissingRegistPage() {
       alert("실종위치는 필수 입력 항목입니다.");
       return;
     }
-
     const profile = {
       generalNo: general.memberNo,
       profileName: name,
-      profileKind: "개",
-      detailKind: "말티즈",
+      profileKind: category,
+      detailKind: kind,
       sexCode: gender,
       profileAge: age,
       specialMark: specialMark,
@@ -246,7 +246,7 @@ export default function MissingRegistPage() {
         },
       })
       .then((response) => {
-        alert("수정이 완료되었습니다");
+        alert("수정이 완료되었습니다.");
         navigate("/missing");
       })
       .catch((error) => {
@@ -292,6 +292,7 @@ export default function MissingRegistPage() {
                 <SelectBox
                   items={kindData}
                   placeholder="축종"
+                  value={category}
                   setValue={setCategory}
                   initialSelectedItem={category}
                 />
@@ -367,18 +368,21 @@ export default function MissingRegistPage() {
                   items={yearData}
                   placeholder="연도"
                   setValue={setYear}
+                  value={year}
                   initialSelectedItem={year}
                 />
                 <SelectBox
                   items={monthData}
                   placeholder="월"
                   setValue={setMonth}
+                  value={month}
                   initialSelectedItem={month}
                 />
                 <SelectBox
                   items={dayData}
                   placeholder="일"
                   setValue={setDay}
+                  value={day}
                   initialSelectedItem={day}
                 />
               </Row>
@@ -386,20 +390,7 @@ export default function MissingRegistPage() {
                 <InputLabel htmlFor="profileLocation">
                   실종위치<Red>*</Red>
                 </InputLabel>
-                <LocationInput
-                  onClick={() => {
-                    setModal(true);
-                  }}
-                  style={{
-                    border: modal
-                      ? "1px solid var(--primary, #3994f0)"
-                      : "0.77px solid var(--lightgrey, #e8ebee)",
-                  }}
-                >
-                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
-                    {location ? location : "실종위치"}
-                  </span>
-                </LocationInput>
+                <MapModal getPosition={getPosition} />
               </Row>
             </div>
             <div style={{ flex: 1, maxWidth: "100%" }}>
@@ -431,7 +422,7 @@ export default function MissingRegistPage() {
                   marginTop: "10px",
                 }}
               >
-                사진 사이즈는 어쩌고
+                사진은 5MB 이내의 jpg, png, gif 파일만 등록 가능합니다.
               </div>
             </div>
           </div>
@@ -455,7 +446,6 @@ export default function MissingRegistPage() {
           </div>
         </form>
       </WriteContainer>
-      {modal && <MapComponent setModal={setModal} getPosition={getPosition} />}
     </MainContainer>
   );
 }
