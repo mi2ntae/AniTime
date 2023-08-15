@@ -3,13 +3,15 @@ import http from "../../api/commonHttp.js";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileDetail from "./ProfileDetail.jsx";
 import DesertionDetail from "../Desertion/DesertionDetail.jsx";
-import { setProfileNo } from "reducer/detailInfo.js";
+import { setProfileNo, setComponent } from "reducer/detailInfo.js";
 import { useNavigate } from "react-router";
 
 export default function ProfileTab() {
   const [profiles, setProfiles] = useState([]);
   const [whichComponent, setWhichComponent] = useState(<ProfileDetail />);
-  const { profileNo, desertionNo } = useSelector((state) => state.detailInfo);
+  const { profileNo, desertionNo, isProfile } = useSelector(
+    (state) => state.detailInfo
+  );
   const [curProfileNo, setCurProfileNo] = useState(0);
 
   const general = useSelector((state) => state.member);
@@ -22,6 +24,11 @@ export default function ProfileTab() {
   useEffect(() => {
     setWhichComponent(<ProfileDetail />);
   }, [profileNo]);
+
+  useEffect(() => {
+    if (isProfile) setWhichComponent(<ProfileDetail />);
+    else setWhichComponent(<DesertionDetail category={1} />);
+  }, [isProfile]);
 
   const navigate = useNavigate();
 
@@ -57,6 +64,7 @@ export default function ProfileTab() {
                   dispatch(setProfileNo(data.profileNo));
                   setCurProfileNo(data.profileNo);
                   setWhichComponent(<ProfileDetail />);
+                  dispatch(setComponent(true));
                 }}
                 style={
                   curProfileNo === data.profileNo
