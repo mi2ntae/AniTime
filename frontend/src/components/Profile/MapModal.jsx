@@ -122,7 +122,7 @@ const LocationInput = styled.div`
   font-size: 14px;
 `;
 
-function MapModal({ getPosition }) {
+function MapModal({ getPosition, curLocation }) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState({
     lat: 37.5012860931305,
@@ -200,7 +200,23 @@ function MapModal({ getPosition }) {
     var geocoder = new window.kakao.maps.services.Geocoder();
     geocoder.coord2Address(coords.lng, coords.lat, function (result, status) {
       if (status === window.kakao.maps.services.Status.OK) {
-        setAddress(result[0].road_address.address_name);
+        let newAddress;
+
+        if (result[0].road_address) {
+          // 도로명 주소가 있는 경우
+          newAddress = result[0].road_address.address_name;
+        } else if (result[0].address) {
+          // 도로명 주소가 없고 지번 주소만 있는 경우
+          newAddress = result[0].address.address_name;
+        } else {
+          // 주소 정보가 없는 경우 (예: 바다 위)
+          newAddress = "주소 정보 없음";
+        }
+        setAddress(newAddress);
+        getPosition(coords.lat, coords.lng, newAddress);
+      } else {
+        // 주소 변환에 실패한 경우
+        alert("주소를 찾을 수 없습니다.");
       }
     });
     getPosition(coords.lat, coords.lng, address);
@@ -232,8 +248,12 @@ function MapModal({ getPosition }) {
             : "0.77px solid var(--lightgrey, #e8ebee)",
         }}
       >
-        <span style={{ color: address ? "#35383B" : "#A7AEB4" }}>
-          {address ? address : "실종위치"}
+        <span
+          style={{
+            color: curLocation ? "#35383B" : address ? "#35383B" : "#A7AEB4",
+          }}
+        >
+          {curLocation ? curLocation : address ? address : "실종위치"}
         </span>
       </LocationInput>
 
