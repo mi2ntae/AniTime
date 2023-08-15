@@ -247,6 +247,7 @@ const SliderTitle = styled.h1`
 
 const HowDiv = styled.div`
   margin: 0 auto;
+  padding: 0 24px;
   max-width: 1240px;
   text-align: left;
 `;
