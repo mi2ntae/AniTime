@@ -2,6 +2,7 @@ package com.moi.anitime.model.service.meet;
 
 import com.moi.anitime.api.request.meeting.MeetingReq;
 import com.moi.anitime.api.request.meeting.MeetingStatusReq;
+import com.moi.anitime.api.request.notice.NoticeReq;
 import com.moi.anitime.api.response.meeting.MeetingListRes;
 import com.moi.anitime.api.response.meeting.MeetingRes;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
@@ -15,6 +16,7 @@ import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.entity.member.MemberKind;
 import com.moi.anitime.model.entity.notice.Notice;
 import com.moi.anitime.model.repo.*;
+import com.moi.anitime.model.service.notice.NoticeService;
 import com.moi.anitime.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +44,8 @@ public class MeetingServiceImpl implements MeetingService {
     private final S3Uploader s3Uploader;
     private final NoticeRepo noticeRepo;
 
+    private final NoticeService noticeService;
+
     @Value("${adoptionForm.path}")
     private String imgPath;
 
@@ -68,21 +72,29 @@ public class MeetingServiceImpl implements MeetingService {
                     .build();
             adoptionFormRepo.save(form);
         }
-        StringBuilder sb = new StringBuilder();
-        LocalDateTime reservedDateTime = LocalDateTime.parse(meetingReq.getReservedDate());
-        int year = reservedDateTime.getYear();
-        int month = reservedDateTime.getMonthValue();
-        int day = reservedDateTime.getDayOfMonth();
-        int hour = reservedDateTime.getHour();
-        sb.append(member.getName()).append("님이 ").append(year+"-").append(month+"-").append(day+" ").append(hour+":00").append("에\\n")
-                .append("공고번호 : ").append(animal.getDesertionNo()).append(" 의 미팅을 신청하셨습니다.");
-        Notice notice = Notice.builder()
-                        .memberNo(animal.getShelterNo())
-                        .noticeKind(1)
-                        .noticeContent(sb.toString())
-                        .noticeCheck(false)
-                        .noticeTime(LocalDateTime.now()).build();
-        noticeRepo.save(notice);
+//        StringBuilder sb = new StringBuilder();
+//        LocalDateTime reservedDateTime = LocalDateTime.parse(meetingReq.getReservedDate());
+//        int year = reservedDateTime.getYear();
+//        int month = reservedDateTime.getMonthValue();
+//        int day = reservedDateTime.getDayOfMonth();
+//        int hour = reservedDateTime.getHour();
+//        sb.append(member.getName()).append("님이 ").append(year+"-").append(month+"-").append(day+" ").append(hour+":00").append("에\\n")
+//                .append("공고번호 : ").append(animal.getDesertionNo()).append(" 의 미팅을 신청하셨습니다.");
+//        Notice notice = Notice.builder()
+//                        .memberNo(animal.getShelterNo())
+//                        .noticeKind(1)
+//                        .noticeContent(sb.toString())
+//                        .noticeCheck(false)
+//                        .noticeTime(LocalDateTime.now()).build();
+//        noticeRepo.save(notice);
+        NoticeReq notice=new NoticeReq();
+        notice.setReservedDate(meetingReq.getReservedDate());
+        notice.setNoticeKind(1);
+        notice.setStatus(0);
+        notice.setGeneralNo(meetingReq.getGeneralNo());
+        int shelterNo=animalRepo.findAnimalByDesertionNo(meetingReq.getDesertionNo()).get().getShelterNo();
+        notice.setShelterNo(shelterNo);
+        noticeService.generateNotice(notice);
     }
 
     @Override
