@@ -366,7 +366,7 @@ export default function MissingRegistPage() {
                 <InputLabel htmlFor="profileLocation">
                   실종위치<Red>*</Red>
                 </InputLabel>
-                <MapModal getPosition={getPosition} />
+                <MapModal getPosition={getPosition} curLocation={location} />
               </Row>
             </div>
             <div style={{ flex: 1, maxWidth: "100%" }}>
