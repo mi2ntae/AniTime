@@ -16,6 +16,7 @@ import {
 } from "styled/styled";
 import SelectBox from "components/Profile/SelectBox";
 import DescModal from "components/Profile/DescModal";
+import MapModal from "components/Profile/MapModal";
 
 export default function MissingRegistPage() {
   const general = useSelector((state) => state.member);
@@ -123,9 +124,10 @@ export default function MissingRegistPage() {
 
   // 지도검색 관련
 
-  const getPosition = (y, x) => {
+  const getPosition = (y, x, address) => {
     setLat(y);
     setLon(x);
+    setLocation(address);
   };
 
   useEffect(() => {
@@ -364,20 +366,7 @@ export default function MissingRegistPage() {
                 <InputLabel htmlFor="profileLocation">
                   실종위치<Red>*</Red>
                 </InputLabel>
-                <LocationInput
-                  onClick={() => {
-                    setModal(true);
-                  }}
-                  style={{
-                    border: modal
-                      ? "1px solid var(--primary, #3994f0)"
-                      : "0.77px solid var(--lightgrey, #e8ebee)",
-                  }}
-                >
-                  <span style={{ color: location ? "#35383B" : "#A7AEB4" }}>
-                    {location ? location : "실종위치"}
-                  </span>
-                </LocationInput>
+                <MapModal getPosition={getPosition} />
               </Row>
             </div>
             <div style={{ flex: 1, maxWidth: "100%" }}>

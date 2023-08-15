@@ -24,9 +24,9 @@ const MainDiv = styled.div`
 const ListDiv = styled.div`
   flex: 1 0 0;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   border-right: 1px solid var(--lightgrey, #e8ebee);
   box-sizing: border-box;
   border-left: 1px solid #e8ebee;
@@ -38,6 +38,6 @@ const RoomDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 48px;
-  box-sixing: border-box;
+  box-sizing: border-box;
   border-right: 1px solid #e8ebee;
 `;

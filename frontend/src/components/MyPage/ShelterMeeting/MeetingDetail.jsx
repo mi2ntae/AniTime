@@ -69,8 +69,8 @@ export default function MeetingDetail() {
         reason: subData.reason,
       })
       .then(() => {
-        fetchData();
         dispatch(setReload(true));
+        fetchData();
       })
       .catch((error) => alert(error));
   };
@@ -124,7 +124,7 @@ export default function MeetingDetail() {
           <Content>
             <DesertionDetail readOnly={true} />
             {/* {adoptionForm} */}
-            <AdoptionForm url={adoptionForm} />
+            {adoptionForm !== "" && <AdoptionForm url={adoptionForm} />}
           </Content>
           <Footer>
             <DateDiv>미팅일시 : {meeting.reservedDate}</DateDiv>

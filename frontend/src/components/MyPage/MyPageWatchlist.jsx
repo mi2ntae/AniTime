@@ -31,6 +31,9 @@ export default function MyPageWatchlist() {
     page.current = 0;
     setBookmarkedAnimals([]);
     fetchBookmarkedData();
+    return () => {
+      dispatch(setDesertionNo(0));
+    };
   }, []);
 
   useEffect(() => {
@@ -70,15 +73,14 @@ export default function MyPageWatchlist() {
         {bookmarkedAnimals.length === 0 && "즐겨찾기한 동물이 없습니다"}
         <ListContainer>
           {bookmarkedAnimals.map((animal) => (
-            <AnimalItemContainer key={animal.desertionNo}>
-              <AnimalItem
-                animal={animal}
-                // AnimalImg onClick
-                handleClick={() => test(animal.desertionNo)}
-                // BookmarkButton onClick
-                handleBookmark={() => toggleBookmark(animal.desertionNo)}
-              />
-            </AnimalItemContainer>
+            <AnimalItem
+              key={animal.desertionNo}
+              animal={animal}
+              // AnimalImg onClick
+              handleClick={() => test(animal.desertionNo)}
+              // BookmarkButton onClick
+              handleBookmark={() => toggleBookmark(animal.desertionNo)}
+            />
           ))}
           <Target ref={setTarget} />
         </ListContainer>
@@ -152,8 +154,4 @@ const Target = styled.div`
   height: 35px;
   position: relative;
   bottom: 5px;
-`;
-
-const AnimalItemContainer = styled.div`
-  flex: 1 0 30%;
 `;

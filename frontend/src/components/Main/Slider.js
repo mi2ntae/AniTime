@@ -110,7 +110,7 @@ const Div = styled.div`
   box-sizing: border-box;
   /* width: 400vmin; */
   width: 100%;
-  min-width: 1200px;
+  min-width: 800px;
   overflow: hidden;
 `;
 

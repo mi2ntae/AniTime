@@ -35,7 +35,6 @@ export default function Footer() {
 const StyleFooter = styled.footer`
   background-color: #f7f8fa;
   height: 96px;
-  padding: 0 24px;
 `;
 
 const FooterDiv = styled.div`
@@ -50,4 +49,6 @@ const FooterDiv = styled.div`
   min-width: 800px;
   max-width: 1240px;
   margin: auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 `;

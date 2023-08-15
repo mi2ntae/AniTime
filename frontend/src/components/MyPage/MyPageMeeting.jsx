@@ -46,7 +46,7 @@ export default function MyPageMeeting() {
             <Button
               $background_color="#3994F0"
               color="#FFFFFF"
-              style={{ fontWeight: "bold" }}
+              style={{ fontWeight: "bold", margin: "8px auto" }}
               onClick={() => enterMeeting(item.meetNo)}
             >
               미팅 참여
