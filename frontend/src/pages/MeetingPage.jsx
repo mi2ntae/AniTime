@@ -44,7 +44,7 @@ export default function MeetingPage() {
   const [tabOpen, setTabOpen] = useState({
     formTab: false,
     profileTab: false,
-    chatTab: false,
+    chatTab: true,
   });
   const [control, setControl] = useState({
     video: false,
