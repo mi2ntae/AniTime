@@ -75,6 +75,13 @@ export default function DonationRegist() {
   const handlePosterChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+    var maxSize = 10 * 1024 * 1024;
+    var fileSize = file.size;
+
+    if (fileSize > maxSize) {
+      alert("파일 사이즈는 10MB 이내로 등록 가능합니다.");
+      return;
+    }
     if (!file.type.startsWith("image/")) {
       alert("포스터는 이미지 형식의 파일만 등록할 수 있습니다.");
       return;
@@ -86,10 +93,49 @@ export default function DonationRegist() {
 
   // 연-월-일 데이터
   const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const currentDay = new Date().getDate();
+
   const yearData = [];
   for (let i = currentYear; i <= currentYear + 30; i++) {
     yearData.push(i);
   }
+  const curYMonthData = [];
+  for (let i = currentMonth; i <= 12; i++) {
+    curYMonthData.push(i);
+  }
+  const curYDayData = [];
+  if (
+    currentMonth === 1 ||
+    currentMonth === 3 ||
+    currentMonth === 5 ||
+    currentMonth === 7 ||
+    currentMonth === 8 ||
+    currentMonth === 10 ||
+    currentMonth === 12
+  ) {
+    for (let i = currentDay; i <= 31; i++) {
+      curYDayData.push(i);
+    }
+  } else if (
+    currentMonth === 4 ||
+    currentMonth === 6 ||
+    currentMonth === 9 ||
+    currentMonth === 11
+  ) {
+    for (let i = currentDay; i <= 30; i++) {
+      curYDayData.push(i);
+    }
+  } else if (currentYear % 4 === 0) {
+    for (let i = currentDay; i <= 29; i++) {
+      curYDayData.push(i);
+    }
+  } else {
+    for (let i = currentDay; i <= 28; i++) {
+      curYDayData.push(i);
+    }
+  }
+
   const monthData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const dayDataFor28 = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
@@ -108,6 +154,7 @@ export default function DonationRegist() {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
   const [sDayData, setSDayData] = useState([]);
+  const [sMonthData, setSMonthData] = useState([]);
 
   useEffect(() => {
     if (sDay !== "") {
@@ -123,8 +170,9 @@ export default function DonationRegist() {
           sMonth === 6 ||
           sMonth === 9 ||
           sMonth === 11)
-      )
+      ) {
         setSDay("");
+      }
     }
     if (sMonth === 2 && sYear % 4 === 0) setSDayData(dayDataFor29);
     else if (sMonth === 2) setSDayData(dayDataFor28);
@@ -139,8 +187,74 @@ export default function DonationRegist() {
     )
       setSDayData(dayDataFor31);
     else setSDayData(dayDataFor30);
+
+    if (sYear === currentYear) setSMonthData(curYMonthData);
+    else setSMonthData(monthData);
+    if (sYear === currentYear && sMonth === currentMonth)
+      setSDayData(curYDayData);
+
+    if (sMonth < currentMonth && sYear === currentYear) {
+      setSMonth("");
+      setSDay("");
+    }
+    if (eYear < sYear) {
+      setEYear("");
+      setEMonth("");
+      setEDay("");
+    } else if (eYear === sYear && eMonth < sMonth) {
+      setEMonth("");
+      setEDay("");
+    } else if (eYear === sYear && eMonth === sMonth && eDay <= sDay)
+      setEDay("");
+
+    if (sYear > currentYear) {
+      const tempYearData = [];
+      for (let i = sYear; i <= currentYear + 30; i++) {
+        tempYearData.push(i);
+      }
+      setEYearData(tempYearData);
+    } else setEYearData(yearData);
+
+    if (sYear === eYear && sMonth === eMonth && sDay >= eDay) setEDay("");
+
+    if (eYear === sYear) {
+      const tempMonthData = [];
+      for (let i = sMonth; i <= 12; i++) {
+        tempMonthData.push(i);
+      }
+      setEMonthData(tempMonthData);
+    } else setEMonthData(monthData);
   }, [sMonth, sYear]);
+
+  useEffect(() => {
+    if (sYear === eYear && sMonth === eMonth && sDay >= eDay) setEDay("");
+    if (eYear === sYear && eMonth === sMonth) {
+      const tempDayData = [];
+      let endDay = 30;
+
+      if (
+        eMonth === 1 ||
+        eMonth === 3 ||
+        eMonth === 5 ||
+        eMonth === 7 ||
+        eMonth === 8 ||
+        eMonth === 10 ||
+        eMonth === 12
+      )
+        endDay = 31;
+      else if (eMonth === 2 && eYear % 4 === 0) endDay = 29;
+      else if (eMonth === 2) endDay = 28;
+
+      for (let i = sDay + 1; i <= endDay; i++) {
+        tempDayData.push(i);
+      }
+      setEDayData(tempDayData);
+    }
+  }, [sDay]);
   const [eDayData, setEDayData] = useState([]);
+
+  const [eMonthData, setEMonthData] = useState([]);
+  const [eYearData, setEYearData] = useState([]);
 
   useEffect(() => {
     if (eDay !== "") {
@@ -172,6 +286,42 @@ export default function DonationRegist() {
     )
       setEDayData(dayDataFor31);
     else setEDayData(dayDataFor30);
+
+    if (eYear === sYear) {
+      const tempMonthData = [];
+      for (let i = sMonth; i <= 12; i++) {
+        tempMonthData.push(i);
+      }
+      setEMonthData(tempMonthData);
+    } else setEMonthData(monthData);
+
+    if (eYear === sYear && eMonth === sMonth) {
+      const tempDayData = [];
+      let endDay = 30; // let으로 변경
+
+      if (
+        eMonth === 1 ||
+        eMonth === 3 ||
+        eMonth === 5 ||
+        eMonth === 7 ||
+        eMonth === 8 ||
+        eMonth === 10 ||
+        eMonth === 12
+      )
+        endDay = 31;
+      else if (eMonth === 2 && eYear % 4 === 0) endDay = 29;
+      else if (eMonth === 2) endDay = 28;
+
+      for (let i = sDay + 1; i <= endDay; i++) {
+        tempDayData.push(i);
+      }
+      setEDayData(tempDayData);
+    }
+
+    if (eMonth < sMonth && eYear === sYear) {
+      setEMonth("");
+      setEDay("");
+    }
   }, [eMonth, eYear]);
 
   const [thumbnailurl, setThumbnailUrl] = useState("");
@@ -304,14 +454,16 @@ export default function DonationRegist() {
                   setValue={setSYear}
                 />
                 <SelectBox
-                  items={monthData}
+                  items={sMonthData}
                   placeholder="월"
                   setValue={setSMonth}
+                  initialSelectedItem={sMonth}
                 />
                 <SelectBox
                   items={sDayData}
                   placeholder="일"
                   setValue={setSDay}
+                  initialSelectedItem={sDay}
                 />
               </Row>
               <Row>
@@ -319,19 +471,22 @@ export default function DonationRegist() {
                   공고종료일<Red>*</Red>
                 </InputLabel>
                 <SelectBox
-                  items={yearData}
+                  items={eYearData}
                   placeholder="연도"
                   setValue={setEYear}
+                  initialSelectedItem={eYear}
                 />
                 <SelectBox
-                  items={monthData}
+                  items={eMonthData}
                   placeholder="월"
                   setValue={setEMonth}
+                  initialSelectedItem={eMonth}
                 />
                 <SelectBox
                   items={eDayData}
                   placeholder="일"
                   setValue={setEDay}
+                  initialSelectedItem={eDay}
                 />
               </Row>
               <Row>
@@ -345,7 +500,7 @@ export default function DonationRegist() {
                   onChange={handleChange}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  placeholder="목표금액"
+                  placeholder="목표금액 (10억 원까지 입력 가능)"
                 />
               </Row>
               <Row>
@@ -366,7 +521,9 @@ export default function DonationRegist() {
                       : { color: "#35383B" }
                   }
                 >
-                  {poster === null ? "파일을 선택해주세요." : posterName}
+                  {poster === null
+                    ? "포스터는 10MB 이내의 jpg, png, gif 파일만 등록 가능합니다"
+                    : posterName}
                 </Poster>
                 <Button
                   style={{
