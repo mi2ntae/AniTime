@@ -10,7 +10,15 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
   ];
 
   return (
-    <ItemDiv>
+    <ItemDiv
+      onClick={
+        noticeKind === 1
+          ? () => {
+              window.location.href = "/mypage";
+            }
+          : {}
+      }
+    >
       <KindImg src={kindIcon[noticeKind]} />
       <ContentDiv>
         {noticeContent.split("\\n").map((item, index) => (
@@ -25,6 +33,7 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
 const ItemDiv = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const KindImg = styled.img`
