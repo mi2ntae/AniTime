@@ -13,9 +13,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { Button } from "styled/styled";
+import { setRoom } from "reducer/chatRoom";
+import { useDispatch } from "react-redux";
 
 export default function MyPageMeeting() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const member = useSelector((state) => state.member);
 
@@ -47,7 +50,17 @@ export default function MyPageMeeting() {
               $background_color="#3994F0"
               color="#FFFFFF"
               style={{ fontWeight: "bold", margin: "8px auto" }}
-              onClick={() => enterMeeting(item.meetNo)}
+              onClick={async () => {
+                await http
+                .get(`chat/room/meet/${item.meetNo}`)
+                .then((res) => {
+                  dispatch(setRoom({ roomNo: res.data.roomNo, name: item.name}));
+                })
+                .catch((err) => {
+                  // console.log(err);
+                });
+                enterMeeting(item.meetNo)}
+              }
             >
               미팅 참여
             </Button>

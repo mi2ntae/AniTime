@@ -14,6 +14,7 @@ import member from "reducer/member";
 export default function ChatUi({ width, height, type, update }) {
   const dispatch = useDispatch();
 
+  console.log("asdada")
   const socket = useSelector((state) => state.stomp.socket);
   const stompClient = useSelector((state) => state.stomp.client);
   const [input, setInput] = useState("");
@@ -52,7 +53,7 @@ export default function ChatUi({ width, height, type, update }) {
   };
 
   const resetReadCnt = async () => {
-    console.log("reset")
+    console.log("reset");
     await http
       .post(`chat/room/${roomNo}/${memberNo}`)
       .then((res) => {
@@ -69,10 +70,10 @@ export default function ChatUi({ width, height, type, update }) {
       // console.log(payload);
       return [...prev, JSON.parse(payload.body)];
     });
-    if(JSON.parse(payload.body).sendNo !== memberNo) {
+    if (JSON.parse(payload.body).sendNo !== memberNo) {
       resetReadCnt();
     }
-    if(type === 1) update((state) => !state);
+    if (type === 1) update((state) => !state);
   };
 
   if (socket == null && stompClient == null) {
@@ -237,6 +238,7 @@ export default function ChatUi({ width, height, type, update }) {
           value={input}
           onChange={handleInputChange}
           onKeyDown={handleOnKeyDown}
+          maxLength={250}
         />
         <Button
           onClick={handleSend}
