@@ -9,8 +9,9 @@ import SockJs from "sockjs-client";
 import Stomp from "webstomp-client";
 import { setStomp } from "reducer/stomp";
 import { setRoom, setSub } from "reducer/chatRoom";
+import member from "reducer/member";
 
-export default function ChatUi({ width, height }) {
+export default function ChatUi({ width, height, type, update }) {
   const dispatch = useDispatch();
 
   const socket = useSelector((state) => state.stomp.socket);
@@ -51,6 +52,7 @@ export default function ChatUi({ width, height }) {
   };
 
   const resetReadCnt = async () => {
+    console.log("reset")
     await http
       .post(`chat/room/${roomNo}/${memberNo}`)
       .then((res) => {
@@ -67,7 +69,10 @@ export default function ChatUi({ width, height }) {
       // console.log(payload);
       return [...prev, JSON.parse(payload.body)];
     });
-    resetReadCnt();
+    if(JSON.parse(payload.body).sendNo !== memberNo) {
+      resetReadCnt();
+    }
+    if(type === 1) update((state) => !state);
   };
 
   if (socket == null && stompClient == null) {

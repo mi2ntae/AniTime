@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -53,6 +54,7 @@ public class ChatController {
 
     @ApiOperation(value = "채팅 읽음 처리", notes = "채팅방 들어와있는 상태에서 메시지 전부 읽음 처리")
     @PostMapping("/room/{roomNo}/{memberNo}")
+    @Transactional
     public CommonResponse resetReadCnt(@PathVariable("roomNo") int roomNo, @PathVariable("memberNo") int memberNo) {
         chatService.resetReadCnt(roomNo, memberNo);
         return responseService.getSuccessResponse();
