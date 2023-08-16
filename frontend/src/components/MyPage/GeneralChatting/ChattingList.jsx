@@ -8,7 +8,7 @@ import http from "api/commonHttp";
 import { useSelector, useDispatch } from "react-redux";
 import { setRoom } from "reducer/chatRoom";
 
-export default function ChattingList() {
+export default function ChattingList({update}) {
   const dispatch = useDispatch();
 
   const memberKind = useSelector((state) => state.member.memberKind);
@@ -17,6 +17,8 @@ export default function ChattingList() {
   const [chatList, setChatList] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
 
+  const roomNo = useSelector((state) => state.chatRoom.roomNo);
+  console.log("list: "+update)
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function ChattingList() {
       .catch((err) => {
         // console.log("ddd");
       });
-  }, []);
+  }, [update]);
 
   return (
     <>
@@ -62,7 +64,7 @@ export default function ChattingList() {
                 key={item.roomNo}
                 onClick={() => {
                   dispatch(setRoom({ roomNo: item.roomNo, name: item.name }));
-                  setActiveIndex(idx);
+                  setActiveIndex(item.roomNo);
                   const updatedChatList = chatList.map((chatRoom) => {
                     if (chatRoom.roomNo === item.roomNo) {
                       return { ...chatRoom, unreadCnt: 0 };
@@ -71,7 +73,7 @@ export default function ChattingList() {
                   });
                   setChatList(updatedChatList);
                 }}
-                className={activeIndex === idx ? "active" : ""}
+                className={activeIndex === item.roomNo ? "active" : ""}
               >
                 <Div>
                   <ShelterName>{item.name}</ShelterName>
