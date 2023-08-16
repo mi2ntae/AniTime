@@ -130,7 +130,8 @@ export default function SelectTime() {
                 showConfirmButton: false,
                 timer: 1000,
               }).then((res) => {
-                navigate("/");
+                window.location.href = "/";
+                // navigate("/");
               });
             }
           })
@@ -226,14 +227,17 @@ export default function SelectTime() {
         <TimePicker>
           <div
             style={{
-              fontSize: "16px",
+              justifyContent: "center",
+              fontSize: "14px",
               display: "flex",
               width: "280px",
+              marginBottom: "20px",
+              color: "#7D848A",
             }}
           >
-            미팅 기간
+            미팅은 1시간동안 진행됩니다.
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               alignItems: "center",
@@ -248,8 +252,8 @@ export default function SelectTime() {
               backgroundColor: "#E8EBEE",
             }}
           >
-            1시간
-          </div>
+            1시간 (고정)
+          </div> */}
           <div
             style={{
               marginTop: "8px",
