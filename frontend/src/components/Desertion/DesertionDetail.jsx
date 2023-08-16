@@ -20,7 +20,9 @@ export default function DesertionDetail({ readOnly, category }) {
       await http
         .post(`chat/room?generalNo=${memberNo}&desertionNo=${desertionNo}`)
         .then((res) => {
-          dispatch(dispatch(setRoom({ roomNo: res.data.roomNo, name: "" })));
+          dispatch(
+            dispatch(setRoom({ roomNo: res.data.roomNo, name: animal.shelter }))
+          );
         })
         .catch((err) => {
           // console.log(err);
