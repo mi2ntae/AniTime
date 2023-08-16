@@ -1,12 +1,13 @@
 import Logo from "components/Header/Logo";
 import React from "react";
 import { styled } from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import http from "api/commonHttp";
 import { setRoom } from "reducer/chatRoom";
 
 export default function MeetingHeader({ tabOpen, handleTabOpen, meetingNo }) {
   const dispatch = useDispatch();
+  const memberName = useSelector((state) => state.member.name);
   return (
     <Header>
       <Div>
@@ -35,7 +36,9 @@ export default function MeetingHeader({ tabOpen, handleTabOpen, meetingNo }) {
             http
               .get(`chat/room/meet/${meetingNo}`)
               .then((res) => {
-                dispatch(setRoom({ roomNo: res.data, name: "" }));
+                console.log(res);
+                if(res.data.generalName === memberName) dispatch(setRoom({ roomNo: res.data.roomNo, name: res.data.shelterName }));
+                else dispatch(setRoom({ roomNo: res.data.roomNo, name: res.data.generalName }));
                 handleTabOpen((p) => ({ ...p, chatTab: !p.chatTab }));
               })
               .catch((err) => {
