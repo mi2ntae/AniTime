@@ -66,10 +66,7 @@ export default function ChatUi({ width, height, type, update }) {
       // console.log(payload);
       return [...prev, JSON.parse(payload.body)];
     });
-    console.log(payload.body.sendNo)
-    console.log(JSON.parse(payload.body));
     if(JSON.parse(payload.body).sendNo !== memberNo) {
-      console.log("same")
       resetReadCnt();
     }
     if(type === 1) update((state) => !state);
