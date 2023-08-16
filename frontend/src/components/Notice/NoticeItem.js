@@ -1,7 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 
-export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
+export default function NoticeItem({
+  noticeKind,
+  noticeTime,
+  noticeContent,
+  close,
+}) {
   const kindIcon = [
     "/icons/notification/ic_animal.svg",
     "/icons/notification/ic_time.svg",
@@ -9,15 +15,16 @@ export default function NoticeItem({ noticeKind, noticeTime, noticeContent }) {
     "/icons/notification/ic_chat.svg",
   ];
 
+  const navigate = useNavigate();
+
   return (
     <ItemDiv
-      onClick={
-        noticeKind === 1
-          ? () => {
-              window.location.href = "/mypage";
-            }
-          : {}
-      }
+      onClick={() => {
+        if (noticeKind === 1) {
+          navigate("/mypage");
+          close();
+        }
+      }}
     >
       <KindImg src={kindIcon[noticeKind]} />
       <ContentDiv>
