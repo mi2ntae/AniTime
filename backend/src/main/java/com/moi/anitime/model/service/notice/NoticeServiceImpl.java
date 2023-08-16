@@ -41,7 +41,7 @@ public class NoticeServiceImpl implements NoticeService{
         if(generalMemberName.length()>0){
             userName=generalMemberName;
             memberNo=noticeReq.getGeneralNo();
-        }else{1
+        }else{
             userName=shelterMemberName;
             memberNo=noticeReq.getShelterNo();
         }
