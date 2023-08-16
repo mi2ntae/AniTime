@@ -8,7 +8,7 @@ import http from "api/commonHttp";
 import { useSelector, useDispatch } from "react-redux";
 import { setRoom } from "reducer/chatRoom";
 
-export default function ChattingList({update}) {
+export default function ChattingList({ update }) {
   const dispatch = useDispatch();
 
   const memberKind = useSelector((state) => state.member.memberKind);
@@ -18,7 +18,7 @@ export default function ChattingList({update}) {
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const roomNo = useSelector((state) => state.chatRoom.roomNo);
-  console.log("list: "+update)
+  console.log("list: " + update);
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,6 +77,7 @@ export default function ChattingList({update}) {
               >
                 <Div>
                   <ShelterName>{item.name}</ShelterName>
+                  <LastDate>{item.lastTime}</LastDate>
                 </Div>
                 <Div>
                   <LastMsg>
@@ -139,12 +140,12 @@ const NoListMsg = styled.span`
   justify-content: center;
   height: 100%;
 `;
-// const LastDate = styled.span`
-//   color: var(--grey-2, #a7aeb4);
-//   text-align: right;
-//   font-size: 12px;
-//   font-weight: 400;
-// `;
+const LastDate = styled.span`
+  color: var(--grey-2, #a7aeb4);
+  text-align: right;
+  font-size: 12px;
+  margin-right: 30px;
+`;
 const Cnt = styled.span`
   variant: outlined;
   width: 22px;
@@ -157,7 +158,7 @@ const Cnt = styled.span`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 30px;
   border-radius: 50%;
 `;
 const Cnt2 = styled.span`
@@ -173,7 +174,7 @@ const Cnt2 = styled.span`
   align-items: center;
   align-content: center;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 30px;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -211,7 +212,7 @@ const Cnt3 = styled.span`
   align-items: center;
   align-content: center;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 30px;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -249,7 +250,7 @@ const Cnt4 = styled.span`
   align-items: center;
   align-content: center;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 30px;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
