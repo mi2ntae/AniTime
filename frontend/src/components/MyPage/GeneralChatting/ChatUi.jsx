@@ -30,16 +30,19 @@ export default function ChatUi({ width, height }) {
   });
 
   const onConnected = () => {
-    if(sub) {
+    if (sub) {
       stompClient.unsubscribe("curRoom");
-      
     }
-    setTimeout(() => stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
-      'id': "curRoom",
-      'auto-delete':true, 
-      'durable':false, 
-      'exclusive':false
-    }), 100);
+    setTimeout(
+      () =>
+        stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
+          id: "curRoom",
+          "auto-delete": true,
+          durable: false,
+          exclusive: false,
+        }),
+      100
+    );
     dispatch(setSub(true));
   };
 
@@ -99,17 +102,21 @@ export default function ChatUi({ width, height }) {
         });
     }
     if (socket != null && stompClient != null) {
-      if(sub) {
+      if (sub) {
         stompClient.unsubscribe("curRoom");
-        console.log("unsub!!")
+        console.log("unsub!!");
         dispatch(setSub(true));
       }
-      setTimeout(() => stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
-        'id': "curRoom",
-        'auto-delete':true, 
-        'durable':false, 
-        'exclusive':false
-      }), 100);
+      setTimeout(
+        () =>
+          stompClient.subscribe(`/topic/room.${roomNo}`, onMessageReceived, {
+            id: "curRoom",
+            "auto-delete": true,
+            durable: false,
+            exclusive: false,
+          }),
+        100
+      );
     }
   }, [roomNo]);
 

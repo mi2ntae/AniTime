@@ -4,7 +4,7 @@ import NoticeItem from "./NoticeItem";
 import http from "api/commonHttp";
 import { useSelector } from "react-redux";
 
-export default function NoticeContainer() {
+export default function NoticeContainer({ close }) {
   const [noticeList, setNoticeList] = useState([]);
   const member = useSelector((state) => state.member);
 
@@ -39,7 +39,7 @@ export default function NoticeContainer() {
         {noticeList.length === 0
           ? "알림이 없습니다"
           : noticeList.map((item) => (
-              <NoticeItem {...item} key={item.noticeNo} />
+              <NoticeItem {...item} key={item.noticeNo} close={close} />
             ))}
       </Body>
       <Footer onClick={deleteNotice}>알림함 비우기</Footer>
