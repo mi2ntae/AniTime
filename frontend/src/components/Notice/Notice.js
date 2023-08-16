@@ -5,11 +5,14 @@ import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import http from "api/commonHttp";
 import { Badge } from "@mui/material";
+import { useLocation } from "react-router";
 
 export default function Notice() {
   const [isOpen, setIsOpen] = useState(false);
   const [noticeNum, setNoticeNum] = useState(0);
   const member = useSelector((state) => state.member);
+
+  const location = useLocation();
 
   const closeNotice = () => {
     setIsOpen(false);
@@ -42,7 +45,7 @@ export default function Notice() {
     } else {
       setNoticeNum(0);
     }
-  }, [fetchData]);
+  }, [fetchData, location.pathname]);
 
   return (
     <>
@@ -57,7 +60,7 @@ export default function Notice() {
       </Badge>
       {isOpen && (
         <Modal posX={"16px"} posY={"16px"} close={closeNotice}>
-          <NoticeContainer />
+          <NoticeContainer close={closeNotice} />
         </Modal>
       )}
     </>
