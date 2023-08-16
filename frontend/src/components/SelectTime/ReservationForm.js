@@ -110,7 +110,8 @@ export default function ReservationForm() {
                   showConfirmButton: false,
                   timer: 1000,
                 }).then((res) => {
-                  navigate("/");
+                  // navigate("/");
+                  window.location.href = "/";
                 });
               }
             })
