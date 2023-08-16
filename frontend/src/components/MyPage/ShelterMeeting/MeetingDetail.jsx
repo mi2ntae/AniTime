@@ -10,11 +10,14 @@ import { Input, Row } from "styled/styled";
 import { useNavigate } from "react-router";
 import AdoptionForm from "components/AdoptionForm/AdoptionForm";
 import { setReload } from "reducer/shelterMeeting";
+import { setRoom } from "reducer/chatRoom";
 
 export default function MeetingDetail() {
   const meetingNo = useSelector((state) => state.shelterMeeting.meetingNo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const memberName = useSelector((state) => state.member.name);
 
   const [meeting, setMeeting] = useState(undefined);
   const [adoptionForm, setAdoptionForm] = useState("");
@@ -45,6 +48,7 @@ export default function MeetingDetail() {
     http
       .get(`/meet/shelter/${meetingNo}`)
       .then(({ data: { meet, adoptionForm } }) => {
+        console.log(meet);
         setMeeting(meet);
         setAdoptionForm(adoptionForm);
         setMeetingState(processMeetingState(meet));
@@ -75,8 +79,17 @@ export default function MeetingDetail() {
       .catch((error) => alert(error));
   };
 
-  const handleEnterMeeting = () => {
+  const handleEnterMeeting = async () => {
     // console.log("enter " + meetingNo);
+    await http
+    .get(`chat/room/meet/${meetingNo}`)
+    .then((res) => {
+      if(res.data.generalName === memberName) dispatch(setRoom({ roomNo: res.data.roomNo, name: res.data.shelterName }));
+      else dispatch(setRoom({ roomNo: res.data.roomNo, name: res.data.generalName }));
+    })
+    .catch((err) => {
+      // console.log(err);
+    });
     navigate(`/meeting/${meetingNo}`);
   };
 
