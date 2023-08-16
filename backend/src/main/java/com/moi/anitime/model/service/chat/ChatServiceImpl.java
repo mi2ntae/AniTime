@@ -18,6 +18,7 @@ import com.moi.anitime.model.entity.member.ShelterMember;
 import com.moi.anitime.model.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,7 @@ public class ChatServiceImpl implements ChatService {
 	private final AnimalRepo animalRepo;
 	private final MemberRepo memberRepo;
 	private final MeetingRepo meetingRepo;
+	private final SimpMessageSendingOperations smso;
 
 	private final String FIRST_MESSAGE = "유기번호 :  ";
 	private final String LAST_MESSAGE = " 의 채팅이 시작되었습니다.";
@@ -84,6 +86,7 @@ public class ChatServiceImpl implements ChatService {
 					.content(message.toString())
 					.isread(false).build();
 			chatMessageRepo.save(firstMessage);
+			smso.convertAndSend("/topic/room."+firstMessage.getChatRoom().getRoomNo(), firstMessage);
 		}
 
 		resBuilder
@@ -125,7 +128,6 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	@Transactional
 	public void resetReadCnt(int roomNo, int memberNo) {
 		chatMessageRepo.updateChatMessagesRead(roomNo, memberNo);
 	}
