@@ -40,6 +40,7 @@ export default function NoticeItem({
 const ItemDiv = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 const KindImg = styled.img`
