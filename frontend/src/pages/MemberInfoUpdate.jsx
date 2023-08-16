@@ -272,7 +272,7 @@ export default function UserUpdate() {
                   value={general.email}
                   id="sDate"
                   //   onChange={(e) => setSYear(e.target.value)}
-                  placeholder="이메일"
+                  placeholder="이메일" readOnly
                 />
               </Row>
               <Row>
@@ -348,7 +348,7 @@ export default function UserUpdate() {
                     value={general.email}
                     id="sDate"
                     //   onChange={(e) => setSYear(e.target.value)}
-                    placeholder="KaKao계정"
+                    placeholder="KaKao계정" readOnly
                   />
                 )}
               </Row>
