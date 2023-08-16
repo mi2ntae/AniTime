@@ -389,8 +389,6 @@ export default function DonationRegist() {
       goalAmount: goal,
     };
 
-    // console.log(board);
-
     const boardReq = board;
     const formData = new FormData();
     formData.append(
@@ -409,6 +407,7 @@ export default function DonationRegist() {
         },
       })
       .then(() => {
+        alert("후원공고 등록이 완료되었습니다.");
         navigate("/mypage");
       });
     // .catch((error) => console.log(error));
