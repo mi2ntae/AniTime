@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import ChatUi from "components/MyPage/GeneralChatting/ChatUi";
 import ChattingList from "components/MyPage/GeneralChatting/ChattingList";
 
 export default function MyPageChatting() {
+  const [message, setMessage] = useState(false);
+  console.log(message);
   return (
     <MainDiv style={{ height: `calc(100vh - 231px)`, paddingBottom: 0 }}>
       <Div>
-        <ChattingList />
+        <ChattingList update={message} />
       </Div>
       <Div>
-        <ChatUi height="100%" />
+        <ChatUi height="100%" update={setMessage} type={1}/>
       </Div>
     </MainDiv>
   );
