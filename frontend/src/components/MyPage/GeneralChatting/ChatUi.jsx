@@ -14,6 +14,7 @@ import member from "reducer/member";
 export default function ChatUi({ width, height, type, update }) {
   const dispatch = useDispatch();
 
+  console.log("asdada")
   const socket = useSelector((state) => state.stomp.socket);
   const stompClient = useSelector((state) => state.stomp.client);
   const [input, setInput] = useState("");

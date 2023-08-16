@@ -1,12 +1,14 @@
 package com.moi.anitime.model.service.chat;
 
 import com.moi.anitime.api.request.chat.ChatMessageReq;
+import com.moi.anitime.api.response.chat.ChatMeetRes;
 import com.moi.anitime.api.response.chat.ChatRes;
 import com.moi.anitime.api.response.chat.ChatRoomInitRes;
 import com.moi.anitime.api.response.chat.ChatRoomListRes;
 import com.moi.anitime.exception.animal.NonExistDesertionNoException;
 import com.moi.anitime.exception.chat.UnknownMemberKindException;
 import com.moi.anitime.exception.meeting.NonExistMeetNoException;
+import com.moi.anitime.exception.member.NonExistMemberNoException;
 import com.moi.anitime.model.entity.animal.Animal;
 import com.moi.anitime.model.entity.chat.ChatMessage;
 import com.moi.anitime.model.entity.chat.ChatRoom;
@@ -133,12 +135,13 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int getChatNoByMeeting(int meetNo) throws NonExistMeetNoException{
+	public ChatMeetRes getChatNoByMeeting(int meetNo) throws NonExistMeetNoException{
 		Optional<Meeting> tmpMeet = meetingRepo.findById(meetNo);
 		if(!tmpMeet.isPresent()) throw new NonExistMeetNoException();
 		Meeting meet = tmpMeet.get();
 		int generalNo = meet.getMember().getMemberNo();
 		int shelterNo = meet.getAnimal().getShelterNo();
+		ChatMeetRes.ChatMeetResBuilder res = ChatMeetRes.builder();
 		Optional<ChatRoom> tmpRoom = chatRoomRepo.findChatRoomByGeneralMember_MemberNoAndShelterMember_MemberNo(generalNo, shelterNo);
 		ChatRoom room = null;
 		if(!tmpRoom.isPresent()) {
@@ -149,7 +152,16 @@ public class ChatServiceImpl implements ChatService {
 					.shelterMember(shelterMember)
 					.build();
 			room = chatRoomRepo.save(newRoom);
-		} else room = tmpRoom.get();
-		return room.getRoomNo();
+			res.generalName(generalMember.getName())
+					.shelterName(shelterMember.getName());
+		} else {
+			room = tmpRoom.get();
+			Optional<Member> shelterMember = memberRepo.findById(shelterNo);
+			if(!shelterMember.isPresent()) throw new NonExistMemberNoException();
+			res.generalName(meet.getMember().getName())
+					.shelterName(shelterMember.get().getName());
+		}
+		res.roomNo(room.getRoomNo());
+		return res.build();
 	}
 }
