@@ -15,7 +15,7 @@ export default function DonationDetailPage() {
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
   const [clickPayment, setClickPayment] = useState(false);
-  
+
   const [agree, setAgree] = useState(false);
 
   const navi = useNavigate();
@@ -40,10 +40,10 @@ export default function DonationDetailPage() {
     const value = e.target.value.replace(/,/g, ""); // 쉼표 제거
 
     if (!isNaN(value) && value >= 0) {
-      if (value > 100000000) {
-        alert("최대 1억원까지 후원 가능합니다.");
-        e.target.value = formatNumber(100000000); // 최대값인 1억으로 설정
-        setPrice(100000000);
+      if (value > 1000000) {
+        alert("최대 백만원까지 후원 가능합니다.");
+        e.target.value = formatNumber(1000000); // 최대값인 1억으로 설정
+        setPrice(1000000);
       } else {
         e.target.value = formatNumber(value); // 쉼표 추가
         setPrice(value); // 쉼표가 없는 숫자로 상태 업데이트
@@ -277,7 +277,7 @@ export default function DonationDetailPage() {
                   cursor: price >= 1000 && agree ? "pointer" : "not-allowed",
                 }}
                 onClick={() => {
-                  if(memberNo === -1) {
+                  if (memberNo === -1) {
                     alert("로그인 후 후원하실 수 있습니다.");
                     navi("/login");
                   } else setClickPayment(true);
