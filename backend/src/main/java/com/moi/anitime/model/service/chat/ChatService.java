@@ -1,6 +1,7 @@
 package com.moi.anitime.model.service.chat;
 
 import com.moi.anitime.api.request.chat.ChatMessageReq;
+import com.moi.anitime.api.response.chat.ChatMeetRes;
 import com.moi.anitime.api.response.chat.ChatRes;
 import com.moi.anitime.api.response.chat.ChatRoomInitRes;
 import com.moi.anitime.api.response.chat.ChatRoomListRes;
@@ -18,5 +19,5 @@ public interface ChatService {
 
     void resetReadCnt(int roomNo, int memberNo);
 
-    int getChatNoByMeeting(int meetNo) throws NonExistMeetNoException;
+    ChatMeetRes getChatNoByMeeting(int meetNo) throws NonExistMeetNoException;
 }
