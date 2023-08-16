@@ -201,6 +201,7 @@ public class MeetingServiceImpl implements MeetingService {
 
         for(Meeting meet : meets) {
             int hour = meet.getReservedDate().getHour();
+            if(meet.getStatus() == 0 || meet.getStatus() == 1)
             map.put(hour, false);
         }
         return map;
