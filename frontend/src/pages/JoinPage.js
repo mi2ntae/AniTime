@@ -196,7 +196,14 @@ export default function LoginPage() {
         // memberKind: parseInt(tabNo),
       )
       .then((res) => {
-        if (res.success) setLogin();
+        if (res.success) {
+          if (tabNo === "0") setLogin();
+          else
+            alert(
+              "보호소 가입 신청이 완료되었습니다. 가입 심사 이후 서비스를 이용하실 수 있습니다."
+            );
+          navi("/");
+        }
       })
       .catch((err) => {});
   };

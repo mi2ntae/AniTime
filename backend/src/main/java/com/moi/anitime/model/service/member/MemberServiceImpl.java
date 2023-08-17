@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepo.deleteById(memberNo);
     }
 
-    private Member getMemberByKaKaoEmail(String accessToken) throws SnsNotConnectedMemberException, NonExistEmailException, IOException {
+    private Member getMemberByKaKaoEmail(String accessToken) throws SnsNotConnectedMemberException, NonRegisteredSnsException, IOException {
         String email = "";
         String postURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -176,7 +176,7 @@ public class MemberServiceImpl implements MemberService {
         email = kakaoAccount.getAsJsonObject().get("email").getAsString();
         System.out.println(email);
         Optional<GeneralMember> member = memberRepo.findMemberByEmail(email);
-        if (!member.isPresent()) throw new NonExistEmailException();
+        if (!member.isPresent()) throw new NonRegisteredSnsException();
         if(!member.get().isSnsCheck()) throw new SnsNotConnectedMemberException();
         GeneralMember newMember = member.get();
         newMember.setSnsToken(accessToken);

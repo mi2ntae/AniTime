@@ -25,7 +25,8 @@ public enum ExceptionList {
     NON_EXIST_MEET_NO(-1033, "해당 미팅 정보가 존재하지 않습니다"),
     FAILED_TO_COUNT_ANIMALS(-1034, "동물 개체수를 불러오는 데 실패했습니다."),
     FAILED_TO_EDIT_INFO(-1035,"회원 정보 수정에 실패했습니다."),
-    EXIST_RESERVATION_EXCEPTION(-1036, "이미 예약된 시각입니다. 다시 선택해주세요.")
+    EXIST_RESERVATION_EXCEPTION(-1036, "이미 예약된 시각입니다. 다시 선택해주세요."),
+    NON_REGISTERED_SNS_EXCEPTION(-1037, "카카오 이메일로 회원가입 후 SNS 연동을 진행해주세요!")
     ;
 
 
