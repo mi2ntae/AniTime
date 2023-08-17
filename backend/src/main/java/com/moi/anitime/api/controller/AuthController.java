@@ -51,8 +51,9 @@ public class AuthController {
             @ApiResponse(code = -1018, message = "이메일 중복"),
     })
     public CommonResponse registerShelterMember(@RequestPart(value="member") ShelterMemberRegistReq registMember, @RequestPart(required = false, value="image") MultipartFile image) throws ExistEmailException, SQLException, IOException {
-        memberService.registShelterMember(registMember, image);
         return responseService.getSuccessResponse();
+//        memberService.registShelterMember(registMember, image);
+//        return responseService.getSuccessResponse();
     }
 
     @PostMapping
