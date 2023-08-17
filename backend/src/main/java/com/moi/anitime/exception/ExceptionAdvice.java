@@ -27,6 +27,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
     private final ResponseServiceImpl responseService;
 
+    @ExceptionHandler(NonRegisteredSnsException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResponse nonRegisteredSnsException() {
+        log.error("sns email not registered");
+        return responseService.getFailResponse(ExceptionList.NON_REGISTERED_SNS_EXCEPTION.getCode(), ExceptionList.NON_REGISTERED_SNS_EXCEPTION.getMessage());
+    }
+
     @ExceptionHandler(SnsNotConnectedMemberException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResponse snsNotConnectedMemberException() {
