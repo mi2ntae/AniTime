@@ -66,29 +66,29 @@
 ### 보호소 동물 입양 상담 서비스
 저희 서비스에 가입한 보호소 회원이 보호중인 동물들을 조회할 수 있습니다
 
-![입양목록](/images/입양목록.gif)
+![입양목록](/images/입양목록.gif){: width="700px"}
 
 원하시는 동물의 상세 정보를 확인할 수 있습니다
 
-![입양동물상세](/images/입양동물상세.gif)
+![입양동물상세](/images/입양동물상세.gif){: width="700px"}
 
 입양을 위한 화상 상담을 신청할 수 있습니다
 
-![미팅신청](/images/미팅신청.gif)
+![미팅신청](/images/미팅신청.gif){: width="700px"}
 
 화상 상담을 통해 입양 희망자는 입양할 동물이 어떤 아이인지 확인할 수 있고 보호소는 입양 희망자의 환경을 확인 할 수 있습니다
 
-![미팅화면](/images/미팅화면.gif)
+![미팅화면](/images/미팅화면.gif){: width="700px"}
 
 ### 실종 동물 찾아주기 서비스
 잃어버린 동물의 프로필을 작성하면 유사한 보호 동물을 찾아줍니다
 
-![실종동물프로필등록](/images/실종동물프로필등록.gif)
+![실종동물프로필등록](/images/실종동물프로필등록.gif){: width="700px"}
 
 ### 후원 게시판 서비스
 보호소에서 올린 후원 공고에 후원할 수 있습니다
 
-![후원하기](/images/후원하기.gif)
+![후원하기](/images/후원하기.gif){: width="700px"}
 
 ## 기술스택
 ### 협업 및 형상 관리
@@ -132,8 +132,8 @@
 ![OpenVidu-browser](https://img.shields.io/badge/OpenVidu--browser-2.28.0-06d362?logo=WebRTC)
 
 ## 아키텍쳐
-![architecture](/images/architecture.png)
+![architecture](/images/architecture.png){: width="700px"}
 
 ### ERD
 
-![ERD](/images/ERD.png)
+![ERD](/images/ERD.png){: width="700px"}
