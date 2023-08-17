@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import Modal from "components/Modal/Modal";
 import { styled } from "styled-components";
 import FilterItem from "./FilterItem";
-import { useDispatch, useSelector } from "react-redux";
-import { setInputAnimal, setInputGender } from "reducer/filterInfo";
+import { useDispatch } from "react-redux";
+import {
+  setKindType,
+  setGenderType,
+  setInputAnimal,
+  setInputGender,
+} from "reducer/filterInfo";
 
 export default function Filter() {
   let dispatch = useDispatch();
@@ -15,6 +20,8 @@ export default function Filter() {
     return () => {
       dispatch(setInputAnimal("animal"));
       dispatch(setInputGender("gender"));
+      dispatch(setKindType(0));
+      dispatch(setGenderType(0));
     };
   }, []);
   return (
