@@ -9,10 +9,10 @@
 
 | Application | Domain | Language | Framework |
 | ---- | ---- | ---- | ---- |
-| :white_check_mark: Desktop Web | :black_square_button: Web Tech | :white_check_mark: JavaScript | :black_square_button: Vue.js |
+| :white_check_mark: Desktop Web | :white_check_mark: Web Tech | :white_check_mark: JavaScript | :black_square_button: Vue.js |
 | :black_square_button: Mobile Web | :black_square_button: Web Design | :black_square_button: TypeScript | :white_check_mark: React |
 | :white_check_mark: Responsive Web | :black_square_button: Web IoT | :black_square_button: C/C++ | :black_square_button: Angular |
-| :black_square_button: Android App | :black_square_button: Mobile | :black_square_button: C# | :black_square_button: Node.js |
+| :black_square_button: Android App | :black_square_button: Mobile | :black_square_button: C# | :white_check_mark: Node.js |
 | :black_square_button: iOS App | | :black_square_button: Python | :black_square_button: Flask/Django |
 | :black_square_button: Desktop App | | :white_check_mark: Java | :white_check_mark: Spring/Springboot |
 | | | :black_square_button: Kotlin | |
