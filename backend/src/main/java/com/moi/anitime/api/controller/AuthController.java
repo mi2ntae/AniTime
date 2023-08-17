@@ -8,6 +8,7 @@ import com.moi.anitime.api.response.LoginResponse;
 import com.moi.anitime.api.ResponseService;
 import com.moi.anitime.exception.member.ExistEmailException;
 import com.moi.anitime.exception.member.NonExistEmailException;
+import com.moi.anitime.exception.member.NonRegisteredSnsException;
 import com.moi.anitime.exception.member.SnsNotConnectedMemberException;
 import com.moi.anitime.model.entity.member.Member;
 import com.moi.anitime.model.service.member.MemberService;
@@ -71,7 +72,7 @@ public class AuthController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public CommonResponse kakaoLogin(@RequestParam String code) throws SnsNotConnectedMemberException, NonExistEmailException, IOException{
+    public CommonResponse kakaoLogin(@RequestParam String code) throws SnsNotConnectedMemberException, NonRegisteredSnsException, IOException{
         System.out.println(code);
         Member member = memberService.getMemberByKakaoAccessToken(code);
         return responseService.getLoginResponse(jwtTokenProvider.createToken(member.getMemberNo(), member.getMemberKind()), member);
