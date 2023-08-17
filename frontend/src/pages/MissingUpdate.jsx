@@ -254,10 +254,18 @@ export default function MissingRegistPage() {
       });
   };
 
+  const handleBirthChange = (e) => {
+    const inputBirth = e.target.value;
+    // 정수 형식의 문자열인지 검사합니다.
+    if (/^\d+$/.test(inputBirth) || inputBirth === "") {
+      setAge(inputBirth);
+    }
+  };
+
   return (
     <MainContainer>
       <WriteContainer>
-        <h2 style={{ textAlign: "left", margin: 0 }}>실종동물등록</h2>
+        <h2 style={{ textAlign: "left", margin: 0 }}>실종동물수정</h2>
         <div
           style={{
             fontSize: "14px",
@@ -336,8 +344,16 @@ export default function MissingRegistPage() {
                   type="number"
                   value={age}
                   id="age"
-                  onChange={(e) => setAge(e.target.value)}
+                  onChange={handleBirthChange}
                   placeholder="출생연도"
+                  maxLength={4}
+                  onInput={(e) => {
+                    if (e.target.value.length > e.target.maxLength)
+                      e.target.value = e.target.value.slice(
+                        0,
+                        e.target.maxLength
+                      );
+                  }}
                 />
               </Row>
               <Row>
@@ -346,7 +362,21 @@ export default function MissingRegistPage() {
                   type="number"
                   value={weight}
                   id="weight"
-                  onChange={(e) => setWeight(e.target.value)}
+                  onChange={(e) => {
+                    const inputWeight = e.target.value;
+                    if (inputWeight > 150) {
+                      return;
+                    }
+                    setWeight(inputWeight);
+                  }}
+                  onInput={(e) => {
+                    if (e.target.value.length > e.target.maxLength)
+                      e.target.value = e.target.value.slice(
+                        0,
+                        e.target.maxLength
+                      );
+                  }}
+                  maxLength={5}
                   placeholder="몸무게(kg)"
                 />
               </Row>
