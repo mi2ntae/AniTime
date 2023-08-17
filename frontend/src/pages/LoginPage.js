@@ -51,9 +51,6 @@ export default function LoginPage() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // 로그인 기억 여부
-  const [isChecked, setIsChecked] = useState(false);
-
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
@@ -181,17 +178,6 @@ export default function LoginPage() {
                   }
                 />
               </button>
-            </div>
-            <div>
-              <Checkbox>
-                로그인 기억하기
-                <input
-                  type="checkbox"
-                  checked={isChecked}
-                  onChange={() => setIsChecked(!isChecked)}
-                />
-                <span className="checkmark"></span>
-              </Checkbox>
             </div>
             <Button
               type="submit"
