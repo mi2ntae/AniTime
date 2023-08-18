@@ -1,26 +1,17 @@
-# 웹/모바일(웹 기술) 프로젝트
+# 🐶🐱 비대면 유기동물 플랫폼 애니타임 🐱🐶
 
-<!-- 필수 항목 -->
+![](/images/logo.png){: width="700px"}
 
-## 카테고리
+반려 동물을 찾고 계신 분들을 위해 비대면 화상 미팅 입양 시스템을 도입한 최적의 플랫폼 🐾**AniTime**🐾을 소개합니다. 
+WebRTC 기술을 활용하여 검증된 보호소에 있는 유기동물과 실시간 비대면 입양 상담을 원활하게 진행할 수 있는 서비스를 제공합니다.
+또한, 반려동물을 잃어버렸을 경우, 실종 위치와 동물 특성 기반의 유사도 알고리즘으로 현재 보호소에 있는 높은 유사도의 동물들을 추천하여 실종동물을 찾도록 지원하고 있습니다.
+이제부터 🐾**AniTime**🐾을 통해 언제나 편리하고 안전한 방식으로 소중한 가족들을 찾아보세요 !
 
-| Application | Domain | Language | Framework |
-| ---- | ---- | ---- | ---- |
-| :white_check_mark: Desktop Web | :black_square_button: AI | :white_check_mark: JavaScript | :black_square_button: Vue.js |
-| :black_square_button: Mobile Web | :black_square_button: Big Data | :black_square_button: TypeScript | :white_check_mark: React |
-| :white_check_mark: Responsive Web | :black_square_button: Blockchain | :black_square_button: C/C++ | :black_square_button: Angular |
-| :black_square_button: Android App | :black_square_button: IoT | :black_square_button: C# | :black_square_button: Node.js |
-| :black_square_button: iOS App | :black_square_button: AR/VR/Metaverse | :black_square_button: Python | :black_square_button: Flask/Django |
-| :black_square_button: Desktop App | :black_square_button: Game | :white_check_mark: Java | :white_check_mark: Spring/Springboot |
-| | | :black_square_button: Kotlin | |
-
-<!-- 필수 항목 -->
-
-## 프로젝트 소개
+## 🍀 프로젝트 개요
 
 * 프로젝트명: 애니타임
-* 서비스 특징: 비대면 유기동물 입양 플랫폼
-* 주요 기능
+* 서비스 특징: 비대면 유기동물 통합 플랫폼
+* 구현 기능
   - 회원 관리(Kakao SNS인증)
   - 화상 미팅룸(Openvidu)
   - 1 대 1 채팅
@@ -46,36 +37,88 @@
   - URL: https://i9a208.p.ssafy.io/
   - 테스트 계정: 일반회원: guest2@test.com/1234, 보호소회원: shelter2@test.com/1234
 
+
+## 🏡 주요 기능
+
+![메인페이지](/images/메인페이지.gif){: width="700px"}  
+애니타임 서비스의 메인 페이지입니다
+
+### 보호소 동물 입양 상담 서비스
+저희 서비스에 가입한 보호소 회원이 보호중인 동물들을 조회할 수 있습니다
+
+![입양목록](/images/입양목록.gif){: width="700px"}
+
+원하시는 동물의 상세 정보를 확인할 수 있습니다
+
+<br>
+
+![입양동물상세](/images/입양동물상세.gif){: width="700px"}
+
+입양을 위한 화상 상담을 신청할 수 있습니다
+
+<br>
+
+![미팅신청](/images/미팅신청.gif){: width="700px"}
+
+화상 상담을 통해 입양 희망자는 입양할 동물이 어떤 아이인지 확인할 수 있고 보호소는 입양 희망자의 환경을 확인 할 수 있습니다
+
+<br>
+
+![미팅화면](/images/미팅화면.gif){: width="700px"}
+
+<br>
+<hr>
+
+### 실종 동물 찾아주기 서비스
+잃어버린 동물의 프로필을 작성하면 유사한 보호 동물을 찾아줍니다
+
+![실종동물프로필등록](/images/실종동물프로필등록.gif){: width="700px"}
+
+<br>
+<hr>
+
+### 후원 게시판 서비스
+보호소에서 올린 후원 공고에 후원할 수 있습니다
+
+![후원하기](/images/후원하기.gif){: width="700px"}
+
+
 <!-- 자유 양식 -->
 
-## 팀 소개
-* 권지훈: 팀장, CI/CD, HTTPS, Docker, Nginx 구성, 백엔드 개발, 프론트엔드 개발
-* 김민태: 백엔드 개발 리더, 프론트엔드 개발
-* 김정현: 프론트엔드 개발, 백엔드 개발
-* 임성원: 프론트앤드 개발, 백엔드 개발
-* 장명주: 백엔드 개발, 프론트엔드 개발
-* 허재웅: 프론트엔드 개발
+## 👨‍👩‍👧‍👦 팀 MoI 소개
+
+![](/images/팀원소개.png){: width="700px"}
+
+[//]: # (* 권지훈: 팀장, CI/CD, HTTPS, Docker, Nginx 구성, 백엔드 개발, 프론트엔드 개발)
+
+[//]: # (* 김민태: 백엔드 개발 리더, 프론트엔드 개발)
+
+[//]: # (* 김정현: 프론트엔드 개발, 백엔드 개발)
+
+[//]: # (* 임성원: 프론트앤드 개발, 백엔드 개발)
+
+[//]: # (* 장명주: 백엔드 개발, 프론트엔드 개발)
+
+[//]: # (* 허재웅: 프론트엔드 개발)
 
 <!-- 자유 양식 -->
 
-# 프로젝트 상세 설명
 
-// 개발 환경, 기술 스택, 시스템 구성도, ERD, 기능 상세 설명 등
+## 💡 기술 스택
 
-## 기술스택
-### 협업 및 형상 관리
+### Cooperation
 ![Git](https://img.shields.io/badge/Git-gray?logo=Git)
 ![GitLab](https://img.shields.io/badge/GitLab-gray?logo=GitLab)
 ![Notion](https://img.shields.io/badge/Notion-gray?logo=Notion)
 ![Jira](https://img.shields.io/badge/Jira-gray?logo=Jira&logoColor=blue)
 ![Mattermost](https://img.shields.io/badge/Mattermost-gray?logo=Mattermost)
 
-### 사용툴
+### Tools
 ![IntelliJ](https://img.shields.io/badge/IntelliJ-gray?logo=IntelliJ-IDEA)
 ![vscode](https://img.shields.io/badge/VScode-gray?logo=Visual-Studio-Code&logoColor=0066b8)
 ![sourcetree](https://img.shields.io/badge/Sourcetree-gray?logo=sourcetree&logoColor=0052cc)
 
-### 인프라
+### Infra
 ![AWS_EC2](https://img.shields.io/badge/AWS_EC2-gray?logo=AmazonAWS)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04.6-green?logo=Ubuntu)
 ![Nginx](https://img.shields.io/badge/Nginx-1.18.0-009639?logo=Nginx&logoColor=009639)
@@ -84,7 +127,7 @@
 ![Rabbitmq](https://img.shields.io/badge/Rabbitmq-24.0.5-ff6600?logo=rabbitmq)
 ![OpenVidu-browser](https://img.shields.io/badge/OpenVidu--browser-2.28.0-06d362?logo=WebRTC)
 
-### 백엔드
+### BackEnd
 ![Openjdk](https://img.shields.io/badge/Openjdk-11.0.15.9-e66f01?logo=Openjdk&logoColor=black)
 ![Gradle](https://img.shields.io/badge/Gradle-8.1.1-02303a?logo=Gradle&logoColor=02303a)
 ![SpringBoot](https://img.shields.io/badge/SpringBoot-2.7.13-6db23f?logo=SpringBoot)
@@ -93,7 +136,7 @@
 ![JWT](https://img.shields.io/badge/JWT-0.11.5-000000?logo=json-web-token)
 ![Swagger2](https://img.shields.io/badge/Swagger2-3.0.0-85ea2d?logo=Swagger)
 
-### 프론트엔드
+### FrontEnd
 ![Node.js](https://img.shields.io/badge/Node.js-18.16.1-green?logo=Node.js)
 ![React](https://img.shields.io/badge/React-18.2.0-00d8ff?logo=React)
 ![Redux](https://img.shields.io/badge/Redux-4.2.1-764abd?logo=Redux&logoColor=764abd)
@@ -103,9 +146,27 @@
 ![Webstomp-client](https://img.shields.io/badge/Webstomp--client-1.2.6-black?logo=Webstomp)
 ![OpenVidu-browser](https://img.shields.io/badge/OpenVidu--browser-2.28.0-06d362?logo=WebRTC)
 
-## 아키텍쳐
-// 아키텍처 이미지
+
+## 📝 프로젝트 구조
+
+### Architecture
+![architecture](/images/architecture.png){: width="700px"}
+
+<hr>
 
 ### ERD
 
-![ERD](.\images\ERD.png)
+![ERD](/images/ERD.png){: width="700px"}
+
+## 🔍 카테고리
+
+
+| Application | Domain | Language | Framework |
+| ---- | ---- | ---- | ---- |
+| :white_check_mark: Desktop Web | :white_check_mark: Web Tech | :white_check_mark: JavaScript | :black_square_button: Vue.js |
+| :black_square_button: Mobile Web | :black_square_button: Web Design | :black_square_button: TypeScript | :white_check_mark: React |
+| :white_check_mark: Responsive Web | :black_square_button: Web IoT | :black_square_button: C/C++ | :black_square_button: Angular |
+| :black_square_button: Android App | :black_square_button: Mobile | :black_square_button: C# | :black_square_button: Node.js |
+| :black_square_button: iOS App | | :black_square_button: Python | :black_square_button: Flask/Django |
+| :black_square_button: Desktop App | | :white_check_mark: Java | :white_check_mark: Spring/Springboot |
+| | | :black_square_button: Kotlin | |
